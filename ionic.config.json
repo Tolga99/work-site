@@ -1,0 +1,8 @@
+{
+  "name": "WorkSite",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "bf9485c8"
+}
