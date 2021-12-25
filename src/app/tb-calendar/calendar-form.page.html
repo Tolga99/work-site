@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>
+        Contacts
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true">
+	 <div class="container">
+        <form action="action_page.php">
+          <label for="descript">Date du rendez-vous : 23/12/2021 -- 12h00 - 14h00 (exemple)</label>
+          <hr>
+          <label for="client">Client</label>
+          <select id="client" name="client">
+            <option value="none"></option>
+            <option value="tolg">Tolga Ovali</option>
+            <option value="ed">Eden Hazard</option>
+          </select>
+          <button class="btn"><i class="fa fa-home">Nouveau client ?</i></button>
+          <hr>
+          <label for="descript">Description</label>
+          <textarea id="descript" name="descript" placeholder="Write something.." style="height:200px"></textarea>
+          
+          <input type="submit" value="Nouveau rendez-vous">
+        </form>
+      </div> 
+  </ion-content>

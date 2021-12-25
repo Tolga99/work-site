@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>
+        Contacts
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true">
+    <div class="container">
+      <form action="action_page.php">
+  
+      <label for="client">Photos chantier</label>
+      <select id="client" name="client">
+        <option value="none"></option>
+        <option value="tolg">Brico</option>
+        <option value="ed">Hubo</option>
+      </select>
+      <button class="btn"><i class="fa fa-home">Ajouter photo</i></button>
+      <button class="btn"><i class="fa fa-home">Modifier photo</i></button>
+          <hr>
+          
+      <label for="client">Factures</label>
+      <select id="client" name="client">
+        <option value="none"></option>
+        <option value="tolg">Brico</option>
+        <option value="ed">Hubo</option>
+      </select>
+      <button class="btn"><i class="fa fa-home">Ajouter facture</i></button>
+      <button class="btn"><i class="fa fa-home">Modifier facture</i></button>
+          <hr>
+      <label for="client">Devis</label>
+      <select id="client" name="client">
+        <option value="none"></option>
+        <option value="tolg">Chauffage</option>
+        <option value="ed">Cheminée</option>
+      </select>
+      <button class="btn"><i class="fa fa-home">Ajouter devis</i></button>
+      <button class="btn"><i class="fa fa-home">Modifier devis</i></button>
+      
+      <hr>
+      <label for="client">Heures préstées</label>
+      <select id="client" name="client">
+        <option value="none"></option>
+        <option value="tolg">Chauffage</option>
+        <option value="ed">Cheminée</option>
+      </select>
+      <button class="btn"><i class="fa fa-home">Ajouter prestation</i></button>
+      <button class="btn"><i class="fa fa-home">Modifier prestation</i></button>
+  
+      <hr>
+  
+  
+      <button type="submit" class="btn btn-success">Actualiser chantier</button>
+      <button type="submit" class="btn btn-danger">Terminer chantier</button>
+  
+      </form>
+    </div> 
+  </ion-content>
