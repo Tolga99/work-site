@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 
-@Component({
+/*@Component({
   selector: 'app-tb-home',
-  templateUrl: 'tb-home.page.html',
+  templateUrl: '',
   styleUrls: ['tb-home.page.scss']
 })
 export class TabHomePage implements OnInit {
@@ -17,3 +17,4 @@ export class TabHomePage implements OnInit {
   }
 
 }
+*/

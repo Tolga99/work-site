@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '/tb-contacts',
     component: TabContactsPage,
+  },
+  {
+    path:'new-contact',
+    component:TabContactsClientPage
+  },
+  {
+    path:'edit-contact',
+    //component:TabContactsClientPage
   }
 ];
 

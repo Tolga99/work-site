@@ -6,47 +6,20 @@
     </ion-toolbar>
   </ion-header>
   <ion-content [fullscreen]="true">
-  <div class="card text-center">
-    <div class="card-header">
-    Mes clients
-    </div>
-    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+    <div class="card text-center">
+      <div class="card-header">
+      Réglages
+      </div>
+      <button type="button" class="btn btn-danger btn-lg" (click)="MyProfile()" >Mon profil</button>
+      <button type="button" class="btn btn-danger btn-lg">Mes articles</button>
+      <button type="button" class="btn btn-danger btn-lg">Paramètres</button>
+      <button type="button" class="btn btn-danger btn-lg">...</button>
   
-    <table class="table table-bordered table-striped mb-0">
-    <thead>
-      <tr>
-      <th scope="col">#</th>
-      <th scope="col">Prénom</th>
-      <th scope="col">Nom</th>
-      <th scope="col">Adresse</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-      <th scope="row">1</th>
-      <td>Tolga</td>
-      <td>Ovali</td>
-      <td>Montegnée, Belgique</td>
-      </tr>
-      <tr>
-      <th scope="row">2</th>
-      <td>Eden</td>
-      <td>Hazard</td>
-      <td>La louvière, Belgique</td>
-      </tr>
-      <tr>
-      <th scope="row">3</th>
-      <td>Didier</td>
-      <td>Drogba</td>
-      <td>Yamoussoukro, Côte d'ivoire</td>
-      </tr>
-    </tbody>
-    </table>
-  </div>
-  <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary">Nouveau client</button>
+     
+    <div class="card-footer text-muted">
+        <button type="button" class="btn btn-danger">Se déconnecter ?</button>
+      </div>
     </div>
-  </div>
   <!--
     <ion-header collapse="condense">
       <ion-toolbar>
@@ -55,5 +28,6 @@
     </ion-header>
   
     <app-explore-container name="Tab 3 page"></app-explore-container>
+    -->
   </ion-content>
-  -->
+  

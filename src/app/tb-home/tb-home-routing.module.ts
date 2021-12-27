@@ -4,10 +4,11 @@ import { TabHomePage } from './tb-home.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: '/tb-home',
     component: TabHomePage,
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

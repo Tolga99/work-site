@@ -7,6 +7,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { TabSettingsPageModule } from './tb-settings/tb-settings.module';
+import { TabContactsClientPageModule } from './tb-contacts-client/tb-contacts-client.module';
 
 @NgModule({
   declarations: [AppComponent],

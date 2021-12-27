@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tb-settings',
@@ -7,6 +8,11 @@ import { Component } from '@angular/core';
 })
 export class TabSettingsPage {
 
-  constructor() {}
+  constructor(private router:Router) {}
+  MyProfile()
+  {
+    console.log('show profile');
+    this.router.navigate(['/tabs/tb-settings/my-profile']);
+  }
 
 }

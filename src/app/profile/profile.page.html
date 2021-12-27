@@ -12,26 +12,28 @@
   -->
   
   <div class="container">
-	  <form action="action_page.php">
-
+    <form (ngSubmit)="UpdateProfile(f)" #f="ngForm" ngNativeValidate>
+      <div class="form-group">
 		<label for="fname">Prenom</label>
-		<input type="text" id="fname" name="firstname" placeholder="Your name..">
+		<input type="text" id="fname" name="firstname" [ngModel]="myAccount?.firstName" placeholder="Your name..">
 
 		<label for="lname">Nom</label>
-		<input type="text" id="lname" name="lastname" placeholder="Your last name..">
+		<input type="text" id="lname" name="lastname" [ngModel]="myAccount?.lastName" placeholder="Your last name..">
 
 		<label for="addr">Adresse</label>
-		<input type="text" id="addr" name="adresse" placeholder="Your address..">
+		<input type="text" id="addr" name="adresse" [ngModel]="myAccount?.lastName" placeholder="Your address..">
 
 		<label for="tel">Télephone</label>
-		<input type="text" id="tel" name="tel" placeholder="Your phone number ..">
+		<input type="text" id="tel" name="tel" [ngModel]="myAccount?.phone" placeholder="Your phone number ..">
 
 		<label for="tva">N*TVA</label>
-		<input type="text" id="tva" name="tva" placeholder="Your TVA number..">
+		<input type="text" id="tva" name="tva" [ngModel]="myAccount?.tva" placeholder="Your TVA number..">
 
-		<input type="submit" value="Actualiser profil">
-	  </form>
+    <button type="button" class="btn btn-secondary" (click)="UpdateProfile(f)">Actualiser profil</button>
+</div>
+</form>
 	</div> 
+</ion-content>
   <!--
     <ion-header collapse="condense">
       <ion-toolbar>
@@ -40,4 +42,3 @@
     </ion-header>
     <app-explore-container name="Tab 1 page"></app-explore-container>
   -->
-  </ion-content>
