@@ -4,60 +4,60 @@
         Acceuil
       </ion-title>
     </ion-toolbar>
+</ion-header>
+  
+<ion-content [fullscreen]="true">
+
+  <!-- <h2 class="text-center">DevisApp</h2>
+-->
+
+  <div class="card text-center">
+    <div class="card-header">
+      Mes chantiers
+    </div>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+
+      <table class="table table-bordered table-striped mb-0">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom Chantier</th>
+            <th scope="col">Nom Client</th>
+            <th scope="col">Date début</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Chantier Standard</td>
+            <td>Murielle</td>
+            <td>17/08/2021</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Insaat Camii</td>
+            <td>KSS Camii</td>
+            <td>20/12/2021</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>YuApp</td>
+            <td>Yusuf Mert</td>
+            <td>10/10/2021</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary" (click)="CreateWorksite()">Nouveau chantier</button>
+    </div>
+  </div>
+<!--
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 1</ion-title>
+    </ion-toolbar>
   </ion-header>
-  
-  <ion-content [fullscreen]="true">
-  
-   <!-- <h2 class="text-center">DevisApp</h2>
-  -->
-  
-      <div class="card text-center">
-        <div class="card-header">
-          Mes chantiers
-        </div>
-        <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
-  
-        <table class="table table-bordered table-striped mb-0">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Nom Chantier</th>
-              <th scope="col">Nom Client</th>
-              <th scope="col">Date début</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Chantier Standard</td>
-              <td>Murielle</td>
-              <td>17/08/2021</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Insaat Camii</td>
-              <td>KSS Camii</td>
-              <td>20/12/2021</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>YuApp</td>
-              <td>Yusuf Mert</td>
-              <td>10/10/2021</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="card-footer text-muted">
-            <button type="button" class="btn btn-secondary">Nouveau chantier</button>
-        </div>
-      </div>
-  <!--
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">Tab 1</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <app-explore-container name="Tab 1 page"></app-explore-container>
-  -->
-  </ion-content>
+  <app-explore-container name="Tab 1 page"></app-explore-container>
+-->
+</ion-content>

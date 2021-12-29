@@ -7,13 +7,13 @@ import { TabContactsClientPage } from './tb-contacts-client.page';
 //import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { TabContactsClientPageRoutingModule } from './tb-contacts-client-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
-    FormsModule,
-    //ExploreContainerComponentModule,
+    SharedModule,
     RouterModule.forChild([{ path: '', component: TabContactsClientPage }]),
     TabContactsClientPageRoutingModule,
   ],

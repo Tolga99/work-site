@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   {
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
  /* async ngOnInit() {
 await this.storageService.init();

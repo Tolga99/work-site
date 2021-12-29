@@ -1,25 +1,26 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
+  <ion-toolbar>
       <ion-title>
         Contacts
       </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content [fullscreen]="true">
-    <div class="card text-center">
-      <div class="card-header">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="card text-center">
+    <div class="card-header">
       Réglages
-      </div>
-      <button type="button" class="btn btn-danger btn-lg" (click)="MyProfile()" >Mon profil</button>
-      <button type="button" class="btn btn-danger btn-lg">Mes articles</button>
-      <button type="button" class="btn btn-danger btn-lg">Paramètres</button>
-      <button type="button" class="btn btn-danger btn-lg">...</button>
-  
-     
-    <div class="card-footer text-muted">
-        <button type="button" class="btn btn-danger">Se déconnecter ?</button>
-      </div>
     </div>
+    <button type="button" class="btn btn-danger btn-lg" (click)='MyProfile()'>Mon profil</button>
+    <button type="button" class="btn btn-danger btn-lg">Mes articles</button>
+    <button type="button" class="btn btn-danger btn-lg">Paramètres</button>
+    <button type="button" class="btn btn-danger btn-lg">...</button>
+
+    
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-danger">Se déconnecter ?</button>
+    </div>
+  </div>
   <!--
     <ion-header collapse="condense">
       <ion-toolbar>
@@ -29,5 +30,5 @@
   
     <app-explore-container name="Tab 3 page"></app-explore-container>
     -->
-  </ion-content>
+</ion-content>
   

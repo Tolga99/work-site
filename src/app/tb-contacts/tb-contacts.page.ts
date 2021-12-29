@@ -17,7 +17,7 @@ export class TabContactsPage {
   }
   CreateClient(){
     console.log('create client');
-    this.router.navigate(['/tabs/tb-contacts/new-contact']);
+    this.router.navigate(['/tb-contacts/new-contact']);
     // this.router.navigate(['tb-new-contact']);
 
   }

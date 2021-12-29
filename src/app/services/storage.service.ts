@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Storage } from '@ionic/storage-angular';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,10 @@ export class StorageService {
   public get(key:string)
   {
     return this._storage.get(key);
+  }
+  public setProfile(user: User)
+  {
+    console.log('Update profile',user);
+    this._storage?.set("MyProfile", user);
   }
 }

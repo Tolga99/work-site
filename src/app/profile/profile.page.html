@@ -1,37 +1,36 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>
-        Acceuil
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Acceuil
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
   
-  <ion-content [fullscreen]="true">
-  
+<ion-content [fullscreen]="true">
+
    <!-- <h2 class="text-center">DevisApp</h2>
-  -->
-  
+  -->  
   <div class="container">
-    <form (ngSubmit)="UpdateProfile(f)" #f="ngForm" ngNativeValidate>
-      <div class="form-group">
-		<label for="fname">Prenom</label>
-		<input type="text" id="fname" name="firstname" [ngModel]="myAccount?.firstName" placeholder="Your name..">
+    <form [formGroup]="formClient">
+      <label for="firstName">Prenom</label>
+      <input type="text" id="firstName" placeholder="Your name.." formControlName="firstName">
 
-		<label for="lname">Nom</label>
-		<input type="text" id="lname" name="lastname" [ngModel]="myAccount?.lastName" placeholder="Your last name..">
+      <label for="lastName">Nom</label>
+      <input type="text" id="lastName" placeholder="Your last name.." formControlName="lastName">
 
-		<label for="addr">Adresse</label>
-		<input type="text" id="addr" name="adresse" [ngModel]="myAccount?.lastName" placeholder="Your address..">
+      <label for="address">Adresse</label>
+      <input type="text" id="address" placeholder=".." formControlName="address">
 
-		<label for="tel">Télephone</label>
-		<input type="text" id="tel" name="tel" [ngModel]="myAccount?.phone" placeholder="Your phone number ..">
+      <label for="phone">Phone</label>
+      <input type="text" id="phone" placeholder="..." formControlName="phone">
 
-		<label for="tva">N*TVA</label>
-		<input type="text" id="tva" name="tva" [ngModel]="myAccount?.tva" placeholder="Your TVA number..">
+      <label for="tva">TVA</label>
+      <input type="text" id="tva" placeholder="..." formControlName="tva">
+      <button type="submit" class="btn btn-secondary" (click)="UpdateProfile(formClient)">Update</button>
 
-    <button type="button" class="btn btn-secondary" (click)="UpdateProfile(f)">Actualiser profil</button>
-</div>
-</form>
+      <button class="btn btn-secondary">Nouveau client</button>
+    </form>
+    {{formClient.valid}}
 	</div> 
 </ion-content>
   <!--
