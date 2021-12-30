@@ -15,7 +15,6 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     SharedModule,
     ExploreContainerComponentModule,
-    RouterModule.forChild([{ path: '', component: TabContactsPage }]),
     TabContactsPageRoutingModule,
   ],
   declarations: [TabContactsPage]

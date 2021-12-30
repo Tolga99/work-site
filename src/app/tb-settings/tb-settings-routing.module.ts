@@ -5,12 +5,8 @@ import { TabSettingsPage } from './tb-settings.page';
 
 const routes: Routes = [
   {
-    path: '/tb-settings',
+    path: '',
     component: TabSettingsPage,
-  },
-  {
-    path:'my-profile',
-    component: ProfilePage
   }
 ];
 

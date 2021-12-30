@@ -12,7 +12,7 @@ export class TabSettingsPage {
   MyProfile()
   {
     console.log('show profile');
-    this.router.navigate(['/tb-settings/my-profile']);
+    this.router.navigate(['my-profile']);
   }
 
 }

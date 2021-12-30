@@ -20,8 +20,16 @@ const routes: Routes = [
         loadChildren: () => import('../tb-contacts/tb-contacts.module').then(m => m.TabContactsPageModule)
       },
       {
+        path:'new-contact',
+        loadChildren: () => import('../tb-contacts-client/tb-contacts-client.module').then(m => m.TabContactsClientPageModule)
+      },
+      {
         path: 'tb-settings',
         loadChildren: () => import('../tb-settings/tb-settings.module').then(m => m.TabSettingsPageModule)
+      },
+      {
+        path:'my-profile',
+        loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
         path: '',

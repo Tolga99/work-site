@@ -14,7 +14,7 @@ import { StorageService } from './services/storage.service';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(),BrowserAnimationsModule, AppRoutingModule,
-    IonicStorageModule.forRoot(),FormsModule,ReactiveFormsModule],
+    IonicStorageModule.forRoot()],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },StorageService],
   bootstrap: [AppComponent],
 })

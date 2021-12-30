@@ -14,7 +14,6 @@ import { SharedModule } from '../shared/shared.module';
     IonicModule,
     CommonModule,
     SharedModule,
-    RouterModule.forChild([{ path: '', component: TabContactsClientPage }]),
     TabContactsClientPageRoutingModule,
   ],
   declarations: [TabContactsClientPage]

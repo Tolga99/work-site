@@ -11,92 +11,69 @@ import { StorageService } from '../services/storage.service';
 })
 export class ProfilePage implements OnInit{
   public myAccount: User;
-  public formClient: FormGroup;
-  //  formClient = new FormGroup({
-  //    firstName: new FormControl('',Validators.required),
-  //    lastName: new FormControl('', Validators.required),
-  //    address: new FormControl('',Validators.required),
-  //    phone: new FormControl('', Validators.required),
-  //    tva: new FormControl('',Validators.required),
-  //   //lastName: new FormControl('', Validators.required),
+  formProfile = new FormGroup({
+    firstName: new FormControl('',Validators.required),
+    lastName: new FormControl('', Validators.required),
+    address: new FormControl('',Validators.required),
+    phone: new FormControl('', Validators.required),
+    mail: new FormControl('', Validators.required),
+    tva: new FormControl('',Validators.required),
+  });
 
-  //  });
-
-  constructor(private storageService: StorageService,private router: Router, private formBuilder: FormBuilder) {}
+  constructor(private storageService: StorageService,private router: Router) {
+    console.log('Module profil');
+  }
 
   async ngOnInit(): Promise<void> 
   {
-    // this.storageService.init();
-    // // this.storageService.set('Profile','TolgaTest');
-    // this.myAccount = new User(1,"TolgaTest","TolgaTest","TolgaTest","TolgaTest","TolgaTest","TolgaTest");
-    // // this.myAccount.firstName = "TolgaTest";
-    // // this.myAccount.lastName = "TolgaTest";
-    // // this.myAccount.address= "TolgaTest";
-    // // this.myAccount.phone= "TolgaTest";
-    // // this.myAccount.tva= "TolgaTest";
-    // this.storageService.setProfile(this.myAccount);
-    // console.log('Profil avant : ',this.myAccount.firstName);
-    // this.myAccount =await this.storageService.get('MyProfile');
-    // console.log('Profil actuel : ',this.myAccount.firstName);
+    console.log('nginit profil ',this.storageService.get("MyProfile"));
 
-      this.formClient = this.formBuilder.group({
-          firstName: ['', Validators.required],
-          lastName: ['', Validators.required],
-          address: ['', Validators.required],
-          phone: ['', Validators.required],
-          tva: ['', Validators.required],
+    this.storageService.init();
+    nametest : String;
+    if(this.storageService.get("MyProfile")!=null)
+    {
+        this.formProfile.setValue({
+          firstName: this.storageService.get('firstName'),
+          lastName:  this.storageService.get('lastName'),
+          address:  this.storageService.get('address'),
+          phone:  this.storageService.get('phone'),
+          mail:  this.storageService.get('mail'),
+          tva: this.storageService.get('tva'),
+        });
+    }
+    if(this.formProfile.get('firstName').value=='[object Promise]' || null)
+    {
+      this.formProfile.setValue({
+        firstName: "",
+        lastName:  "",
+        address:  "",
+        phone:  "",
+        mail:  "",
+        tva: "",
       });
+    }
   }
 
-  async onSubmit() {
-    console.log('clickkk');
-    console.log('form status',this.formClient);
-    if (!this.formClient.valid)
+  UpdateProfile() {
+    console.log('my profil actualisation');
+    console.log('form status',this.formProfile);
+    if (!this.formProfile.valid)
       return;
 
-   // this.storageService.init();
-    this.myAccount.firstName = this.formClient.get('firstName').value;
-    this.myAccount.lastName = this.formClient.get('lastName').value;
-    this.myAccount.address=this.formClient.get('address').value;
-    this.myAccount.phone=this.formClient.get('phone').value;
-    this.myAccount.tva=this.formClient.get('tva').value;
-    // this.contactsList =await this.storageService.get('Contacts');
-    // console.log("Liste ="+ this.contactsList);
-    // this.contactsList.push(this.client);
-    // console.log("New Liste ="+ this.contactsList);
-
-    this.storageService.set('Profile',this.myAccount);
-    console.log("Profil actualisé, redirection...");
-    //this.router.navigate(['/tb-settings']);
-
-  }
-  UpdateProfile(formc: FormGroup) : void
-  {
-    console.log('form status',this.formClient);
-    console.log('form ',formc.get('firstName').value);
-    console.log('form ',this.formClient.get('firstName').value);
-
+    this.storageService.init();
     this.myAccount = new User(
-      1,
-      this.formClient.get('firstName').value,
-      this.formClient.get('lastName').value,
-      this.formClient.get('address').value,
-      this.formClient.get('phone').value,
-      "mail",
-      this.formClient.get('tva').value
-      );
+      177,
+      this.formProfile.get('firstName').value,
+      this.formProfile.get('lastName').value,
+      this.formProfile.get('address').value,
+      this.formProfile.get('phone').value,
+      this.formProfile.get('mail').value,
+      this.formProfile.get('tva').value
+    );
 
-    this.myAccount.firstName = this.formClient.get('firstName').value;
-    this.myAccount.lastName = this.formClient.get('lastName').value;
-    this.myAccount.address=this.formClient.get('address').value;
-    this.myAccount.phone=this.formClient.get('phone').value;
-    this.myAccount.tva=this.formClient.get('tva').value;
-    // this.contactsList =await this.storageService.get('Contacts');
-    // console.log("Liste ="+ this.contactsList);
-    // this.contactsList.push(this.client);
-    // console.log("New Liste ="+ this.contactsList);
-
-    this.storageService.set('MyProfile',this.myAccount);
+    this.storageService.setProfile(this.myAccount);
     console.log("Profil actualisé, redirection...");
+    this.router.navigate(['/tb-settings']);
+
   }
 }

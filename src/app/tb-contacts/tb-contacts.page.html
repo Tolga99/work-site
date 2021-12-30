@@ -15,30 +15,15 @@
     <table class="table table-bordered table-striped mb-0">
     <thead>
       <tr>
-      <th scope="col">#</th>
-      <th scope="col">Prénom</th>
-      <th scope="col">Nom</th>
-      <th scope="col">Adresse</th>
+        <th *ngFor="let head of headElements" scope="col">{{head}} </th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-      <th scope="row">1</th>
-      <td>Tolga</td>
-      <td>Ovali</td>
-      <td>Montegnée, Belgique</td>
-      </tr>
-      <tr>
-      <th scope="row">2</th>
-      <td>Eden</td>
-      <td>Hazard</td>
-      <td>La louvière, Belgique</td>
-      </tr>
-      <tr>
-      <th scope="row">3</th>
-      <td>Didier</td>
-      <td>Drogba</td>
-      <td>Yamoussoukro, Côte d'ivoire</td>
+      <tr mdbTableCol *ngFor="let el of contactsList" (click)="ClickContact(el)">
+        <th scope="row" >{{el.userId}}</th>
+        <td>{{el.firstName}}</td>
+        <td>{{el.lastName}}</td>
+        <td>{{el.address}}</td>
       </tr>
     </tbody>
     </table>

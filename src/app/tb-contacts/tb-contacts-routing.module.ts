@@ -5,13 +5,9 @@ import { TabContactsPage } from './tb-contacts.page';
 
 const routes: Routes = [
   {
-    path: '/tb-contacts',
+    path: '',
     component: TabContactsPage,
-  },
-  {
-    path:'new-contact',
-    component:TabContactsClientPage
-  },
+  }
 ];
 
 
