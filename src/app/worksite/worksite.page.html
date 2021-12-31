@@ -1,49 +1,87 @@
-<div class="container">
-    <form action="action_page.php">
+<div class="container" style="overflow-y: auto;">
+  <form [formGroup]="formChantier" (ngSubmit)="onSubmit()">
 
-      <label for="client">Photos chantier</label>
-      <select id="client" name="client">
-        <option value="none"></option>
-        <option value="tolg">Brico</option>
-        <option value="ed">Hubo</option>
-      </select>
-      <button class="btn"><i class="fa fa-home">Ajouter photo</i></button>
-      <button class="btn"><i class="fa fa-home">Modifier photo</i></button>
-      <hr>
-      
-      <label for="client">Factures</label>
-      <select id="client" name="client">
-        <option value="none"></option>
-        <option value="tolg">Brico</option>
-        <option value="ed">Hubo</option>
-      </select>
-      <button class="btn"><i class="fa fa-home">Ajouter facture</i></button>
-      <button class="btn"><i class="fa fa-home">Modifier facture</i></button>
-      <hr>
-      <label for="client">Devis</label>
-      <select id="client" name="client">
-        <option value="none"></option>
-        <option value="tolg">Chauffage</option>
-        <option value="ed">Cheminée</option>
-      </select>
-      <button class="btn"><i class="fa fa-home">Ajouter devis</i></button>
-      <button class="btn"><i class="fa fa-home">Modifier devis</i></button>
-      
-      <hr>
-      <label for="client">Heures préstées</label>
-      <select id="client" name="client">
-        <option value="none"></option>
-        <option value="tolg">Chauffage</option>
-        <option value="ed">Cheminée</option>
-      </select>
-      <button class="btn"><i class="fa fa-home">Ajouter prestation</i></button>
-      <button class="btn"><i class="fa fa-home">Modifier prestation</i></button>
-
-      <hr>
+    <label for="imgChantier">Photos chantier</label>
+    <!-- Select File -->
+    <input formControlName="imgChantier" id="imgChantier" type="file" class="form-control" multiple=""
+      (change)="onFileChange($event)">
+    <button class="btn" (click)="resetImages()">Réinitialiser</button>
+    <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
+      <div *ngIf="f.file.errors.required">File is required.</div>
+    </div> -->
+    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
 
 
-      <button type="submit" class="btn btn-success">Actualiser chantier</button>
-      <button type="submit" class="btn btn-danger">Terminer chantier</button>
+    <hr>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+        
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let inv of invList" (click)="openInvoice(inv)" >
+            <!-- <th scope="row">{{el.id}}</th> -->
+            <!-- <td>{{el.worksiteName}}</td>
+            <td>{{el.clientLastName}}</td>
+            <td>{{el.dateStart}}</td> -->
+            <td><button (click)="deleteInvoice(inv)">DELETE</button></td>
+          </tr>
+        </tbody>
+      </table>
 
-    </form>
-  </div> 
+    </div>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Nouvelle facture</button>
+    </div>
+
+    <hr>
+    <label for="client">Devis</label>
+    <select id="client" name="client">
+      <option value="none"></option>
+      <option value="tolg">Chauffage</option>
+      <option value="ed">Cheminée</option>
+    </select>
+    <button class="btn"><i class="fa fa-home">Ajouter devis</i></button>
+    <button class="btn"><i class="fa fa-home">Modifier devis</i></button>
+
+    <hr>
+    <label for="client">Heures préstées</label>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+        
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsHour" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let h of hoursList">
+            <!-- <th scope="row">{{h.id}}</th> --> 
+            <td>{{h.description}}</td>
+            <td>{{h.workTime}}</td>
+            <td>{{h.date}}</td>
+            <td><button (click)="deleteHour(h)">DELETE</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary" (click)="AddHour()">Ajouter prestation</button>
+    </div>
+    <select id="client" name="client">
+      <option value="none"></option>
+      <option value="tolg">Chauffage</option>
+      <option value="ed">Cheminée</option>
+    </select>
+    <hr>
+
+
+    <button type="submit" class="btn btn-success">Actualiser chantier</button>
+    <button type="submit" class="btn btn-danger">Terminer chantier</button>
+
+  </form>
+</div>

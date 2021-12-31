@@ -1,8 +1,8 @@
 export interface IUser
 {
-    userId:number;
-    lastName:string;
+    userId:string;
     firstName:string;
+    lastName:string;
     address:string;
     phone:string;
     mail:string;
@@ -12,9 +12,9 @@ export interface IUser
 
 export class User implements IUser {
     constructor(
-        public userId:number,
-        public lastName:string,
+        public userId:string,
         public firstName:string,
+        public lastName:string,
         public address:string,
         public phone:string,
         public mail:string,
@@ -22,5 +22,5 @@ export class User implements IUser {
         public tva:string
     ) {
     }
-  
+
   }

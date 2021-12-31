@@ -3,6 +3,8 @@ import { AbstractControl, FormControl, FormGroup, NgForm, Validators } from '@an
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/user';
 import { StorageService } from '../services/storage.service';
+import { UUID } from 'angular2-uuid';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-tb-contacts-client',
@@ -10,9 +12,11 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['tb-contacts-client.page.css']
 })
 export class TabContactsClientPage implements OnInit {
-  contactsList: Array<User> = [];
+  public contactsList: Array<User> = [];
   client: User;
-  indexFind : number;
+  indexFind: number =-5;
+  uuidValue: string;
+  tag: string;
 
 
    formClient = new FormGroup({
@@ -23,41 +27,50 @@ export class TabContactsClientPage implements OnInit {
     mail: new FormControl('', Validators.required),
     tva: new FormControl('',Validators.required),
   });
-  constructor(private storageService: StorageService, private router: Router, private route: ActivatedRoute) {
+  constructor(private storageService: StorageService, 
+              private router: Router, 
+              private route: ActivatedRoute,
+              private location: Location) {
+                this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
   async ngOnInit(): Promise<void> {
+
     this.storageService.init();
     this.contactsList =await this.storageService.get('Contacts');
     if(this.contactsList==null)
       this.contactsList = new Array<User>();
+
     const modif = this.route.snapshot.paramMap.get('userId');
-    if(Number?.parseInt(modif)>0)
+    this.tag = this.route.snapshot.paramMap.get('tag');
+
+    if(modif!=null)
     {
       console.log('modification',modif);
       this.storageService.get("Contacts");
-      if(this.indexFind=this.contactsList.find(x => x.userId == Number?.parseInt(modif)).userId)
+      this.indexFind =this.contactsList.findIndex(x => x.userId == modif);
+      if(this.indexFind>=0)
       {
-        if(this.indexFind>0)
-        {
-          this.formClient.setValue({
-            firstName: this.contactsList[this.indexFind].firstName,
-            lastName:  this.contactsList[this.indexFind].lastName,
-            address:  this.contactsList[this.indexFind].address,
-            phone:  this.contactsList[this.indexFind].phone,
-            mail:  this.contactsList[this.indexFind].mail,
-            tva: this.contactsList[this.indexFind].tva,
-          });
-        }
+        console.log(this.contactsList[this.indexFind].firstName, this.contactsList[this.indexFind].userId)
+        this.formClient.setValue({
+          firstName: this.contactsList[this.indexFind].firstName,
+          lastName:  this.contactsList[this.indexFind].lastName,
+          address:  this.contactsList[this.indexFind].address,
+          phone:  this.contactsList[this.indexFind].phone,
+          mail:  this.contactsList[this.indexFind].mail,
+          tva: this.contactsList[this.indexFind].tva,
+        });
       }
     }else console.log('creation',modif);
   }
+
   onSubmit() {
+    console.log(this.generateUUID());
     console.log('form status',this.formClient);
     if (!this.formClient.valid)
       return;
 
     this.client = new User(
-      2,
+      this.generateUUID(),
       this.formClient.get('firstName').value,
       this.formClient.get('lastName').value,
       this.formClient.get('address').value,
@@ -65,12 +78,21 @@ export class TabContactsClientPage implements OnInit {
       this.formClient.get('mail').value,
       this.formClient.get('tva').value
     );
-
-    this.contactsList.push(this.client);
+    if(this.indexFind>=0)
+      this.contactsList.splice(this.indexFind,1);
+    //this.contactsList.push(this.client);
+    this.contactsList[this.indexFind] = this.client;
     this.storageService.set('Contacts',this.contactsList);
-
-    this.router.navigate(['/tb-contacts']);
-
+    this.router.onSameUrlNavigation = 'reload';
+    if(this.tag==null)
+    {
+      this.router.navigate(['/tb-contacts']);
+    }
+    else this.router.navigate(['/createworksite']);
   }
-
+  generateUUID()
+  {
+      this.uuidValue=UUID.UUID();
+      return this.uuidValue;
+  }
 }

@@ -11,6 +11,7 @@ import { StorageService } from '../services/storage.service';
 })
 export class ProfilePage implements OnInit{
   public myAccount: User;
+
   formProfile = new FormGroup({
     firstName: new FormControl('',Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -29,7 +30,6 @@ export class ProfilePage implements OnInit{
     console.log('nginit profil ',this.storageService.get("MyProfile"));
 
     this.storageService.init();
-    nametest : String;
     if(this.storageService.get("MyProfile")!=null)
     {
         this.formProfile.setValue({
@@ -62,7 +62,7 @@ export class ProfilePage implements OnInit{
 
     this.storageService.init();
     this.myAccount = new User(
-      177,
+      "17",
       this.formProfile.get('firstName').value,
       this.formProfile.get('lastName').value,
       this.formProfile.get('address').value,

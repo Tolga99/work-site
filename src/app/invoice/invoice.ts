@@ -12,15 +12,18 @@ import { User } from '../models/user';
   styleUrls: ['invoice.page.scss']
 })
 export class Invoice implements OnInit {
-  newWorksite : Chantier;
-  uuidValue : string;
-  public chantierList : Array<Chantier> = []; 
-  clientList : Array<User> = [];
 
-  formWork = new FormGroup({
-    worksiteName: new FormControl('',Validators.required),
+  images = [];
+  formInv = new FormGroup({
+    invoiceName: new FormControl('',Validators.required),
     clientLastName: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
+    imgFactures: new FormControl('', [Validators.required]),
+    fileSource: new FormControl('', [Validators.required]),
+    typePay: new FormControl('', [Validators.required]),
+    priceHtva: new FormControl('', [Validators.required]),
+    tva: new FormControl('', [Validators.required]),
+    remise: new FormControl('', [Validators.required]),
   });
 
   constructor(private storageService:StorageService, private router: Router)
@@ -29,45 +32,49 @@ export class Invoice implements OnInit {
   }
 
   async ngOnInit() {
-   // var maliste = await this.storageService.get('listClient');
-
-   // console.log('here is maliste',maliste);
-   this.storageService.init();
-   this.clientList = await this.storageService.get('Contacts');
-   console.log(this.clientList);
+ 
   }
 
   async CreateWorksite() {
-    console.log('form status',this.formWork);
-    if (!this.formWork.valid)
-      return;
-
-    this.storageService.init();
-    this.newWorksite = new Chantier(
-      this.generateUUID(),
-      this.formWork.get('worksiteName').value,
-      this.formWork.get('clientLastName').value,
-      this.formWork.get('description').value
-    );
-    this.chantierList=await this.storageService.get('Chantiers');
-    if(this.chantierList==null)
-      this.chantierList=[];
-    this.chantierList.push(this.newWorksite);
-    this.storageService.set('Chantiers',this.chantierList);
-
-    console.log("Chantier crée, redirection...");
-    this.router.navigate(['/tb-home']);
-
+   
   }
-  NewClient()
+
+  // async ngOnInit() {
+  //   this.chantierId = this.route.snapshot.paramMap.get('chantierId');
+  //   console.log('chantier :',this.chantierId);
+  // } 
+
+  get f(){
+    return this.formInv.controls;
+  }
+
+  onFileChange(event) {
+    if (event.target.files && event.target.files[0]) 
+    {
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) 
+      {
+        var reader = new FileReader();
+        reader.onload = (event:any) => 
+        {
+          console.log(event.target.result);
+          this.images.push(event.target.result); 
+          this.formInv.patchValue({
+          fileSource: this.images
+          });
+        }
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+  }
+  onSubmit(){}
+
+  resetImages()
   {
-    console.log('create client');
-    this.router.navigate(['new-contact',{tag: 'chantier'}]);
+    this.images=[];
+  //   this.formChantier.patchValue({
+  //     file: new FormControl('', [Validators.required]),
+  //     fileSource: new FormControl('', [Validators.required])})
+  // 
   }
-  generateUUID()
-  {
-      this.uuidValue=UUID.UUID();
-      return this.uuidValue;
-  }
-  
 }

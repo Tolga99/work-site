@@ -8,7 +8,7 @@ import { User } from '../models/user';
 })
 export class StorageService {
   private _storage: Storage | null = null;
-
+  contactsList: Array<User> = [];
   constructor(private storage: Storage) {
     this.init();
   }

@@ -20,10 +20,11 @@
     </thead>
     <tbody>
       <tr mdbTableCol *ngFor="let el of contactsList" (click)="ClickContact(el)">
-        <th scope="row" >{{el.userId}}</th>
+        <!-- <th scope="row" >{{el.userId}}</th> -->
         <td>{{el.firstName}}</td>
         <td>{{el.lastName}}</td>
         <td>{{el.address}}</td>
+        <td><button (click)="deleteContact(el)">DELETE</button></td>
       </tr>
     </tbody>
     </table>

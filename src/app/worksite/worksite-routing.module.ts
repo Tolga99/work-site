@@ -1,16 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateWorksite } from './create-worksite';
 import { Worksite } from './worksite';
 
 const routes: Routes = [
-  {
-    path: '/worksite',
+    {
+    path: '',
     component: Worksite,
-  },
-  {
-    path: '/createworksite',
-    component: CreateWorksite,
   }
 ];
 

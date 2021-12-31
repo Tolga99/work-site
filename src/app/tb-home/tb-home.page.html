@@ -24,11 +24,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let el of elements">
-            <th scope="row">{{el.id}}</th>
-            <td>{{el.first}}</td>
-            <td>{{el.last}}</td>
-            <td>{{el.handle}}</td>
+          <tr mdbTableCol *ngFor="let el of chantierList" (click)="ManageWorksite(el)" >
+            <!-- <th scope="row">{{el.id}}</th> -->
+            <td>{{el.worksiteName}}</td>
+            <td>{{el.clientLastName}}</td>
+            <td>{{el.dateStart}}</td>
+            <td><button (click)="deleteWorksite(el)">DELETE</button></td>
           </tr>
         </tbody>
       </table>
@@ -37,6 +38,7 @@
       <button type="button" class="btn btn-secondary" (click)="CreateWorksite()">Nouveau chantier</button>
     </div>
   </div>
+  
 <!--
   <ion-header collapse="condense">
     <ion-toolbar>

@@ -1,0 +1,40 @@
+<div class="container">
+  <form [formGroup]="formInv" (ngSubmit)="CreateWorksite()">
+
+    <label for="invoiceName">Nom facture</label>
+    <input type="text" id="invoiceName" name="invoiceName" formControlName="invoiceName" placeholder="...">
+
+    <label for="imgFactures">Photos facture</label>
+    <!-- Select File -->
+    <input formControlName="imgFactures" id="imgFactures" type="file" class="form-control" multiple=""
+      (change)="onFileChange($event)">
+    <button class="btn" (click)="resetImages()">Réinitialiser</button>
+    <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
+      <div *ngIf="f.file.errors.required">File is required.</div>
+    </div> -->
+    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
+
+    <label for="typePay">Type de paiement</label>
+    <select formControlName="typePay">
+      <option value='cash'>Paiement cash</option>
+      <option value='bancaire'>Virement bancaire</option>
+    </select>
+    <!-- articles -->
+    <label for="htva">Prix HTVA</label>
+    <input type="text" id="htva" name="htva" formControlName="priceHtva" placeholder="...">
+
+    <label for="tva">TVA</label>
+    <input type="text" id="tva" name="tva" formControlName="tva" placeholder="...">
+
+    <label for="remise">Remise</label>
+    <input type="text" id="remise" name="remise" formControlName="remise" placeholder="...">
+    
+    <hr>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" formControlName="description" placeholder="..."
+      style="height:100px;"></textarea>
+
+    <input type="submit" value="Créer chantier">
+  </form>
+  {{formInv.valid}}
+</div>

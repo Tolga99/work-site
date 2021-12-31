@@ -1,12 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Worksite } from './worksite';
+import { IonicModule } from '@ionic/angular';
+import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
+import { SharedModule } from '../shared/shared.module';
+import { WorksiteRoutingModule } from './worksite-routing.module';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [Worksite],
   imports: [
-    CommonModule
+    IonicModule,
+    CommonModule,
+    SharedModule,
+    ExploreContainerComponentModule,
+    WorksiteRoutingModule
   ]
 })
 export class WorksiteModule { }

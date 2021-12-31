@@ -1,0 +1,26 @@
+
+<!-- description
+recap  -->
+
+<div class="container">
+  <form [formGroup]="formHour" (ngSubmit)="CreateHour()">
+
+    <ion-list>
+      <ion-item>
+        <ion-range min="1" max="24" color="danger" formControlName="hour" [pin]="true"></ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-range min="0" max="60" color="danger" formControlName="minute" [pin]="true"></ion-range>
+      </ion-item>
+      
+    </ion-list>
+
+    <hr>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" formControlName="description" placeholder="..."
+      style="height:100px;"></textarea>
+
+    <input type="submit" value="Ajouter préstation">
+  </form>
+  {{formHour.valid}}
+</div>
