@@ -24,9 +24,9 @@
         <tbody>
           <tr mdbTableCol *ngFor="let inv of invList" (click)="openInvoice(inv)" >
             <!-- <th scope="row">{{el.id}}</th> -->
-            <!-- <td>{{el.worksiteName}}</td>
-            <td>{{el.clientLastName}}</td>
-            <td>{{el.dateStart}}</td> -->
+            <td>{{inv.factureName}}</td>
+            <td>{{inv.priceHtva}}</td>
+            <td>{{inv.date}}</td>
             <td><button (click)="deleteInvoice(inv)">DELETE</button></td>
           </tr>
         </tbody>

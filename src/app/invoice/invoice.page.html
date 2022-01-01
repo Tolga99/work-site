@@ -1,8 +1,8 @@
-<div class="container">
-  <form [formGroup]="formInv" (ngSubmit)="CreateWorksite()">
+<div class="container" style="overflow-y: auto;">
+  <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
 
-    <label for="invoiceName">Nom facture</label>
-    <input type="text" id="invoiceName" name="invoiceName" formControlName="invoiceName" placeholder="...">
+    <label for="factureName">Nom facture</label>
+    <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="...">
 
     <label for="imgFactures">Photos facture</label>
     <!-- Select File -->

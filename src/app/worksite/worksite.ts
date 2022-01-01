@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Invoice } from '../invoice/invoice';
+import { Facture } from '../models/facture';
 import { Hour } from '../models/hour';
 import { StorageService } from '../services/storage.service';
 
@@ -14,7 +14,7 @@ export class Worksite implements OnInit {
 
   chantierId: string;
   images = [];
-  invList : Array<Invoice>;
+  invList : Array<Facture>;
   hoursList : Array<Hour>;
 
   formChantier = new FormGroup({
@@ -23,7 +23,7 @@ export class Worksite implements OnInit {
    fileSource: new FormControl('', [Validators.required])
  });
 
- headElementsInv = ['Nom facture', 'Total HTVA'];
+ headElementsInv = ['Nom facture', 'Total HTVA','Date'];
  headElementsHour = ['Description', 'Heure travail','Date'];
 
 
@@ -36,6 +36,8 @@ export class Worksite implements OnInit {
     console.log('view did enter');
     this.storageService.init();
     this.hoursList =await this.storageService.get('Hours');
+    this.invList =await this.storageService.get('Invoices');
+
   }
 
   async ngOnInit() {
@@ -44,6 +46,8 @@ export class Worksite implements OnInit {
 
     this.storageService.init();
     this.hoursList =await this.storageService.get('Hours');
+    this.invList =await this.storageService.get('Invoices');
+
   } 
 
   get f(){
@@ -84,14 +88,17 @@ export class Worksite implements OnInit {
     console.log("Bouton nv facture");
     this.router.navigate(['invoice']);
   }
-  openInvoice(inv : Invoice)
-  {}
+  openInvoice(inv : Facture)
+  {
+    console.log("Bouton open facture");
+    this.router.navigate(['invoice',{factureId: inv.factureId}]);
+  }
   AddHour()
   {
     console.log("Bouton nv heure");
     this.router.navigate(['hours']);
   }
-  deleteInvoice(inv:Invoice){
+  deleteInvoice(inv:Facture){
     //this.invList = this.invList.filter(a => a. != inv.);
     this.storageService.set("Invoices", this.invList);
   }

@@ -83,7 +83,6 @@ export class TabContactsClientPage implements OnInit {
     //this.contactsList.push(this.client);
     this.contactsList[this.indexFind] = this.client;
     this.storageService.set('Contacts',this.contactsList);
-    this.router.onSameUrlNavigation = 'reload';
     if(this.tag==null)
     {
       this.router.navigate(['/tb-contacts']);
