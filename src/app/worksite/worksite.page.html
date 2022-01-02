@@ -16,28 +16,54 @@
     <textarea id="description" name="description" formControlName="description" placeholder="..."
       style="height:100px;"></textarea>
 
-    <label for="imgChantier">Photos chantier</label>
-    <!-- Select File -->
+    <!-- <label for="imgChantier">Photos chantier</label>
     <input id="imgChantier" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
     <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
-      <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
-      <div *ngIf="f.file.errors.required">File is required.</div>
-    </div> -->
-    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
 
-
-    <hr>
+    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> 
+  -->
+  <div class="card-header">
+    Images du chantier
+  </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
-        
+
         <thead>
           <tr>
             <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let inv of invList" (click)="openInvoice(inv)" >
+          <tr mdbTableCol *ngFor='let url of images'>
+            <!-- <th scope="row">{{el.id}}</th> -->
+            <td>test</td>
+            <td>test</td>
+            <td><img src="{{url}}" alt="" height=100 width=100/></td>
+            <td><button>DELETE</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="card-footer text-muted">
+      <input id="imgChantier" type="file" class="form-control" multiple="" (change)="onFileChange($event)">
+    </div>
+
+    <hr>
+    <div class="card-header">
+      Factures
+    </div>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let inv of invList" (click)="openInvoice(inv)">
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{inv.factureName}}</td>
             <td>{{inv.priceHtva}}</td>
@@ -53,20 +79,39 @@
     </div>
 
     <hr>
-    <label for="client">Devis</label>
-    <select id="client" name="client">
-      <option value="none"></option>
-      <option value="tolg">Chauffage</option>
-      <option value="ed">Cheminée</option>
-    </select>
-    <button class="btn"><i class="fa fa-home">Ajouter devis</i></button>
-    <button class="btn"><i class="fa fa-home">Modifier devis</i></button>
-
-    <hr>
-    <label for="client">Heures préstées</label>
+    <div class="card-header">
+      Devis
+    </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
-        
+
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let inv of invList" (click)="openInvoice(inv)">
+            <!-- <th scope="row">{{el.id}}</th> -->
+            <td>{{inv.factureName}}</td>
+            <td>{{inv.priceHtva}}</td>
+            <td>{{inv.date}}</td>
+            <td><button (click)="deleteInvoice(inv)">DELETE</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Nouveau devis</button>
+    </div>
+    <hr>
+    <div class="card-header">
+      Heures préstées
+    </div>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+
         <thead>
           <tr>
             <th *ngFor="let head of headElementsHour" scope="col">{{head}} </th>
@@ -74,7 +119,7 @@
         </thead>
         <tbody>
           <tr mdbTableCol *ngFor="let h of hoursList" (click)="openHour(h)">
-            <!-- <th scope="row">{{h.id}}</th> --> 
+            <!-- <th scope="row">{{h.id}}</th> -->
             <td>{{h.description}}</td>
             <td>{{h.workTime}}</td>
             <td>{{h.date}}</td>
