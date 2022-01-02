@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
+  OnInit,
 } from '@angular/core';
 import {
   startOfDay,
@@ -23,6 +24,9 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { colors } from '../utils/colors';
+import { Router } from '@angular/router';
+import { StorageService } from '../services/storage.service';
+import { User } from '../models/user';
 
 
 @Component({
@@ -43,9 +47,9 @@ import { colors } from '../utils/colors';
     templateUrl: 'tb-calendar.page.html',
   //styleUrls: ['tb-calendar.page.scss']
 })
-export class TabCalendar {
+export class TabCalendar implements OnInit {
   
-
+  clientList : Array<User> = [];
   
   // @Component({
   //   selector: 'mwl-demo-component',
@@ -98,49 +102,58 @@ export class TabCalendar {
     refresh = new Subject<void>();
   
     events: CalendarEvent[] = [
-      {
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        actions: this.actions,
-        allDay: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-        draggable: true,
-      },
-      {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        actions: this.actions,
-      },
-      {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue,
-        allDay: true,
-      },
-      {
-        start: addHours(startOfDay(new Date()), 2),
-        end: addHours(new Date(), 2),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        actions: this.actions,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-        draggable: true,
-      },
+      // {
+      //   start: subDays(startOfDay(new Date()), 1),
+      //   end: addDays(new Date(), 1),
+      //   title: 'A 3 day event',
+      //   color: colors.red,
+      //   actions: this.actions,
+      //   allDay: true,
+      //   resizable: {
+      //     beforeStart: true,
+      //     afterEnd: true,
+      //   },
+      //   draggable: true,
+      // },
+      // {
+      //   start: startOfDay(new Date()),
+      //   title: 'An event with no end date',
+      //   color: colors.yellow,
+      //   actions: this.actions,
+      // },
+      // {
+      //   start: subDays(endOfMonth(new Date()), 3),
+      //   end: addDays(endOfMonth(new Date()), 3),
+      //   title: 'A long event that spans 2 months',
+      //   color: colors.blue,
+      //   allDay: true,
+      // },
+      // {
+      //   start: addHours(startOfDay(new Date()), 2),
+      //   end: addHours(new Date(), 2),
+      //   title: 'A draggable and resizable event',
+      //   color: colors.yellow,
+      //   actions: this.actions,
+      //   resizable: {
+      //     beforeStart: true,
+      //     afterEnd: true,
+      //   },
+      //   draggable: true,
+      // },
     ];
   
     activeDayIsOpen: boolean = true;
   
-    constructor(private modal: NgbModal) {}
+    constructor(private modal: NgbModal, private router: Router,private storageService: StorageService) {}
+    async ngOnInit(): Promise<void> {
+      this.storageService.init();
+      this.clientList = await this.storageService.get('Contacts');
+    }
+
+    async ionViewDidEnter(){
+      this.storageService.init();
+      this.clientList = await this.storageService.get('Contacts');
+    }
   
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
       if (isSameMonth(date, this.viewDate)) {
@@ -184,6 +197,8 @@ export class TabCalendar {
         ...this.events,
         {
           title: 'New event',
+          client: null,
+          description: null,
           start: startOfDay(new Date()),
           end: endOfDay(new Date()),
           color: colors.red,
@@ -206,6 +221,11 @@ export class TabCalendar {
   
     closeOpenMonthViewDay() {
       this.activeDayIsOpen = false;
+    }
+    NewClient()
+    {
+      console.log('create client');
+      this.router.navigate(['new-contact',{tag: 'chantier'}]);
     }
   }
   

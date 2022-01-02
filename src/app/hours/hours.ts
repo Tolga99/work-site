@@ -53,7 +53,11 @@ export class Hours implements OnInit {
           minute:  this.hoursList[this.indexFind].minute,
         });
       }
-    }else console.log('creation',existId);
+    }else 
+    {
+      console.log('creation',existId);
+      this.hourId= this.generateUUID();
+    }
   }
   
   public customFormatter(value: number) {

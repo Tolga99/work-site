@@ -42,18 +42,15 @@ export class Invoice implements OnInit {
     var nowDate = new Date(); 
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
 
-    this.storageService.init();
-    this.invList =await this.storageService.get('Invoices');
-    if(this.invList==null)
-      this.invList = new Array<Facture>();
-
     const existId = this.route.snapshot.paramMap.get('factureId');
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
 
     if(existId!=null)
     {
       console.log('modification',existId);
-      this.storageService.get("Invoices="+this.chantierId);
+      this.invList =await this.storageService.get("Invoices="+this.chantierId);
+      if(this.invList==null)
+        this.invList = new Array<Facture>();
       this.indexFind =this.invList.findIndex(x => x.factureId == existId);
       if(this.indexFind>=0)
       {
@@ -69,7 +66,10 @@ export class Invoice implements OnInit {
         });
         this.images=this.invList[this.indexFind].images;
       }
-    }else console.log('creation',existId);
+    }else {
+      console.log('creation',existId);
+      this.invoiceId= this.generateUUID();
+    }
   }
 
   async CreateWorksite() {

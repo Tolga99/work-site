@@ -61,7 +61,11 @@ export class TabContactsClientPage implements OnInit {
           tva: this.contactsList[this.indexFind].tva,
         });
       }
-    }else console.log('creation',modif);
+    }else
+    {
+      console.log('creation',modif);
+      this.clientId= this.generateUUID();
+    }
   }
 
   onSubmit() {

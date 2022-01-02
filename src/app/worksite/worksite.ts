@@ -123,8 +123,8 @@ export class Worksite implements OnInit {
   }
   openInvoice(inv : Facture)
   {
-    console.log("Bouton open facture");
-    this.router.navigate(['invoice',{factureId: inv.factureId},{chantierId: this.chantierId}]);
+    console.log("Bouton open facture",inv.factureId,this.chantierId);
+    this.router.navigate(['invoice',{factureId: inv.factureId,chantierId: this.chantierId}]);
   }
   deleteInvoice(inv:Facture){
     //this.invList = this.invList.filter(a => a. != inv.);
@@ -138,8 +138,8 @@ export class Worksite implements OnInit {
   }
   openHour(h : Hour)
   {
-    console.log("Bouton open facture");
-    this.router.navigate(['hours',{hourId: h.hourId},{chantierId: this.chantierId}]);
+    console.log("Bouton open hour",h.hourId,this.chantierId);
+    this.router.navigate(['hours',{hourId: h.hourId,chantierId: this.chantierId}]);
   }
   deleteHour(hour:Hour){
     this.hoursList = this.hoursList.filter(a => a.hourId != hour.hourId);
