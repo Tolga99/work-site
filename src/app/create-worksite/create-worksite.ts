@@ -13,6 +13,7 @@ import { User } from '../models/user';
 })
 export class CreateWorksite implements OnInit {
   newWorksite : Chantier;
+  client : User;
   uuidValue : string;
   public chantierList : Array<Chantier> = []; 
   clientList : Array<User> = [];
@@ -20,7 +21,7 @@ export class CreateWorksite implements OnInit {
 
   formWork = new FormGroup({
     worksiteName: new FormControl('',Validators.required),
-    clientLastName: new FormControl('', Validators.required),
+    client: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
   });
 
@@ -48,15 +49,18 @@ export class CreateWorksite implements OnInit {
     console.log('form status',this.formWork);
     if (!this.formWork.valid)
       return;
-
+    this.client = this.clientList.find(x => x.userId == this.formWork.get('client').value);
     this.storageService.init();
     this.newWorksite = new Chantier(
       this.generateUUID(),
       this.formWork.get('worksiteName').value,
-      this.formWork.get('clientLastName').value,
+      this.client.lastName,
+      this.client.userId,
       this.formWork.get('description').value,
-      this.date
+      this.date,
+      null,
     );
+    
     this.chantierList=await this.storageService.get('Chantiers');
     if(this.chantierList==null)
       this.chantierList=[];
@@ -65,7 +69,6 @@ export class CreateWorksite implements OnInit {
 
     console.log("Chantier crée, redirection...");
     this.router.navigate(['/tb-home']);
-
   }
   NewClient()
   {

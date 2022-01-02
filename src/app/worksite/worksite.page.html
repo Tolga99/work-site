@@ -1,12 +1,27 @@
 <div class="container" style="overflow-y: auto;">
-  <form [formGroup]="formChantier" (ngSubmit)="onSubmit()">
+  <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
+    {{formChantier.valid}}
+    <label for="chantierName">Nom chantier</label>
+    <input type="text" id="chantierName" name="chantierName" formControlName="chantierName" placeholder="...">
+
+    <!-- <label for="client">Client</label>
+    <select formControlName="clientLastName">
+      <option *ngFor="let name of clientList" [value]="name.lastName"> {{name.lastName}}      </option>
+    </select>
+    
+    <button class="btn"><i class="fa fa-home" (click)="NewClient()">Nouveau client ?</i></button> -->
+
+    <hr>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" formControlName="description" placeholder="..."
+      style="height:100px;"></textarea>
 
     <label for="imgChantier">Photos chantier</label>
     <!-- Select File -->
-    <input formControlName="imgChantier" id="imgChantier" type="file" class="form-control" multiple=""
+    <input id="imgChantier" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
-    <button class="btn" (click)="resetImages()">Réinitialiser</button>
-    <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
+    <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
+      <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
       <div *ngIf="f.file.errors.required">File is required.</div>
     </div> -->
     <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
@@ -58,7 +73,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let h of hoursList">
+          <tr mdbTableCol *ngFor="let h of hoursList" (click)="openHour(h)">
             <!-- <th scope="row">{{h.id}}</th> --> 
             <td>{{h.description}}</td>
             <td>{{h.workTime}}</td>
@@ -72,16 +87,9 @@
     <div class="card-footer text-muted">
       <button type="button" class="btn btn-secondary" (click)="AddHour()">Ajouter prestation</button>
     </div>
-    <select id="client" name="client">
-      <option value="none"></option>
-      <option value="tolg">Chauffage</option>
-      <option value="ed">Cheminée</option>
-    </select>
-    <hr>
-
 
     <button type="submit" class="btn btn-success">Actualiser chantier</button>
-    <button type="submit" class="btn btn-danger">Terminer chantier</button>
+    <button type="submit" class="btn btn-danger" (click)="FinishChantier()">Terminer chantier</button>
 
   </form>
 </div>

@@ -1,15 +1,13 @@
 <div class="container">
   <form [formGroup]="formWork" (ngSubmit)="CreateWorksite()">
-    <!-- pic  -->
-    <input type="file" id="files" name="files[]" multiple />
-<output id="list"></output>
-    <!-- pic -->
+
     <label for="name">Nom chantier</label>
     <input type="text" id="name" name="name" formControlName="worksiteName" placeholder="...">
 
     <label for="client">Client</label>
-    <select formControlName="clientLastName">
-      <option *ngFor="let name of clientList" [value]="name.lastName"> {{name.lastName}}      </option>
+    <select formControlName="client">
+      <option></option>
+      <option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName}}      </option>
     </select>
     
     <button class="btn"><i class="fa fa-home" (click)="NewClient()">Nouveau client ?</i></button>

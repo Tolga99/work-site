@@ -6,9 +6,9 @@
 
     <label for="imgFactures">Photos facture</label>
     <!-- Select File -->
-    <input formControlName="imgFactures" id="imgFactures" type="file" class="form-control" multiple=""
+    <input  id="imgFactures" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
-    <button class="btn" (click)="resetImages()">Réinitialiser</button>
+    <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
     <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
       <div *ngIf="f.file.errors.required">File is required.</div>
     </div> -->

@@ -14,6 +14,7 @@ import { Location } from '@angular/common';
 export class TabContactsClientPage implements OnInit {
   public contactsList: Array<User> = [];
   client: User;
+  clientId: string;
   indexFind: number =-5;
   uuidValue: string;
   tag: string;
@@ -50,7 +51,7 @@ export class TabContactsClientPage implements OnInit {
       this.indexFind =this.contactsList.findIndex(x => x.userId == modif);
       if(this.indexFind>=0)
       {
-        console.log(this.contactsList[this.indexFind].firstName, this.contactsList[this.indexFind].userId)
+        this.clientId= this.contactsList[this.indexFind].userId;
         this.formClient.setValue({
           firstName: this.contactsList[this.indexFind].firstName,
           lastName:  this.contactsList[this.indexFind].lastName,
@@ -70,7 +71,7 @@ export class TabContactsClientPage implements OnInit {
       return;
 
     this.client = new User(
-      this.generateUUID(),
+      this.clientId,
       this.formClient.get('firstName').value,
       this.formClient.get('lastName').value,
       this.formClient.get('address').value,
@@ -79,9 +80,10 @@ export class TabContactsClientPage implements OnInit {
       this.formClient.get('tva').value
     );
     if(this.indexFind>=0)
+    {
       this.contactsList.splice(this.indexFind,1);
-    //this.contactsList.push(this.client);
-    this.contactsList[this.indexFind] = this.client;
+      this.contactsList[this.indexFind] = this.client;
+    }else this.contactsList.push(this.client);
     this.storageService.set('Contacts',this.contactsList);
     if(this.tag==null)
     {

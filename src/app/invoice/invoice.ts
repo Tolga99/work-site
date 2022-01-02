@@ -14,6 +14,8 @@ export class Invoice implements OnInit {
 
   uuidValue: string;
   images = [];
+  chantierId: string;
+  invoiceId: string;
 
   date: string;
   inv : Facture;
@@ -23,7 +25,7 @@ export class Invoice implements OnInit {
     factureName: new FormControl('',Validators.required),
    // clientLastName: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    imgFactures: new FormControl('', [Validators.required]),
+   // imgFactures: new FormControl('', [Validators.required]),
    // fileSource: new FormControl('', [Validators.required]),
     typePay: new FormControl('', [Validators.required]),
     priceHtva: new FormControl('', [Validators.required]),
@@ -46,23 +48,26 @@ export class Invoice implements OnInit {
       this.invList = new Array<Facture>();
 
     const existId = this.route.snapshot.paramMap.get('factureId');
+    this.chantierId = this.route.snapshot.paramMap.get('chantierId');
 
     if(existId!=null)
     {
       console.log('modification',existId);
-      this.storageService.get("Invoices");
+      this.storageService.get("Invoices="+this.chantierId);
       this.indexFind =this.invList.findIndex(x => x.factureId == existId);
       if(this.indexFind>=0)
       {
+        this.invoiceId= this.invList[this.indexFind].factureId;
         this.formInv.setValue({
           factureName: this.invList[this.indexFind].factureName,
           description:  this.invList[this.indexFind].description,
-          imgFactures:  this.invList[this.indexFind].images,
+         // imgFactures:  this.invList[this.indexFind].images,
           typePay:  this.invList[this.indexFind].typePay,
           priceHtva:  this.invList[this.indexFind].priceHtva,
           remise:  this.invList[this.indexFind].remise,
           tva: this.invList[this.indexFind].tva,
         });
+        this.images=this.invList[this.indexFind].images;
       }
     }else console.log('creation',existId);
   }
@@ -96,40 +101,40 @@ export class Invoice implements OnInit {
   }
   onSubmit()
   {
-      console.log(this.images[0]);
-      console.log(this.generateUUID());
-      console.log('form status',this.formInv);
-      if (!this.formInv.valid)
-        return;
-  
-      this.inv = new Facture(
-        this.generateUUID(),
-        this.formInv.get('factureName').value,
-        this.formInv.get('description').value,
-        this.date,
-        this.formInv.get('typePay').value,
-        this.formInv.get('remise').value,
-        this.formInv.get('priceHtva').value,
-        this.formInv.get('tva').value,
-        1 as DoubleRange,
-        this.images,
-      //  this.formInv.get('totalPrice').value,
-      );
+    console.log('form status',this.formInv);
+    if (!this.formInv.valid)
+      return;
 
-      if(this.indexFind>=0)
+    this.inv = new Facture(
+      this.invoiceId,
+      this.formInv.get('factureName').value,
+      this.formInv.get('description').value,
+      this.date,
+      this.formInv.get('typePay').value,
+      this.formInv.get('remise').value,
+      this.formInv.get('priceHtva').value,
+      this.formInv.get('tva').value,
+      1 as DoubleRange,
+      this.images,
+    //  this.formInv.get('totalPrice').value,
+    );
+
+    if(this.indexFind>=0)
+    {
       this.invList.splice(this.indexFind,1);
       //this.contactsList.push(this.client);
       this.invList[this.indexFind] = this.inv;
-      this.storageService.set('Invoices',this.invList);
-    
-      console.log("invoice saved", this.invList);
-      this.router.navigate(['/worksite']);
-    }
-    generateUUID()
-    {
-        this.uuidValue=UUID.UUID();
-        return this.uuidValue;
-    }
+    }else this.invList.push(this.inv);
+    this.storageService.set('Invoices='+this.chantierId,this.invList);
+  
+    console.log("invoice saved", this.invList);
+    this.router.navigate(['/worksite',{chantierId: this.chantierId}]);
+  }
+  generateUUID()
+  {
+      this.uuidValue=UUID.UUID();
+      return this.uuidValue;
+  }
   resetImages()
   {
     this.images=[];
