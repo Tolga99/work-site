@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TabsPage } from './tabs.page';
+import { Tabs } from './tabs';
 
 const routes: Routes = [
   {
     path: '',
-    component: TabsPage,
+    component: Tabs,
     children: [
       //CHANTIER
       {
         path: 'tb-home',
-        loadChildren: () => import('../tb-home/tb-home.module').then(m => m.TabHomePageModule)
+        loadChildren: () => import('../tb-home/tb-home.module').then(m => m.TabHomeModule)
       },
       {
         path: 'worksite',
@@ -36,16 +36,16 @@ const routes: Routes = [
       //CONTACTS
       {
         path: 'tb-contacts',
-        loadChildren: () => import('../tb-contacts/tb-contacts.module').then(m => m.TabContactsPageModule)
+        loadChildren: () => import('../tb-contacts/tb-contacts.module').then(m => m.TabContactsModule)
       },
       {
         path:'new-contact',
-        loadChildren: () => import('../tb-contacts-client/tb-contacts-client.module').then(m => m.TabContactsClientPageModule)
+        loadChildren: () => import('../tb-contacts-client/tb-contacts-client.module').then(m => m.TabContactsClientModule)
       },
       //REGLAGES
       {
         path: 'tb-settings',
-        loadChildren: () => import('../tb-settings/tb-settings.module').then(m => m.TabSettingsPageModule)
+        loadChildren: () => import('../tb-settings/tb-settings.module').then(m => m.TabSettingsModule)
       },
       {
         path:'my-profile',
@@ -68,4 +68,4 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
 })
-export class TabsPageRoutingModule {}
+export class TabsRoutingModule {}

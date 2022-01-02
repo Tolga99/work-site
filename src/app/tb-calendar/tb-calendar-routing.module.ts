@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TabCalendar } from './tb-calendar.page';
+import { TabCalendar } from './tb-calendar';
 
 const routes: Routes = [
   {

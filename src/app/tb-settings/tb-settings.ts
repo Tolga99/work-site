@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { jsPDF} from 'jspdf'
 @Component({
   selector: 'app-tb-settings',
-  templateUrl: 'tb-settings.page.html',
-  styleUrls: ['tb-settings.page.scss']
+  templateUrl: 'tb-settings.html',
+  styleUrls: ['tb-settings.scss']
 })
-export class TabSettingsPage implements OnInit {
+export class TabSettings implements OnInit {
 
   constructor(private router:Router) {}
   ngOnInit(): void {

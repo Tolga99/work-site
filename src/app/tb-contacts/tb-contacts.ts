@@ -5,10 +5,10 @@ import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tb-contacts',
-  templateUrl: 'tb-contacts.page.html',
-  styleUrls: ['tb-contacts.page.css']
+  templateUrl: 'tb-contacts.html',
+  styleUrls: ['tb-contacts.css']
 })
-export class TabContactsPage implements OnInit  {
+export class TabContacts implements OnInit  {
   // headElements = ['#', 'Prenom', 'Nom', 'Adresse'];
   headElements = ['Prenom', 'Nom', 'Adresse'];
 

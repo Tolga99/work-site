@@ -8,8 +8,8 @@ import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-worksite',
-  templateUrl: 'worksite.page.html',
-  styleUrls: ['worksite.page.scss']
+  templateUrl: 'worksite.html',
+  styleUrls: ['worksite.scss']
 })
 export class Worksite implements OnInit {
 

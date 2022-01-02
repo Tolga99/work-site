@@ -3,10 +3,10 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TabSettingsPage } from './tb-settings.page';
+import { TabSettings } from './tb-settings';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { TabSettingsPageRoutingModule } from './tb-settings-routing.module';
+import { TabSettingsRoutingModule } from './tb-settings-routing.module';
 
 @NgModule({
   imports: [
@@ -14,9 +14,9 @@ import { TabSettingsPageRoutingModule } from './tb-settings-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    RouterModule.forChild([{ path: '', component: TabSettingsPage }]),
-    TabSettingsPageRoutingModule,
+    RouterModule.forChild([{ path: '', component: TabSettings }]),
+    TabSettingsRoutingModule,
   ],
-  declarations: [TabSettingsPage]
+  declarations: [TabSettings]
 })
-export class TabSettingsPageModule {}
+export class TabSettingsModule {}

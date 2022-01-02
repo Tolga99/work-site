@@ -1,11 +1,10 @@
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ProfilePage } from './profile.page';
+import { Profile } from './profile';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { ProfilePageRoutingModule } from './profile-routing.module';
+import { ProfileRoutingModule } from './profile-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -14,8 +13,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     SharedModule,
     ExploreContainerComponentModule,
-    ProfilePageRoutingModule
+    ProfileRoutingModule
   ],
-  declarations: [ProfilePage]
+  declarations: [Profile]
 })
-export class ProfilePageModule {}
+export class ProfileModule {}

@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TabContactsClientPage } from '../tb-contacts-client/tb-contacts-client.page';
-import { TabContactsPage } from './tb-contacts.page';
+import { TabContacts } from './tb-contacts';
 
 const routes: Routes = [
   {
     path: '',
-    component: TabContactsPage,
+    component: TabContacts,
   }
 ];
 
@@ -15,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabContactsPageRoutingModule {}
+export class TabContactsRoutingModule {}

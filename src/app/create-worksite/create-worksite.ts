@@ -8,8 +8,8 @@ import { User } from '../models/user';
 
 @Component({
   selector: 'app-createworksite',
-  templateUrl: 'create-worksite.page.html',
-  styleUrls: ['create-worksite.page.scss']
+  templateUrl: 'create-worksite.html',
+  styleUrls: ['create-worksite.scss']
 })
 export class CreateWorksite implements OnInit {
   newWorksite : Chantier;

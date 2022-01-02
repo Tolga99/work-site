@@ -11,9 +11,10 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { StorageService } from './services/storage.service';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ArticlesPipe } from './articles.pipe';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ArticlesPipe],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), BrowserAnimationsModule, AppRoutingModule,
     IonicStorageModule.forRoot(), CalendarModule.forRoot({

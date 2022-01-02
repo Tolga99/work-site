@@ -44,7 +44,7 @@ import { User } from '../models/user';
         }
       `,
     ],
-    templateUrl: 'tb-calendar.page.html',
+    templateUrl: 'tb-calendar.html',
   //styleUrls: ['tb-calendar.page.scss']
 })
 export class TabCalendar implements OnInit {

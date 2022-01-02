@@ -8,10 +8,10 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-tb-contacts-client',
-  templateUrl: 'tb-contacts-client.page.html',
-  styleUrls: ['tb-contacts-client.page.css']
+  templateUrl: 'tb-contacts-client.html',
+  styleUrls: ['tb-contacts-client.css']
 })
-export class TabContactsClientPage implements OnInit {
+export class TabContactsClient implements OnInit {
   public contactsList: Array<User> = [];
   client: User;
   clientId: string;

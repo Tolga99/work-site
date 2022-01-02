@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProfilePage } from '../profile/profile.page';
-import { TabSettingsPage } from './tb-settings.page';
+import { ProfilePage } from '../profile/profile';
+import { TabSettings } from './tb-settings';
 
 const routes: Routes = [
   {
     path: '',
-    component: TabSettingsPage,
+    component: TabSettings,
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabSettingsPageRoutingModule {}
+export class TabSettingsRoutingModule {}

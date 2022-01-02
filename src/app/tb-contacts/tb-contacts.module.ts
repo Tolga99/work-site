@@ -3,10 +3,10 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TabContactsPage } from './tb-contacts.page';
+import { TabContacts } from './tb-contacts';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { TabContactsPageRoutingModule } from './tb-contacts-routing.module';
+import { TabContactsRoutingModule } from './tb-contacts-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -15,8 +15,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     SharedModule,
     ExploreContainerComponentModule,
-    TabContactsPageRoutingModule,
+    TabContactsRoutingModule,
   ],
-  declarations: [TabContactsPage]
+  declarations: [TabContacts]
 })
-export class TabContactsPageModule {}
+export class TabContactsModule {}

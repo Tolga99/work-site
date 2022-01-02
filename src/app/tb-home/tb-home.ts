@@ -5,10 +5,10 @@ import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tb-home',
-  templateUrl: 'tb-home.page.html',
-  styleUrls: ['tb-home.page.scss']
+  templateUrl: 'tb-home.html',
+  styleUrls: ['tb-home.scss']
 })
-export class TabHomePage implements OnInit {
+export class TabHome implements OnInit {
   chantierList : Array<Chantier> = [];
 
   headElements = ['Nom chantier', 'Nom Client', 'Date début'];
