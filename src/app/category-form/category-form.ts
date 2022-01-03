@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
-import { stringify } from 'querystring';
 import { Category } from '../models/category';
 import { StorageService } from '../services/storage.service';
 
@@ -11,7 +10,7 @@ import { StorageService } from '../services/storage.service';
   templateUrl: './category-form.html',
   styleUrls: ['./category-form.scss'],
 })
-export class CategoryForm implements OnInit {
+export class CategoryForm implements OnInit,OnDestroy {
 
   uuidValue: string;
   images = [];
@@ -31,7 +30,10 @@ export class CategoryForm implements OnInit {
   {
     console.log('create chantier');
   }
-
+  @HostListener('unloaded')
+  ngOnDestroy() {
+    console.log('Cleared');
+}
   async ngOnInit() {
 
     const existId = this.route.snapshot.paramMap.get('categoryId');
@@ -137,6 +139,7 @@ export class CategoryForm implements OnInit {
   
     console.log("invoice saved", this.catList);
     this.router.navigate(['/articles']);
+    //this.ngOnDestroy();
   }
   generateUUID()
   {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
@@ -12,7 +12,7 @@ import { StorageService } from '../services/storage.service';
   templateUrl: './article-form.html',
   styleUrls: ['./article-form.scss'],
 })
-export class ArticleForm implements OnInit {
+export class ArticleForm implements OnInit, OnDestroy{
 
   uuidValue: string;
   images = [];
@@ -36,6 +36,10 @@ export class ArticleForm implements OnInit {
     console.log('create chantier');
   }
 
+  @HostListener('unloaded')
+  ngOnDestroy() {
+    console.log('Cleared');
+}
   async ngOnInit() {
 
     const existId = this.route.snapshot.paramMap.get('categoryId');
