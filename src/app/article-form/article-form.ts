@@ -28,7 +28,6 @@ export class ArticleForm implements OnInit {
     productName: new FormControl('',Validators.required),
     description: new FormControl('', Validators.required),
     category: new FormControl('', Validators.required),
-    quantity: new FormControl('', Validators.required),
     priceHtva: new FormControl('', [Validators.required]),
   });
 
@@ -57,7 +56,6 @@ export class ArticleForm implements OnInit {
           productName : this.artList[this.indexFind].productName,
           description:  this.artList[this.indexFind].description,
           category:  this.artList[this.indexFind].description,
-          quantity:  this.artList[this.indexFind].description,
           priceHtva:  this.artList[this.indexFind].description,
         });
         this.images[0]=this.artList[this.indexFind].imageProduct;
@@ -129,7 +127,6 @@ export class ArticleForm implements OnInit {
       this.artId,
       this.formArt.get('productName').value,
       this.formArt.get('description').value,
-      this.formArt.get('quantity').value,
       this.formArt.get('priceHtva').value,
       this.formArt.get('category').value,
       this.images[0],
