@@ -61,7 +61,6 @@ export class Worksite implements OnInit {
     if(existId!=null)
     {
       console.log('modification',existId);
-      this.storageService.get("Chantiers");
       this.indexFind =this.chantierList.findIndex(x => x.chantierId == existId);
       if(this.indexFind>=0)
       {

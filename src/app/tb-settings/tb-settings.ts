@@ -10,14 +10,20 @@ export class TabSettings implements OnInit {
 
   constructor(private router:Router) {}
   ngOnInit(): void {
-    const doc = new jsPDF();
+    // const doc = new jsPDF();
 
-    doc.text("Hello world!", 10, 10);
-    doc.save("a4.pdf");  }
+    // doc.text("Hello world!", 10, 10);
+    // doc.save("a4.pdf");  
+  }
   MyProfile()
   {
     console.log('show profile');
     this.router.navigate(['my-profile']);
+  }
+  MyProducts()
+  {
+    console.log('show articles');
+    this.router.navigate(['articles']);
   }
 
 }

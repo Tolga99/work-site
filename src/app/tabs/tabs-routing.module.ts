@@ -49,7 +49,20 @@ const routes: Routes = [
       },
       {
         path:'my-profile',
-        loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
+        loadChildren: () => import('../profile/profile.module').then(m => m.ProfileModule)
+      },
+      //ARTICLES CATEGORIES
+      {
+        path:'articles',
+        loadChildren: () => import('../articles/articles.module').then(m => m.ArticlesModule)
+      },
+      {
+        path: 'article-form',
+        loadChildren: () => import('../article-form/article-form.module').then( m => m.ArticleFormModule)
+      },
+      {
+        path: 'category-form',
+        loadChildren: () => import('../category-form/category-form.module').then( m => m.CategoryFormModule)
       },
       {
         path: '',

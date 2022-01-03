@@ -1,0 +1,30 @@
+<div class="container" style="overflow-y: auto;">
+  <form [formGroup]="formCat" (ngSubmit)="onSubmit()">
+
+    <label for="categoryName">Nom catégorie</label>
+    <input type="text" id="categoryName" name="categoryName" formControlName="categoryName" placeholder="...">
+
+    <label for="categoryPar">Sous-Catégorie</label>
+    <select formControlName="categoryPar">
+      <option></option>
+      <option *ngFor="let c of catList" [value]="c.categoryId"> {{c.categoryName}}      </option>
+    </select>
+    <hr>
+
+    <label for="imgCat">Photo de la catégorie</label>
+    <input  id="imgCat" type="file" class="form-control" multiple=""
+      (change)="onFileChange($event)">
+    <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
+
+    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
+
+    
+    <hr>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" formControlName="description" placeholder="..."
+      style="height:100px;"></textarea>
+
+    <input type="submit" value="Créer catégorie">
+  </form>
+  {{formCat.valid}}
+</div>

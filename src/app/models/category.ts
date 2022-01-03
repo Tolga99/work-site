@@ -2,7 +2,8 @@ export interface ICategory
 {
     categoryId:string;
     categoryName: string;
-    categoryParent: Category;
+    description: string;
+    categoryParent: string;
     categoryImage: string;
 }
 
@@ -10,7 +11,8 @@ export class Category implements ICategory {
     constructor(
         public categoryId:string,
         public categoryName:string,
-        public categoryParent:Category,
+        public description:string,
+        public categoryParent:string,
         public categoryImage: string,
     ) {
     }

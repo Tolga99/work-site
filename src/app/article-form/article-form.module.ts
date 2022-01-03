@@ -4,20 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ArticlesRoutingModule } from './articles-routing.module';
+import { ArticleFormRoutingModule } from './article-form-routing.module';
 
-import { Articles } from './articles';
+import { ArticleForm } from './article-form';
 import { SharedModule } from '../shared/shared.module';
-import { MatCardModule } from '@angular/material/card';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ArticlesRoutingModule,
-    SharedModule,
-    MatCardModule,
+    ArticleFormRoutingModule,
+    SharedModule
   ],
-  declarations: [Articles]
+  declarations: [ArticleForm]
 })
-export class ArticlesModule {}
+export class ArticleFormModule {}

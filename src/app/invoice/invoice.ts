@@ -7,8 +7,8 @@ import { Facture } from '../models/facture';
 
 @Component({
   selector: 'app-invoice',
-  templateUrl: 'invoice.page.html',
-  styleUrls: ['invoice.page.scss']
+  templateUrl: 'invoice.html',
+  styleUrls: ['invoice.scss']
 })
 export class Invoice implements OnInit {
 

@@ -1,9 +1,48 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>articles</ion-title>
-  </ion-toolbar>
-</ion-header>
+<div style="overflow-y: auto;">
 
-<ion-content>
+  <div class="container" style="overflow-y: auto;">
+    <mat-card class="example-card" *ngFor="let el of catList">
+      <mat-card-title-group (click)="EnterCategory(el)">
+        <mat-card-title>{{el.categoryName}}</mat-card-title>
+        <mat-card-subtitle>{{el.description}}</mat-card-subtitle>
+        <img mat-card-lg-image src="{{el.categoryImage}}">
+      </mat-card-title-group>
+      <!-- <mat-card-content>
+    {{longText}}
+  </mat-card-content> -->
+    </mat-card>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary"(click)="BackCategory()">Go back</button>
+      <button type="button" class="btn btn-secondary" (click)="CreateCategory()">Nouvelle catégorie</button>
+    </div>
+  </div>
+  <hr>
+  <div class="card-header">
+    Mes articles
+  </div>
+  <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+    <table class="table table-bordered table-striped mb-0">
 
-</ion-content>
+      <thead>
+        <tr>
+          <th *ngFor="let head of headElementsArt" scope="col">{{head}} </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr mdbTableCol *ngFor="let p of artList">
+          <!-- <th scope="row">{{el.id}}</th> -->
+          <td>{{p.productName}}</td>
+          <td>{{p.description}}</td>
+          <td>{{p.quantity}}</td>
+          <td>{{p.priceHtva}}</td>
+          <!-- <td>{{p.categoryId}}</td> -->
+          <td><button (click)="DeleteProduct(p)">DELETE</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="card-footer text-muted">
+    <button type="button" class="btn btn-secondary" (click)="CreateProduct()">Nouvelle article</button>
+  </div>
+</div>
