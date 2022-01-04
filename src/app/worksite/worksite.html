@@ -4,25 +4,13 @@
     <label for="chantierName">Nom chantier</label>
     <input type="text" id="chantierName" name="chantierName" formControlName="chantierName" placeholder="...">
 
-    <!-- <label for="client">Client</label>
-    <select formControlName="clientLastName">
-      <option *ngFor="let name of clientList" [value]="name.lastName"> {{name.lastName}}      </option>
-    </select>
-    
-    <button class="btn"><i class="fa fa-home" (click)="NewClient()">Nouveau client ?</i></button> -->
-
+    <label for="address">Adresse du chantier</label>
+    <input type="text" id="address" name="address" formControlName="address" placeholder="...">
     <hr>
     <label for="description">Description</label>
     <textarea id="description" name="description" formControlName="description" placeholder="..."
       style="height:100px;"></textarea>
 
-    <!-- <label for="imgChantier">Photos chantier</label>
-    <input id="imgChantier" type="file" class="form-control" multiple=""
-      (change)="onFileChange($event)">
-    <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
-
-    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> 
-  -->
   <div class="card-header">
     Images du chantier
   </div>
@@ -35,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor='let url of images'>
+          <tr mdbTableCol *ngFor='let url of imagesC'>
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>test</td>
             <td>test</td>
@@ -47,7 +35,7 @@
 
     </div>
     <div class="card-footer text-muted">
-      <input id="imgChantier" type="file" class="form-control" multiple="" (change)="onFileChange($event)">
+      <input id="imgChantier" type="file" class="form-control" multiple="" (change)="onFileChangeChantier($event)">
     </div>
 
     <hr>
@@ -75,7 +63,10 @@
 
     </div>
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Nouvelle facture</button>
+      <button type="button" class="btn btn-secondary" (click)="scanInvoice()">Scanner facture</button>
+    </div>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Créer facture</button>
     </div>
 
     <hr>
@@ -103,7 +94,10 @@
 
     </div>
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Nouveau devis</button>
+      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Scanner devis</button>
+    </div>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Créer devis</button>
     </div>
     <hr>
     <div class="card-header">
@@ -128,6 +122,62 @@
         </tbody>
       </table>
 
+    </div>
+    <div class="card-footer">
+      Total des heures : {{totalHours}}
+    </div>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary" (click)="AddHour()">Ajouter prestation</button>
+    </div>
+
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor='let url of imagesT'>
+            <!-- <th scope="row">{{el.id}}</th> -->
+            <td>test</td>
+            <td>test</td>
+            <td><img src="{{url}}" alt="" height=100 width=100/></td>
+            <td><button>DELETE</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer text-muted">
+      <input id="imgChantier" type="file" class="form-control" multiple="" (change)="onFileChangeTicket($event)">
+    </div>
+
+    <div class="card-header">
+      Argent reçu
+    </div>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsHour" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let h of hoursList" (click)="openHour(h)">
+            <!-- <th scope="row">{{h.id}}</th> -->
+            <td>{{h.description}}</td>
+            <td>{{h.workTime}}</td>
+            <td>{{h.date}}</td>
+            <td><button (click)="deleteHour(h)">DELETE</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="card-footer">
+      Total des heures : {{totalHours}}
     </div>
     <div class="card-footer text-muted">
       <button type="button" class="btn btn-secondary" (click)="AddHour()">Ajouter prestation</button>

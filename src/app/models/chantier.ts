@@ -10,8 +10,12 @@ export interface IChantier
     clientLastName: string;
     clientId:string;
     description : string;
+    address : string
     dateStart : string;
+    dateEnd : string;
+    isFinished : string;
     imagesChantier: Array<string>;
+    imagesTicket: Array<string>;
 
 }
 export class Chantier implements IChantier {
@@ -21,8 +25,13 @@ export class Chantier implements IChantier {
         public clientLastName:string,
         public clientId:string,
         public description: string,
+        public address: string,
         public dateStart : string,
+        public dateEnd : string,
+        public isFinished: string,
         public imagesChantier : Array<string>,
+        public imagesTicket : Array<string>,
+
     ) {
     }
 

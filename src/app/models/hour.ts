@@ -6,7 +6,6 @@ export interface IHour
     hour : number;
     minute : number;
     workTime: string;
-    //totalHour : Array<number>;
 }
 
 export class Hour implements IHour {

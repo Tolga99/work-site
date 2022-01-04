@@ -4,15 +4,15 @@
     <label for="factureName">Nom facture</label>
     <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="...">
 
-    <label for="imgFactures">Photos facture</label>
+    <label for="imgFactures" [hidden]="!ScanMode" >Photos facture</label>
     <!-- Select File -->
-    <input  id="imgFactures" type="file" class="form-control" multiple=""
+    <input [hidden]="!ScanMode" id="imgFactures" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
-    <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
+    <button [hidden]="!ScanMode" type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
     <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
       <div *ngIf="f.file.errors.required">File is required.</div>
     </div> -->
-    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
+    <img [hidden]="!ScanMode" *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
 
     <label for="typePay">Type de paiement</label>
     <select formControlName="typePay">
@@ -20,21 +20,26 @@
       <option value='bancaire'>Virement bancaire</option>
     </select>
     <!-- articles -->
-    <label for="htva">Prix HTVA</label>
-    <input type="text" id="htva" name="htva" formControlName="priceHtva" placeholder="...">
+    <label for="htva" [hidden]="ScanMode" >Prix HTVA</label>
+    <input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="...">
 
-    <label for="tva">TVA</label>
-    <input type="text" id="tva" name="tva" formControlName="tva" placeholder="...">
+    <label for="tva" [hidden]="ScanMode">TVA</label>
+    <input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="...">
 
-    <label for="remise">Remise</label>
-    <input type="text" id="remise" name="remise" formControlName="remise" placeholder="...">
-    
+    <label for="remise" [hidden]="ScanMode">Remise</label>
+    <input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="...">
+  
+    <label for="totalPrice" [hidden]="!ScanMode" >Prix à payer</label>
+    <input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice" placeholder="125,35">
+
     <hr>
-    <label for="description">Description</label>
+    <label for="description" >Description</label>
     <textarea id="description" name="description" formControlName="description" placeholder="..."
       style="height:100px;"></textarea>
 
-    <input type="submit" value="Créer chantier">
+    <input type="submit" [hidden]="!ScanMode" value="Scanner chantier">
+    <input type="submit" [hidden]="ScanMode==true" value="Créer chantier">
+
   </form>
   {{formInv.valid}}
 </div>

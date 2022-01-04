@@ -11,7 +11,7 @@ import { StorageService } from '../services/storage.service';
 export class TabHome implements OnInit {
   chantierList : Array<Chantier> = [];
 
-  headElements = ['Nom chantier', 'Nom Client', 'Date début'];
+  headElements = ['Nom chantier', 'Nom Client', 'Date début','Adresse','Etat'];
 
   constructor(private storageService:StorageService, private router: Router) {}
 

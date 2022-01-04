@@ -18,6 +18,7 @@ export class ArticleForm implements OnInit, OnDestroy{
   images = [];
   //chantierId: string;
   artId: string;
+  actualCat: string;
 
   art : Product;
   indexFind: number;
@@ -41,11 +42,11 @@ export class ArticleForm implements OnInit, OnDestroy{
     console.log('Cleared');
 }
   async ngOnInit() {
-
+    this.actualCat = this.route.snapshot.paramMap.get('actualCat');
     const existId = this.route.snapshot.paramMap.get('categoryId');
     //this.chantierId = this.route.snapshot.paramMap.get('chantierId');
     this.catList = await this.storageService.get('Categories');
-
+    console.log("Category of product",this.actualCat);
     if(existId!=null)
     {
       console.log('modification',existId);
@@ -59,14 +60,23 @@ export class ArticleForm implements OnInit, OnDestroy{
         this.formArt.setValue({
           productName : this.artList[this.indexFind].productName,
           description:  this.artList[this.indexFind].description,
-          category:  this.artList[this.indexFind].description,
-          priceHtva:  this.artList[this.indexFind].description,
+          category:  this.artList[this.indexFind].categoryId,
+          priceHtva:  this.artList[this.indexFind].priceHtva,
         });
         this.images[0]=this.artList[this.indexFind].imageProduct;
       }
     }else {
       console.log('creation',existId);
       this.artId= this.generateUUID();
+      if(this.actualCat!=null)
+      {
+        // let nameCat =this.catList.findIndex(a => a.categoryId == this.actualCat);
+        // /*console.log("value found :",nameCat);
+        // this.formArt.patchValue({
+        //   category:  nameCat,
+        // });*/
+        // this.formArt.get("category").setValue(this.catList.findIndex(a => a.categoryId == this.actualCat));
+      }
       this.artList =await this.storageService.get("Articles");
       if(this.artList==null)
         this.artList = new Array<Product>();
@@ -155,5 +165,8 @@ export class ArticleForm implements OnInit, OnDestroy{
   resetImages()
   {
     this.images=[];
+  }
+  selectCategory(event: Event) {
+    this.actualCat = (event.target as HTMLSelectElement).value;
   }
 }

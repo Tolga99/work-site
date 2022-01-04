@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { element } from 'protractor';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
 import { Hour } from '../models/hour';
@@ -14,8 +15,10 @@ import { StorageService } from '../services/storage.service';
 export class Worksite implements OnInit {
 
   chantierId: string;
-  images = [];
+  imagesC = [];
+  imagesT = [];
   indexFind: number;
+  totalHours:string="";
 
   chantier : Chantier;
   invList : Array<Facture>;
@@ -25,7 +28,8 @@ export class Worksite implements OnInit {
   formChantier = new FormGroup({
    chantierName: new FormControl('', [Validators.required]),
    //imgChantier: new FormControl('', [Validators.required]),
-   description: new FormControl('', [Validators.required])
+   description: new FormControl('', [Validators.required]),
+   address : new FormControl('',Validators.required),
  });
 
  headElementsInv = ['Nom facture', 'Total HTVA','Date'];
@@ -42,9 +46,7 @@ export class Worksite implements OnInit {
     this.storageService.init();
     this.hoursList =await this.storageService.get('Hours='+this.chantierId);
     this.invList =await this.storageService.get('Invoices='+this.chantierId);
-    //this.chantierId = this.route.snapshot.paramMap.get('chantierId');
-
-
+    this.CalculTotalHour();
   }
 
   async ngOnInit() {
@@ -71,23 +73,31 @@ export class Worksite implements OnInit {
           this.chantierList[this.indexFind].clientLastName,
           this.chantierList[this.indexFind].clientId,
           this.chantierList[this.indexFind].description,
+          this.chantierList[this.indexFind].address,
           this.chantierList[this.indexFind].dateStart,
+          this.chantierList[this.indexFind].dateEnd,
+          this.chantierList[this.indexFind].isFinished,
           this.chantierList[this.indexFind].imagesChantier,
+          this.chantierList[this.indexFind].imagesTicket,
         )
         this.formChantier.setValue({
           chantierName: this.chantierList[this.indexFind].worksiteName,
           description:  this.chantierList[this.indexFind].description,
+          address : this.chantierList[this.indexFind].address,
         });
-        this.images=this.chantierList[this.indexFind].imagesChantier;
+        this.imagesC=this.chantierList[this.indexFind].imagesChantier;
+        this.imagesT=this.chantierList[this.indexFind].imagesTicket;
       }
     }else console.log('creation',existId);
+    this.CalculTotalHour();
+
   }
 
   get f(){
     return this.formChantier.controls;
   }
 
-  onFileChange(event) {
+  onFileChangeChantier(event) {
     if (event.target.files && event.target.files[0]) 
     {
       var filesAmount = event.target.files.length;
@@ -97,9 +107,9 @@ export class Worksite implements OnInit {
         reader.onload = (event:any) => 
         {
           console.log(event.target.result);
-          this.images.push(event.target.result); 
+          this.imagesC.push(event.target.result); 
           this.formChantier.patchValue({
-          fileSource: this.images
+          fileSource: this.imagesC
           });
         }
         reader.readAsDataURL(event.target.files[i]);
@@ -107,18 +117,42 @@ export class Worksite implements OnInit {
     }
   }
 
-  resetImages()
+  onFileChangeTicket(event) {
+    if (event.target.files && event.target.files[0]) 
+    {
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) 
+      {
+        var reader = new FileReader();
+        reader.onload = (event:any) => 
+        {
+          console.log(event.target.result);
+          this.imagesT.push(event.target.result); 
+          this.formChantier.patchValue({
+          fileSource: this.imagesT
+          });
+        }
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+  }
+  resetImagesC()
   {
-    this.images=[];
-  //   this.formChantier.patchValue({
-  //     file: new FormControl('', [Validators.required]),
-  //     fileSource: new FormControl('', [Validators.required])})
-  // 
+    this.imagesC=[];
+  }
+  resetImagesT()
+  {
+    this.imagesT=[];
   }
   createInvoice()
   {
     console.log("Bouton nv facture");
-    this.router.navigate(['invoice',{chantierId: this.chantierId}]);
+    this.router.navigate(['invoice',{chantierId: this.chantierId, mode:"false"}]);
+  }
+  scanInvoice()
+  {
+    console.log("Bouton nv facture");
+    this.router.navigate(['invoice',{chantierId: this.chantierId, mode:"true"}]);
   }
   openInvoice(inv : Facture)
   {
@@ -134,6 +168,8 @@ export class Worksite implements OnInit {
   {
     console.log("Bouton nv heure");
     this.router.navigate(['hours',{chantierId: this.chantierId}]);
+    this.CalculTotalHour();
+
   }
   openHour(h : Hour)
   {
@@ -157,8 +193,12 @@ export class Worksite implements OnInit {
       this.chantier.clientLastName,
       this.chantier.clientId,
       this.formChantier.get('description').value,
+      this.formChantier.get('address').value,
       this.chantier.dateStart,
-      this.images,
+      null,
+      this.chantier.isFinished,
+      this.imagesC,
+      this.imagesT,
     )
     if(this.indexFind>=0)
     {
@@ -172,4 +212,24 @@ export class Worksite implements OnInit {
   }
   FinishChantier()
   {}
+
+  CalculTotalHour()
+  {
+    let hours : number=0;
+    let minutes : number=0;
+    this.hoursList.forEach(element =>{
+      hours+=element.hour;
+      minutes+=element.minute;
+    });
+    console.log("Heures : ",hours);
+    console.log("Minutes : ",minutes);
+
+    while(minutes>60)
+    {
+      minutes-= 60;
+      hours ++;
+    }
+    this.totalHours = hours?.toString() +"h"+minutes?.toString() ;
+    console.log(this.totalHours);
+  }
 }

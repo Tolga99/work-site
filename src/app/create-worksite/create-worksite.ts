@@ -23,6 +23,7 @@ export class CreateWorksite implements OnInit {
     worksiteName: new FormControl('',Validators.required),
     client: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
+    address : new FormControl(''),
   });
 
   constructor(private storageService:StorageService, private router: Router)
@@ -57,7 +58,11 @@ export class CreateWorksite implements OnInit {
       this.client.lastName,
       this.client.userId,
       this.formWork.get('description').value,
+      this.formWork.get('address').value,
       this.date,
+      null,
+      "En cours",
+      null,
       null,
     );
     
@@ -79,6 +84,10 @@ export class CreateWorksite implements OnInit {
   {
       this.uuidValue=UUID.UUID();
       return this.uuidValue;
+  }
+  selectClient(event: Event) {
+    let s = (event.target as HTMLSelectElement).value;
+    this.formWork.patchValue({address : this.clientList.find(a => a.userId== s).address});
   }
   
 }

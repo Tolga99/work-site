@@ -5,14 +5,17 @@
     <input type="text" id="name" name="name" formControlName="worksiteName" placeholder="...">
 
     <label for="client">Client</label>
-    <select formControlName="client">
+    <select formControlName="client" matNativeControl (change)="selectClient($event)">
       <option></option>
-      <option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName}}      </option>
+      <option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName.toUpperCase()}} {{name.firstName}}      </option>
     </select>
     
     <button class="btn"><i class="fa fa-home" (click)="NewClient()">Nouveau client ?</i></button>
 
     <hr>
+    <label for="address">Adresse du chantier</label>
+    <input type="text" id="address" name="address" formControlName="address" placeholder="...">
+
     <label for="description">Description</label>
     <textarea id="description" name="description" formControlName="description" placeholder="..."
       style="height:100px;"></textarea>

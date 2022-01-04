@@ -16,7 +16,8 @@ export class Invoice implements OnInit {
   images = [];
   chantierId: string;
   invoiceId: string;
-
+  ScanMode: boolean=false; //Si = false -> on est en mode création -- donc on voit TVA REMISE PHOTO
+                            // true = mode 
   date: string;
   inv : Facture;
   indexFind: number;
@@ -31,6 +32,7 @@ export class Invoice implements OnInit {
     priceHtva: new FormControl('', [Validators.required]),
     tva: new FormControl('', [Validators.required]),
     remise: new FormControl('', [Validators.required]),
+    totalPrice : new FormControl('', [Validators.required]),
   });
 
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
@@ -38,12 +40,29 @@ export class Invoice implements OnInit {
     console.log('create chantier');
   }
 
+  async ionViewDidEnter(){
+    // if(this.route.snapshot.paramMap.get('mode')=="false")
+    // {
+    //   this.ScanMode=false;
+    // }else(this.route.snapshot.paramMap.get('mode')=="true")
+    // {
+    //   this.ScanMode=true;
+    // }
+  }
   async ngOnInit() {
+    
     var nowDate = new Date(); 
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
 
     const existId = this.route.snapshot.paramMap.get('factureId');
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
+    // if(this.route.snapshot.paramMap.get('mode')=="false")
+    // {
+    //   this.ScanMode=false;
+    // }else if(this.route.snapshot.paramMap.get('mode')=="true")
+    // {
+    //   this.ScanMode=true;
+    // }
 
     if(existId!=null)
     {
@@ -63,6 +82,8 @@ export class Invoice implements OnInit {
           priceHtva:  this.invList[this.indexFind].priceHtva,
           remise:  this.invList[this.indexFind].remise,
           tva: this.invList[this.indexFind].tva,
+          totalPrice: this.invList[this.indexFind].totalPrice,
+
         });
         this.images=this.invList[this.indexFind].images;
       }
@@ -114,7 +135,7 @@ export class Invoice implements OnInit {
       this.formInv.get('remise').value,
       this.formInv.get('priceHtva').value,
       this.formInv.get('tva').value,
-      1 as DoubleRange,
+      this.formInv.get('totalPrice').value,
       this.images,
     //  this.formInv.get('totalPrice').value,
     );
@@ -143,4 +164,9 @@ export class Invoice implements OnInit {
   //     fileSource: new FormControl('', [Validators.required])})
   // 
   }
-}
+  hideInput() {
+    if(this.ScanMode==true)
+      this.ScanMode = false;
+    else  this.ScanMode = true;
+  }
+  }

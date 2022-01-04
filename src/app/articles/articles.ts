@@ -14,6 +14,9 @@ export class Articles implements OnInit {
   headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
   artList : Array<Product> = [];
   catList : Array<Category> = [];
+  artListComplete : Array<Product> = [];
+  catListComplete : Array<Category> = [];
+
 
   actualCat : string = "";
   tmpCat : Category = null;
@@ -57,11 +60,22 @@ export class Articles implements OnInit {
     this.tmpCat = c;
     this.actualCat= this.tmpCat.categoryParent;
     this.catList = await this.storageService.get("Categories");
+    this.catListComplete = await this.storageService.get("Categories");
     this.catList = this.catList.filter(a => a.categoryParent == this.tmpCat.categoryId);
     if(this.artList!=null)
     {
-      this.artList = await this.storageService.get("Articles");
-      this.artList = this.artList.filter(a => a.categoryId == this.tmpCat.categoryId);
+      let PARENTOK : number = 1;
+      this.artListComplete = await this.storageService.get("Articles");
+      this.artList = this.artListComplete.filter(a => a.categoryId == this.tmpCat.categoryId);
+      let tmpCatId=this.tmpCat.categoryId;
+      while(PARENTOK>0)
+      {
+        let parentIds : Category[] = this.catListComplete.filter(a => a.categoryParent == tmpCatId);
+        parentIds.forEach(element => {
+          this.artList = this.artListComplete.filter(a => a.categoryId == element.categoryParent);
+          
+        });
+      }
     }
     console.log("Catégorie actuelle : ",this.tmpCat.categoryName);
     console.log("Catégorie parent : ",this.actualCat);
@@ -71,6 +85,7 @@ export class Articles implements OnInit {
   async BackCategory()
   {
     this.catList = await this.storageService.get("Categories");
+    this.tmpCat= this.catList.find(a => a.categoryId == this.tmpCat.categoryParent);
     let tmpParent = this.catList.find(a => a.categoryId == this.actualCat)?.categoryParent;
     this.catList = this.catList.filter(a => a.categoryParent == this.actualCat);
     this.artList = await this.storageService.get("Articles");
@@ -85,14 +100,21 @@ export class Articles implements OnInit {
       }
     }
     this.actualCat= tmpParent;
-
+    if(this.actualCat==null) // QUAND IL VEUT GOBACK alors que ya rien
+    {
+      this.tmpCat=null;
+      this.catList = await this.storageService.get("Categories");
+      if(this.catList!=null)
+        this.catList = this.catList.filter(a => a.categoryParent == ""); 
+    }
    // console.log("Nouvelle Catégorie actuelle : ",this.catList[0].categoryParent);
     console.log("Nouvelle Catégorie parent : ",this.actualCat);
   }
   CreateProduct()
   {
     console.log("Bouton nv art");
-    this.router.navigate(['article-form']);
+    console.log("[navigating]Category of product",this.tmpCat);
+    this.router.navigate(['article-form',{actualCat : this.tmpCat.categoryId}]);
   }
   DeleteProduct(p : Product)
   {

@@ -5,10 +5,11 @@
     <input type="text" id="productName" name="productName" formControlName="productName" placeholder="...">
 
     <label for="category">Catégorie</label>
-    <select formControlName="category">
+    <select formControlName="category" matNativeControl (change)="selectCategory($event)">
       <option></option>
-      <option *ngFor="let c of catList" [value]="c.categoryId"> {{c.categoryName}}      </option>
+      <option *ngFor="let c of catList" [value]="c.categoryId" [selected]="this.actualCat === c.categoryId"> {{c.categoryName}}      </option>
     </select>
+    <p>You selected: {{this.actualCat}}</p>
     <hr>
 
     <label for="imgCat">Photo de l'article</label>
