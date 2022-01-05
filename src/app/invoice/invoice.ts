@@ -16,8 +16,8 @@ export class Invoice implements OnInit {
   images = [];
   chantierId: string;
   invoiceId: string;
-  ScanMode: boolean=false; //Si = false -> on est en mode création -- donc on voit TVA REMISE PHOTO
-                            // true = mode 
+  ScanMode: boolean; //Si = false -> on est en mode création -- donc on voit TVA REMISE PHOTO
+                          // true = mode 
   date: string;
   inv : Facture;
   indexFind: number;
@@ -29,7 +29,7 @@ export class Invoice implements OnInit {
    // imgFactures: new FormControl('', [Validators.required]),
    // fileSource: new FormControl('', [Validators.required]),
     typePay: new FormControl('', [Validators.required]),
-    priceHtva: new FormControl('', [Validators.required]),
+    priceHtva: new FormControl({value:'',disabled:true}, [Validators.required]),
     tva: new FormControl('', [Validators.required]),
     remise: new FormControl('', [Validators.required]),
     totalPrice : new FormControl('', [Validators.required]),
@@ -37,17 +37,19 @@ export class Invoice implements OnInit {
 
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
-    console.log('create chantier');
+    console.log('create chantier..');
   }
 
   async ionViewDidEnter(){
-    // if(this.route.snapshot.paramMap.get('mode')=="false")
-    // {
-    //   this.ScanMode=false;
-    // }else(this.route.snapshot.paramMap.get('mode')=="true")
-    // {
-    //   this.ScanMode=true;
-    // }
+    let tmpMode : string=this.route.snapshot.paramMap.get('mode');
+
+    if(tmpMode=="false")
+    {
+      this.ScanMode=false;
+    }else if(tmpMode=="true")
+    {
+      this.ScanMode=true;
+    }
   }
   async ngOnInit() {
     
@@ -56,13 +58,15 @@ export class Invoice implements OnInit {
 
     const existId = this.route.snapshot.paramMap.get('factureId');
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
-    // if(this.route.snapshot.paramMap.get('mode')=="false")
-    // {
-    //   this.ScanMode=false;
-    // }else if(this.route.snapshot.paramMap.get('mode')=="true")
-    // {
-    //   this.ScanMode=true;
-    // }
+    let tmpMode : string=this.route.snapshot.paramMap.get('mode');
+
+    if(tmpMode=="false")
+    {
+      this.ScanMode=false;
+    }else if(tmpMode=="true")
+    {
+      this.ScanMode=true;
+    }
 
     if(existId!=null)
     {
@@ -88,7 +92,7 @@ export class Invoice implements OnInit {
         this.images=this.invList[this.indexFind].images;
       }
     }else {
-      console.log('creation',existId);
+      console.log('creation : ',existId);
       this.invoiceId= this.generateUUID();
     }
   }

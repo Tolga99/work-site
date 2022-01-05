@@ -4,6 +4,9 @@
     <label for="factureName">Nom facture</label>
     <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="...">
 
+    <label for="art" [hidden]="ScanMode" >ICI FENETRE ARTICLE</label>
+
+
     <label for="imgFactures" [hidden]="!ScanMode" >Photos facture</label>
     <!-- Select File -->
     <input [hidden]="!ScanMode" id="imgFactures" type="file" class="form-control" multiple=""

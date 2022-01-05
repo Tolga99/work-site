@@ -1,3 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="">
+        <ion-icon name="calendar"></ion-icon>
+      </ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
     {{formChantier.valid}}

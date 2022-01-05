@@ -32,10 +32,8 @@ export class Worksite implements OnInit {
    address : new FormControl('',Validators.required),
  });
 
- headElementsInv = ['Nom facture', 'Total HTVA','Date'];
- headElementsHour = ['Description', 'Heure travail','Date'];
-
-
+  headElementsInv = ['Nom facture', 'Total HTVA','Date'];
+  headElementsHour = ['Description', 'Heure travail','Date'];
 
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute) 
   {
@@ -146,12 +144,12 @@ export class Worksite implements OnInit {
   }
   createInvoice()
   {
-    console.log("Bouton nv facture");
+    console.log("Bouton nv facture (creation)");
     this.router.navigate(['invoice',{chantierId: this.chantierId, mode:"false"}]);
   }
   scanInvoice()
   {
-    console.log("Bouton nv facture");
+    console.log("Bouton nv facture (scan)");
     this.router.navigate(['invoice',{chantierId: this.chantierId, mode:"true"}]);
   }
   openInvoice(inv : Facture)
