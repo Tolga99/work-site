@@ -16,6 +16,7 @@ export class CategoryForm implements OnInit,OnDestroy {
   images = [];
   //chantierId: string;
   catId: string;
+  ActualCat : string;
 
   cat : Category;
   indexFind: number;
@@ -25,6 +26,8 @@ export class CategoryForm implements OnInit,OnDestroy {
     description: new FormControl('', Validators.required),
     categoryPar: new FormControl('', [Validators.required]),
   });
+
+  public redirectTo: string;
 
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
@@ -38,6 +41,7 @@ export class CategoryForm implements OnInit,OnDestroy {
 
     const existId = this.route.snapshot.paramMap.get('categoryId');
     //this.chantierId = this.route.snapshot.paramMap.get('chantierId');
+    this.ActualCat = this.route.snapshot.paramMap.get('actualCat');
 
 
     if(existId!=null)
@@ -49,7 +53,7 @@ export class CategoryForm implements OnInit,OnDestroy {
       this.indexFind =this.catList.findIndex(x => x.categoryId == existId);
       if(this.indexFind>=0)
       {
-        this.catId= this.catList[this.indexFind].categoryId;
+        //this.catId= this.catList[this.indexFind].categoryId;
         this.formCat.setValue({
           factureName: this.catList[this.indexFind].categoryName,
           description:  this.catList[this.indexFind].description,
@@ -64,6 +68,8 @@ export class CategoryForm implements OnInit,OnDestroy {
       this.catList =await this.storageService.get("Categories");
       if(this.catList==null)
         this.catList = new Array<Category>();
+      if(this.ActualCat!=null)
+        this.formCat.get('categoryPar').setValue(this.ActualCat);
     }
   }
 
@@ -138,7 +144,8 @@ export class CategoryForm implements OnInit,OnDestroy {
     this.storageService.set('Categories',this.catList);
   
     console.log("invoice saved", this.catList);
-    this.router.navigate(['/articles']);
+    this.router.navigate(['/articles'],{replaceUrl:true});
+    //this.GoBack();
     //this.ngOnDestroy();
   }
   generateUUID()
@@ -149,5 +156,17 @@ export class CategoryForm implements OnInit,OnDestroy {
   resetImages()
   {
     this.images=[];
+  }
+  GoBack()
+  {
+    this.router.navigateByUrl(
+			this.redirectTo,
+			// By replacing the current URL in the history, we keep the Browser's Back
+			// Button behavior in tact. This will allow the user to easily navigate back
+			// to the previous URL without getting caught in a redirect.
+			{
+				replaceUrl: true
+			}
+		);
   }
 }

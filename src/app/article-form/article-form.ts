@@ -70,12 +70,7 @@ export class ArticleForm implements OnInit, OnDestroy{
       this.artId= this.generateUUID();
       if(this.actualCat!=null)
       {
-        // let nameCat =this.catList.findIndex(a => a.categoryId == this.actualCat);
-        // /*console.log("value found :",nameCat);
-        // this.formArt.patchValue({
-        //   category:  nameCat,
-        // });*/
-        // this.formArt.get("category").setValue(this.catList.findIndex(a => a.categoryId == this.actualCat));
+        this.formArt.get("category").setValue(this.actualCat);
       }
       this.artList =await this.storageService.get("Articles");
       if(this.artList==null)
@@ -113,30 +108,6 @@ export class ArticleForm implements OnInit, OnDestroy{
   onSubmit()
   {
     console.log('form status',this.formArt);
-    // if (!this.formArt.valid)
-    //   return;
-  //   let parent: boolean = true;
-  //   let parentId : string;
-  //   const invalid = [];
-  //   const controls = this.formArt.controls;
-  //   for (const name in controls) {
-  //     if (controls[name].invalid) {
-  //         // invalid.push(name);
-  //         if(name=="categoryPar")
-  //         {
-  //           console.log("Pas de categorie parent");
-  //           parent=false;
-  //         }
-  //     }
-  // }
-  // if(parent==false)
-  // {
-  //   parentId="";
-  // }else
-  // {
-  //   parentId=this.formArt.get('categoryPar').value;
-
-  // }
     this.art = new Product(
       this.artId,
       this.formArt.get('productName').value,
@@ -155,7 +126,7 @@ export class ArticleForm implements OnInit, OnDestroy{
     this.storageService.set('Articles',this.artList);
   
     console.log("invoice saved", this.artList);
-    this.router.navigate(['/articles']);
+    this.router.navigate(['/articles'],{replaceUrl:true});
   }
   generateUUID()
   {

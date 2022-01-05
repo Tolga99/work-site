@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { threadId } from 'worker_threads';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
@@ -53,7 +54,9 @@ export class Articles implements OnInit {
   CreateCategory()
   {
     console.log("Bouton nv cat");
-    this.router.navigate(['category-form']);
+    if(this.tmpCat!=null)
+      this.router.navigate(['category-form',{actualCat : this.tmpCat.categoryId}]);
+    else this.router.navigate(['category-form']);
   }
   async EnterCategory(c : Category)
   {
@@ -114,7 +117,10 @@ export class Articles implements OnInit {
   {
     console.log("Bouton nv art");
     console.log("[navigating]Category of product",this.tmpCat);
-    this.router.navigate(['article-form',{actualCat : this.tmpCat.categoryId}]);
+
+    if(this.tmpCat!=null)
+      this.router.navigate(['article-form',{actualCat : this.tmpCat.categoryId}]);
+    else this.router.navigate(['category-form']);
   }
   DeleteProduct(p : Product)
   {

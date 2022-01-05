@@ -1,16 +1,19 @@
 <div style="overflow-y: auto;">
 
   <div class="container" style="overflow-y: auto;">
-    <mat-card class="example-card" *ngFor="let el of catList">
-      <mat-card-title-group (click)="EnterCategory(el)">
-        <mat-card-title>{{el.categoryName}}</mat-card-title>
-        <mat-card-subtitle>{{el.description}}</mat-card-subtitle>
-        <img mat-card-lg-image src="{{el.categoryImage}}">
-      </mat-card-title-group>
-      <!-- <mat-card-content>
-    {{longText}}
-  </mat-card-content> -->
-    </mat-card>
+    <div class="row">
+        <mat-card class="example-card col-6" *ngFor="let el of catList">
+          <mat-card-title-group (click)="EnterCategory(el)">
+            <mat-card-title>{{el.categoryName}}</mat-card-title>
+            <mat-card-subtitle>{{el.description}}</mat-card-subtitle>
+            <img mat-card-lg-image src="{{el.categoryImage}}">
+          </mat-card-title-group>
+          <!-- <mat-card-content>
+        {{longText}}
+      </mat-card-content> -->
+        </mat-card>
+    </div>
+
     <div class="card-footer text-muted">
       <button type="button" class="btn btn-secondary"(click)="BackCategory()">Go back</button>
       <button type="button" class="btn btn-secondary" (click)="CreateCategory()">Nouvelle catégorie</button>

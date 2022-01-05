@@ -9,7 +9,6 @@
       <option></option>
       <option *ngFor="let c of catList" [value]="c.categoryId" [selected]="this.actualCat === c.categoryId"> {{c.categoryName}}      </option>
     </select>
-    <p>You selected: {{this.actualCat}}</p>
     <hr>
 
     <label for="imgCat">Photo de l'article</label>
