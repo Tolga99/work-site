@@ -1,3 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button (click)="GoBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+      <ion-label>Retour</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
 
@@ -11,12 +19,20 @@
     <!-- Select File -->
     <input [hidden]="!ScanMode" id="imgFactures" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
-    <button [hidden]="!ScanMode" type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
+    <!-- <button [hidden]="!ScanMode" type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button> -->
     <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
       <div *ngIf="f.file.errors.required">File is required.</div>
     </div> -->
-    <img [hidden]="!ScanMode" *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
+    <!-- <img [hidden]="!ScanMode" *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> -->
 
+    <div *ngFor="let img of images">
+      <img [hidden]="!ScanMode" class="original" [alt]="img.Name" 
+      [src]="img" 
+      height="150" width="200px" style="margin: 3px;" />
+      <button type="submit" (click)="resetImages()" class="btn btn-danger">
+        <i class="far fa-trash-alt"></i>
+      </button>
+    </div>
     <label for="typePay">Type de paiement</label>
     <select formControlName="typePay">
       <option value='cash'>Paiement cash</option>

@@ -1,8 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button (click)="GoBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+      <ion-label>Retour</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
 <div style="overflow-y: auto;">
 
   <div class="container" style="overflow-y: auto;">
     <div class="row">
-        <mat-card class="example-card col-6" *ngFor="let el of catList">
+        <mat-card class="example-card col-4" *ngFor="let el of catList">
           <mat-card-title-group (click)="EnterCategory(el)">
             <mat-card-title>{{el.categoryName}}</mat-card-title>
             <mat-card-subtitle>{{el.description}}</mat-card-subtitle>

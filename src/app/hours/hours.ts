@@ -24,8 +24,12 @@ export class Hours implements OnInit {
   chantierId:string;
   hourId: string;
   indexFind: number;
+  public redirectTo: string;
 
-  constructor(public router:Router, public storageService: StorageService,public route:ActivatedRoute) {}
+  constructor(public router:Router, public storageService: StorageService,public route:ActivatedRoute) 
+  {
+    this.redirectTo = route.snapshot.data.redirectTo;
+  }
   async ngOnInit(): Promise<void> {
     var nowDate = new Date(); 
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
@@ -91,11 +95,20 @@ export class Hours implements OnInit {
       }else this.hoursList.push(this.hour);
 
       this.storageService.set('Hours='+this.chantierId,this.hoursList);
-      this.router.navigate(['/worksite',{chantierId: this.chantierId}]);
+      this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
     }
     generateUUID()
     {
         this.uuidValue=UUID.UUID();
         return this.uuidValue;
+    }
+    GoBack()
+    {
+      this.router.navigateByUrl(
+        this.redirectTo,
+        {
+          replaceUrl: true
+        }
+      );
     }
 }

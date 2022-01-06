@@ -24,20 +24,20 @@ export class Invoice implements OnInit {
   invList : Array<Facture> = [];
   formInv = new FormGroup({
     factureName: new FormControl('',Validators.required),
-   // clientLastName: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-   // imgFactures: new FormControl('', [Validators.required]),
-   // fileSource: new FormControl('', [Validators.required]),
     typePay: new FormControl('', [Validators.required]),
     priceHtva: new FormControl({value:'',disabled:true}, [Validators.required]),
     tva: new FormControl('', [Validators.required]),
     remise: new FormControl('', [Validators.required]),
     totalPrice : new FormControl('', [Validators.required]),
   });
+  public redirectTo: string;
 
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
     console.log('create chantier..');
+    this.redirectTo = route.snapshot.data.redirectTo;
+
   }
 
   async ionViewDidEnter(){
@@ -81,13 +81,11 @@ export class Invoice implements OnInit {
         this.formInv.setValue({
           factureName: this.invList[this.indexFind].factureName,
           description:  this.invList[this.indexFind].description,
-         // imgFactures:  this.invList[this.indexFind].images,
           typePay:  this.invList[this.indexFind].typePay,
           priceHtva:  this.invList[this.indexFind].priceHtva,
           remise:  this.invList[this.indexFind].remise,
           tva: this.invList[this.indexFind].tva,
           totalPrice: this.invList[this.indexFind].totalPrice,
-
         });
         this.images=this.invList[this.indexFind].images;
       }
@@ -141,19 +139,18 @@ export class Invoice implements OnInit {
       this.formInv.get('tva').value,
       this.formInv.get('totalPrice').value,
       this.images,
-    //  this.formInv.get('totalPrice').value,
+      null
     );
 
     if(this.indexFind>=0)
     {
       this.invList.splice(this.indexFind,1);
-      //this.contactsList.push(this.client);
       this.invList[this.indexFind] = this.inv;
     }else this.invList.push(this.inv);
     this.storageService.set('Invoices='+this.chantierId,this.invList);
   
     console.log("invoice saved", this.invList);
-    this.router.navigate(['/worksite',{chantierId: this.chantierId}]);
+    this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }
   generateUUID()
   {
@@ -163,14 +160,19 @@ export class Invoice implements OnInit {
   resetImages()
   {
     this.images=[];
-  //   this.formChantier.patchValue({
-  //     file: new FormControl('', [Validators.required]),
-  //     fileSource: new FormControl('', [Validators.required])})
-  // 
   }
   hideInput() {
     if(this.ScanMode==true)
       this.ScanMode = false;
     else  this.ScanMode = true;
   }
+  GoBack()
+  {
+    this.router.navigateByUrl(
+			this.redirectTo,
+			{
+				replaceUrl: true
+			}
+		);
   }
+}

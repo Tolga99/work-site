@@ -13,7 +13,7 @@ import { StorageService } from '../services/storage.service';
 export class CategoryForm implements OnInit,OnDestroy {
 
   uuidValue: string;
-  images = [];
+  images = "";
   //chantierId: string;
   catId: string;
   ActualCat : string;
@@ -32,6 +32,7 @@ export class CategoryForm implements OnInit,OnDestroy {
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
     console.log('create chantier');
+    this.redirectTo = route.snapshot.data.redirectTo;
   }
   @HostListener('unloaded')
   ngOnDestroy() {
@@ -60,7 +61,7 @@ export class CategoryForm implements OnInit,OnDestroy {
           categoryPar:  this.catList[this.indexFind].categoryParent,
    
         });
-        this.images[0]=this.catList[this.indexFind].categoryImage;
+        this.images=this.catList[this.indexFind].categoryImage;
       }
     }else {
       console.log('creation',existId);
@@ -91,7 +92,7 @@ export class CategoryForm implements OnInit,OnDestroy {
         reader.onload = (event:any) => 
         {
           console.log(event.target.result);
-          this.images.push(event.target.result); 
+          this.images=event.target.result; 
           this.formCat.patchValue({
           fileSource: this.images
           });
@@ -144,7 +145,7 @@ export class CategoryForm implements OnInit,OnDestroy {
     this.storageService.set('Categories',this.catList);
   
     console.log("invoice saved", this.catList);
-    this.router.navigate(['/articles'],{replaceUrl:true});
+    this.router.navigate(['/articles',{actualCat: this.ActualCat}],{replaceUrl:true});
     //this.GoBack();
     //this.ngOnDestroy();
   }
@@ -155,15 +156,12 @@ export class CategoryForm implements OnInit,OnDestroy {
   }
   resetImages()
   {
-    this.images=[];
+    this.images="";
   }
   GoBack()
   {
     this.router.navigateByUrl(
 			this.redirectTo,
-			// By replacing the current URL in the history, we keep the Browser's Back
-			// Button behavior in tact. This will allow the user to easily navigate back
-			// to the previous URL without getting caught in a redirect.
 			{
 				replaceUrl: true
 			}

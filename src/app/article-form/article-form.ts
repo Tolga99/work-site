@@ -15,7 +15,7 @@ import { StorageService } from '../services/storage.service';
 export class ArticleForm implements OnInit, OnDestroy{
 
   uuidValue: string;
-  images = [];
+  images = "";
   //chantierId: string;
   artId: string;
   actualCat: string;
@@ -31,10 +31,12 @@ export class ArticleForm implements OnInit, OnDestroy{
     category: new FormControl('', Validators.required),
     priceHtva: new FormControl('', [Validators.required]),
   });
+  public redirectTo: string;
 
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
     console.log('create chantier');
+    this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   @HostListener('unloaded')
@@ -63,7 +65,7 @@ export class ArticleForm implements OnInit, OnDestroy{
           category:  this.artList[this.indexFind].categoryId,
           priceHtva:  this.artList[this.indexFind].priceHtva,
         });
-        this.images[0]=this.artList[this.indexFind].imageProduct;
+        this.images=this.artList[this.indexFind].imageProduct;
       }
     }else {
       console.log('creation',existId);
@@ -96,7 +98,7 @@ export class ArticleForm implements OnInit, OnDestroy{
         reader.onload = (event:any) => 
         {
           console.log(event.target.result);
-          this.images.push(event.target.result); 
+          this.images=event.target.result; 
           this.formArt.patchValue({
           fileSource: this.images
           });
@@ -135,9 +137,18 @@ export class ArticleForm implements OnInit, OnDestroy{
   }
   resetImages()
   {
-    this.images=[];
+    this.images="";
   }
   selectCategory(event: Event) {
     this.actualCat = (event.target as HTMLSelectElement).value;
+  }
+  GoBack()
+  {
+    this.router.navigateByUrl(
+			this.redirectTo,
+			{
+				replaceUrl: true
+			}
+		);
   }
 }

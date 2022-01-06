@@ -1,3 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button (click)="GoBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+      <ion-label>Retour</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formCat" (ngSubmit)="onSubmit()">
 
@@ -14,9 +22,17 @@
     <label for="imgCat">Photo de la catégorie</label>
     <input  id="imgCat" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
-    <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
+    <!-- <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
 
-    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
+    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> -->
+    <!-- <div *ngFor="let img of images"> -->
+      <img class="original"
+      [src]="images" 
+      height="150" width="200px" style="margin: 3px;" />
+      <button type="submit" (click)="resetImages()" class="btn btn-danger">
+        <i class="far fa-trash-alt"></i>
+      </button>
+    <!-- </div> -->
 
     
     <hr>

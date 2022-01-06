@@ -1,4 +1,12 @@
 <div class="container" style="overflow-y: auto;">
+  <ion-header>
+    <ion-toolbar>
+      <ion-button (click)="GoBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <ion-label>Retour</ion-label>
+      </ion-button>
+    </ion-toolbar>
+  </ion-header>
   <form [formGroup]="formArt" (ngSubmit)="onSubmit()">
 
     <label for="productName">Nom article</label>
@@ -14,9 +22,17 @@
     <label for="imgCat">Photo de l'article</label>
     <input  id="imgCat" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
-    <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
+    <!-- <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
 
-    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br />
+    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> -->
+    <!-- <div *ngFor="let img of images"> -->
+      <img class="original"
+      [src]="images" 
+      height="150" width="200px" style="margin: 3px;" />
+      <button type="submit" (click)="resetImages()" class="btn btn-danger">
+        <i class="far fa-trash-alt"></i>
+      </button>
+    <!-- </div> -->
 
     <label for="priceHtva">Prix HTVA</label>
     <input type="text" id="priceHtva" name="priceHtva" formControlName="priceHtva" placeholder="...">

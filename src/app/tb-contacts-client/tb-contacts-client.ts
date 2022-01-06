@@ -28,11 +28,14 @@ export class TabContactsClient implements OnInit {
     mail: new FormControl('', Validators.required),
     tva: new FormControl('',Validators.required),
   });
+  public redirectTo: string;
   constructor(private storageService: StorageService, 
               private router: Router, 
               private route: ActivatedRoute,
-              private location: Location) {
-                this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+              private location: Location) 
+              {
+                this.redirectTo = route.snapshot.data.redirectTo;
+
   }
   async ngOnInit(): Promise<void> {
 
@@ -91,13 +94,22 @@ export class TabContactsClient implements OnInit {
     this.storageService.set('Contacts',this.contactsList);
     if(this.tag==null)
     {
-      this.router.navigate(['/tb-contacts']);
+      this.router.navigate(['/tb-contacts'],{replaceUrl:true});
     }
-    else this.router.navigate(['/createworksite']);
+    else this.router.navigate(['/createworksite'],{replaceUrl:true});
   }
   generateUUID()
   {
       this.uuidValue=UUID.UUID();
       return this.uuidValue;
+  }
+  GoBack()
+  {
+    this.router.navigateByUrl(
+			this.redirectTo,
+			{
+				replaceUrl: true
+			}
+		);
   }
 }

@@ -16,6 +16,7 @@ export interface IFacture
     priceHtva: DoubleRange;
     tva : DoubleRange;
     totalPrice: DoubleRange;
+    receivedMoney: Array<DoubleRange>;
 }
 export class Facture implements IFacture {
     constructor(
@@ -29,6 +30,8 @@ export class Facture implements IFacture {
         public tva : DoubleRange,
         public totalPrice: DoubleRange,
         public images: Array<string>,
+        public receivedMoney: Array<DoubleRange>,
+
     ) 
     {
     }

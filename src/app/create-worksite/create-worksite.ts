@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StorageService } from '../services/storage.service';
 import { UUID } from 'angular2-uuid';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Chantier } from '../models/chantier';
 import { User } from '../models/user';
 
@@ -26,9 +26,12 @@ export class CreateWorksite implements OnInit {
     address : new FormControl(''),
   });
 
-  constructor(private storageService:StorageService, private router: Router)
+  public redirectTo: string;
+
+  constructor(private storageService:StorageService, private router: Router,private route:ActivatedRoute)
   {
     console.log('create chantier');
+    this.redirectTo = route.snapshot.data.redirectTo;
   }
   async ionViewDidEnter(){
     console.log('view did enter');
@@ -78,7 +81,7 @@ export class CreateWorksite implements OnInit {
   NewClient()
   {
     console.log('create client');
-    this.router.navigate(['new-contact',{tag: 'chantier'}]);
+    this.router.navigate(['new-contact',{tag: 'chantier'}],{replaceUrl:true});
   }
   generateUUID()
   {
@@ -88,6 +91,15 @@ export class CreateWorksite implements OnInit {
   selectClient(event: Event) {
     let s = (event.target as HTMLSelectElement).value;
     this.formWork.patchValue({address : this.clientList.find(a => a.userId== s).address});
+  }
+  GoBack()
+  {
+    this.router.navigateByUrl(
+			this.redirectTo,
+			{
+				replaceUrl: true
+			}
+		);
   }
   
 }

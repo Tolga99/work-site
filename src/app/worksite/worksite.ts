@@ -34,9 +34,12 @@ export class Worksite implements OnInit {
 
   headElementsInv = ['Nom facture', 'Total HTVA','Date'];
   headElementsHour = ['Description', 'Heure travail','Date'];
+  headElementsRecv = ['Nom Facture', 'Argent à Payer / Restant','Argent reçu','Date'];
 
+  public redirectTo: string;
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute) 
   {
+    this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   async ionViewDidEnter(){
@@ -96,6 +99,8 @@ export class Worksite implements OnInit {
   }
 
   onFileChangeChantier(event) {
+    if(this.imagesC==null)
+      this.imagesC=[];
     if (event.target.files && event.target.files[0]) 
     {
       var filesAmount = event.target.files.length;
@@ -116,6 +121,8 @@ export class Worksite implements OnInit {
   }
 
   onFileChangeTicket(event) {
+    if(this.imagesT==null)
+    this.imagesT=[];
     if (event.target.files && event.target.files[0]) 
     {
       var filesAmount = event.target.files.length;
@@ -206,7 +213,7 @@ export class Worksite implements OnInit {
     this.storageService.set('Chantiers',this.chantierList);
   
     console.log("chantiers saved", this.chantierList);
-    this.router.navigate(['tb-home']);
+    this.router.navigate(['tb-home'],{replaceUrl:true});
   }
   FinishChantier()
   {}
@@ -229,5 +236,14 @@ export class Worksite implements OnInit {
     }
     this.totalHours = hours?.toString() +"h"+minutes?.toString() ;
     console.log(this.totalHours);
+  }
+  GoBack()
+  {
+    this.router.navigateByUrl(
+			this.redirectTo,
+			{
+				replaceUrl: true
+			}
+		);
   }
 }

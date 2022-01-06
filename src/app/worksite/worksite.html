@@ -1,10 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button text="">
-        <ion-icon name="calendar"></ion-icon>
-      </ion-back-button>
-    </ion-buttons>
+    <ion-button (click)="GoBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+      <ion-label>Retour</ion-label>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 <div class="container" style="overflow-y: auto;">
@@ -20,24 +19,21 @@
     <textarea id="description" name="description" formControlName="description" placeholder="..."
       style="height:100px;"></textarea>
 
-  <div class="card-header">
-    Images du chantier
-  </div>
+    <div class="card-header">
+      Images du chantier
+    </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
-
         <thead>
           <tr>
-            <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
+            <th>Image</th>
           </tr>
         </thead>
         <tbody>
           <tr mdbTableCol *ngFor='let url of imagesC'>
             <!-- <th scope="row">{{el.id}}</th> -->
-            <td>test</td>
-            <td>test</td>
-            <td><img src="{{url}}" alt="" height=100 width=100/></td>
-            <td><button>DELETE</button></td>
+            <td><img src="{{url}}" alt="" height=100 width=100 /></td>
+            <td> <button type="button" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -65,7 +61,8 @@
             <td>{{inv.factureName}}</td>
             <td>{{inv.priceHtva}}</td>
             <td>{{inv.date}}</td>
-            <td><button (click)="deleteInvoice(inv)">DELETE</button></td>
+            <td> <button type="submit" (click)="deleteInvoice(inv)" class="btn btn-danger"> <i
+                  class="far fa-trash-alt"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -73,8 +70,6 @@
     </div>
     <div class="card-footer text-muted">
       <button type="button" class="btn btn-secondary" (click)="scanInvoice()">Scanner facture</button>
-    </div>
-    <div class="card-footer text-muted">
       <button type="button" class="btn btn-secondary" (click)="createInvoice()">Créer facture</button>
     </div>
 
@@ -96,7 +91,8 @@
             <td>{{inv.factureName}}</td>
             <td>{{inv.priceHtva}}</td>
             <td>{{inv.date}}</td>
-            <td><button (click)="deleteInvoice(inv)">DELETE</button></td>
+            <td> <button type="submit" (click)="deleteInvoice(inv)" class="btn btn-danger"> <i
+                  class="far fa-trash-alt"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -104,8 +100,6 @@
     </div>
     <div class="card-footer text-muted">
       <button type="button" class="btn btn-secondary" (click)="createInvoice()">Scanner devis</button>
-    </div>
-    <div class="card-footer text-muted">
       <button type="button" class="btn btn-secondary" (click)="createInvoice()">Créer devis</button>
     </div>
     <hr>
@@ -126,11 +120,11 @@
             <td>{{h.description}}</td>
             <td>{{h.workTime}}</td>
             <td>{{h.date}}</td>
-            <td><button (click)="deleteHour(h)">DELETE</button></td>
+            <td> <button type="submit" (click)="deleteHour(h)" class="btn btn-danger"> <i
+                  class="far fa-trash-alt"></i></button></td>
           </tr>
         </tbody>
       </table>
-
     </div>
     <div class="card-footer">
       Total des heures : {{totalHours}}
@@ -144,7 +138,7 @@
 
         <thead>
           <tr>
-            <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
+            <th>Image</th>
           </tr>
         </thead>
         <tbody>
@@ -152,8 +146,8 @@
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>test</td>
             <td>test</td>
-            <td><img src="{{url}}" alt="" height=100 width=100/></td>
-            <td><button>DELETE</button></td>
+            <td><img src="{{url}}" alt="" height=100 width=100 /></td>
+            <td> <button type="submit" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -167,33 +161,29 @@
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
-
         <thead>
           <tr>
-            <th *ngFor="let head of headElementsHour" scope="col">{{head}} </th>
+            <th *ngFor="let head of headElementsRecv" scope="col">{{head}} </th>
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let h of hoursList" (click)="openHour(h)">
-            <!-- <th scope="row">{{h.id}}</th> -->
-            <td>{{h.description}}</td>
-            <td>{{h.workTime}}</td>
-            <td>{{h.date}}</td>
-            <td><button (click)="deleteHour(h)">DELETE</button></td>
-          </tr>
+          <!-- <tr mdbTableCol *ngFor="let h of hoursList" (click)="openHour(h)"> -->
+          <!-- <th scope="row">{{h.id}}</th> -->
+          <td>Facture 1</td>
+          <td>Argent à Payer / Restant</td>
+          <td>Argent recu </td>
+          <td>Date de paiement</td>
+          <td> <button type="submit" class="btn btn-danger"> <i
+                class="far fa-trash-alt"></i></button></td>
+          <!-- </tr> -->
         </tbody>
       </table>
-
-    </div>
-    <div class="card-footer">
-      Total des heures : {{totalHours}}
     </div>
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="AddHour()">Ajouter prestation</button>
+      <button type="button" class="btn btn-secondary" (click)="AddHour()">Ajouter paiement</button>
     </div>
 
     <button type="submit" class="btn btn-success">Actualiser chantier</button>
     <button type="submit" class="btn btn-danger" (click)="FinishChantier()">Terminer chantier</button>
-
   </form>
 </div>
