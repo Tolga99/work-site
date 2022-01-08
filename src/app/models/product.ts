@@ -5,7 +5,7 @@ export interface IProduct
     productId : string;
     productName: string;
     description: string;
-    priceHtva: DoubleRange;
+    priceHtva: number;
     categoryId: string;
     imageProduct: string;
 }
@@ -15,7 +15,7 @@ export class Product implements IProduct {
         public productId : string,
         public productName: string,
         public description: string,
-        public priceHtva: DoubleRange,
+        public priceHtva: number,
         public categoryId: string,
         public imageProduct: string,
     ) {

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button (click)="GoBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+      <ion-label>Retour</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<div class="container" style="overflow-y: auto;">
+  
+  <form [formGroup]="formPay" (ngSubmit)="SavePay()">
+    {{formPay.valid}}
+      <div class="card-header">
+    Selectionnez la facture concernée : 
+    </div>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let inv of invList"  
+          [ngClass]="{ 'selectedInv' : inv }">
+            <!-- <th scope="row">{{el.id}}</th> -->
+            <td>{{inv.factureName}}</td>
+            <td>{{inv.priceHtva}}</td>
+            <td>{{inv.date}}</td>
+        </tbody>
+      </table>
+
+    </div>
+    <div>
+      <label for="categoryName">Reste à payer : {{selectedInv?.priceHtva - selectedInv?.GetAllReceivedMoney()}}</label>
+  
+      <label for="payment">Paiement : </label>
+      <input type="text" id="payment" name="payment" formControlName="payment" placeholder="...">
+    </div>
+  </form>
+</div>

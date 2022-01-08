@@ -12,11 +12,11 @@ export interface IFacture
     images : Array<string>;
     date : string;
     typePay: string;
-    remise : DoubleRange;
-    priceHtva: DoubleRange;
-    tva : DoubleRange;
-    totalPrice: DoubleRange;
-    receivedMoney: Array<DoubleRange>;
+    remise : number;
+    priceHtva: number;
+    tva : number;
+    totalPrice: number;
+    receivedMoney: Array<number>;
 }
 export class Facture implements IFacture {
     constructor(
@@ -25,15 +25,22 @@ export class Facture implements IFacture {
         public description: string,
         public date : string,
         public typePay: string,
-        public remise : DoubleRange,
-        public priceHtva: DoubleRange,
-        public tva : DoubleRange,
-        public totalPrice: DoubleRange,
+        public remise : number,
+        public priceHtva: number,
+        public tva : number,
+        public totalPrice: number,
         public images: Array<string>,
-        public receivedMoney: Array<DoubleRange>,
+        public receivedMoney: Array<number>,
 
     ) 
     {
     }
-
+    public GetAllReceivedMoney() : number
+    {
+        let total : number;
+        this.receivedMoney.forEach(element => {
+            total=element+total; 
+        });
+        return total;
+    }
   }

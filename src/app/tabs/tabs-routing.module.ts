@@ -28,6 +28,10 @@ const routes: Routes = [
         path: 'hours',
         loadChildren: () => import('../hours/hours.module').then(m => m.HoursModule)
       },
+      {
+        path: 'payment',
+        loadChildren: () => import('../payment/payment.module').then(m => m.PaymentModule)
+      },
       //CALENDRIER
       {
         path: 'tb-calendar',

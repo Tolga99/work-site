@@ -185,6 +185,10 @@ export class Worksite implements OnInit {
     this.hoursList = this.hoursList.filter(a => a.hourId != hour.hourId);
     this.storageService.set("Hours="+this.chantierId, this.hoursList);
   }
+  AddPayment()
+  {
+    this.router.navigate(['payment']);
+  }
   
   SaveChantier()
   {
@@ -245,5 +249,9 @@ export class Worksite implements OnInit {
 				replaceUrl: true
 			}
 		);
+  }
+  ImagePopUp(url : string)
+  {
+    alert(url);
   }
 }
