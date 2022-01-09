@@ -19,6 +19,7 @@ export class CategoryForm implements OnInit,OnDestroy {
   ActualCat : string;
 
   cat : Category;
+  parentCat : Category;
   indexFind: number;
   catList : Array<Category> = [];
   formCat = new FormGroup({
@@ -107,7 +108,6 @@ export class CategoryForm implements OnInit,OnDestroy {
     // if (!this.formCat.valid)
     //   return;
     let parent: boolean = true;
-    let parentId : string;
     const invalid = [];
     const controls = this.formCat.controls;
     for (const name in controls) {
@@ -122,29 +122,39 @@ export class CategoryForm implements OnInit,OnDestroy {
   }
   if(parent==false)
   {
-    parentId="";
+    this.parentCat = null;
   }else
   {
-    parentId=this.formCat.get('categoryPar').value;
+    this.parentCat= this.catList.find(a => a.categoryId ==this.formCat.get('categoryPar').value);
 
   }
     this.cat = new Category(
       this.catId,
       this.formCat.get('categoryName').value,
       this.formCat.get('description').value,
-      parentId,
+      this.parentCat,
+      null,
       this.images[0],
     );
 
+    if(parent==true)
+    {
+      if(this.parentCat.subCategories==null)
+        this.parentCat.subCategories = new Array<Category>();
+      this.parentCat.subCategories.push(this.cat);
+      this.catList[this.catList.findIndex(a => a.categoryId == this.parentCat.categoryId)] = this.parentCat;
+
+    }
     if(this.indexFind>=0)
     {
-      this.catList.splice(this.indexFind,1);
+      //this.catList.splice(this.indexFind,1); ESSAYER SANS MAIS JSP SI CA VA
       //this.contactsList.push(this.client);
       this.catList[this.indexFind] = this.cat;
     }else this.catList.push(this.cat);
+
     this.storageService.set('Categories',this.catList);
   
-    console.log("invoice saved", this.catList);
+    console.log("cat saved", this.catList);
     this.router.navigate(['/articles',{actualCat: this.ActualCat}],{replaceUrl:true});
     //this.GoBack();
     //this.ngOnDestroy();

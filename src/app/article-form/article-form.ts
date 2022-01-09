@@ -128,7 +128,7 @@ export class ArticleForm implements OnInit, OnDestroy{
     this.storageService.set('Articles',this.artList);
   
     console.log("invoice saved", this.artList);
-    this.router.navigate(['/articles'],{replaceUrl:true});
+    this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
   }
   generateUUID()
   {

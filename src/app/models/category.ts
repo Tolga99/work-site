@@ -3,7 +3,8 @@ export interface ICategory
     categoryId:string;
     categoryName: string;
     description: string;
-    categoryParent: string;
+    categoryParent: Category;
+    subCategories: Array<Category>;
     categoryImage: string;
 }
 
@@ -12,7 +13,8 @@ export class Category implements ICategory {
         public categoryId:string,
         public categoryName:string,
         public description:string,
-        public categoryParent:string,
+        public categoryParent:Category,
+        public subCategories: Array<Category>,
         public categoryImage: string,
     ) {
     }
