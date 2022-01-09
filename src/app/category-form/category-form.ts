@@ -17,16 +17,18 @@ export class CategoryForm implements OnInit,OnDestroy {
   //chantierId: string;
   catId: string;
   ActualCat : string;
-
+  modif : string;
+  modifCat : Category;
   cat : Category;
   parentCat : Category;
-  indexFind: number;
+  //indexFind: number;
   catList : Array<Category> = [];
   formCat = new FormGroup({
     categoryName: new FormControl('',Validators.required),
     description: new FormControl('', Validators.required),
     categoryPar: new FormControl('', [Validators.required]),
   });
+  selectedCat : string;
 
   public redirectTo: string;
 
@@ -41,35 +43,35 @@ export class CategoryForm implements OnInit,OnDestroy {
 }
   async ngOnInit() {
 
-    const existId = this.route.snapshot.paramMap.get('categoryId');
+    this.catList =await this.storageService.get("Categories");
+    if(this.catList==null)
+      this.catList = new Array<Category>();
+
+    this.modif = this.route.snapshot.paramMap.get('modif');
+    this.modifCat = this.catList.find(a => a.categoryId == this.route.snapshot.paramMap.get('modifCat'));
     //this.chantierId = this.route.snapshot.paramMap.get('chantierId');
     this.ActualCat = this.route.snapshot.paramMap.get('actualCat');
 
 
-    if(existId!=null)
+
+    if(this.modif=="YES" && this.modifCat!=null)
     {
-      console.log('modification',existId);
-      this.catList =await this.storageService.get("Categories");
-      if(this.catList==null)
-        this.catList = new Array<Category>();
-      this.indexFind =this.catList.findIndex(x => x.categoryId == existId);
-      if(this.indexFind>=0)
-      {
-        //this.catId= this.catList[this.indexFind].categoryId;
+      console.log('modification',this.modif);
+      // if(this.indexFind>=0)
+      // {
+        this.catId= this.modifCat.categoryId;
         this.formCat.setValue({
-          factureName: this.catList[this.indexFind].categoryName,
-          description:  this.catList[this.indexFind].description,
-          categoryPar:  this.catList[this.indexFind].categoryParent,
-   
+          categoryName: this.modifCat.categoryName,
+          description:  this.modifCat.description,
+          categoryPar:  this.modifCat.categoryParent.categoryId,
         });
-        this.images=this.catList[this.indexFind].categoryImage;
-      }
+        if(this.modifCat.categoryImage!=null)
+          this.images=this.modifCat?.categoryImage;
+      // }
     }else {
-      console.log('creation',existId);
+      this.modif= "NO";
+      console.log('creation',this.modif);
       this.catId= this.generateUUID();
-      this.catList =await this.storageService.get("Categories");
-      if(this.catList==null)
-        this.catList = new Array<Category>();
       if(this.ActualCat!=null)
         this.formCat.get('categoryPar').setValue(this.ActualCat);
     }
@@ -126,9 +128,25 @@ export class CategoryForm implements OnInit,OnDestroy {
   }else
   {
     this.parentCat= this.catList.find(a => a.categoryId ==this.formCat.get('categoryPar').value);
-
   }
+  if(this.modif=="YES")
+  {
+    //RETRAIT DE LA CATEGORIE PARENT
+    let subCats=this.modifCat.categoryParent.subCategories;
+    subCats.splice(subCats.findIndex(a => a.categoryId == this.ActualCat),1);
+    this.catList[this.catList.findIndex(a => a.categoryId == this.modifCat.categoryParent.categoryId)].subCategories=subCats;
+
     this.cat = new Category(
+      this.catId,
+      this.formCat.get('categoryName').value,
+      this.formCat.get('description').value,
+      this.parentCat,
+      this.catList.find(a => a.categoryId == this.ActualCat).subCategories,
+      this.images[0],
+    );
+  }else
+  {
+      this.cat = new Category(
       this.catId,
       this.formCat.get('categoryName').value,
       this.formCat.get('description').value,
@@ -136,28 +154,28 @@ export class CategoryForm implements OnInit,OnDestroy {
       null,
       this.images[0],
     );
+  }
 
     if(parent==true)
     {
+      //AJOUT DE LA CATEGORIE PARENT
       if(this.parentCat.subCategories==null)
         this.parentCat.subCategories = new Array<Category>();
       this.parentCat.subCategories.push(this.cat);
       this.catList[this.catList.findIndex(a => a.categoryId == this.parentCat.categoryId)] = this.parentCat;
 
     }
-    if(this.indexFind>=0)
+    if(this.modif=="YES")
     {
-      //this.catList.splice(this.indexFind,1); ESSAYER SANS MAIS JSP SI CA VA
-      //this.contactsList.push(this.client);
-      this.catList[this.indexFind] = this.cat;
+      let indexFind =this.catList.findIndex(x => x.categoryId == this.modifCat.categoryId);
+      this.catList.splice(indexFind,1);
+      this.catList[indexFind] = this.cat;
     }else this.catList.push(this.cat);
 
     this.storageService.set('Categories',this.catList);
   
     console.log("cat saved", this.catList);
     this.router.navigate(['/articles',{actualCat: this.ActualCat}],{replaceUrl:true});
-    //this.GoBack();
-    //this.ngOnDestroy();
   }
   generateUUID()
   {
@@ -176,5 +194,11 @@ export class CategoryForm implements OnInit,OnDestroy {
 				replaceUrl: true
 			}
 		);
+  }
+
+  changePar(e) {
+    this.formCat.get('categoryPar').setValue(e.target.value, {
+      onlySelf: true
+    })
   }
 }

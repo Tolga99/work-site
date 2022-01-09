@@ -13,7 +13,7 @@
     <input type="text" id="categoryName" name="categoryName" formControlName="categoryName" placeholder="...">
 
     <label for="categoryPar">Sous-Catégorie</label>
-    <select formControlName="categoryPar">
+    <select formControlName="categoryPar" (change)="changePar($event)">
       <option></option>
       <option *ngFor="let c of catList" [value]="c.categoryId"> {{c.categoryName}}      </option>
     </select>

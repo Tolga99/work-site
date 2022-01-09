@@ -21,7 +21,9 @@ export class ArticleForm implements OnInit, OnDestroy{
   actualCat: string;
 
   art : Product;
-  indexFind: number;
+  //indexFind: number;
+  modif : string;
+  modifArt : Product;
   artList : Array<Product> = [];
   catList : Array<Category> = [];
 
@@ -44,39 +46,42 @@ export class ArticleForm implements OnInit, OnDestroy{
     console.log('Cleared');
 }
   async ngOnInit() {
+    this.artList =await this.storageService.get("Articles");
+    if(this.artList==null)
+      this.artList = new Array<Product>();
+
     this.actualCat = this.route.snapshot.paramMap.get('actualCat');
-    const existId = this.route.snapshot.paramMap.get('categoryId');
-    //this.chantierId = this.route.snapshot.paramMap.get('chantierId');
+    this.modifArt= this.artList.find(a => a.productId == this.route.snapshot.paramMap.get('modifArt'));
+    this.modif = this.route.snapshot.paramMap.get('modif');
+
     this.catList = await this.storageService.get('Categories');
-    console.log("Category of product",this.actualCat);
-    if(existId!=null)
+    if(this.modif=="YES")
     {
-      console.log('modification',existId);
-      this.artList =await this.storageService.get("Articles");
-      if(this.artList==null)
-        this.artList = new Array<Product>();
-      this.indexFind =this.artList.findIndex(x => x.productId == existId);
-      if(this.indexFind>=0)
-      {
-        this.artId= this.artList[this.indexFind].productId;
+      console.log('modification',this.modif);
+
+      //this.indexFind =this.artList.findIndex(x => x.productId == existId);
+      // if(this.indexFind>=0)
+      // {
+        this.artId= this.modifArt.productId;
+        this.actualCat= this.modifArt.categoryId;
         this.formArt.setValue({
-          productName : this.artList[this.indexFind].productName,
-          description:  this.artList[this.indexFind].description,
-          category:  this.artList[this.indexFind].categoryId,
-          priceHtva:  this.artList[this.indexFind].priceHtva,
+          productName : this.modifArt.productName,
+          description:  this.modifArt.description,
+          category:  this.modifArt.categoryId,
+          priceHtva:  this.modifArt.priceHtva,
         });
-        this.images=this.artList[this.indexFind].imageProduct;
-      }
+        if(this.modifArt.imageProduct!=null)
+          this.images=this.modifArt.imageProduct;
+      // }
     }else {
-      console.log('creation',existId);
+      this.modif="NO";
+      console.log('creation',this.modif);
       this.artId= this.generateUUID();
-      if(this.actualCat!=null)
-      {
-        this.formArt.get("category").setValue(this.actualCat);
-      }
-      this.artList =await this.storageService.get("Articles");
-      if(this.artList==null)
-        this.artList = new Array<Product>();
+
+    }
+    if(this.actualCat!=null)
+    {
+      this.formArt.get("category").setValue(this.actualCat);
     }
   }
 
@@ -119,11 +124,11 @@ export class ArticleForm implements OnInit, OnDestroy{
       this.images[0],
     );
 
-    if(this.indexFind>=0)
+    if(this.modif=="YES")
     {
-      this.artList.splice(this.indexFind,1);
-      //this.contactsList.push(this.client);
-      this.artList[this.indexFind] = this.art;
+      let indexFind =this.artList.findIndex(x => x.productId == this.modifArt.productId);
+      this.artList.splice(indexFind,1);
+      this.artList[indexFind] = this.art;
     }else this.artList.push(this.art);
     this.storageService.set('Articles',this.artList);
   

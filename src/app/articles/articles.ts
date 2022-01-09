@@ -46,6 +46,14 @@ export class Articles implements OnInit {
       this.router.navigate(['category-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
     else this.router.navigate(['category-form']);
   }
+  ModifyCategory(c : Category)
+  {
+    console.log(c);
+    if(c!=null)
+      this.router.navigate(['category-form',{actualCat : this.actualCat.categoryId,modifCat: c.categoryId, modif: "YES"}],{replaceUrl:true});
+    else this.router.navigate(['category-form',{modif: "YES"}],{replaceUrl:true});
+     
+  }
   async EnterCategory(c : Category)
   {
     this.actualCat = c;
@@ -75,6 +83,13 @@ export class Articles implements OnInit {
     if(this.actualCat!=null)
       this.router.navigate(['article-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
     else this.router.navigate(['article-form']);
+  }
+  ModifyProduct(p : Product)
+  {
+    console.log(p);
+    if(p!=null)
+      this.router.navigate(['article-form',{modifArt: p.productId, modif: "YES"}],{replaceUrl:true});
+    else this.router.navigate(['article-form',{modif: "YES"}],{replaceUrl:true});
   }
   DeleteProduct(p : Product)
   {
