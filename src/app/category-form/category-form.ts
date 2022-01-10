@@ -59,11 +59,15 @@ export class CategoryForm implements OnInit,OnDestroy {
       console.log('modification',this.modif);
       // if(this.indexFind>=0)
       // {
+      let catParentId :string;
+        if(this.modifCat.categoryParent!=null)
+          catParentId = this.modifCat.categoryParent.categoryId;
+        else catParentId="";
         this.catId= this.modifCat.categoryId;
         this.formCat.setValue({
           categoryName: this.modifCat.categoryName,
           description:  this.modifCat.description,
-          categoryPar:  this.modifCat.categoryParent.categoryId,
+          categoryPar:  catParentId,
         });
         if(this.modifCat.categoryImage!=null)
           this.images=this.modifCat?.categoryImage;
@@ -131,17 +135,20 @@ export class CategoryForm implements OnInit,OnDestroy {
   }
   if(this.modif=="YES")
   {
-    //RETRAIT DE LA CATEGORIE PARENT
-    let subCats=this.modifCat.categoryParent.subCategories;
-    subCats.splice(subCats.findIndex(a => a.categoryId == this.ActualCat),1);
-    this.catList[this.catList.findIndex(a => a.categoryId == this.modifCat.categoryParent.categoryId)].subCategories=subCats;
+    //RETRAIT DE LA CATEGORIE PARENT si il y'en a 
+    if (this.modifCat.categoryParent)
+    {
+      let subCats=this.modifCat.categoryParent.subCategories;
+      subCats.splice(subCats.findIndex(a => a.categoryId == this.modifCat.categoryId),1);
+      this.catList[this.catList.findIndex(a => a.categoryId == this.modifCat.categoryParent.categoryId)].subCategories=subCats;
+    }
 
     this.cat = new Category(
       this.catId,
       this.formCat.get('categoryName').value,
       this.formCat.get('description').value,
       this.parentCat,
-      this.catList.find(a => a.categoryId == this.ActualCat).subCategories,
+      this.catList.find(a => a.categoryId == this.modifCat.categoryId).subCategories,
       this.images[0],
     );
   }else
@@ -167,9 +174,28 @@ export class CategoryForm implements OnInit,OnDestroy {
     }
     if(this.modif=="YES")
     {
-      let indexFind =this.catList.findIndex(x => x.categoryId == this.modifCat.categoryId);
-      this.catList.splice(indexFind,1);
+      let indexFind =this.catList.findIndex(x => x.categoryId == this.cat.categoryId);
+      //this.catList.splice(indexFind,1);
       this.catList[indexFind] = this.cat;
+      this.catList.forEach(element => {
+        if(element.categoryParent!=null)
+        {
+          if(element.categoryParent.categoryId== this.cat.categoryId)
+          {
+            element.categoryParent= this.cat;
+          }
+        }
+        if(element.subCategories!=null)
+        {
+          element.subCategories.forEach(element => {
+            if(element.categoryId== this.cat.categoryId)
+            {
+              element = this.cat;
+            }
+          });
+        }
+        
+      });
     }else this.catList.push(this.cat);
 
     this.storageService.set('Categories',this.catList);

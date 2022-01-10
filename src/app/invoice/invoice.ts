@@ -95,6 +95,10 @@ export class Invoice implements OnInit {
     }
   }
 
+  GoShopping()
+  {
+    this.router.navigate(['shop',{invoiceId : this.invoiceId}],{replaceUrl:true});
+  }
   async CreateWorksite() {
    
   }

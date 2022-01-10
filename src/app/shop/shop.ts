@@ -7,14 +7,15 @@ import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
 
 @Component({
-  selector: 'app-articles',
-  templateUrl: './articles.html',
-  styleUrls: ['./articles.scss'],
+  selector: 'app-shop',
+  templateUrl: './shop.html',
+  styleUrls: ['./shop.scss'],
 })
-export class Articles implements OnInit {
+export class Shop implements OnInit {
 
   headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
   artList : Array<Product> = [];
+  panierList : Array<Product> = [];
   catList : Array<Category> = [];
   actualCat : Category = null;
 
@@ -38,21 +39,6 @@ export class Articles implements OnInit {
     this.catList = await this.storageService.get("Categories");
     if(this.catList!=null)
       this.catList = this.catList.filter(a => a.categoryParent == null);
-  }
-  CreateCategory()
-  {
-    console.log("Bouton nv cat");
-    if(this.actualCat!=null)
-      this.router.navigate(['category-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
-    else this.router.navigate(['category-form']);
-  }
-  ModifyCategory(c : Category)
-  {
-    console.log(c);
-    if(c!=null)
-      this.router.navigate(['category-form',{actualCat : this.actualCat?.categoryId,modifCat: c?.categoryId, modif: "YES"}],{replaceUrl:true});
-    else this.router.navigate(['category-form',{modif: "YES"}],{replaceUrl:true});
-     
   }
   async EnterCategory(c : Category)
   {
@@ -84,16 +70,14 @@ export class Articles implements OnInit {
       this.router.navigate(['article-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
     else this.router.navigate(['article-form']);
   }
-  ModifyProduct(p : Product)
-  {
-    console.log(p);
-    if(p!=null)
-      this.router.navigate(['article-form',{modifArt: p.productId, modif: "YES"}],{replaceUrl:true});
-    else this.router.navigate(['article-form',{modif: "YES"}],{replaceUrl:true});
-  }
-  DeleteProduct(p : Product)
-  {
 
+  AddProduct(p : Product)
+  {
+    this.panierList.push(p);
+  }
+  RemoveProduct(p : Product)
+  {
+    this.panierList.splice(this.panierList.findIndex(a => a.productId == p.productId),1);
   }
   GoBack()
   {

@@ -12,7 +12,7 @@
     <label for="factureName">Nom facture</label>
     <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="...">
 
-    <label for="art" [hidden]="ScanMode" >ICI FENETRE ARTICLE</label>
+    <button for="art" [hidden]="ScanMode" (click)="GoShopping()">Ajouter articles</button>
 
 
     <label for="imgFactures" [hidden]="!ScanMode" >Photos facture</label>
