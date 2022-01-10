@@ -226,20 +226,23 @@ export class Worksite implements OnInit {
   {
     let hours : number=0;
     let minutes : number=0;
-    this.hoursList.forEach(element =>{
-      hours+=element.hour;
-      minutes+=element.minute;
-    });
-    console.log("Heures : ",hours);
-    console.log("Minutes : ",minutes);
-
-    while(minutes>60)
+    if(this.hoursList!=null)
     {
-      minutes-= 60;
-      hours ++;
+      this.hoursList.forEach(element =>{
+        hours+=element.hour;
+        minutes+=element.minute;
+      });
+      console.log("Heures : ",hours);
+      console.log("Minutes : ",minutes);
+      while(minutes>60)
+      {
+        minutes-= 60;
+        hours ++;
+      }
+      this.totalHours = hours?.toString() +"h"+minutes?.toString() ;
+      console.log(this.totalHours);
     }
-    this.totalHours = hours?.toString() +"h"+minutes?.toString() ;
-    console.log(this.totalHours);
+
   }
   GoBack()
   {

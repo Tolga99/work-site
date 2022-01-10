@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isThursday } from 'date-fns';
 import { threadId } from 'worker_threads';
 import { Category } from '../models/category';
+import { Facture } from '../models/facture';
 import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
 
@@ -18,6 +19,9 @@ export class Shop implements OnInit {
   panierList : Array<Product> = [];
   catList : Array<Category> = [];
   actualCat : Category = null;
+
+  invoiceId : string;
+  chantierId : string;
 
   public redirectTo: string;
   constructor(private storageService:StorageService, private router:Router,private route:ActivatedRoute) 
@@ -37,6 +41,10 @@ export class Shop implements OnInit {
     this.storageService.init();
     this.artList = await this.storageService.get("Articles");
     this.catList = await this.storageService.get("Categories");
+
+    this.chantierId = this.route.snapshot.paramMap.get('chantierId');
+    this.invoiceId = this.route.snapshot.paramMap.get('invoiceId');
+
     if(this.catList!=null)
       this.catList = this.catList.filter(a => a.categoryParent == null);
   }
@@ -78,6 +86,56 @@ export class Shop implements OnInit {
   RemoveProduct(p : Product)
   {
     this.panierList.splice(this.panierList.findIndex(a => a.productId == p.productId),1);
+  }
+  async SavePanier()
+  {
+    let listInv : Array<Facture> = await this.storageService.get("Invoices="+this.chantierId);
+    if(listInv!=null)
+    {
+      let inv = listInv.find(a => a.factureId== this.invoiceId);
+      let invIndex : number;
+      if(inv!=null)
+      {
+        invIndex= listInv.findIndex(a => a.factureId== this.invoiceId);
+
+        inv.products= this.panierList;
+        listInv[invIndex]= inv;
+      }else
+      {
+        let newInv = new Facture(this.invoiceId,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  this.panierList);
+        listInv.push(newInv);
+      }
+    }
+    else
+    {
+      listInv = new Array<Facture>();
+      let newInv = new Facture(this.invoiceId,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        this.panierList);
+      listInv.push(newInv);
+    }
+    this.storageService.set("Invoices="+this.chantierId,listInv);
+    this.router.navigate(['/invoice',{invoiceId: this.invoiceId, chantierId : this.chantierId, mode:"false"}],{replaceUrl:true}); 
   }
   GoBack()
   {

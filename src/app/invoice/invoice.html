@@ -13,7 +13,29 @@
     <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="...">
 
     <button for="art" [hidden]="ScanMode" (click)="GoShopping()">Ajouter articles</button>
-
+    <div class="card-header">
+      Panier
+    </div>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+  
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsArt" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let p of panierList">
+            <!-- <th scope="row">{{el.id}}</th> -->
+            <td>{{p.productName}}</td>
+            <td>{{p.description}}</td>
+            <td>{{p.priceHtva}}</td>
+            <!-- <td>{{p.categoryId}}</td> -->
+          </tr>
+        </tbody>
+      </table>
+  
+    </div>
 
     <label for="imgFactures" [hidden]="!ScanMode" >Photos facture</label>
     <!-- Select File -->

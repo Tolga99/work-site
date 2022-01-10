@@ -4,6 +4,7 @@ import { StorageService } from '../services/storage.service';
 import { UUID } from 'angular2-uuid';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Facture } from '../models/facture';
+import { Product } from '../models/product';
 
 @Component({
   selector: 'app-invoice',
@@ -22,6 +23,9 @@ export class Invoice implements OnInit {
   inv : Facture;
   indexFind: number;
   invList : Array<Facture> = [];
+  productsList : Array<Product>= [];
+  headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
+  panierList : Array<Product> = [];
   formInv = new FormGroup({
     factureName: new FormControl('',Validators.required),
     description: new FormControl('', Validators.required),
@@ -29,7 +33,7 @@ export class Invoice implements OnInit {
     priceHtva: new FormControl({value:'',disabled:true}, [Validators.required]),
     tva: new FormControl('', [Validators.required]),
     remise: new FormControl('', [Validators.required]),
-    totalPrice : new FormControl('', [Validators.required]),
+    totalPrice : new FormControl('',),
   });
   public redirectTo: string;
 
@@ -43,22 +47,29 @@ export class Invoice implements OnInit {
   async ionViewDidEnter(){
     let tmpMode : string=this.route.snapshot.paramMap.get('mode');
 
-    if(tmpMode=="false")
+    if(tmpMode=="false") //creation
     {
-      this.ScanMode=false;
+      this.ScanMode=false; //creation
     }else if(tmpMode=="true")
     {
       this.ScanMode=true;
     }
   }
   async ngOnInit() {
+
     
     var nowDate = new Date(); 
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
 
     const existId = this.route.snapshot.paramMap.get('factureId');
+    const invoiceId = this.route.snapshot.paramMap.get('invoiceId');
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
     let tmpMode : string=this.route.snapshot.paramMap.get('mode');
+
+    this.invList =await this.storageService.get("Invoices="+this.chantierId);
+    if(this.invList==null)
+      this.invList = new Array<Facture>();
+
 
     if(tmpMode=="false")
     {
@@ -67,13 +78,9 @@ export class Invoice implements OnInit {
     {
       this.ScanMode=true;
     }
-
     if(existId!=null)
     {
       console.log('modification',existId);
-      this.invList =await this.storageService.get("Invoices="+this.chantierId);
-      if(this.invList==null)
-        this.invList = new Array<Facture>();
       this.indexFind =this.invList.findIndex(x => x.factureId == existId);
       if(this.indexFind>=0)
       {
@@ -93,11 +100,24 @@ export class Invoice implements OnInit {
       console.log('creation : ',existId);
       this.invoiceId= this.generateUUID();
     }
+    if(invoiceId!=null)
+    {
+      this.invoiceId= invoiceId;
+      this.panierList= this.invList.find(a=>a.factureId==this.invoiceId).products;
+      let total : number = 0;
+      this.panierList.forEach(element => {
+        console.log("total value :" ,total);
+          total = total + Number.parseFloat(element.priceHtva.toString());
+      })
+      console.log("total value :" ,total);
+      this.formInv.get("priceHtva").setValue(total);
+    }
   }
 
   GoShopping()
   {
-    this.router.navigate(['shop',{invoiceId : this.invoiceId}],{replaceUrl:true});
+
+    this.router.navigate(['shop',{invoiceId : this.invoiceId,chantierId : this.chantierId}],{replaceUrl:true});
   }
   async CreateWorksite() {
    
@@ -131,7 +151,16 @@ export class Invoice implements OnInit {
     console.log('form status',this.formInv);
     if (!this.formInv.valid)
       return;
-
+    
+    if(this.ScanMode==false)
+    {
+      let total : number=0;
+      let remise =this.formInv.get('remise').value;
+      let htva =this.formInv.get('priceHtva').value;
+      let tva=this.formInv.get('tva').value;
+      total= Number.parseFloat(htva);
+      this.formInv.get('TotalPrice').setValue(total);
+    }
     this.inv = new Facture(
       this.invoiceId,
       this.formInv.get('factureName').value,
@@ -143,14 +172,21 @@ export class Invoice implements OnInit {
       this.formInv.get('tva').value,
       this.formInv.get('totalPrice').value,
       this.images,
-      null
+      null,
+      this.productsList,
     );
-
+    
     if(this.indexFind>=0)
     {
       this.invList.splice(this.indexFind,1);
       this.invList[this.indexFind] = this.inv;
-    }else this.invList.push(this.inv);
+    }else
+    {
+      let index=(this.invList.findIndex(a => a.factureId == this.invoiceId));
+      if(index>=0)
+        this.invList[index]=this.inv;
+      else this.invList.push(this.inv);
+    } 
     this.storageService.set('Invoices='+this.chantierId,this.invList);
   
     console.log("invoice saved", this.invList);
@@ -165,7 +201,8 @@ export class Invoice implements OnInit {
   {
     this.images=[];
   }
-  hideInput() {
+  hideInput() 
+  {
     if(this.ScanMode==true)
       this.ScanMode = false;
     else  this.ScanMode = true;
