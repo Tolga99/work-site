@@ -9,7 +9,10 @@
 <div class="container">
   <form [formGroup]="formHour" (ngSubmit)="CreateHour()">
 
-    <ion-list>
+    <!-- Selecting time, no date -->
+<ion-datetime formControlName="date" presentation="time"></ion-datetime>
+
+    <!-- <ion-list>
       <ion-item>
         <ion-range min="1" max="24" color="danger" formControlName="hour" [pin]="true"></ion-range>
       </ion-item>
@@ -17,7 +20,7 @@
         <ion-range min="0" max="60" color="danger" formControlName="minute" [pin]="true"></ion-range>
       </ion-item>
       
-    </ion-list>
+    </ion-list> -->
 
     <hr>
     <label for="description">Description</label>

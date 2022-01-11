@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import { Chantier } from '../models/chantier';
 import { Hour } from '../models/hour';
 import { StorageService } from '../services/storage.service';
@@ -14,9 +15,8 @@ import { StorageService } from '../services/storage.service';
 export class Hours implements OnInit {
   
   formHour = new FormGroup({
+    date: new FormControl('',Validators.required),
     description: new FormControl('',Validators.required),
-    hour: new FormControl('', Validators.required),
-    minute: new FormControl('', Validators.required),
   });
   hour : Hour;
   date : string;
@@ -54,11 +54,22 @@ export class Hours implements OnInit {
       if(this.indexFind>=0)
       {
         this.hourId=this.hoursList[this.indexFind].hourId;
+        this.hour = new Hour(
+          this.hoursList[this.indexFind].hourId,
+          this.hoursList[this.indexFind].date,
+          this.hoursList[this.indexFind].description,
+          this.hoursList[this.indexFind].hour,
+          this.hoursList[this.indexFind].minute,
+        )
+        let d = Date.now();
+        let dd = new Date(d.toString());
+        //dd.setHours(this.hour.hour,this.hour.minute,0,0);
+        
         this.formHour.setValue({
-          hour: this.hoursList[this.indexFind].hour,
+          date: null,
           description:  this.hoursList[this.indexFind].description,
-          minute:  this.hoursList[this.indexFind].minute,
         });
+        
       }
     }else 
     {
@@ -73,10 +84,12 @@ export class Hours implements OnInit {
   async CreateHour()
   {
     console.log(      
-      this.formHour.get('description').value,
-      this.formHour.get('hour').value,
-      this.formHour.get('minute').value,);
+      this.formHour.get('date').value,
+      this.formHour.get('description').value,);
 
+      let dd = new Date(this.formHour.get('date').value);
+      console.log(dd.getHours(), ":",dd.getMinutes());
+    
 
       console.log(this.generateUUID());
       console.log('form status',this.formHour);
@@ -87,8 +100,8 @@ export class Hours implements OnInit {
         this.hourId,
         this.date,
         this.formHour.get('description').value,
-        this.formHour.get('hour').value,
-        this.formHour.get('minute').value,
+        dd.getHours(),
+        dd.getMinutes(),
       );
 
       if(this.indexFind>=0)
