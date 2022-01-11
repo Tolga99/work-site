@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
+import { Chantier } from '../models/chantier';
 import { Hour } from '../models/hour';
 import { StorageService } from '../services/storage.service';
 
@@ -36,7 +37,10 @@ export class Hours implements OnInit {
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
 
     this.storageService.init();
-    this.hoursList =await this.storageService.get('Hours='+this.chantierId);
+
+    let chantierl : Array<Chantier> = await this.storageService.get("Chantiers");
+    let chantier = chantierl.find(a => a.chantierId== this.chantierId);
+    this.hoursList =chantier.hours;
     if(this.hoursList==null)
       this.hoursList = new Array<Hour>();
   
@@ -46,7 +50,6 @@ export class Hours implements OnInit {
     if(existId!=null)
     {
       console.log('modification',existId);
-      this.storageService.get("Invoices="+this.chantierId);
       this.indexFind =this.hoursList.findIndex(x => x.hourId == existId);
       if(this.indexFind>=0)
       {
@@ -67,7 +70,7 @@ export class Hours implements OnInit {
   public customFormatter(value: number) {
     return `${value}%`
   }
-  CreateHour()
+  async CreateHour()
   {
     console.log(      
       this.formHour.get('description').value,
@@ -90,11 +93,18 @@ export class Hours implements OnInit {
 
       if(this.indexFind>=0)
       {
-        this.hoursList.splice(this.indexFind,1);
+        //this.hoursList.splice(this.indexFind,1);
         this.hoursList[this.indexFind] = this.hour;
       }else this.hoursList.push(this.hour);
 
-      this.storageService.set('Hours='+this.chantierId,this.hoursList);
+      let chantierl : Array<Chantier> = await this.storageService.get("Chantiers");
+      let chantier = chantierl.find(a => a.chantierId== this.chantierId);
+      let chantierIndex = chantierl.findIndex(a => a.chantierId== this.chantierId);
+  
+      chantier.hours= this.hoursList;
+      chantierl[chantierIndex] = chantier;
+      this.storageService.set('Chantiers',chantierl);
+      //this.storageService.set('Hours='+this.chantierId,this.hoursList);
       this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
     }
     generateUUID()

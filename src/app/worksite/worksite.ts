@@ -21,8 +21,8 @@ export class Worksite implements OnInit {
   totalHours:string="";
 
   chantier : Chantier;
-  invList : Array<Facture>;
-  hoursList : Array<Hour>;
+  //invList : Array<Facture>;
+  //hoursList : Array<Hour>;
   chantierList: Array<Chantier>;
 
   formChantier = new FormGroup({
@@ -32,7 +32,7 @@ export class Worksite implements OnInit {
    address : new FormControl('',Validators.required),
  });
 
-  headElementsInv = ['Nom facture', 'Total HTVA','Date'];
+  headElementsInv = ['Nom facture', 'Total','Date'];
   headElementsHour = ['Description', 'Heure travail','Date'];
   headElementsRecv = ['Nom Facture', 'Argent à Payer / Restant','Argent reçu','Date'];
 
@@ -45,9 +45,27 @@ export class Worksite implements OnInit {
   async ionViewDidEnter(){
     console.log('view did enter');
     this.storageService.init();
-    this.hoursList =await this.storageService.get('Hours='+this.chantierId);
-    this.invList =await this.storageService.get('Invoices='+this.chantierId);
-    this.CalculTotalHour();
+    // this.hoursList =await this.storageService.get('Hours='+this.chantierId);
+    // this.invList =await this.storageService.get('Invoices='+this.chantierId);
+    //this.CalculTotalHour();
+
+    this.chantierList =await this.storageService.get('Chantiers');
+    if(this.chantierList==null)
+      this.chantierList = new Array<Chantier>();
+    if(this.chantierId!=null)
+    {
+      if(this.chantierList.find(a => a.chantierId == this.chantierId).hours!=null)
+        this.chantier.hours = this.chantierList.find(a => a.chantierId == this.chantierId).hours;
+      else this.chantier.hours = new Array<Hour>();
+      if(this.chantierList.find(a => a.chantierId == this.chantierId).factures!=null)
+        this.chantier.factures = this.chantierList.find(a => a.chantierId == this.chantierId).factures;
+      else this.chantier.factures = new Array<Facture>();
+      if(this.chantierList.find(a => a.chantierId == this.chantierId).devis!=null)
+        this.chantier.devis = this.chantierList.find(a => a.chantierId == this.chantierId).devis;
+      else this.chantier.devis = new Array<Facture>();
+      this.CalculTotalHour();
+
+    }
   }
 
   async ngOnInit() {
@@ -55,8 +73,8 @@ export class Worksite implements OnInit {
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
 
     this.storageService.init();
-    this.hoursList =await this.storageService.get('Hours='+this.chantierId);
-    this.invList =await this.storageService.get('Invoices='+this.chantierId);
+    // this.hoursList =await this.storageService.get('Hours='+this.chantierId);
+    // this.invList =await this.storageService.get('Invoices='+this.chantierId);
     this.chantierList =await this.storageService.get('Chantiers');
     if(this.chantierList==null)
       this.chantierList = new Array<Chantier>();
@@ -80,6 +98,9 @@ export class Worksite implements OnInit {
           this.chantierList[this.indexFind].isFinished,
           this.chantierList[this.indexFind].imagesChantier,
           this.chantierList[this.indexFind].imagesTicket,
+          this.chantierList[this.indexFind].factures,
+          this.chantierList[this.indexFind].devis,
+          this.chantierList[this.indexFind].hours,
         )
         this.formChantier.setValue({
           chantierName: this.chantierList[this.indexFind].worksiteName,
@@ -88,6 +109,15 @@ export class Worksite implements OnInit {
         });
         this.imagesC=this.chantierList[this.indexFind].imagesChantier;
         this.imagesT=this.chantierList[this.indexFind].imagesTicket;
+
+        if(!this.chantier.factures)
+          this.chantier.factures = new Array<Facture>();
+
+        if(!this.chantier.devis)
+          this.chantier.devis = new Array<Facture>();
+
+        if(!this.chantier.hours)
+        this.chantier.hours = new Array<Hour>();
       }
     }else console.log('creation',existId);
     this.CalculTotalHour();
@@ -165,8 +195,14 @@ export class Worksite implements OnInit {
     this.router.navigate(['invoice',{factureId: inv.factureId,chantierId: this.chantierId}]);
   }
   deleteInvoice(inv:Facture){
-    //this.invList = this.invList.filter(a => a. != inv.);
-    this.storageService.set("Invoices="+this.chantierId, this.invList);
+
+    this.chantier.factures = this.chantier.factures.filter(a => a.factureId != inv.factureId);
+    if(this.indexFind>=0)
+    {
+      this.chantierList.splice(this.indexFind,1);
+      this.chantierList[this.indexFind] = this.chantier;
+    }else this.chantierList.push(this.chantier);
+    this.storageService.set('Chantiers',this.chantierList);
   }
 
   AddHour()
@@ -181,9 +217,16 @@ export class Worksite implements OnInit {
     console.log("Bouton open hour",h.hourId,this.chantierId);
     this.router.navigate(['hours',{hourId: h.hourId,chantierId: this.chantierId}]);
   }
-  deleteHour(hour:Hour){
-    this.hoursList = this.hoursList.filter(a => a.hourId != hour.hourId);
-    this.storageService.set("Hours="+this.chantierId, this.hoursList);
+  deleteHour(hour:Hour){ //TESTER
+    // this.hoursList = this.hoursList.filter(a => a.hourId != hour.hourId);
+    // this.storageService.set("Hours="+this.chantierId, this.hoursList);
+    this.chantier.hours = this.chantier.hours.filter(a => a.hourId != hour.hourId);
+    if(this.indexFind>=0)
+    {
+      this.chantierList.splice(this.indexFind,1);
+      this.chantierList[this.indexFind] = this.chantier;
+    }else this.chantierList.push(this.chantier);
+    this.storageService.set('Chantiers',this.chantierList);
   }
   AddPayment()
   {
@@ -208,6 +251,9 @@ export class Worksite implements OnInit {
       this.chantier.isFinished,
       this.imagesC,
       this.imagesT,
+      this.chantier.factures,
+      this.chantier.devis,
+      this.chantier.hours,
     )
     if(this.indexFind>=0)
     {
@@ -226,9 +272,9 @@ export class Worksite implements OnInit {
   {
     let hours : number=0;
     let minutes : number=0;
-    if(this.hoursList!=null)
+    if(this.chantier.hours!=null)
     {
-      this.hoursList.forEach(element =>{
+      this.chantier.hours.forEach(element =>{
         hours+=element.hour;
         minutes+=element.minute;
       });

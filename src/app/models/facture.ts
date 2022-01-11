@@ -20,6 +20,8 @@ export interface IFacture
     tva : number;
     totalPrice: number;
     receivedMoney: Array<number>;
+    mode : string ; //SCAN OU CREE
+    type : string; //Facture ou Devis;
 }
 export class Facture implements IFacture {
     constructor(
@@ -35,6 +37,8 @@ export class Facture implements IFacture {
         public images: Array<string>,
         public receivedMoney: Array<number>,
         public products : Array<Product>,
+        public mode : string ,//SCAN OU CREE
+        public type : string, //Facture ou Devis;
 
     ) 
     {

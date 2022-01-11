@@ -56,10 +56,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let inv of invList" (click)="openInvoice(inv)">
+          <tr mdbTableCol *ngFor="let inv of this.chantier?.factures" (click)="openInvoice(inv)">
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{inv.factureName}}</td>
-            <td>{{inv.priceHtva}}</td>
+            <td>{{inv.totalPrice}}€</td>
             <td>{{inv.date}}</td>
             <td> <button type="submit" (click)="deleteInvoice(inv)" class="btn btn-danger"> <i
                   class="far fa-trash-alt"></i></button></td>
@@ -86,12 +86,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let inv of invList" (click)="openInvoice(inv)">
+          <tr mdbTableCol *ngFor="let dev of chantier?.devis" (click)="openInvoice(dev)">
             <!-- <th scope="row">{{el.id}}</th> -->
-            <td>{{inv.factureName}}</td>
-            <td>{{inv.priceHtva}}</td>
-            <td>{{inv.date}}</td>
-            <td> <button type="submit" (click)="deleteInvoice(inv)" class="btn btn-danger"> <i
+            <td>{{dev.factureName}}</td>
+            <td>{{dev.priceHtva}}</td>
+            <td>{{dev.date}}</td>
+            <td> <button type="submit" (click)="deleteInvoice(dev)" class="btn btn-danger"> <i
                   class="far fa-trash-alt"></i></button></td>
           </tr>
         </tbody>
@@ -115,7 +115,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let h of hoursList" (click)="openHour(h)">
+          <tr mdbTableCol *ngFor="let h of chantier?.hours" (click)="openHour(h)">
             <!-- <th scope="row">{{h.id}}</th> -->
             <td>{{h.description}}</td>
             <td>{{h.workTime}}</td>

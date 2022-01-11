@@ -1,3 +1,5 @@
+import { Facture } from "./facture";
+import { Hour } from "./hour";
 
 export interface IChantier
 {
@@ -16,6 +18,10 @@ export interface IChantier
     isFinished : string;
     imagesChantier: Array<string>;
     imagesTicket: Array<string>;
+    factures : Array<Facture>;
+    devis : Array<Facture>;
+    hours : Array<Hour>;
+
 
 }
 export class Chantier implements IChantier {
@@ -31,6 +37,9 @@ export class Chantier implements IChantier {
         public isFinished: string,
         public imagesChantier : Array<string>,
         public imagesTicket : Array<string>,
+        public factures : Array<Facture>,
+        public devis : Array<Facture>,
+        public hours : Array<Hour>,
 
     ) {
     }

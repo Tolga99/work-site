@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isThursday } from 'date-fns';
 import { threadId } from 'worker_threads';
 import { Category } from '../models/category';
+import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
 import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
@@ -89,7 +90,11 @@ export class Shop implements OnInit {
   }
   async SavePanier()
   {
-    let listInv : Array<Facture> = await this.storageService.get("Invoices="+this.chantierId);
+    let chantierl : Array<Chantier> = await this.storageService.get("Chantiers");
+    let chantier = chantierl.find(a => a.chantierId== this.chantierId);
+    let chantierIndex = chantierl.findIndex(a => a.chantierId== this.chantierId);
+    let listInv : Array<Facture> = chantier.factures;
+    //let listInv : Array<Facture> = await this.storageService.get("Invoices="+this.chantierId);
     if(listInv!=null)
     {
       let inv = listInv.find(a => a.factureId== this.invoiceId);
@@ -113,7 +118,9 @@ export class Shop implements OnInit {
                                   null,
                                   null,
                                   null,
-                                  this.panierList);
+                                  this.panierList,
+                                  "creation",
+                                  null);
         listInv.push(newInv);
       }
     }
@@ -131,10 +138,16 @@ export class Shop implements OnInit {
         null,
         null,
         null,
-        this.panierList);
+        this.panierList,
+        "creation",
+        null);
       listInv.push(newInv);
     }
-    this.storageService.set("Invoices="+this.chantierId,listInv);
+
+
+    chantier.factures= listInv;
+    chantierl[chantierIndex] = chantier;
+    this.storageService.set('Chantiers',chantierl);
     this.router.navigate(['/invoice',{invoiceId: this.invoiceId, chantierId : this.chantierId, mode:"false"}],{replaceUrl:true}); 
   }
   GoBack()

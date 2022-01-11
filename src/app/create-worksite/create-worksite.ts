@@ -67,6 +67,9 @@ export class CreateWorksite implements OnInit {
       "En cours",
       null,
       null,
+      null,
+      null,
+      null,
     );
     
     this.chantierList=await this.storageService.get('Chantiers');

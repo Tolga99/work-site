@@ -13,10 +13,10 @@
     <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="...">
 
     <button for="art" [hidden]="ScanMode" (click)="GoShopping()">Ajouter articles</button>
-    <div class="card-header">
+    <div class="card-header" [hidden]="ScanMode">
       Panier
     </div>
-    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" [hidden]="ScanMode">
       <table class="table table-bordered table-striped mb-0">
   
         <thead>
