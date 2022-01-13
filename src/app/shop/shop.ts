@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isThursday } from 'date-fns';
-import { threadId } from 'worker_threads';
 import { Category } from '../models/category';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
@@ -26,23 +24,23 @@ export class Shop implements OnInit {
   type : string;
 
   public redirectTo: string;
-  constructor(private storageService:StorageService, private router:Router,private route:ActivatedRoute) 
+  constructor(private storageService:StorageService, private router:Router,private route:ActivatedRoute)
   {
     this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   async ionViewDidEnter(){
-    this.catList = await this.storageService.get("Categories");
-    this.actualCat =this.catList.find(a => a.categoryId== this.route.snapshot.paramMap.get('actualCat'));
+    this.catList = await this.storageService.get('Categories');
+    this.actualCat =this.catList.find(a => a.categoryId === this.route.snapshot.paramMap.get('actualCat'));
 
     this.EnterCategory(this.actualCat);
-   
+
   }
 
   async ngOnInit() {
     this.storageService.init();
-    this.artList = await this.storageService.get("Articles");
-    this.catList = await this.storageService.get("Categories");
+    this.artList = await this.storageService.get('Articles');
+    this.catList = await this.storageService.get('Categories');
 
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
     this.invoiceId = this.route.snapshot.paramMap.get('invoiceId');
@@ -54,26 +52,26 @@ export class Shop implements OnInit {
   async EnterCategory(c : Category)
   {
     this.actualCat = c;
-    this.artList = await this.storageService.get("Articles"); // Dans les 2 cas on a besoin de la liste complete et actualisée
+    this.artList = await this.storageService.get('Articles'); // Dans les 2 cas on a besoin de la liste complete et actualisée
     if(this.actualCat==null)
     {
-      this.catList = await this.storageService.get("Categories"); 
+      this.catList = await this.storageService.get('Categories');
       if(this.catList!=null)
         this.catList = this.catList.filter(a => a.categoryParent == null);
     }else
     {
       this.catList = this.actualCat.subCategories;
       if(this.artList!=null)
-        this.artList = this.artList.filter(a => a.categoryId == this.actualCat.categoryId);
+        this.artList = this.artList.filter(a => a.categoryId === this.actualCat.categoryId);
     }
-    //+ refresh la liste en dessous avec les articles filtrés AUSSI
+    // + refresh la liste en dessous avec les articles filtrés AUSSI
   }
   async BackCategory()
   {
     if(this.actualCat==null)
       this.EnterCategory(null);
     else this.EnterCategory(this.actualCat.categoryParent);
-    //REfresh articles
+    // REfresh articles
   }
   CreateProduct()
   {
@@ -88,31 +86,31 @@ export class Shop implements OnInit {
   }
   RemoveProduct(p : Product)
   {
-    this.panierList.splice(this.panierList.findIndex(a => a.productId == p.productId),1);
+    this.panierList.splice(this.panierList.findIndex(a => a.productId === p.productId),1);
   }
   async SavePanier()
   {
-    let chantierl : Array<Chantier> = await this.storageService.get("Chantiers");
-    let chantier = chantierl.find(a => a.chantierId== this.chantierId);
-    let chantierIndex = chantierl.findIndex(a => a.chantierId== this.chantierId);
+    const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
+    const chantier = chantierl.find(a => a.chantierId === this.chantierId);
+    const chantierIndex = chantierl.findIndex(a => a.chantierId === this.chantierId);
     let listInv : Array<Facture>;
-    if(this.type=="facture")
+    if(this.type === 'facture')
       listInv= chantier.factures;
     else listInv = chantier.devis;
-    //let listInv : Array<Facture> = await this.storageService.get("Invoices="+this.chantierId);
+    // let listInv : Array<Facture> = await this.storageService.get("Invoices="+this.chantierId);
     if(listInv!=null)
     {
-      let inv = listInv.find(a => a.factureId== this.invoiceId);
+      const inv = listInv.find(a => a.factureId === this.invoiceId);
       let invIndex : number;
       if(inv!=null)
       {
-        invIndex= listInv.findIndex(a => a.factureId== this.invoiceId);
+        invIndex= listInv.findIndex(a => a.factureId === this.invoiceId);
 
         inv.products= this.panierList;
         listInv[invIndex]= inv;
       }else
       {
-        let newInv = new Facture(this.invoiceId,
+        const newInv = new Facture(this.invoiceId,
                                   null,
                                   null,
                                   null,
@@ -124,7 +122,7 @@ export class Shop implements OnInit {
                                   null,
                                   null,
                                   this.panierList,
-                                  "creation",
+                                  'creation',
                                   this.type);
         listInv.push(newInv);
       }
@@ -132,7 +130,7 @@ export class Shop implements OnInit {
     else
     {
       listInv = new Array<Facture>();
-      let newInv = new Facture(this.invoiceId,
+      const newInv = new Facture(this.invoiceId,
         null,
         null,
         null,
@@ -144,17 +142,19 @@ export class Shop implements OnInit {
         null,
         null,
         this.panierList,
-        "creation",
+        'creation',
         this.type);
       listInv.push(newInv);
     }
 
-    if(this.type=="facture")
+    if(this.type === 'facture')
       chantier.factures= listInv;
     else chantier.devis= listInv;
     chantierl[chantierIndex] = chantier;
     this.storageService.set('Chantiers',chantierl);
-    this.router.navigate(['/invoice',{invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:"false"}],{replaceUrl:true}); 
+    this.router.navigate(['/invoice',
+                        {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false'}],
+                        {replaceUrl:true});
   }
   GoBack()
   {

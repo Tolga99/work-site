@@ -26,24 +26,24 @@ export class Payment implements OnInit {
  });
 
   headElementsInv = ['Nom facture', 'Total','Reste à payer','Date'];
-  redirectTo : string="";
-  constructor(private router: Router,private route:ActivatedRoute, private storageService :StorageService) 
+  redirectTo='';
+  constructor(private router: Router,private route:ActivatedRoute, private storageService :StorageService)
   {
     this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   async ngOnInit() {
 
-    var nowDate = new Date(); 
+    const nowDate = new Date();
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
 
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
 
     this.storageService.init();
-    this.chantierList = await this.storageService.get("Chantiers");
-    this.chantierIndex = this.chantierList.findIndex(a => a.chantierId == this.chantierId);
-    this.chantier = this.chantierList.find(a => a.chantierId == this.chantierId);
-    //console.log(this.invList);
+    this.chantierList = await this.storageService.get('Chantiers');
+    this.chantierIndex = this.chantierList.findIndex(a => a.chantierId === this.chantierId);
+    this.chantier = this.chantierList.find(a => a.chantierId === this.chantierId);
+    // console.log(this.invList);
   }
   SelectInvoice(f : Facture)
   {
@@ -53,21 +53,21 @@ export class Payment implements OnInit {
 
     this.ReceivedMoney=0;
     this.selectedInv.receivedMoney.forEach(element => {
-      this.ReceivedMoney=element.price+this.ReceivedMoney; 
+      this.ReceivedMoney=element.price+this.ReceivedMoney;
     });
   }
   public GetAllReceivedMoney(f : Facture) : number
   {
-      let total : number= 0;
+      let total= 0;
       if(f.receivedMoney==null)
         f.receivedMoney = new Array<{price: number, date : string}>();
 
       f.receivedMoney.forEach(element => {
-          total=element.price+total; 
+          total=element.price+total;
       });
       console.log(total);
 
-      total = Math.round(total * 100) / 100; //arrondi
+      total = Math.round(total * 100) / 100; // arrondi
       return total;
   }
   GoBack()
@@ -81,19 +81,19 @@ export class Payment implements OnInit {
   }
   SavePay()
   {
-    let pay=this.formPay.get('payment').value;
+    const pay=this.formPay.get('payment').value;
     if(Number.parseFloat(pay)==null)
       return;
     if(this.selectedInv==null)
       return;
-    
+
     this.selectedInv.receivedMoney.push({price : Number.parseFloat(pay),date : this.date});
-    let index= this.chantier.factures.findIndex(a => a.factureId == this.selectedInv.factureId);
+    const index= this.chantier.factures.findIndex(a => a.factureId === this.selectedInv.factureId);
     this.chantier.factures[index] = this.selectedInv;
 
     this.chantierList[this.chantierIndex] = this.chantier;
 
-    this.storageService.set("Chantiers", this.chantierList);
+    this.storageService.set('Chantiers', this.chantierList);
 
 
   }

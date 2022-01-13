@@ -20,16 +20,16 @@ export class Worksite implements OnInit {
   imagesC = [];
   imagesT = [];
   indexFind: number;
-  totalHours:string="";
+  totalHours='';
 
   chantier : Chantier;
-  //invList : Array<Facture>;
-  //hoursList : Array<Hour>;
+  // invList : Array<Facture>;
+  // hoursList : Array<Hour>;
   chantierList: Array<Chantier>;
 
   formChantier = new FormGroup({
    chantierName: new FormControl('', [Validators.required]),
-   //imgChantier: new FormControl('', [Validators.required]),
+   // imgChantier: new FormControl('', [Validators.required]),
    description: new FormControl('', [Validators.required]),
    address : new FormControl('',Validators.required),
  });
@@ -39,7 +39,7 @@ export class Worksite implements OnInit {
   headElementsRecv = ['Nom Facture','Argent reçu' , 'Total','Restant','Date reception'];
 
   public redirectTo: string;
-  constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute) 
+  constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
     this.redirectTo = route.snapshot.data.redirectTo;
   }
@@ -54,21 +54,21 @@ export class Worksite implements OnInit {
     this.storageService.init();
     // this.hoursList =await this.storageService.get('Hours='+this.chantierId);
     // this.invList =await this.storageService.get('Invoices='+this.chantierId);
-    //this.CalculTotalHour();
+    // this.CalculTotalHour();
 
     this.chantierList =await this.storageService.get('Chantiers');
     if(this.chantierList==null)
       this.chantierList = new Array<Chantier>();
     if(this.chantierId!=null)
     {
-      if(this.chantierList.find(a => a.chantierId == this.chantierId).hours!=null)
-        this.chantier.hours = this.chantierList.find(a => a.chantierId == this.chantierId).hours;
+      if(this.chantierList.find(a => a.chantierId === this.chantierId).hours!=null)
+        this.chantier.hours = this.chantierList.find(a => a.chantierId === this.chantierId).hours;
       else this.chantier.hours = new Array<Hour>();
-      if(this.chantierList.find(a => a.chantierId == this.chantierId).factures!=null)
-        this.chantier.factures = this.chantierList.find(a => a.chantierId == this.chantierId).factures;
+      if(this.chantierList.find(a => a.chantierId === this.chantierId).factures!=null)
+        this.chantier.factures = this.chantierList.find(a => a.chantierId === this.chantierId).factures;
       else this.chantier.factures = new Array<Facture>();
-      if(this.chantierList.find(a => a.chantierId == this.chantierId).devis!=null)
-        this.chantier.devis = this.chantierList.find(a => a.chantierId == this.chantierId).devis;
+      if(this.chantierList.find(a => a.chantierId === this.chantierId).devis!=null)
+        this.chantier.devis = this.chantierList.find(a => a.chantierId === this.chantierId).devis;
       else this.chantier.devis = new Array<Facture>();
       this.CalculTotalHour();
 
@@ -89,10 +89,10 @@ export class Worksite implements OnInit {
     if(existId!=null)
     {
       console.log('modification',existId);
-      this.indexFind =this.chantierList.findIndex(x => x.chantierId == existId);
+      this.indexFind =this.chantierList.findIndex(x => x.chantierId === existId);
       if(this.indexFind>=0)
       {
-        //this.chantierId= this.chantierList[this.indexFind].chantierId;
+        // this.chantierId= this.chantierList[this.indexFind].chantierId;
         this.chantier = new Chantier(
           this.chantierList[this.indexFind].chantierId,
           this.chantierList[this.indexFind].worksiteName,
@@ -138,16 +138,16 @@ export class Worksite implements OnInit {
   onFileChangeChantier(event) {
     if(this.imagesC==null)
       this.imagesC=[];
-    if (event.target.files && event.target.files[0]) 
+    if (event.target.files && event.target.files[0])
     {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) 
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++)
       {
-        var reader = new FileReader();
-        reader.onload = (event:any) => 
+        const reader = new FileReader();
+        reader.onload = (event:any) =>
         {
           console.log(event.target.result);
-          this.imagesC.push(event.target.result); 
+          this.imagesC.push(event.target.result);
           this.formChantier.patchValue({
           fileSource: this.imagesC
           });
@@ -160,16 +160,16 @@ export class Worksite implements OnInit {
   onFileChangeTicket(event) {
     if(this.imagesT==null)
     this.imagesT=[];
-    if (event.target.files && event.target.files[0]) 
+    if (event.target.files && event.target.files[0])
     {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) 
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++)
       {
-        var reader = new FileReader();
-        reader.onload = (event:any) => 
+        const reader = new FileReader();
+        reader.onload = (event:any) =>
         {
           console.log(event.target.result);
-          this.imagesT.push(event.target.result); 
+          this.imagesT.push(event.target.result);
           this.formChantier.patchValue({
           fileSource: this.imagesT
           });
@@ -188,22 +188,22 @@ export class Worksite implements OnInit {
   }
   createInvoice()
   {
-    console.log("Bouton nv facture (creation)");
-    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'facture', mode:"false"}]);
+    console.log('Bouton nv facture (creation)');
+    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'facture', mode:'false'}]);
   }
   scanInvoice()
   {
-    console.log("Bouton nv facture (scan)");
-    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'facture', mode:"true"}]);
+    console.log('Bouton nv facture (scan)');
+    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'facture', mode:'true'}]);
   }
   openInvoice(inv : Facture)
   {
-    console.log("Bouton open facture",inv.factureId,this.chantierId);
+    console.log('Bouton open facture',inv.factureId,this.chantierId);
     this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: this.chantierId}]);
   }
   deleteInvoice(inv:Facture){
 
-    this.chantier.factures = this.chantier.factures.filter(a => a.factureId != inv.factureId);
+    this.chantier.factures = this.chantier.factures.filter(a => a.factureId !== inv.factureId);
     if(this.indexFind>=0)
     {
      // this.chantierList.splice(this.indexFind,1);
@@ -215,22 +215,22 @@ export class Worksite implements OnInit {
 
   createDevis()
   {
-    console.log("Bouton nv facture (creation)");
-    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'devis', mode:"false"}]);
+    console.log('Bouton nv facture (creation)');
+    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'devis', mode:'false'}]);
   }
   scanDevis()
   {
-    console.log("Bouton nv facture (scan)");
-    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'devis', mode:"true"}]);
+    console.log('Bouton nv facture (scan)');
+    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'devis', mode:'true'}]);
   }
   openDevis(inv : Facture)
   {
-    console.log("Bouton open facture",inv.factureId,this.chantierId);
+    console.log('Bouton open facture',inv.factureId,this.chantierId);
     this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: this.chantierId}]);
   }
   deleteDevis(inv:Facture){
 
-    this.chantier.devis = this.chantier.devis.filter(a => a.factureId != inv.factureId);
+    this.chantier.devis = this.chantier.devis.filter(a => a.factureId !== inv.factureId);
     if(this.indexFind>=0)
     {
      // this.chantierList.splice(this.indexFind,1);
@@ -241,7 +241,7 @@ export class Worksite implements OnInit {
 
   TransformToInvoice(d : Facture)
   {
-    let index=this.chantier.devis.findIndex(a => a.factureId == d.factureId);
+    const index=this.chantier.devis.findIndex(a => a.factureId === d.factureId);
     this.generateUUID();
     d.factureId= this.uuidValue;
     this.chantier.factures.push(d);
@@ -249,20 +249,20 @@ export class Worksite implements OnInit {
   }
   AddHour()
   {
-    console.log("Bouton nv heure");
+    console.log('Bouton nv heure');
     this.router.navigate(['hours',{chantierId: this.chantierId}]);
     this.CalculTotalHour();
 
   }
   openHour(h : Hour)
   {
-    console.log("Bouton open hour",h.hourId,this.chantierId);
+    console.log('Bouton open hour',h.hourId,this.chantierId);
     this.router.navigate(['hours',{hourId: h.hourId,chantierId: this.chantierId}]);
   }
-  deleteHour(hour:Hour){ //TESTER
+  deleteHour(hour:Hour){ // TESTER
     // this.hoursList = this.hoursList.filter(a => a.hourId != hour.hourId);
     // this.storageService.set("Hours="+this.chantierId, this.hoursList);
-    this.chantier.hours = this.chantier.hours.filter(a => a.hourId != hour.hourId);
+    this.chantier.hours = this.chantier.hours.filter(a => a.hourId !== hour.hourId);
     if(this.indexFind>=0)
     {
       this.chantierList.splice(this.indexFind,1);
@@ -274,7 +274,7 @@ export class Worksite implements OnInit {
   {
     this.router.navigate(['payment',{chantierId: this.chantierId}]);
   }
-  
+
   SaveChantier()
   {
     console.log('form status',this.formChantier);
@@ -303,8 +303,8 @@ export class Worksite implements OnInit {
       this.chantierList[this.indexFind] = this.chantier;
     }else this.chantierList.push(this.chantier);
     this.storageService.set('Chantiers',this.chantierList);
-  
-    console.log("chantiers saved", this.chantierList);
+
+    console.log('chantiers saved', this.chantierList);
     this.router.navigate(['tb-home'],{replaceUrl:true});
   }
   FinishChantier()
@@ -312,22 +312,22 @@ export class Worksite implements OnInit {
 
   CalculTotalHour()
   {
-    let hours : number=0;
-    let minutes : number=0;
+    let hours=0;
+    let minutes=0;
     if(this.chantier.hours!=null)
     {
       this.chantier.hours.forEach(element =>{
         hours+=element.hour;
         minutes+=element.minute;
       });
-      console.log("Heures : ",hours);
-      console.log("Minutes : ",minutes);
+      console.log('Heures : ',hours);
+      console.log('Minutes : ',minutes);
       while(minutes>60)
       {
         minutes-= 60;
         hours ++;
       }
-      this.totalHours = hours?.toString() +"h"+minutes?.toString() ;
+      this.totalHours = hours?.toString() +'h'+minutes?.toString() ;
       console.log(this.totalHours);
     }
 
@@ -347,32 +347,30 @@ export class Worksite implements OnInit {
   }
   public GetAllReceivedMoney(f : Facture) : number
   {
-      let total : number= 0;
+      let total= 0;
       if(f.receivedMoney==null)
         f.receivedMoney = new Array<{price: number, date : string}>();
 
       f.receivedMoney.forEach(element => {
-          total=element.price+total; 
+          total=element.price+total;
       });
-      console.log(total);
 
-      total = Math.round(total * 100) / 100; //arrondi
-      console.log(total);
+      total = Math.round(total * 100) / 100; // arrondi
       return total;
   }
   DeleteReceive( f : Facture, p : {price,date})
   {
     console.log(f,p);
-    let index=f.receivedMoney.findIndex(a => a.date== p.date && a.price==p.price);
+    const index=f.receivedMoney.findIndex(a => a.date === p.date && a.price === p.price);
     f.receivedMoney.splice(index,1);
 
-    this.chantier.factures[this.chantier.factures.findIndex(a => a.factureId == f.factureId)] = f;
+    this.chantier.factures[this.chantier.factures.findIndex(a => a.factureId === f.factureId)] = f;
 
-    this.chantierList[ this.chantierList.findIndex(a=>a.chantierId==this.chantierId)] = this.chantier;
+    this.chantierList[ this.chantierList.findIndex(a=>a.chantierId === this.chantierId)] = this.chantier;
 
     this.storageService.set('Chantiers',this.chantierList);
-  
-    console.log("chantiers saved", this.chantierList);
+
+    console.log('chantiers saved', this.chantierList);
 
   }
 }

@@ -1,12 +1,12 @@
-import { Facture } from "./facture";
-import { Hour } from "./hour";
+import { Facture } from './facture';
+import { Hour } from './hour';
 
 export interface IChantier
 {
-    //list facture/devis
-    //list photos
-    //client: User;
-    //dates
+    // list facture/devis
+    // list photos
+    // client: User;
+    // dates
     chantierId: string;
     worksiteName: string;
     clientLastName: string;

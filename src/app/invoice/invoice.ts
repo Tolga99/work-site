@@ -18,15 +18,15 @@ export class Invoice implements OnInit {
   images = [];
   chantierId: string;
   invoiceId: string;
-  ScanMode: boolean; //Si = false -> on est en mode création -- donc on voit TVA REMISE PHOTO
-                          // true = mode 
+  ScanMode: boolean; // Si = false -> on est en mode création -- donc on voit TVA REMISE PHOTO
+                          // true = mode
   mode : string;
   type : string;
   date: string;
   inv : Facture;
   indexFind: number;
   invList : Array<Facture> = [];
-  //productsList : Array<Product>= [];
+  // productsList : Array<Product>= [];
   headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
   panierList : Array<Product> = [];
   formInv = new FormGroup({
@@ -48,52 +48,52 @@ export class Invoice implements OnInit {
   }
 
   async ionViewDidEnter(){
-    let tmpMode : string=this.route.snapshot.paramMap.get('mode');
+    const tmpMode : string=this.route.snapshot.paramMap.get('mode');
 
-    if(tmpMode=="false") //creation
+    if(tmpMode === 'false') // creation
     {
-      this.ScanMode=false; //creation
-    }else if(tmpMode=="true")
+      this.ScanMode=false; // creation
+    }else if(tmpMode === 'true')
     {
       this.ScanMode=true;
     }
   }
   async ngOnInit() {
 
-    
-    var nowDate = new Date(); 
+
+    const nowDate = new Date();
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
 
     const existId = this.route.snapshot.paramMap.get('factureId');
     const invoiceId = this.route.snapshot.paramMap.get('invoiceId');
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
-    let tmpMode : string=this.route.snapshot.paramMap.get('mode');
+    const tmpMode : string=this.route.snapshot.paramMap.get('mode');
     this.type = this.route.snapshot.paramMap.get('type'); // devis ou facture
 
-    let chantierl : Array<Chantier> = await this.storageService.get("Chantiers");
+    const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
     if(this.chantierId!=null)
     {
-      if(this.type=="facture")
-        this.invList = chantierl.find(a => a.chantierId == this.chantierId).factures;
-      else this.invList = chantierl.find(a => a.chantierId == this.chantierId).devis;
+      if(this.type === 'facture')
+        this.invList = chantierl.find(a => a.chantierId === this.chantierId).factures;
+      else this.invList = chantierl.find(a => a.chantierId === this.chantierId).devis;
     }
     if(this.invList==null)
       this.invList = new Array<Facture>();
 
-    if(tmpMode=="false")
+    if(tmpMode === 'false')
     {
       this.ScanMode=false;
-      this.mode = "creation";
-    }else if(tmpMode=="true")
+      this.mode = 'creation';
+    }else if(tmpMode === 'true')
     {
       this.ScanMode=true;
-      this.mode="scan";
+      this.mode='scan';
     }
     if(existId!=null)
     {
       console.log('modification',existId);
 
-      this.indexFind =this.invList.findIndex(x => x.factureId == existId);
+      this.indexFind =this.invList.findIndex(x => x.factureId === existId);
       if(this.indexFind>=0)
       {
         this.invoiceId= this.invList[this.indexFind].factureId;
@@ -108,9 +108,9 @@ export class Invoice implements OnInit {
         });
         this.images=this.invList[this.indexFind].images;
         this.mode = this.invList[this.indexFind].mode;
-        console.log("mode ",this.mode);
+        console.log('mode ',this.mode);
         console.log(this.invList[this.indexFind].products);
-        if(this.mode=="creation")
+        if(this.mode === 'creation')
           this.panierList = this.invList[this.indexFind].products;
         console.log(this.panierList);
       }
@@ -118,25 +118,25 @@ export class Invoice implements OnInit {
       console.log('creation : ',existId);
       this.invoiceId= this.generateUUID();
     }
-    if(this.mode =="creation")
+    if(this.mode === 'creation')
     {
       this.ScanMode=false;
-      
-    }else if(this.mode="scan")
+
+    }else if(this.mode === 'scan')
     {
       this.ScanMode=true;
     }
     if(invoiceId!=null)
     {
       this.invoiceId= invoiceId;
-      this.panierList= this.invList.find(a=>a.factureId==this.invoiceId).products;
-      let total : number = 0;
+      this.panierList= this.invList.find(a=>a.factureId === this.invoiceId).products;
+      let total = 0;
       this.panierList.forEach(element => {
-        console.log("total value :" ,total);
+        console.log('total value :' ,total);
           total = total + Number.parseFloat(element.priceHtva.toString());
       })
-      console.log("total value :" ,total);
-      this.formInv.get("priceHtva").setValue(total);
+      console.log('total value :' ,total);
+      this.formInv.get('priceHtva').setValue(total);
     }
   }
 
@@ -146,7 +146,7 @@ export class Invoice implements OnInit {
     this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
   }
   async CreateWorksite() {
-   
+
   }
 
   get f(){
@@ -154,16 +154,16 @@ export class Invoice implements OnInit {
   }
 
   onFileChange(event) {
-    if (event.target.files && event.target.files[0]) 
+    if (event.target.files && event.target.files[0])
     {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) 
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++)
       {
-        var reader = new FileReader();
-        reader.onload = (event:any) => 
+        const reader = new FileReader();
+        reader.onload = (event:any) =>
         {
           console.log(event.target.result);
-          this.images.push(event.target.result); 
+          this.images.push(event.target.result);
           this.formInv.patchValue({
           fileSource: this.images
           });
@@ -177,30 +177,30 @@ export class Invoice implements OnInit {
     console.log('form status',this.formInv);
     if (!this.formInv.valid)
       return;
-    
-    if(this.ScanMode==false)
-    {
-      let total : number=0;
-      let totalTva : number = 0;
-      let remise : string =this.formInv.get('remise').value;
-      let htva :number =this.formInv.get('priceHtva').value;
-      let tva=this.formInv.get('tva').value;
 
-      if(Number.parseFloat(remise)!=0)
+    if(this.ScanMode === false)
+    {
+      let total=0;
+      let totalTva = 0;
+      const remise : string =this.formInv.get('remise').value;
+      let htva :number =this.formInv.get('priceHtva').value;
+      const tva=this.formInv.get('tva').value;
+
+      if(Number.parseFloat(remise) !== 0)
       {
         htva = htva * (1 - Number.parseFloat(remise) / 100);
-        htva = Math.round(htva * 100) / 100; //arrondi
+        htva = Math.round(htva * 100) / 100; // arrondi
 
       }
       totalTva = htva / 100 * Number.parseFloat(tva);
-      totalTva = Math.round(totalTva * 100) / 100; //arrondi
+      totalTva = Math.round(totalTva * 100) / 100; // arrondi
 
       total= Number.parseFloat(htva.toString()) + totalTva;
-      total = Math.round(total * 100) / 100; //arrondi
+      total = Math.round(total * 100) / 100; // arrondi
 
-      console.log("Tva : ",tva);
-      console.log("TTva : ",totalTva);
-      console.log("htva : ",htva);
+      console.log('Tva : ',tva);
+      console.log('TTva : ',totalTva);
+      console.log('htva : ',htva);
 
 
       this.formInv.get('totalPrice').setValue(total);
@@ -221,31 +221,31 @@ export class Invoice implements OnInit {
       this.mode,
       this.type,
     );
-    console.log("list avant : ", this.invList);
+    console.log('list avant : ', this.invList);
     if(this.indexFind>=0)
     {
-      //this.invList.splice(this.indexFind,1);
+      // this.invList.splice(this.indexFind,1);
       this.invList[this.indexFind] = this.inv;
     }else
     {
-      let index=this.invList.findIndex(a => a.factureId == this.invoiceId);
+      const index=this.invList.findIndex(a => a.factureId === this.invoiceId);
       if(index>=0)
         this.invList[index]=this.inv;
       else this.invList.push(this.inv);
-    } 
-    console.log("list apres : ", this.invList);
+    }
+    console.log('list apres : ', this.invList);
 
-    let chantierl : Array<Chantier> = await this.storageService.get("Chantiers");
-    let chantier = chantierl.find(a => a.chantierId== this.chantierId);
-    let chantierIndex = chantierl.findIndex(a => a.chantierId== this.chantierId);
+    const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
+    const chantier = chantierl.find(a => a.chantierId === this.chantierId);
+    const chantierIndex = chantierl.findIndex(a => a.chantierId === this.chantierId);
 
-    if(this.type=="facture")
+    if(this.type === 'facture')
       chantier.factures= this.invList;
     else chantier.devis = this.invList;
     chantierl[chantierIndex] = chantier;
     this.storageService.set('Chantiers',chantierl);
-  
-    console.log("invoice saved", this.invList);
+
+    console.log('invoice saved', this.invList);
     this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }
   generateUUID()
@@ -257,9 +257,9 @@ export class Invoice implements OnInit {
   {
     this.images=[];
   }
-  hideInput() 
+  hideInput()
   {
-    if(this.ScanMode==true)
+    if(this.ScanMode === true)
       this.ScanMode = false;
     else  this.ScanMode = true;
   }

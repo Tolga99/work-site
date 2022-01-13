@@ -1,15 +1,15 @@
-import { Product } from "./product";
+import { Product } from './product';
 
-export interface IFacture 
+export interface IFacture
 {
     factureId: string;
     factureName: string;
-    //image
-    //admin: User;
-    //client: User;
-    //date
-    //valid: boolean;
-    //list product
+    // image
+    // admin: User;
+    // client: User;
+    // date
+    // valid: boolean;
+    // list product
     products : Array<Product>;
     description : string;
     images : Array<string>;
@@ -20,8 +20,8 @@ export interface IFacture
     tva : number;
     totalPrice: number;
     receivedMoney: Array<{ price: number, date: string}>;
-    mode : string ; //SCAN OU CREE
-    type : string; //Facture ou Devis;
+    mode : string ; // SCAN OU CREE
+    type : string; // Facture ou Devis;
 }
 export class Facture implements IFacture {
     constructor(
@@ -35,20 +35,20 @@ export class Facture implements IFacture {
         public tva : number,
         public totalPrice: number,
         public images: Array<string>,
-        //public receivedMoney: Array<number>,
+        // public receivedMoney: Array<number>,
         public receivedMoney: Array<{ price: number, date: string}>,
         public products : Array<Product>,
-        public mode : string ,//SCAN OU CREE
-        public type : string, //Facture ou Devis;
+        public mode : string ,// SCAN OU CREE
+        public type : string, // Facture ou Devis;
 
-    ) 
+    )
     {
     }
     public GetAllReceivedMoney() : number
     {
-        let total : number=0;
+        const total=0;
         // this.receivedMoney.forEach(element => {
-        //     total=element+total; 
+        //     total=element+total;
         // });
         return total;
     }

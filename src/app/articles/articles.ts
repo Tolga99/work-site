@@ -19,29 +19,28 @@ export class Articles implements OnInit {
   actualCat : Category = null;
 
   public redirectTo: string;
-  constructor(private storageService:StorageService, private router:Router,private route:ActivatedRoute) 
+  constructor(private storageService:StorageService, private router:Router,private route:ActivatedRoute)
   {
     this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   async ionViewDidEnter(){
-    this.catList = await this.storageService.get("Categories");
-    this.actualCat =this.catList.find(a => a.categoryId== this.route.snapshot.paramMap.get('actualCat'));
+    this.catList = await this.storageService.get('Categories');
+    this.actualCat =this.catList.find(a => a.categoryId === this.route.snapshot.paramMap.get('actualCat'));
 
     this.EnterCategory(this.actualCat);
-   
   }
 
   async ngOnInit() {
     this.storageService.init();
-    this.artList = await this.storageService.get("Articles");
-    this.catList = await this.storageService.get("Categories");
+    this.artList = await this.storageService.get('Articles');
+    this.catList = await this.storageService.get('Categories');
     if(this.catList!=null)
       this.catList = this.catList.filter(a => a.categoryParent == null);
   }
   CreateCategory()
   {
-    console.log("Bouton nv cat");
+    console.log('Bouton nv cat');
     if(this.actualCat!=null)
       this.router.navigate(['category-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
     else this.router.navigate(['category-form']);
@@ -50,33 +49,35 @@ export class Articles implements OnInit {
   {
     console.log(c);
     if(c!=null)
-      this.router.navigate(['category-form',{actualCat : this.actualCat?.categoryId,modifCat: c?.categoryId, modif: "YES"}],{replaceUrl:true});
-    else this.router.navigate(['category-form',{modif: "YES"}],{replaceUrl:true});
-     
+      this.router.navigate(['category-form',
+                          {actualCat : this.actualCat?.categoryId,modifCat: c?.categoryId, modif: 'YES'}],
+                          {replaceUrl:true});
+    else this.router.navigate(['category-form',{modif: 'YES'}],{replaceUrl:true});
+
   }
   async EnterCategory(c : Category)
   {
     this.actualCat = c;
-    this.artList = await this.storageService.get("Articles"); // Dans les 2 cas on a besoin de la liste complete et actualisée
+    this.artList = await this.storageService.get('Articles'); // Dans les 2 cas on a besoin de la liste complete et actualisée
     if(this.actualCat==null)
     {
-      this.catList = await this.storageService.get("Categories"); 
+      this.catList = await this.storageService.get('Categories');
       if(this.catList!=null)
         this.catList = this.catList.filter(a => a.categoryParent == null);
     }else
     {
       this.catList = this.actualCat.subCategories;
       if(this.artList!=null)
-        this.artList = this.artList.filter(a => a.categoryId == this.actualCat.categoryId);
+        this.artList = this.artList.filter(a => a.categoryId === this.actualCat.categoryId);
     }
-    //+ refresh la liste en dessous avec les articles filtrés AUSSI
+    // + refresh la liste en dessous avec les articles filtrés AUSSI
   }
   async BackCategory()
   {
     if(this.actualCat==null)
       this.EnterCategory(null);
     else this.EnterCategory(this.actualCat.categoryParent);
-    //REfresh articles
+    // REfresh articles
   }
   CreateProduct()
   {
@@ -88,8 +89,8 @@ export class Articles implements OnInit {
   {
     console.log(p);
     if(p!=null)
-      this.router.navigate(['article-form',{modifArt: p.productId, modif: "YES"}],{replaceUrl:true});
-    else this.router.navigate(['article-form',{modif: "YES"}],{replaceUrl:true});
+      this.router.navigate(['article-form',{modifArt: p.productId, modif: 'YES'}],{replaceUrl:true});
+    else this.router.navigate(['article-form',{modif: 'YES'}],{replaceUrl:true});
   }
   DeleteProduct(p : Product)
   {
