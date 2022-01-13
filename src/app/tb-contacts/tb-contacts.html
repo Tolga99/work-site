@@ -1,35 +1,49 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>
-        Contacts
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content [fullscreen]="true">
+  <ion-toolbar>
+    <ion-title>
+      Contacts
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
   <div class="card text-center">
     <div class="card-header">
-    Mes clients
+      Mes clients
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
-  
-    <table class="table table-bordered table-striped mb-0">
-    <thead>
-      <tr>
-        <th *ngFor="let head of headElements" scope="col">{{head}} </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr mdbTableCol *ngFor="let el of contactsList" (click)="ClickContact(el)">
-        <!-- <th scope="row" >{{el.userId}}</th> -->
-        <td>{{el.firstName}}</td>
-        <td>{{el.lastName}}</td>
-        <td>{{el.address}}</td>
-        <td><button (click)="deleteContact(el)">DELETE</button></td>
-      </tr>
-    </tbody>
-    </table>
-  </div>
-  <div class="card-footer text-muted">
+
+      <table class="table table-bordered table-striped mb-0">
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let el of contactsList" (click)="ClickContact(el)">
+            <!-- <th scope="row" >{{el.userId}}</th> -->
+            <td>{{el.firstName}}</td>
+            <td>{{el.lastName}}</td>
+            <td>{{el.address}}</td>
+            <td (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>edit</mat-icon>
+                  <span>Modifier</span>
+                </button>
+                <button mat-menu-item (click)="deleteContact(el)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer text-muted">
       <button type="button" class="btn btn-secondary" (click)="CreateClient()">Nouveau client</button>
     </div>
   </div>

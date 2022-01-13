@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -9,10 +11,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule,
+    MatIconModule,
+    MatMenuModule,
   ]
   ,exports:[
-    FormsModule,ReactiveFormsModule
+    FormsModule,ReactiveFormsModule,
+    MatCardModule,
+    MatIconModule,
+    MatMenuModule,
   ]
 })
 export class SharedModule { }

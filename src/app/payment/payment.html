@@ -22,21 +22,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let inv of invList"  
-          [ngClass]="{ 'selectedInv' : inv }">
+          <tr mdbTableCol *ngFor="let inv of this.chantier?.factures" (click)="SelectInvoice(inv)">
+          <!-- [ngClass]="{ 'selectedInv' : inv }"> -->
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{inv.factureName}}</td>
-            <td>{{inv.priceHtva}}</td>
+            <td>{{inv.totalPrice}}</td>
+            <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
             <td>{{inv.date}}</td>
         </tbody>
+        
       </table>
 
     </div>
+    <!-- <div>
+      <label for="">Reste à payer : {{selectedInv?.totalPrice - ReceivedMoney }}</label>
+    </div> -->
     <div>
-      <label for="categoryName">Reste à payer : {{selectedInv?.priceHtva - selectedInv?.GetAllReceivedMoney()}}</label>
-  
       <label for="payment">Paiement : </label>
       <input type="text" id="payment" name="payment" formControlName="payment" placeholder="...">
     </div>
+    <button class="btn btn-danger" > Enregistrer paiement</button>
   </form>
+  <button type="submit" class="btn btn-danger" (click)="Terminer()"> Terminer paiement</button>
+
 </div>

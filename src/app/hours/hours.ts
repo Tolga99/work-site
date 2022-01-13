@@ -61,15 +61,20 @@ export class Hours implements OnInit {
           this.hoursList[this.indexFind].hour,
           this.hoursList[this.indexFind].minute,
         )
-        let d = Date.now();
-        let dd = new Date(d.toString());
-        //dd.setHours(this.hour.hour,this.hour.minute,0,0);
-        
+        let d = new Date();
+        console.log(this.hour.hour, 'et ',this.hour.minute);
+        d.setUTCHours(this.hour.hour,this.hour.minute,0,0);
+        // d.setHours(this.hour.hour,this.hour.minute,0,0);
+        // let dd = new Date(d.toString());
+        // console.log(d.toLocaleDateString(),d.toTimeString(),d.toUTCString(),d.toLocaleTimeString());
+        console.log(d.toISOString());
+
         this.formHour.setValue({
-          date: null,
+          date: d.toISOString(),
           description:  this.hoursList[this.indexFind].description,
         });
-        
+        // this.formHour.get('date').setValue(d.toISOString());
+        this.formHour.patchValue({ date : d.toISOString()});
       }
     }else 
     {

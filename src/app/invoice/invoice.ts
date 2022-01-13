@@ -21,6 +21,7 @@ export class Invoice implements OnInit {
   ScanMode: boolean; //Si = false -> on est en mode création -- donc on voit TVA REMISE PHOTO
                           // true = mode 
   mode : string;
+  type : string;
   date: string;
   inv : Facture;
   indexFind: number;
@@ -67,11 +68,14 @@ export class Invoice implements OnInit {
     const invoiceId = this.route.snapshot.paramMap.get('invoiceId');
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
     let tmpMode : string=this.route.snapshot.paramMap.get('mode');
+    this.type = this.route.snapshot.paramMap.get('type'); // devis ou facture
 
     let chantierl : Array<Chantier> = await this.storageService.get("Chantiers");
     if(this.chantierId!=null)
     {
-      this.invList = chantierl.find(a => a.chantierId == this.chantierId).factures;
+      if(this.type=="facture")
+        this.invList = chantierl.find(a => a.chantierId == this.chantierId).factures;
+      else this.invList = chantierl.find(a => a.chantierId == this.chantierId).devis;
     }
     if(this.invList==null)
       this.invList = new Array<Facture>();
@@ -139,7 +143,7 @@ export class Invoice implements OnInit {
   GoShopping()
   {
 
-    this.router.navigate(['shop',{invoiceId : this.invoiceId,chantierId : this.chantierId}],{replaceUrl:true});
+    this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
   }
   async CreateWorksite() {
    
@@ -215,7 +219,7 @@ export class Invoice implements OnInit {
       null,
       this.panierList,
       this.mode,
-      null
+      this.type,
     );
     console.log("list avant : ", this.invList);
     if(this.indexFind>=0)
@@ -235,7 +239,9 @@ export class Invoice implements OnInit {
     let chantier = chantierl.find(a => a.chantierId== this.chantierId);
     let chantierIndex = chantierl.findIndex(a => a.chantierId== this.chantierId);
 
-    chantier.factures= this.invList;
+    if(this.type=="facture")
+      chantier.factures= this.invList;
+    else chantier.devis = this.invList;
     chantierl[chantierIndex] = chantier;
     this.storageService.set('Chantiers',chantierl);
   

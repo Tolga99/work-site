@@ -1,11 +1,11 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>
-        Acceuil
-      </ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>
+      Acceuil
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
-  
+
 <ion-content [fullscreen]="true">
 
   <!-- <h2 class="text-center">DevisApp</h2>
@@ -17,14 +17,14 @@
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
-        
+
         <thead>
           <tr>
             <th *ngFor="let head of headElements" scope="col">{{head}} </th>
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let el of chantierList" (click)="ManageWorksite(el)" >
+          <tr mdbTableCol *ngFor="let el of chantierList" (click)="ManageWorksite(el)">
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{el.worksiteName}}</td>
             <td>{{el.clientLastName}}</td>
@@ -32,7 +32,21 @@
             <td>{{el.address}}</td>
             <td>{{el.isFinished}}</td>
 
-            <td>    <button type="submit" (click)="deleteWorksite(el)" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
+            <td (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>edit</mat-icon>
+                  <span>Modifier</span>
+                </button>
+                <button mat-menu-item (click)="deleteWorksite(el)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -41,8 +55,8 @@
       <button type="button" class="btn btn-secondary" (click)="CreateWorksite()">Nouveau chantier</button>
     </div>
   </div>
-  
-<!--
+
+  <!--
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Tab 1</ion-title>

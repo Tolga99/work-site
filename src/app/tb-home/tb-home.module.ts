@@ -6,6 +6,7 @@ import { TabHome } from './tb-home';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { TabHomeRoutingModule } from './tb-home-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { TabHomeRoutingModule } from './tb-home-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    TabHomeRoutingModule
+    TabHomeRoutingModule,
+    SharedModule,
   ],
   declarations: [TabHome]
 })

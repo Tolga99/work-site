@@ -9,7 +9,9 @@
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
 
-    <label for="factureName">Nom facture</label>
+    <label for="factureName" [hidden]="type=='devis'">Nom facture</label>
+    <label for="factureName" [hidden]="type=='facture'">Nom devis</label>
+
     <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="...">
 
     <button for="art" [hidden]="ScanMode" (click)="GoShopping()">Ajouter articles</button>
@@ -18,7 +20,7 @@
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" [hidden]="ScanMode">
       <table class="table table-bordered table-striped mb-0">
-  
+
         <thead>
           <tr>
             <th *ngFor="let head of headElementsArt" scope="col">{{head}} </th>
@@ -34,10 +36,15 @@
           </tr>
         </tbody>
       </table>
-  
+
+    </div>
+    <div [hidden]="type=='devis'">
+      <label for="imgFactures" [hidden]="!ScanMode">Photos facture</label>
+    </div>
+    <div [hidden]="type=='facture'">
+      <label for="imgFactures" [hidden]="!ScanMode">Photos devis</label>
     </div>
 
-    <label for="imgFactures" [hidden]="!ScanMode" >Photos facture</label>
     <!-- Select File -->
     <input [hidden]="!ScanMode" id="imgFactures" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
@@ -48,9 +55,8 @@
     <!-- <img [hidden]="!ScanMode" *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> -->
 
     <div *ngFor="let img of images">
-      <img [hidden]="!ScanMode" class="original" [alt]="img.Name" 
-      [src]="img" 
-      height="150" width="200px" style="margin: 3px;" />
+      <img [hidden]="!ScanMode" class="original" [alt]="img.Name" [src]="img" height="150" width="200px"
+        style="margin: 3px;" />
       <button type="submit" (click)="resetImages()" class="btn btn-danger">
         <i class="far fa-trash-alt"></i>
       </button>
@@ -61,7 +67,7 @@
       <option value='bancaire'>Virement bancaire</option>
     </select>
     <!-- articles -->
-    <label for="htva" [hidden]="ScanMode" >Prix HTVA</label>
+    <label for="htva" [hidden]="ScanMode">Prix HTVA</label>
     <input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="...">
 
     <label for="tva" [hidden]="ScanMode">TVA</label>
@@ -69,18 +75,24 @@
 
     <label for="remise" [hidden]="ScanMode">Remise</label>
     <input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="...">
-  
-    <label for="totalPrice" [hidden]="!ScanMode" >Prix à payer</label>
-    <input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice" placeholder="125,35">
+
+    <label for="totalPrice" [hidden]="!ScanMode">Prix à payer</label>
+    <input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice"
+      placeholder="125,35">
 
     <hr>
-    <label for="description" >Description</label>
+    <label for="description">Description</label>
     <textarea id="description" name="description" formControlName="description" placeholder="..."
       style="height:100px;"></textarea>
 
-    <input type="submit" [hidden]="!ScanMode" value="Scanner chantier">
-    <input type="submit" [hidden]="ScanMode==true" value="Créer chantier">
-
+    <div [hidden]="type=='devis'">
+      <input type="submit" [hidden]="!ScanMode" value="Scanner chantier">
+      <input type="submit" [hidden]="ScanMode==true" value="Créer chantier">
+    </div>
+    <div [hidden]="type!='devis'">
+      <input type="submit" [hidden]="!ScanMode" value="Scanner devis">
+      <input type="submit" [hidden]="ScanMode==true" value="Créer devis">
+    </div>
   </form>
   {{formInv.valid}}
 </div>

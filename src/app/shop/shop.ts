@@ -23,6 +23,7 @@ export class Shop implements OnInit {
 
   invoiceId : string;
   chantierId : string;
+  type : string;
 
   public redirectTo: string;
   constructor(private storageService:StorageService, private router:Router,private route:ActivatedRoute) 
@@ -45,6 +46,7 @@ export class Shop implements OnInit {
 
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
     this.invoiceId = this.route.snapshot.paramMap.get('invoiceId');
+    this.type = this.route.snapshot.paramMap.get('type');
 
     if(this.catList!=null)
       this.catList = this.catList.filter(a => a.categoryParent == null);
@@ -93,7 +95,10 @@ export class Shop implements OnInit {
     let chantierl : Array<Chantier> = await this.storageService.get("Chantiers");
     let chantier = chantierl.find(a => a.chantierId== this.chantierId);
     let chantierIndex = chantierl.findIndex(a => a.chantierId== this.chantierId);
-    let listInv : Array<Facture> = chantier.factures;
+    let listInv : Array<Facture>;
+    if(this.type=="facture")
+      listInv= chantier.factures;
+    else listInv = chantier.devis;
     //let listInv : Array<Facture> = await this.storageService.get("Invoices="+this.chantierId);
     if(listInv!=null)
     {
@@ -120,7 +125,7 @@ export class Shop implements OnInit {
                                   null,
                                   this.panierList,
                                   "creation",
-                                  null);
+                                  this.type);
         listInv.push(newInv);
       }
     }
@@ -140,15 +145,16 @@ export class Shop implements OnInit {
         null,
         this.panierList,
         "creation",
-        null);
+        this.type);
       listInv.push(newInv);
     }
 
-
-    chantier.factures= listInv;
+    if(this.type=="facture")
+      chantier.factures= listInv;
+    else chantier.devis= listInv;
     chantierl[chantierIndex] = chantier;
     this.storageService.set('Chantiers',chantierl);
-    this.router.navigate(['/invoice',{invoiceId: this.invoiceId, chantierId : this.chantierId, mode:"false"}],{replaceUrl:true}); 
+    this.router.navigate(['/invoice',{invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:"false"}],{replaceUrl:true}); 
   }
   GoBack()
   {

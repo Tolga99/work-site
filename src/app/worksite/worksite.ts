@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UUID } from 'angular2-uuid';
 import { element } from 'protractor';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
@@ -14,6 +15,7 @@ import { StorageService } from '../services/storage.service';
 })
 export class Worksite implements OnInit {
 
+  uuidValue : string;
   chantierId: string;
   imagesC = [];
   imagesT = [];
@@ -34,7 +36,7 @@ export class Worksite implements OnInit {
 
   headElementsInv = ['Nom facture', 'Total','Date'];
   headElementsHour = ['Description', 'Heure travail','Date'];
-  headElementsRecv = ['Nom Facture', 'Argent à Payer / Restant','Argent reçu','Date'];
+  headElementsRecv = ['Nom Facture','Argent reçu' , 'Total','Restant','Date reception'];
 
   public redirectTo: string;
   constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute) 
@@ -42,6 +44,11 @@ export class Worksite implements OnInit {
     this.redirectTo = route.snapshot.data.redirectTo;
   }
 
+  generateUUID()
+  {
+      this.uuidValue=UUID.UUID();
+      return this.uuidValue;
+  }
   async ionViewDidEnter(){
     console.log('view did enter');
     this.storageService.init();
@@ -182,29 +189,64 @@ export class Worksite implements OnInit {
   createInvoice()
   {
     console.log("Bouton nv facture (creation)");
-    this.router.navigate(['invoice',{chantierId: this.chantierId, mode:"false"}]);
+    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'facture', mode:"false"}]);
   }
   scanInvoice()
   {
     console.log("Bouton nv facture (scan)");
-    this.router.navigate(['invoice',{chantierId: this.chantierId, mode:"true"}]);
+    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'facture', mode:"true"}]);
   }
   openInvoice(inv : Facture)
   {
     console.log("Bouton open facture",inv.factureId,this.chantierId);
-    this.router.navigate(['invoice',{factureId: inv.factureId,chantierId: this.chantierId}]);
+    this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: this.chantierId}]);
   }
   deleteInvoice(inv:Facture){
 
     this.chantier.factures = this.chantier.factures.filter(a => a.factureId != inv.factureId);
     if(this.indexFind>=0)
     {
-      this.chantierList.splice(this.indexFind,1);
+     // this.chantierList.splice(this.indexFind,1);
       this.chantierList[this.indexFind] = this.chantier;
     }else this.chantierList.push(this.chantier);
     this.storageService.set('Chantiers',this.chantierList);
   }
 
+
+  createDevis()
+  {
+    console.log("Bouton nv facture (creation)");
+    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'devis', mode:"false"}]);
+  }
+  scanDevis()
+  {
+    console.log("Bouton nv facture (scan)");
+    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'devis', mode:"true"}]);
+  }
+  openDevis(inv : Facture)
+  {
+    console.log("Bouton open facture",inv.factureId,this.chantierId);
+    this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: this.chantierId}]);
+  }
+  deleteDevis(inv:Facture){
+
+    this.chantier.devis = this.chantier.devis.filter(a => a.factureId != inv.factureId);
+    if(this.indexFind>=0)
+    {
+     // this.chantierList.splice(this.indexFind,1);
+      this.chantierList[this.indexFind] = this.chantier;
+    }else this.chantierList.push(this.chantier);
+    this.storageService.set('Chantiers',this.chantierList);
+  }
+
+  TransformToInvoice(d : Facture)
+  {
+    let index=this.chantier.devis.findIndex(a => a.factureId == d.factureId);
+    this.generateUUID();
+    d.factureId= this.uuidValue;
+    this.chantier.factures.push(d);
+    this.chantier.devis.splice(index,1);
+  }
   AddHour()
   {
     console.log("Bouton nv heure");
@@ -230,7 +272,7 @@ export class Worksite implements OnInit {
   }
   AddPayment()
   {
-    this.router.navigate(['payment']);
+    this.router.navigate(['payment',{chantierId: this.chantierId}]);
   }
   
   SaveChantier()
@@ -302,5 +344,35 @@ export class Worksite implements OnInit {
   ImagePopUp(url : string)
   {
     alert(url);
+  }
+  public GetAllReceivedMoney(f : Facture) : number
+  {
+      let total : number= 0;
+      if(f.receivedMoney==null)
+        f.receivedMoney = new Array<{price: number, date : string}>();
+
+      f.receivedMoney.forEach(element => {
+          total=element.price+total; 
+      });
+      console.log(total);
+
+      total = Math.round(total * 100) / 100; //arrondi
+      console.log(total);
+      return total;
+  }
+  DeleteReceive( f : Facture, p : {price,date})
+  {
+    console.log(f,p);
+    let index=f.receivedMoney.findIndex(a => a.date== p.date && a.price==p.price);
+    f.receivedMoney.splice(index,1);
+
+    this.chantier.factures[this.chantier.factures.findIndex(a => a.factureId == f.factureId)] = f;
+
+    this.chantierList[ this.chantierList.findIndex(a=>a.chantierId==this.chantierId)] = this.chantier;
+
+    this.storageService.set('Chantiers',this.chantierList);
+  
+    console.log("chantiers saved", this.chantierList);
+
   }
 }

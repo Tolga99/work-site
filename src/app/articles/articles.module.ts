@@ -8,9 +8,6 @@ import { ArticlesRoutingModule } from './articles-routing.module';
 
 import { Articles } from './articles';
 import { SharedModule } from '../shared/shared.module';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -20,9 +17,6 @@ import { MatMenuModule } from '@angular/material/menu';
     IonicModule,
     ArticlesRoutingModule,
     SharedModule,
-    MatCardModule,
-    MatIconModule,
-    MatMenuModule,
   ],
   declarations: [Articles]
 })

@@ -19,7 +19,7 @@ export interface IFacture
     priceHtva: number;
     tva : number;
     totalPrice: number;
-    receivedMoney: Array<number>;
+    receivedMoney: Array<{ price: number, date: string}>;
     mode : string ; //SCAN OU CREE
     type : string; //Facture ou Devis;
 }
@@ -35,7 +35,8 @@ export class Facture implements IFacture {
         public tva : number,
         public totalPrice: number,
         public images: Array<string>,
-        public receivedMoney: Array<number>,
+        //public receivedMoney: Array<number>,
+        public receivedMoney: Array<{ price: number, date: string}>,
         public products : Array<Product>,
         public mode : string ,//SCAN OU CREE
         public type : string, //Facture ou Devis;
@@ -45,10 +46,10 @@ export class Facture implements IFacture {
     }
     public GetAllReceivedMoney() : number
     {
-        let total : number;
-        this.receivedMoney.forEach(element => {
-            total=element+total; 
-        });
+        let total : number=0;
+        // this.receivedMoney.forEach(element => {
+        //     total=element+total; 
+        // });
         return total;
     }
     public GetProductsTotalPrice() : number

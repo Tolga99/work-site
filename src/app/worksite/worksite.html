@@ -61,8 +61,21 @@
             <td>{{inv.factureName}}</td>
             <td>{{inv.totalPrice}}€</td>
             <td>{{inv.date}}</td>
-            <td> <button type="submit" (click)="deleteInvoice(inv)" class="btn btn-danger"> <i
-                  class="far fa-trash-alt"></i></button></td>
+            <td (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>edit</mat-icon>
+                  <span>Modifier</span>
+                </button>
+                <button mat-menu-item (click)="deleteInvoice(inv)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -86,21 +99,34 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let dev of chantier?.devis" (click)="openInvoice(dev)">
+          <tr mdbTableCol *ngFor="let dev of chantier?.devis" (click)="openDevis(dev)">
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{dev.factureName}}</td>
-            <td>{{dev.priceHtva}}</td>
+            <td>{{dev.totalPrice}}€</td>
             <td>{{dev.date}}</td>
-            <td> <button type="submit" (click)="deleteInvoice(dev)" class="btn btn-danger"> <i
-                  class="far fa-trash-alt"></i></button></td>
+            <td (click)="$event.stopPropagation">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="TransformToInvoice(dev)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Modifier</span>
+                </button>
+                <button mat-menu-item (click)="deleteDevis(dev)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </td>
           </tr>
         </tbody>
       </table>
 
     </div>
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Scanner devis</button>
-      <button type="button" class="btn btn-secondary" (click)="createInvoice()">Créer devis</button>
+      <button type="button" class="btn btn-secondary" (click)="scanDevis()">Scanner devis</button>
+      <button type="button" class="btn btn-secondary" (click)="createDevis()">Créer devis</button>
     </div>
     <hr>
     <div class="card-header">
@@ -120,8 +146,21 @@
             <td>{{h.description}}</td>
             <td>{{h.workTime}}</td>
             <td>{{h.date}}</td>
-            <td> <button type="submit" (click)="deleteHour(h)" class="btn btn-danger"> <i
-                  class="far fa-trash-alt"></i></button></td>
+            <td (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" (click)="$event.stopPropagation()">
+                <button mat-menu-item>
+                  <mat-icon>edit</mat-icon>
+                  <span>Modifier</span>
+                </button>
+                <button mat-menu-item (click)="deleteHour(h)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -166,15 +205,30 @@
             <th *ngFor="let head of headElementsRecv" scope="col">{{head}} </th>
           </tr>
         </thead>
-        <tbody>
-          <!-- <tr mdbTableCol *ngFor="let h of hoursList" (click)="openHour(h)"> -->
+        <tbody *ngFor="let inv of chantier?.factures">
+          <tr mdbTableCol *ngFor="let p of inv.receivedMoney">
           <!-- <th scope="row">{{h.id}}</th> -->
-          <td>Facture 1</td>
-          <td>Argent à Payer / Restant</td>
-          <td>Argent recu </td>
-          <td>Date de paiement</td>
-          <td> <button type="submit" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
-          <!-- </tr> -->
+          <td>{{inv.factureName}}</td>
+          <td>{{p.price}}</td>
+          <td>{{inv.totalPrice}}</td>
+          <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
+          <td>{{p.date}}</td>
+          <td> <button (click)="DeleteReceive(inv,p)"> </button></td>
+          <td (click)="$event.stopPropagation()">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Modifier</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Supprimer</span>
+              </button>
+            </mat-menu>
+          </td>          <!-- </tr> -->
         </tbody>
       </table>
     </div>

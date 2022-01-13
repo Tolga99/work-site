@@ -6,8 +6,6 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { SharedModule } from '../shared/shared.module';
 import { WorksiteRoutingModule } from './worksite-routing.module';
 
-
-
 @NgModule({
   declarations: [Worksite],
   imports: [
@@ -15,7 +13,7 @@ import { WorksiteRoutingModule } from './worksite-routing.module';
     CommonModule,
     SharedModule,
     ExploreContainerComponentModule,
-    WorksiteRoutingModule
+    WorksiteRoutingModule,
   ]
 })
 export class WorksiteModule { }

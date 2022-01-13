@@ -48,7 +48,7 @@
           <td>{{p.description}}</td>
           <td>{{p.priceHtva}}</td>
           <!-- <td>{{p.categoryId}}</td> -->
-          <td>
+          <td (click)="$event.stopPropagation()">
             <button mat-icon-button [matMenuTriggerFor]="menu">
               <mat-icon>more_horiz</mat-icon>
             </button>
