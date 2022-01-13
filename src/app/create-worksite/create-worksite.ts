@@ -15,7 +15,7 @@ export class CreateWorksite implements OnInit {
   newWorksite : Chantier;
   client : User;
   uuidValue : string;
-  public chantierList : Array<Chantier> = []; 
+  public chantierList : Array<Chantier> = [];
   clientList : Array<User> = [];
   date : string;
 
@@ -39,7 +39,7 @@ export class CreateWorksite implements OnInit {
     this.clientList = await this.storageService.get('Contacts');
   }
   async ngOnInit() {
-    var nowDate = new Date(); 
+    const nowDate = new Date();
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
    // var maliste = await this.storageService.get('listClient');
 
@@ -53,7 +53,7 @@ export class CreateWorksite implements OnInit {
     console.log('form status',this.formWork);
     if (!this.formWork.valid)
       return;
-    this.client = this.clientList.find(x => x.userId == this.formWork.get('client').value);
+    this.client = this.clientList.find(x => x.userId === this.formWork.get('client').value);
     this.storageService.init();
     this.newWorksite = new Chantier(
       this.generateUUID(),
@@ -64,21 +64,21 @@ export class CreateWorksite implements OnInit {
       this.formWork.get('address').value,
       this.date,
       null,
-      "En cours",
+      'En cours',
       null,
       null,
       null,
       null,
       null,
     );
-    
+
     this.chantierList=await this.storageService.get('Chantiers');
     if(this.chantierList==null)
       this.chantierList=[];
     this.chantierList.push(this.newWorksite);
     this.storageService.set('Chantiers',this.chantierList);
 
-    console.log("Chantier crée, redirection...");
+    console.log('Chantier crée, redirection...');
     this.router.navigate(['/tb-home']);
   }
   NewClient()
@@ -92,18 +92,12 @@ export class CreateWorksite implements OnInit {
       return this.uuidValue;
   }
   selectClient(event: Event) {
-    let s = (event.target as HTMLSelectElement).value;
-    this.formWork.patchValue({address : this.clientList.find(a => a.userId== s).address});
+    const s = (event.target as HTMLSelectElement).value;
+    this.formWork.patchValue({address : this.clientList.find(a => a.userId === s).address});
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-			this.redirectTo,
-			{
-				replaceUrl: true
-			}
-		);
+    this.router.navigate(['tb-home'],{replaceUrl:true});
   }
-  
 }
 

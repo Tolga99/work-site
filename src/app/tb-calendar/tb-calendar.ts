@@ -37,7 +37,7 @@ import { User } from '../models/user';
         h3 {
           margin: 0 0 10px;
         }
-  
+
         pre {
           background-color: #f5f5f5;
           padding: 15px;
@@ -45,12 +45,12 @@ import { User } from '../models/user';
       `,
     ],
     templateUrl: 'tb-calendar.html',
-  //styleUrls: ['tb-calendar.page.scss']
+  // styleUrls: ['tb-calendar.page.scss']
 })
 export class TabCalendar implements OnInit {
-  
+
   clientList : Array<User> = [];
-  
+
   // @Component({
   //   selector: 'mwl-demo-component',
   //   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,7 +59,7 @@ export class TabCalendar implements OnInit {
   //       h3 {
   //         margin: 0 0 10px;
   //       }
-  
+
   //       pre {
   //         background-color: #f5f5f5;
   //         padding: 15px;
@@ -69,18 +69,18 @@ export class TabCalendar implements OnInit {
   //   templateUrl: 'template.html',
   // })
     @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
-  
+
     view: CalendarView = CalendarView.Month;
-  
+
     CalendarView = CalendarView;
-  
+
     viewDate: Date = new Date();
-  
+
     modalData: {
       action: string;
       event: CalendarEvent;
     };
-  
+
     actions: CalendarEventAction[] = [
       {
         label: '<i class="fas fa-fw fa-pencil-alt"></i>',
@@ -98,9 +98,9 @@ export class TabCalendar implements OnInit {
         },
       },
     ];
-  
+
     refresh = new Subject<void>();
-  
+
     events: CalendarEvent[] = [
       // {
       //   start: subDays(startOfDay(new Date()), 1),
@@ -141,9 +141,9 @@ export class TabCalendar implements OnInit {
       //   draggable: true,
       // },
     ];
-  
+
     activeDayIsOpen: boolean = true;
-  
+
     constructor(private modal: NgbModal, private router: Router,private storageService: StorageService) {}
     async ngOnInit(): Promise<void> {
       this.storageService.init();
@@ -154,7 +154,7 @@ export class TabCalendar implements OnInit {
       this.storageService.init();
       this.clientList = await this.storageService.get('Contacts');
     }
-  
+
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
       if (isSameMonth(date, this.viewDate)) {
         if (
@@ -168,7 +168,7 @@ export class TabCalendar implements OnInit {
         this.viewDate = date;
       }
     }
-  
+
     eventTimesChanged({
       event,
       newStart,
@@ -186,12 +186,12 @@ export class TabCalendar implements OnInit {
       });
       this.handleEvent('Dropped or resized', event);
     }
-  
+
     handleEvent(action: string, event: CalendarEvent): void {
       this.modalData = { event, action };
       this.modal.open(this.modalContent, { size: 'lg' });
     }
-  
+
     addEvent(): void {
       this.events = [
         ...this.events,
@@ -210,15 +210,15 @@ export class TabCalendar implements OnInit {
         },
       ];
     }
-  
+
     deleteEvent(eventToDelete: CalendarEvent) {
       this.events = this.events.filter((event) => event !== eventToDelete);
     }
-  
+
     setView(view: CalendarView) {
       this.view = view;
     }
-  
+
     closeOpenMonthViewDay() {
       this.activeDayIsOpen = false;
     }
@@ -227,5 +227,9 @@ export class TabCalendar implements OnInit {
       console.log('create client');
       this.router.navigate(['new-contact',{tag: 'chantier'}]);
     }
+    GoBack()
+    {
+      this.router.navigate(['tb-contacts'],{replaceUrl:true});
+    }
   }
-  
+

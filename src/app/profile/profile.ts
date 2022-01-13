@@ -25,12 +25,12 @@ export class Profile implements OnInit{
     console.log('Module profil');
   }
 
-  async ngOnInit(): Promise<void> 
+  async ngOnInit(): Promise<void>
   {
-    console.log('nginit profil ',this.storageService.get("MyProfile"));
+    console.log('nginit profil ',this.storageService.get('MyProfile'));
 
     this.storageService.init();
-    if(this.storageService.get("MyProfile")!=null)
+    if(this.storageService.get('MyProfile')!=null)
     {
         this.formProfile.setValue({
           firstName: this.storageService.get('firstName'),
@@ -41,15 +41,15 @@ export class Profile implements OnInit{
           tva: this.storageService.get('tva'),
         });
     }
-    if(this.formProfile.get('firstName').value=='[object Promise]' || null)
+    if(this.formProfile.get('firstName').value === '[object Promise]' || null)
     {
       this.formProfile.setValue({
-        firstName: "",
-        lastName:  "",
-        address:  "",
-        phone:  "",
-        mail:  "",
-        tva: "",
+        firstName: '',
+        lastName:  '',
+        address:  '',
+        phone:  '',
+        mail:  '',
+        tva: '',
       });
     }
   }
@@ -62,7 +62,7 @@ export class Profile implements OnInit{
 
     this.storageService.init();
     this.myAccount = new User(
-      "17",
+      '17',
       this.formProfile.get('firstName').value,
       this.formProfile.get('lastName').value,
       this.formProfile.get('address').value,
@@ -72,8 +72,12 @@ export class Profile implements OnInit{
     );
 
     this.storageService.setProfile(this.myAccount);
-    console.log("Profil actualisé, redirection...");
+    console.log('Profil actualisé, redirection...');
     this.router.navigate(['/tb-settings']);
 
+  }
+  GoBack()
+  {
+    this.router.navigate(['tb-settings'],{replaceUrl:true});
   }
 }

@@ -13,15 +13,15 @@ import { StorageService } from '../services/storage.service';
 export class CategoryForm implements OnInit,OnDestroy {
 
   uuidValue: string;
-  images = "";
-  //chantierId: string;
+  images = '';
+  // chantierId: string;
   catId: string;
   ActualCat : string;
   modif : string;
   modifCat : Category;
   cat : Category;
   parentCat : Category;
-  //indexFind: number;
+  // indexFind: number;
   catList : Array<Category> = [];
   formCat = new FormGroup({
     categoryName: new FormControl('',Validators.required),
@@ -43,18 +43,18 @@ export class CategoryForm implements OnInit,OnDestroy {
 }
   async ngOnInit() {
 
-    this.catList =await this.storageService.get("Categories");
+    this.catList =await this.storageService.get('Categories');
     if(this.catList==null)
       this.catList = new Array<Category>();
 
     this.modif = this.route.snapshot.paramMap.get('modif');
-    this.modifCat = this.catList.find(a => a.categoryId == this.route.snapshot.paramMap.get('modifCat'));
-    //this.chantierId = this.route.snapshot.paramMap.get('chantierId');
+    this.modifCat = this.catList.find(a => a.categoryId === this.route.snapshot.paramMap.get('modifCat'));
+    // this.chantierId = this.route.snapshot.paramMap.get('chantierId');
     this.ActualCat = this.route.snapshot.paramMap.get('actualCat');
 
 
 
-    if(this.modif=="YES" && this.modifCat!=null)
+    if(this.modif === 'YES' && this.modifCat !== null)
     {
       console.log('modification',this.modif);
       // if(this.indexFind>=0)
@@ -62,7 +62,7 @@ export class CategoryForm implements OnInit,OnDestroy {
       let catParentId :string;
         if(this.modifCat.categoryParent!=null)
           catParentId = this.modifCat.categoryParent.categoryId;
-        else catParentId="";
+        else catParentId='';
         this.catId= this.modifCat.categoryId;
         this.formCat.setValue({
           categoryName: this.modifCat.categoryName,
@@ -73,7 +73,7 @@ export class CategoryForm implements OnInit,OnDestroy {
           this.images=this.modifCat?.categoryImage;
       // }
     }else {
-      this.modif= "NO";
+      this.modif= 'NO';
       console.log('creation',this.modif);
       this.catId= this.generateUUID();
       if(this.ActualCat!=null)
@@ -82,7 +82,7 @@ export class CategoryForm implements OnInit,OnDestroy {
   }
 
   async CreateWorksite() {
-   
+
   }
 
   get f(){
@@ -90,16 +90,16 @@ export class CategoryForm implements OnInit,OnDestroy {
   }
 
   onFileChange(event) {
-    if (event.target.files && event.target.files[0]) 
+    if (event.target.files && event.target.files[0])
     {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) 
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++)
       {
-        var reader = new FileReader();
-        reader.onload = (event:any) => 
+        const reader = new FileReader();
+        reader.onload = (event:any) =>
         {
           console.log(event.target.result);
-          this.images=event.target.result; 
+          this.images=event.target.result;
           this.formCat.patchValue({
           fileSource: this.images
           });
@@ -113,34 +113,34 @@ export class CategoryForm implements OnInit,OnDestroy {
     console.log('form status',this.formCat);
     // if (!this.formCat.valid)
     //   return;
-    let parent: boolean = true;
+    let parent = true;
     const invalid = [];
     const controls = this.formCat.controls;
     for (const name in controls) {
       if (controls[name].invalid) {
           // invalid.push(name);
-          if(name=="categoryPar")
+          if(name === 'categoryPar')
           {
-            console.log("Pas de categorie parent");
+            console.log('Pas de categorie parent');
             parent=false;
           }
       }
   }
-  if(parent==false)
+  if(parent === false)
   {
     this.parentCat = null;
   }else
   {
-    this.parentCat= this.catList.find(a => a.categoryId ==this.formCat.get('categoryPar').value);
+    this.parentCat = this.catList.find(a => a.categoryId === this.formCat.get('categoryPar').value);
   }
-  if(this.modif=="YES")
+  if(this.modif === 'YES')
   {
-    //RETRAIT DE LA CATEGORIE PARENT si il y'en a 
+    // RETRAIT DE LA CATEGORIE PARENT si il y'en a
     if (this.modifCat.categoryParent)
     {
-      let subCats=this.modifCat.categoryParent.subCategories;
-      subCats.splice(subCats.findIndex(a => a.categoryId == this.modifCat.categoryId),1);
-      this.catList[this.catList.findIndex(a => a.categoryId == this.modifCat.categoryParent.categoryId)].subCategories=subCats;
+      const subCats=this.modifCat.categoryParent.subCategories;
+      subCats.splice(subCats.findIndex(a => a.categoryId === this.modifCat.categoryId),1);
+      this.catList[this.catList.findIndex(a => a.categoryId === this.modifCat.categoryParent.categoryId)].subCategories=subCats;
     }
 
     this.cat = new Category(
@@ -148,7 +148,7 @@ export class CategoryForm implements OnInit,OnDestroy {
       this.formCat.get('categoryName').value,
       this.formCat.get('description').value,
       this.parentCat,
-      this.catList.find(a => a.categoryId == this.modifCat.categoryId).subCategories,
+      this.catList.find(a => a.categoryId === this.modifCat.categoryId).subCategories,
       this.images[0],
     );
   }else
@@ -163,24 +163,24 @@ export class CategoryForm implements OnInit,OnDestroy {
     );
   }
 
-    if(parent==true)
+    if(parent === true)
     {
-      //AJOUT DE LA CATEGORIE PARENT
+      // AJOUT DE LA CATEGORIE PARENT
       if(this.parentCat.subCategories==null)
         this.parentCat.subCategories = new Array<Category>();
       this.parentCat.subCategories.push(this.cat);
-      this.catList[this.catList.findIndex(a => a.categoryId == this.parentCat.categoryId)] = this.parentCat;
+      this.catList[this.catList.findIndex(a => a.categoryId === this.parentCat.categoryId)] = this.parentCat;
 
     }
-    if(this.modif=="YES")
+    if(this.modif==='YES')
     {
-      let indexFind =this.catList.findIndex(x => x.categoryId == this.cat.categoryId);
-      //this.catList.splice(indexFind,1);
+      const indexFind = this.catList.findIndex(x => x.categoryId === this.cat.categoryId);
+      // this.catList.splice(indexFind,1);
       this.catList[indexFind] = this.cat;
       this.catList.forEach(element => {
         if(element.categoryParent!=null)
         {
-          if(element.categoryParent.categoryId== this.cat.categoryId)
+          if(element.categoryParent.categoryId === this.cat.categoryId)
           {
             element.categoryParent= this.cat;
           }
@@ -188,19 +188,18 @@ export class CategoryForm implements OnInit,OnDestroy {
         if(element.subCategories!=null)
         {
           element.subCategories.forEach(element => {
-            if(element.categoryId== this.cat.categoryId)
+            if(element.categoryId === this.cat.categoryId)
             {
               element = this.cat;
             }
           });
         }
-        
       });
     }else this.catList.push(this.cat);
 
     this.storageService.set('Categories',this.catList);
-  
-    console.log("cat saved", this.catList);
+
+    console.log('cat saved', this.catList);
     this.router.navigate(['/articles',{actualCat: this.ActualCat}],{replaceUrl:true});
   }
   generateUUID()
@@ -210,16 +209,11 @@ export class CategoryForm implements OnInit,OnDestroy {
   }
   resetImages()
   {
-    this.images="";
+    this.images='';
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-			this.redirectTo,
-			{
-				replaceUrl: true
-			}
-		);
+    this.router.navigate(['articles',{actualCat: this.ActualCat}],{replaceUrl:true});
   }
 
   changePar(e) {

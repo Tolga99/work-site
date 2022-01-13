@@ -98,11 +98,6 @@ export class Articles implements OnInit {
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-      this.redirectTo,
-      {
-        replaceUrl: true
-      }
-    );
+    this.router.navigate(['tb-settings'],{replaceUrl:true});
   }
 }

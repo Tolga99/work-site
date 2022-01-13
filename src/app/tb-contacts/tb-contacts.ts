@@ -30,7 +30,7 @@ export class TabContacts implements OnInit  {
     this.storageService.init();
     this.contactsList =await this.storageService.get('Contacts');
   }
-  
+
   CreateClient(){
     console.log('create client');
     this.router.navigate(['new-contact']);
@@ -43,8 +43,8 @@ export class TabContacts implements OnInit  {
     console.log('click',user.firstName);
   }
   deleteContact(user:User){
-    this.contactsList = this.contactsList.filter(a => a.userId != user.userId);
-    this.storageService.set("Contacts", this.contactsList);
+    this.contactsList = this.contactsList.filter(a => a.userId !== user.userId);
+    this.storageService.set('Contacts', this.contactsList);
   }
 }
 

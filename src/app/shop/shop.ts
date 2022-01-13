@@ -158,11 +158,8 @@ export class Shop implements OnInit {
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-      this.redirectTo,
-      {
-        replaceUrl: true
-      }
-    );
+    this.router.navigate(['invoice',
+                        {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false'}],
+                        {replaceUrl:true});
   }
 }

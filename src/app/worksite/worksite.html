@@ -56,21 +56,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let inv of this.chantier?.factures" (click)="openInvoice(inv)">
+          <tr mdbTableCol *ngFor="let inv of this.chantier?.factures">
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{inv.factureName}}</td>
             <td>{{inv.totalPrice}}€</td>
             <td>{{inv.date}}</td>
-            <td (click)="$event.stopPropagation()">
-              <button mat-icon-button [matMenuTriggerFor]="menu">
+            <td>
+              <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_horiz</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>
+                <button mat-menu-item type="button" (click)="openInvoice(inv)">
                   <mat-icon>edit</mat-icon>
-                  <span>Modifier</span>
+                  <span>Modifier facture</span>
                 </button>
-                <button mat-menu-item (click)="deleteInvoice(inv)">
+                <button mat-menu-item type="button" (click)="deleteInvoice(inv)">
                   <mat-icon>delete</mat-icon>
                   <span>Supprimer</span>
                 </button>
@@ -99,21 +99,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let dev of chantier?.devis" (click)="openDevis(dev)">
+          <tr mdbTableCol *ngFor="let dev of chantier?.devis">
             <!-- <th scope="row">{{el.id}}</th> -->
-            <td>{{dev.factureName}}</td>
-            <td>{{dev.totalPrice}}€</td>
-            <td>{{dev.date}}</td>
+            <td (click)="openDevis(dev)">{{dev.factureName}}</td>
+            <td (click)="openDevis(dev)">{{dev.totalPrice}}€</td>
+            <td (click)="openDevis(dev)">{{dev.date}}</td>
             <td (click)="$event.stopPropagation">
-              <button mat-icon-button [matMenuTriggerFor]="menu">
+              <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
                 <mat-icon>more_horiz</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="TransformToInvoice(dev)">
+                <button mat-menu-item (click)="TransformToInvoice(dev)" type="button">
                   <mat-icon>edit</mat-icon>
-                  <span>Modifier</span>
+                  <span>Transformer en facture</span>
                 </button>
-                <button mat-menu-item (click)="deleteDevis(dev)">
+                <button mat-menu-item (click)="deleteDevis(dev)" type="button">
                   <mat-icon>delete</mat-icon>
                   <span>Supprimer</span>
                 </button>
@@ -146,16 +146,16 @@
             <td>{{h.description}}</td>
             <td>{{h.workTime}}</td>
             <td>{{h.date}}</td>
-            <td (click)="$event.stopPropagation()">
-              <button mat-icon-button [matMenuTriggerFor]="menu">
+            <td (click)="$event.stopPropagation()" type="button">
+              <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
                 <mat-icon>more_horiz</mat-icon>
               </button>
               <mat-menu #menu="matMenu" (click)="$event.stopPropagation()">
-                <button mat-menu-item>
+                <button mat-menu-item type="button">
                   <mat-icon>edit</mat-icon>
                   <span>Modifier</span>
                 </button>
-                <button mat-menu-item (click)="deleteHour(h)">
+                <button mat-menu-item (click)="deleteHour(h)" type="button">
                   <mat-icon>delete</mat-icon>
                   <span>Supprimer</span>
                 </button>
@@ -186,7 +186,7 @@
             <td>test</td>
             <td>test</td>
             <td><img src="{{url}}" alt="" height=100 width=100 /></td>
-            <td> <button type="submit" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
+            <td> <button type="button" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -213,17 +213,17 @@
           <td>{{inv.totalPrice}}</td>
           <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
           <td>{{p.date}}</td>
-          <td> <button (click)="DeleteReceive(inv,p)"> </button></td>
+          <td> <button type="button" (click)="DeleteReceive(inv,p)"> </button></td>
           <td (click)="$event.stopPropagation()">
-            <button mat-icon-button [matMenuTriggerFor]="menu">
+            <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
               <mat-icon>more_horiz</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item type="button">
                 <mat-icon>edit</mat-icon>
                 <span>Modifier</span>
               </button>
-              <button mat-menu-item>
+              <button mat-menu-item type="button">
                 <mat-icon>delete</mat-icon>
                 <span>Supprimer</span>
               </button>

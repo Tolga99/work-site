@@ -30,17 +30,17 @@ export class TabHome implements OnInit {
   }
   CreateWorksite()
   {
-    console.log("Bouton nv chantier");
+    console.log('Bouton nv chantier');
     this.router.navigate(['createworksite']);
   }
 
   ManageWorksite(chantier: Chantier)
   {
     this.router.navigate(['worksite',{chantierId: chantier.chantierId}]);
-    console.log('click',chantier.worksiteName); 
+    console.log('click',chantier.worksiteName);
   }
   deleteWorksite(chantier:Chantier){
-    this.chantierList = this.chantierList.filter(a => a.chantierId != chantier.chantierId);
-    this.storageService.set("Chantiers", this.chantierList);
+    this.chantierList = this.chantierList.filter(a => a.chantierId !== chantier.chantierId);
+    this.storageService.set('Chantiers', this.chantierList);
   }
 }

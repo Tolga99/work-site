@@ -245,7 +245,9 @@ export class Worksite implements OnInit {
     this.generateUUID();
     d.factureId= this.uuidValue;
     this.chantier.factures.push(d);
-    this.chantier.devis.splice(index,1);
+    // this.chantier.devis.splice(index,1); s'il faut supprimer
+    this.chantierList[this.chantierList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.chantier;
+    this.storageService.set('Chantiers',this.chantierList);
   }
   AddHour()
   {
@@ -334,12 +336,7 @@ export class Worksite implements OnInit {
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-			this.redirectTo,
-			{
-				replaceUrl: true
-			}
-		);
+    this.router.navigate(['tb-home'],{replaceUrl:true});
   }
   ImagePopUp(url : string)
   {

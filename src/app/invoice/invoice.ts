@@ -26,17 +26,19 @@ export class Invoice implements OnInit {
   inv : Facture;
   indexFind: number;
   invList : Array<Facture> = [];
+  receivedMoney: Array<{ price: number, date: string}>;
+
   // productsList : Array<Product>= [];
   headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
   panierList : Array<Product> = [];
   formInv = new FormGroup({
     factureName: new FormControl('',Validators.required),
-    description: new FormControl('', Validators.required),
+    description: new FormControl(''),
     typePay: new FormControl('', [Validators.required]),
     priceHtva: new FormControl({value:'',disabled:true}, [Validators.required]),
-    tva: new FormControl('',),
-    remise: new FormControl('',),
-    totalPrice : new FormControl('',),
+    tva: new FormControl('0',),
+    remise: new FormControl('0',),
+    totalPrice : new FormControl('0',),
   });
   public redirectTo: string;
 
@@ -108,6 +110,7 @@ export class Invoice implements OnInit {
         });
         this.images=this.invList[this.indexFind].images;
         this.mode = this.invList[this.indexFind].mode;
+        this.receivedMoney = this.invList[this.indexFind].receivedMoney;
         console.log('mode ',this.mode);
         console.log(this.invList[this.indexFind].products);
         if(this.mode === 'creation')
@@ -143,7 +146,9 @@ export class Invoice implements OnInit {
   GoShopping()
   {
 
+    // this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
     this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
+
   }
   async CreateWorksite() {
 
@@ -216,7 +221,7 @@ export class Invoice implements OnInit {
       this.formInv.get('tva').value,
       this.formInv.get('totalPrice').value,
       this.images,
-      null,
+      this.receivedMoney,
       this.panierList,
       this.mode,
       this.type,
@@ -265,11 +270,6 @@ export class Invoice implements OnInit {
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-			this.redirectTo,
-			{
-				replaceUrl: true
-			}
-		);
+    this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }
 }

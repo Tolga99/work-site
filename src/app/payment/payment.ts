@@ -72,12 +72,7 @@ export class Payment implements OnInit {
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-			this.redirectTo,
-			{
-				replaceUrl: true
-			}
-		);
+    this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }
   SavePay()
   {

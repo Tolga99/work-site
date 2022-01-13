@@ -15,7 +15,7 @@ export class TabContactsClient implements OnInit {
   public contactsList: Array<User> = [];
   client: User;
   clientId: string;
-  indexFind: number =-5;
+  indexFind =-5;
   uuidValue: string;
   tag: string;
 
@@ -29,10 +29,10 @@ export class TabContactsClient implements OnInit {
     tva: new FormControl('',Validators.required),
   });
   public redirectTo: string;
-  constructor(private storageService: StorageService, 
-              private router: Router, 
+  constructor(private storageService: StorageService,
+              private router: Router,
               private route: ActivatedRoute,
-              private location: Location) 
+              private location: Location)
               {
                 this.redirectTo = route.snapshot.data.redirectTo;
 
@@ -50,8 +50,8 @@ export class TabContactsClient implements OnInit {
     if(modif!=null)
     {
       console.log('modification',modif);
-      this.storageService.get("Contacts");
-      this.indexFind =this.contactsList.findIndex(x => x.userId == modif);
+      this.storageService.get('Contacts');
+      this.indexFind =this.contactsList.findIndex(x => x.userId === modif);
       if(this.indexFind>=0)
       {
         this.clientId= this.contactsList[this.indexFind].userId;
@@ -105,11 +105,6 @@ export class TabContactsClient implements OnInit {
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-			this.redirectTo,
-			{
-				replaceUrl: true
-			}
-		);
+    this.router.navigate(['tb-contacts'],{replaceUrl:true});
   }
 }
