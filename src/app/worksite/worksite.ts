@@ -373,6 +373,20 @@ export class Worksite implements OnInit {
 
   }
 
+  IsInvoicePaid(f : Facture) :string
+  {
+    const total = f.totalPrice;
+    let paid : number=0;
+    if(f.receivedMoney!=null)
+    {
+      f.receivedMoney.forEach(element => {
+        paid += element.price;
+      });
+    }else return 'PAS DE PAIEMENT';
+    if(total>paid)
+      return 'PAIEMENT INCOMPLET';
+    else return 'PAYE';
+  }
   // PDF
   async GeneratePDFInvoice( f : Facture)
   {
@@ -382,7 +396,10 @@ export class Worksite implements OnInit {
     let y = 0;
     let doc = new jsPDF();
     doc.setFontSize(18);
-    doc.text('Facture', 90, 8);
+    if(f.type==='facture')
+      doc.text('Facture', 90, 8);
+    else if(f.type==='devis')
+      doc.text('Devis', 90, 8);
     doc.setFontSize(11);
     doc.setTextColor(100);
 

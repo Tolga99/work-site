@@ -61,6 +61,7 @@
             <td>{{inv.factureName}}</td>
             <td>{{inv.totalPrice}}€</td>
             <td>{{inv.date}}</td>
+            <td style="color: red;">{{IsInvoicePaid(inv)}}</td>
             <td>
               <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_horiz</mat-icon>
@@ -117,7 +118,7 @@
                   <mat-icon>edit</mat-icon>
                   <span>Transformer en facture</span>
                 </button>
-                <button mat-menu-item type="button">
+                <button mat-menu-item type="button" (click)="GeneratePDFInvoice(dev)">
                   <mat-icon>picture_as_pdf</mat-icon>
                   <span>Génerer son PDF</span>
                 </button>
@@ -231,7 +232,7 @@
                 <mat-icon>edit</mat-icon>
                 <span>Modifier</span>
               </button>
-              <button mat-menu-item type="button">
+              <button mat-menu-item type="button" (click)="DeleteReceive(inv,p)">
                 <mat-icon>delete</mat-icon>
                 <span>Supprimer</span>
               </button>
