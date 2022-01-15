@@ -70,6 +70,10 @@
                   <mat-icon>edit</mat-icon>
                   <span>Modifier facture</span>
                 </button>
+                <button mat-menu-item type="button" (click)="GeneratePDFInvoice(inv)">
+                  <mat-icon>picture_as_pdf</mat-icon>
+                  <span>Génerer son PDF</span>
+                </button>
                 <button mat-menu-item type="button" (click)="deleteInvoice(inv)">
                   <mat-icon>delete</mat-icon>
                   <span>Supprimer</span>
@@ -112,6 +116,10 @@
                 <button mat-menu-item (click)="TransformToInvoice(dev)" type="button">
                   <mat-icon>edit</mat-icon>
                   <span>Transformer en facture</span>
+                </button>
+                <button mat-menu-item type="button">
+                  <mat-icon>picture_as_pdf</mat-icon>
+                  <span>Génerer son PDF</span>
                 </button>
                 <button mat-menu-item (click)="deleteDevis(dev)" type="button">
                   <mat-icon>delete</mat-icon>

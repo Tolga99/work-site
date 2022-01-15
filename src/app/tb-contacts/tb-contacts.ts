@@ -35,7 +35,6 @@ export class TabContacts implements OnInit  {
     console.log('create client');
     this.router.navigate(['new-contact']);
     // this.router.navigate(['tb-new-contact']);
-
   }
   ClickContact(user:User)
   {

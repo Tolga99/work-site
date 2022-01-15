@@ -7,7 +7,9 @@ import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
 import { Hour } from '../models/hour';
 import { StorageService } from '../services/storage.service';
-
+import {jsPDF} from 'jspdf'
+import 'jspdf-autotable'
+import { User } from '../models/user';
 @Component({
   selector: 'app-worksite',
   templateUrl: 'worksite.html',
@@ -369,5 +371,132 @@ export class Worksite implements OnInit {
 
     console.log('chantiers saved', this.chantierList);
 
+  }
+
+  // PDF
+  async GeneratePDFInvoice( f : Facture)
+  {
+    let profile : User =await this.storageService.get('MyProfile');
+    let clientlist : Array<User> = await this.storageService.get('Contacts');
+    let client : User = clientlist.find(a => a.userId == this.chantier.clientId);
+    let y = 0;
+    let doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text('Facture', 90, 8);
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+
+    doc.text(profile.firstName+'\n'+profile.lastName.toUpperCase()+'\n'+profile.address, 14, 15);
+    doc.text(client.firstName+'\n'+client.lastName.toUpperCase()+'\n'+client.address+'\n'+client.phone, 150, 30);
+
+    doc.text('N° facture :'+f.factureName, 15, 50);
+    doc.text('Date : '+f.date, 15, 55);
+    y=60;
+    
+    let tableColumns;
+    let articleRows;
+    if(f.mode==='creation')
+    {
+      tableColumns = ['Nom article','Description','Quantité', 'Prix unitaire', 'Prix total'];
+      // articleRows :[[string,string,number,number,number]];
+      articleRows = [[,,,,,]];
+      articleRows.splice(0,1);
+      f.products.forEach(element => {
+        articleRows.push([element.productName,element.description,1,element.priceHtva,element.priceHtva]);
+        y+=15;
+      });
+    }else
+    {
+      tableColumns = ['Description','Prix total'];
+      // articleRows :[[string,number]];
+      articleRows = [[,,]];
+      articleRows.splice(0,1);
+      articleRows.push([f.description,f.totalPrice]);
+      y+=15;
+    }
+
+    (doc as any).autoTable(tableColumns, articleRows, { startY: 60 });
+    y+=5;
+
+    let total=0;
+    let totalTva = 0;
+    const remise : string =f.remise.toString();
+    let htva :number =f.priceHtva;
+    const tva:string =f.tva.toString();
+
+    if(Number.parseFloat(remise) !== 0)
+    {
+      htva = htva * (1 - Number.parseFloat(remise) / 100);
+      htva = Math.round(htva * 100) / 100; // REMISE arrondi
+
+    }
+    totalTva = htva / 100 * Number.parseFloat(tva);
+    totalTva = Math.round(totalTva * 100) / 100; // TVA arrondi
+
+    total= Number.parseFloat(htva.toString()) + totalTva;
+    total = Math.round(total * 100) / 100; // arrondi
+
+    console.log('Tva : ',tva);
+    console.log('TTva : ',totalTva);
+    console.log('htva : ',htva);
+
+
+
+
+    if(f.mode==='creation')
+    {
+      doc.setFillColor('A0A0A0');
+      doc.rect(150,y-5,55,5.5,'F');
+      doc.setTextColor('FFFFFF');
+      doc.text('TOTAL HTVA : '+Math.round((f.priceHtva) * 100) / 100+'€', 150, y);
+      y+=6;
+  
+      doc.setFillColor('A0A0A0');
+      doc.rect(150,y-5,55,5.5,'F');
+      doc.setTextColor('FFFFFF');
+      doc.text('Remise '+f.remise+'% : '+ Math.round((f.priceHtva-htva) * 100) / 100+'€', 150, y);
+      y+=6;
+  
+      doc.setFillColor('A0A0A0');
+      doc.rect(150,y-5,55,5.5,'F');
+      doc.setTextColor('FFFFFF');
+      doc.text('TVA '+f.tva+'% : '+totalTva+'€', 150, y);
+      y+=6;
+    }
+
+    doc.setFillColor('3333FF');
+    doc.rect(150,y-5,55,5.5,'F');
+    doc.setTextColor('FFFFFF');
+    doc.text('Total TTC : '+f.totalPrice+'€', 150, y);
+    y+=6;
+
+    doc.setTextColor('000000');
+    if(f.typePay==='bancaire')
+      doc.text('Condition de réglement : Virement bancaire',25,y);
+    else doc.text('Condition de réglement : Paiement cash',25,y);
+    y+=6;
+    doc.text('Echéance de paiement : LES FACTURES SONT PAYABLES A LA RECEPTION.',25,y);
+    y+=6;
+
+    doc.text('Tout retard de paiement à compter de 10 jours après la date de réception',25,y);
+    y+=6;
+    doc.text('de la facture fera l\'objet d\'une facturation d\'intérêts de retard au taux légal envigueur',25,y);
+    y+=6;
+
+    y+=10;
+    doc.text('Coordonnées bancaires :',80,y);
+    y+=6;
+    doc.text('Titulaire du compte : '+profile.firstName+' '+profile.lastName.toUpperCase(),80,y);
+    y+=6;
+    doc.text('IBAN : bidonbidonbidon',80,y);
+    y+=6;
+
+    y+=10;
+    doc.text('Signature du vendeur', 8, y);
+    doc.text('Signature de l\'acheteur', 140, y);
+    y+=6;
+
+
+    doc.save('exempleFacture.pdf');
   }
 }

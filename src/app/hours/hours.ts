@@ -49,7 +49,7 @@ export class Hours implements OnInit {
 
     if(existId!=null)
     {
-      console.log('modification',existId);
+      // console.log('modification',existId);
       this.indexFind =this.hoursList.findIndex(x => x.hourId === existId);
       if(this.indexFind>=0)
       {
@@ -62,12 +62,12 @@ export class Hours implements OnInit {
           this.hoursList[this.indexFind].minute,
         )
         const d = new Date();
-        console.log(this.hour.hour, 'et ',this.hour.minute);
+        // console.log(this.hour.hour, 'et ',this.hour.minute);
         d.setUTCHours(this.hour.hour,this.hour.minute,0,0);
         // d.setHours(this.hour.hour,this.hour.minute,0,0);
         // let dd = new Date(d.toString());
         // console.log(d.toLocaleDateString(),d.toTimeString(),d.toUTCString(),d.toLocaleTimeString());
-        console.log(d.toISOString());
+        // console.log(d.toISOString());
 
         this.formHour.setValue({
           date: d.toISOString(),
@@ -75,6 +75,7 @@ export class Hours implements OnInit {
         });
         // this.formHour.get('date').setValue(d.toISOString());
         this.formHour.patchValue({ date : d.toISOString()});
+        this.ngOnInit();
       }
     }else
     {
@@ -132,6 +133,6 @@ export class Hours implements OnInit {
     }
     GoBack()
     {
-      this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+      this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
     }
 }

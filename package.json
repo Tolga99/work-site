@@ -48,6 +48,7 @@
     "igniteui-angular": "^13.0.5",
     "jquery": "^3.6.0",
     "jspdf": "^2.5.0",
+    "jspdf-autotable": "^3.5.23",
     "jszip": "^3.7.1",
     "ng-bootstrap": "^1.6.3",
     "rrule": "2.6.8",
