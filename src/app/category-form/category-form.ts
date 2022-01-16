@@ -1,7 +1,9 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
 import { StorageService } from '../services/storage.service';
 
@@ -30,12 +32,9 @@ export class CategoryForm implements OnInit,OnDestroy {
   });
   selectedCat : string;
 
-  public redirectTo: string;
-
-  constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
-    console.log('create chantier');
-    this.redirectTo = route.snapshot.data.redirectTo;
   }
   @HostListener('unloaded')
   ngOnDestroy() {
@@ -108,24 +107,36 @@ export class CategoryForm implements OnInit,OnDestroy {
       }
     }
   }
-  onSubmit()
+  async onSubmit()
   {
-    console.log('form status',this.formCat);
-    // if (!this.formCat.valid)
-    //   return;
     let parent = true;
     const invalid = [];
     const controls = this.formCat.controls;
     for (const name in controls) {
       if (controls[name].invalid) {
-          // invalid.push(name);
+          let nom='';
+          if(name==='productName')
+            nom='Nom catégorie';
           if(name === 'categoryPar')
           {
             console.log('Pas de categorie parent');
             parent=false;
           }
+          invalid.push(nom);
       }
-  }
+    }
+    if (!this.formCat.valid)
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
   if(parent === false)
   {
     this.parentCat = null;

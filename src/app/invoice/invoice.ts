@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Facture } from '../models/facture';
 import { Product } from '../models/product';
 import { Chantier } from '../models/chantier';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalFocus } from '../modal/modal-focus';
 
 @Component({
   selector: 'app-invoice',
@@ -40,13 +42,9 @@ export class Invoice implements OnInit {
     remise: new FormControl('0',),
     totalPrice : new FormControl('0',),
   });
-  public redirectTo: string;
-
-  constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
-    console.log('create chantier..');
-    this.redirectTo = route.snapshot.data.redirectTo;
-
   }
 
   async ionViewDidEnter(){
@@ -179,9 +177,54 @@ export class Invoice implements OnInit {
   }
   async onSubmit()
   {
+    if(this.mode==='creation')
+    {
+      this.formInv.get('priceHtva').setValidators([Validators.required]);
+      this.formInv.get('priceHtva').updateValueAndValidity();
+
+      this.formInv.get('tva').setValidators([Validators.required]);
+      this.formInv.get('tva').updateValueAndValidity();
+
+      this.formInv.get('remise').setValidators([Validators.required]);
+      this.formInv.get('remise').updateValueAndValidity();
+    }else
+    {
+      this.formInv.get('totalPrice').setValidators([Validators.required]);
+      this.formInv.get('totalPrice').updateValueAndValidity();
+    }
     console.log('form status',this.formInv);
+     const invalid = [];
+    const controls = this.formInv.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        let nom='';
+        if(name==='factureName')
+          nom='Nom facture';
+        if(name==='typePay')
+          nom='Type de paiement';
+        if(name==='priceHtva')
+          nom='Prix HTVA';
+        if(name==='tva')
+          nom='TVA';
+        if(name==='remise')
+          nom='Remise';
+        if(name==='totalPrice')
+          nom='Prix total';
+        invalid.push(nom);
+      }
+    }
     if (!this.formInv.valid)
-      return;
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
 
     if(this.ScanMode === false)
     {

@@ -187,6 +187,31 @@ import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
       this.label= NgbdModalFocus.label;
     }  }
 
+    @Component({
+        selector: 'ngbd-modal-incomplete',
+        template: `
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-title">Champs obligatoires</h4>
+          <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Les champs suivant ne sont pas corrects : <span class="text-primary">{{label}}</span></strong></p>
+          <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
+          <!-- <span class="text-danger">This operation can not be undone.</span> -->
+          <!-- </p> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+        </div>
+        `
+      })
+      export class NgbdModalField {
+        label = '';
+        constructor(public modal: NgbActiveModal) {
+          this.label= NgbdModalFocus.label;
+        }  }
 @Component({
   selector: 'ngbd-modal-confirm-autofocus',
   template: `
@@ -220,6 +245,7 @@ const MODALS: {[name: string]: Type<any>} = {
   delCli :NgbdModalDelCli,
   delCat :NgbdModalDelCat,
   delArt :NgbdModalDelArt,
+  field : NgbdModalField,
 };
 
 @Component({
@@ -234,9 +260,7 @@ export class NgbdModalFocus {
 
   async open(name: string, label:string) :Promise<NgbModalRef> {
       NgbdModalFocus.label=label;
-    // this._modalService.open(MODALS[name]);
     const modalRef =  this._modalService.open(MODALS[name]);
-    //modalRef.componentInstance.anyDataForm = this.anyData;
 
     await modalRef.result.then((data) => {
     console.log('OK OK OK');

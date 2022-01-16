@@ -306,11 +306,30 @@ export class Worksite implements OnInit {
     this.router.navigate(['payment',{chantierId: this.chantierId}]);
   }
 
-  SaveChantier()
+  async SaveChantier()
   {
-    console.log('form status',this.formChantier);
+    const invalid = [];
+    const controls = this.formChantier.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+          let nom='';
+          if(name==='chantierName')
+            nom='Nom chantier';
+          invalid.push(nom);
+      }
+    }
     if (!this.formChantier.valid)
-      return;
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
 
     this.chantier = new Chantier(
       this.chantier.chantierId,

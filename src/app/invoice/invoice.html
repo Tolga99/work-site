@@ -8,13 +8,16 @@
 </ion-header>
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
+    <div class="form-group" required="required">
+      <label for="factureName" [hidden]="type=='devis'">Nom facture</label>
+      <label for="factureName" [hidden]="type=='facture'">Nom devis</label>
 
-    <label for="factureName" [hidden]="type=='devis'">Nom facture</label>
-    <label for="factureName" [hidden]="type=='facture'">Nom devis</label>
+      <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="..." required="required">
+    </div>
 
-    <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="...">
-
+    <div class="form-group" required="required">
     <button for="art" [hidden]="ScanMode" (click)="GoShopping()" type="button">Ajouter articles</button>
+    </div>
     <div class="card-header" [hidden]="ScanMode">
       Panier
     </div>
@@ -48,11 +51,6 @@
     <!-- Select File -->
     <input [hidden]="!ScanMode" id="imgFactures" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
-    <!-- <button [hidden]="!ScanMode" type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button> -->
-    <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
-      <div *ngIf="f.file.errors.required">File is required.</div>
-    </div> -->
-    <!-- <img [hidden]="!ScanMode" *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> -->
 
     <div *ngFor="let img of images">
       <img [hidden]="!ScanMode" class="original" [alt]="img.Name" [src]="img" height="150" width="200px"
@@ -61,25 +59,34 @@
         <i class="far fa-trash-alt"></i>
       </button>
     </div>
+
+    <div class="form-group" required="required">
+
     <label for="typePay">Type de paiement</label>
-    <select formControlName="typePay">
+    <select formControlName="typePay" required="required">
       <option value='cash'>Paiement cash</option>
       <option value='bancaire'>Virement bancaire</option>
     </select>
+    </div>
     <!-- articles -->
+    <div class="form-group" required="required">
     <label for="htva" [hidden]="ScanMode">Prix HTVA</label>
-    <input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="...">
+    <input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="..." required="required">
+</div>
+<div class="form-group" required="required">
 
     <label for="tva" [hidden]="ScanMode">TVA</label>
-    <input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="...">
-
+    <input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="..." required="required">
+</div>
+<div class="form-group" required="required">
     <label for="remise" [hidden]="ScanMode">Remise</label>
-    <input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="...">
-
+    <input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="..." required="required">
+</div>
+<div class="form-group" required="required">
     <label for="totalPrice" [hidden]="!ScanMode">Prix à payer</label>
-    <input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice"
+    <input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice" required="required"
       placeholder="125,35">
-
+</div>
     <hr>
     <label for="description">Description</label>
     <textarea id="description" name="description" formControlName="description" placeholder="..."

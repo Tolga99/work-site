@@ -12,12 +12,14 @@
 <ion-content [fullscreen]="true">
   <div class="container">
     <form [formGroup]="formClient" (ngSubmit)="onSubmit()">
+      <div class="form-group" required="required">
       <label for="fname">Prenom</label>
-      <input type="text" id="fname" placeholder="Your name.." formControlName="firstName">
-
+      <input type="text" id="fname" placeholder="Your name.." formControlName="firstName" required="required">
+</div>
+<div class="form-group" required="required">
       <label for="lname">Nom</label>
-      <input type="text" id="lname" placeholder="Your last name.." formControlName="lastName">
-
+      <input type="text" id="lname" placeholder="Your last name.." formControlName="lastName" required="required">
+</div>
       <label for="address">Adresse</label>
       <input type="text" id="address" placeholder=".." formControlName="address">
 
@@ -32,31 +34,5 @@
       <button type="submit" class="btn btn-secondary">Sauvegarder client</button>
     </form>
     {{formClient.valid}}
-
-    <!--   <div class="form-group">
-        <label for="addr">Adresse</label>
-        <input type="text" id="addr" class="form-control" name="adresse" placeholder="Your address.." [ngModel]="client?.adress">
-</div>
-<div class="form-group">
-        <label for="tel">Télephone</label>
-        <input type="text" id="tel" class="form-control" name="tel" placeholder="Your phone number .." [ngModel]="client?.phone">
-</div>
-        <div class="form-group">
-        <label for="tva">N*TVA</label>
-        <input type="text" id="tva" class="form-control" name="tva" placeholder="Your TVA number.." [ngModel]="client?.tva">
-      </div>
-        <button type="submit" class="btn btn-secondary">Nouveau client</button>
-      </form>
-       -->
   </div>
 </ion-content>
-
-<!--
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">Tab 3</ion-title>
-      </ion-toolbar>
-    </ion-header>
-  
-    <app-explore-container name="Tab 3 page"></app-explore-container>
-  -->

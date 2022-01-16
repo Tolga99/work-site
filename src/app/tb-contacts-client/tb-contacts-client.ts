@@ -5,6 +5,8 @@ import { User } from '../models/user';
 import { StorageService } from '../services/storage.service';
 import { UUID } from 'angular2-uuid';
 import { Location } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalFocus } from '../modal/modal-focus';
 
 @Component({
   selector: 'app-tb-contacts-client',
@@ -28,15 +30,11 @@ export class TabContactsClient implements OnInit {
     mail: new FormControl('', Validators.required),
     tva: new FormControl('',Validators.required),
   });
-  public redirectTo: string;
-  constructor(private storageService: StorageService,
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private storageService: StorageService,
               private router: Router,
-              private route: ActivatedRoute,
-              private location: Location)
-              {
-                this.redirectTo = route.snapshot.data.redirectTo;
-
-  }
+              private route: ActivatedRoute,)
+              {}
   async ngOnInit(): Promise<void> {
 
     this.storageService.init();
@@ -71,11 +69,31 @@ export class TabContactsClient implements OnInit {
     }
   }
 
-  onSubmit() {
-    console.log(this.generateUUID());
-    console.log('form status',this.formClient);
+  async onSubmit() {
+    const invalid = [];
+    const controls = this.formClient.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+          let nom='';
+          if(name==='firstName')
+            nom='Prénom';
+          if(name==='lastName')
+            nom='Nom';
+          invalid.push(nom);
+      }
+    }
     if (!this.formClient.valid)
-      return;
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
 
     this.client = new User(
       this.clientId,

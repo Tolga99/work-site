@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { Chantier } from '../models/chantier';
 import { Hour } from '../models/hour';
 import { StorageService } from '../services/storage.service';
@@ -25,11 +27,10 @@ export class Hours implements OnInit {
   chantierId:string;
   hourId: string;
   indexFind: number;
-  public redirectTo: string;
 
-  constructor(public router:Router, public storageService: StorageService,public route:ActivatedRoute)
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,public router:Router, public storageService: StorageService,public route:ActivatedRoute)
   {
-    this.redirectTo = route.snapshot.data.redirectTo;
   }
   async ngOnInit(): Promise<void> {
     const nowDate = new Date();
@@ -89,9 +90,28 @@ export class Hours implements OnInit {
   }
   async CreateHour()
   {
-    console.log(
-      this.formHour.get('date').value,
-      this.formHour.get('description').value,);
+    const invalid = [];
+    const controls = this.formHour.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+          let nom='';
+          if(name==='date')
+            nom='Heure';
+          invalid.push(nom);
+      }
+    }
+    if (!this.formHour.valid)
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
 
       const dd = new Date(this.formHour.get('date').value);
       console.log(dd.getHours(), ':',dd.getMinutes());

@@ -9,9 +9,10 @@
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formCat" (ngSubmit)="onSubmit()">
 
+    <div class="form-group" required="required">
     <label for="categoryName">Nom catégorie</label>
-    <input type="text" id="categoryName" name="categoryName" formControlName="categoryName" placeholder="...">
-
+    <input type="text" id="categoryName" name="categoryName" formControlName="categoryName" placeholder="..." required="required">
+</div>
     <label for="categoryPar">Sous-Catégorie</label>
     <select formControlName="categoryPar" (change)="changePar($event)">
       <option></option>

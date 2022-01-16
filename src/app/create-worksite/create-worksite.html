@@ -9,18 +9,19 @@
   </ion-header>
   <button class="btn"><i class="fa fa-home" (click)="GoBack()">Back</i></button>
   <form [formGroup]="formWork" (ngSubmit)="CreateWorksite()">
-
+    <div class="form-group" required="required">
     <label for="name">Nom chantier</label>
-    <input type="text" id="name" name="name" formControlName="worksiteName" placeholder="...">
-
+    <input type="text" id="name" name="name" formControlName="worksiteName" placeholder="..." required="required">
+</div>
+<div class="form-group" required="required">
     <label for="client">Client</label>
-    <select formControlName="client" matNativeControl (change)="selectClient($event)">
+    <select formControlName="client" matNativeControl (change)="selectClient($event)" required="required">
       <option></option>
       <option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName.toUpperCase()}} {{name.firstName}}      </option>
     </select>
-    
-    <button class="btn"><i class="fa fa-home" (click)="NewClient()">Nouveau client ?</i></button>
 
+    <button class="btn"><i class="fa fa-home" (click)="NewClient()">Nouveau client ?</i></button>
+</div>
     <hr>
     <label for="address">Adresse du chantier</label>
     <input type="text" id="address" name="address" formControlName="address" placeholder="...">

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { User } from '../models/user';
 import { StorageService } from '../services/storage.service';
 
@@ -20,8 +22,8 @@ export class Profile implements OnInit{
     mail: new FormControl('', Validators.required),
     tva: new FormControl('',Validators.required),
   });
-
-  constructor(private storageService: StorageService,private router: Router) {
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router) {
     console.log('Module profil');
   }
 
@@ -54,11 +56,31 @@ export class Profile implements OnInit{
     }
   }
 
-  UpdateProfile() {
-    console.log('my profil actualisation');
-    console.log('form status',this.formProfile);
+  async UpdateProfile() {
+    const invalid = [];
+    const controls = this.formProfile.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+          let nom='';
+          if(name==='firstName')
+            nom='Prénom';
+          if(name==='lastName')
+            nom='Nom';
+          invalid.push(nom);
+      }
+    }
     if (!this.formProfile.valid)
-      return;
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
 
     this.storageService.init();
     this.myAccount = new User(

@@ -1,8 +1,10 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { isThisSecond } from 'date-fns';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
@@ -33,12 +35,9 @@ export class ArticleForm implements OnInit, OnDestroy{
     category: new FormControl('', Validators.required),
     priceHtva: new FormControl('', [Validators.required]),
   });
-  public redirectTo: string;
-
-  constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
-    console.log('create chantier');
-    this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   @HostListener('unloaded')
@@ -112,10 +111,34 @@ export class ArticleForm implements OnInit, OnDestroy{
       }
     }
   }
-  onSubmit()
+  async onSubmit()
   {
     console.log('form status',this.formArt);
-    this.art = new Product(
+     const invalid = [];
+    const controls = this.formArt.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        let nom='';
+        if(name==='productName')
+          nom='Nom article';
+        if(name==='priceHtva')
+          nom='Prix HTVA';
+        invalid.push(nom);
+      }
+    }
+    if (!this.formArt.valid)
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
+      this.art = new Product(
       this.artId,
       this.formArt.get('productName').value,
       this.formArt.get('description').value,
@@ -149,11 +172,6 @@ export class ArticleForm implements OnInit, OnDestroy{
   }
   GoBack()
   {
-    this.router.navigateByUrl(
-			this.redirectTo,
-			{
-				replaceUrl: true
-			}
-		);
+    this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
   }
 }

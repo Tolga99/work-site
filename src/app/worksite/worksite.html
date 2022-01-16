@@ -9,9 +9,10 @@
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
     {{formChantier.valid}}
+    <div class="form-group" required="required">
     <label for="chantierName">Nom chantier</label>
-    <input type="text" id="chantierName" name="chantierName" formControlName="chantierName" placeholder="...">
-
+    <input type="text" id="chantierName" name="chantierName" formControlName="chantierName" placeholder="..." required="required">
+</div>
     <label for="address">Adresse du chantier</label>
     <input type="text" id="address" name="address" formControlName="address" placeholder="...">
     <hr>

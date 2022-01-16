@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
 import { StorageService } from '../services/storage.service';
@@ -20,16 +22,15 @@ export class Payment implements OnInit {
   selectedInv : Facture;
   ReceivedMoney : number;
   formPay = new FormGroup({
-   chantierName: new FormControl('', [Validators.required]),
+   chantierName: new FormControl(''),
    payment: new FormControl('', [Validators.required]),
-   address : new FormControl('',Validators.required),
+   address : new FormControl(''),
  });
 
   headElementsInv = ['Nom facture', 'Total','Reste à payer','Date'];
-  redirectTo='';
-  constructor(private router: Router,private route:ActivatedRoute, private storageService :StorageService)
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private router: Router,private route:ActivatedRoute, private storageService :StorageService)
   {
-    this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   async ngOnInit() {
@@ -65,7 +66,7 @@ export class Payment implements OnInit {
       f.receivedMoney.forEach(element => {
           total=element.price+total;
       });
-      console.log(total);
+      //console.log(total);
 
       total = Math.round(total * 100) / 100; // arrondi
       return total;
@@ -74,14 +75,51 @@ export class Payment implements OnInit {
   {
     this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }
-  SavePay()
+  async SavePay()
   {
+    const invalid = [];
+    const controls = this.formPay.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+          let nom='';
+          if(name==='payment')
+            nom='Paiement';
+          invalid.push(nom);
+      }
+    }
+    if(this.selectedInv==null)
+      invalid.push('Facture non selectionné');
+    if (!this.formPay.valid || this.selectedInv==null)
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
+
     const pay=this.formPay.get('payment').value;
     if(Number.parseFloat(pay)==null)
       return;
     if(this.selectedInv==null)
       return;
 
+    if (Number.parseFloat(pay)>(this.selectedInv?.totalPrice - this.GetAllReceivedMoney(this.selectedInv)))
+    {
+      let res : string =null;
+      await this.modal.open('field','Argent encodé plus grand que le reste à payer')
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
     this.selectedInv.receivedMoney.push({price : Number.parseFloat(pay),date : this.date});
     const index= this.chantier.factures.findIndex(a => a.factureId === this.selectedInv.factureId);
     this.chantier.factures[index] = this.selectedInv;

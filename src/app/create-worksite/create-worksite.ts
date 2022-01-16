@@ -5,6 +5,8 @@ import { UUID } from 'angular2-uuid';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Chantier } from '../models/chantier';
 import { User } from '../models/user';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalFocus } from '../modal/modal-focus';
 
 @Component({
   selector: 'app-createworksite',
@@ -26,12 +28,9 @@ export class CreateWorksite implements OnInit {
     address : new FormControl(''),
   });
 
-  public redirectTo: string;
-
-  constructor(private storageService:StorageService, private router: Router,private route:ActivatedRoute)
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router,private route:ActivatedRoute)
   {
-    console.log('create chantier');
-    this.redirectTo = route.snapshot.data.redirectTo;
   }
   async ionViewDidEnter(){
     console.log('view did enter');
@@ -50,9 +49,30 @@ export class CreateWorksite implements OnInit {
   }
 
   async CreateWorksite() {
-    console.log('form status',this.formWork);
+    const invalid = [];
+    const controls = this.formWork.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+          let nom='';
+          if(name==='worksiteName')
+            nom='Nom chantier';
+          if(name === 'client')
+            nom='Client';
+          invalid.push(nom);
+      }
+    }
     if (!this.formWork.valid)
-      return;
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
     this.client = this.clientList.find(x => x.userId === this.formWork.get('client').value);
     this.storageService.init();
     this.newWorksite = new Chantier(
