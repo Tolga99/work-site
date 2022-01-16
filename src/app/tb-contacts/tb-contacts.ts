@@ -1,5 +1,7 @@
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { User } from '../models/user';
 import { StorageService } from '../services/storage.service';
 
@@ -13,8 +15,8 @@ export class TabContacts implements OnInit  {
   headElements = ['Prenom', 'Nom', 'Adresse'];
 
   contactsList: Array<User> = [];
-
-  constructor(private router: Router,private storageService: StorageService) {
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS : NgbModal,private router: Router,private storageService: StorageService) {
     console.log('dans construct');
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
@@ -41,7 +43,18 @@ export class TabContacts implements OnInit  {
     this.router.navigate(['new-contact',{userId: user.userId}]);
     console.log('click',user.firstName);
   }
-  deleteContact(user:User){
+  async deleteContact(user:User){
+    let res : string =null;
+    await this.modal.open('delCli',user.firstName+' '+user.lastName.toUpperCase())
+    .then(result => result.result
+      .then((data) => {
+        res="OK";
+      }, (reason) => {
+      res="DISMISS" }
+      ));
+
+    if(res==='DISMISS')
+        return ;
     this.contactsList = this.contactsList.filter(a => a.userId !== user.userId);
     this.storageService.set('Contacts', this.contactsList);
   }

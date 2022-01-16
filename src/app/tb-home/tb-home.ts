@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { Chantier } from '../models/chantier';
 import { StorageService } from '../services/storage.service';
 
@@ -13,7 +15,8 @@ export class TabHome implements OnInit {
 
   headElements = ['Nom chantier', 'Nom Client', 'Date début','Adresse','Etat'];
 
-  constructor(private storageService:StorageService, private router: Router) {}
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS : NgbModal,private storageService:StorageService, private router: Router) {}
 
   async ionViewDidEnter(){
     console.log('view did enter');
@@ -39,7 +42,18 @@ export class TabHome implements OnInit {
     this.router.navigate(['worksite',{chantierId: chantier.chantierId}]);
     console.log('click',chantier.worksiteName);
   }
-  deleteWorksite(chantier:Chantier){
+  async deleteWorksite(chantier:Chantier){
+    let res : string =null;
+    await this.modal.open('delChantier','')
+    .then(result => result.result
+      .then((data) => {
+        res="OK";
+      }, (reason) => {
+      res="DISMISS" }
+      ));
+
+    if(res==='DISMISS')
+        return ;
     this.chantierList = this.chantierList.filter(a => a.chantierId !== chantier.chantierId);
     this.storageService.set('Chantiers', this.chantierList);
   }

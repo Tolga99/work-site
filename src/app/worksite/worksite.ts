@@ -10,6 +10,8 @@ import { StorageService } from '../services/storage.service';
 import {jsPDF} from 'jspdf'
 import 'jspdf-autotable'
 import { User } from '../models/user';
+import { NgbdModalFocus } from '../modal/modal-focus';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-worksite',
   templateUrl: 'worksite.html',
@@ -40,10 +42,9 @@ export class Worksite implements OnInit {
   headElementsHour = ['Description', 'Heure travail','Date'];
   headElementsRecv = ['Nom Facture','Argent reçu' , 'Total','Restant','Date reception'];
 
-  public redirectTo: string;
-  constructor(private storageService:StorageService, private router: Router, private route: ActivatedRoute)
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)
   {
-    this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   generateUUID()
@@ -203,8 +204,24 @@ export class Worksite implements OnInit {
     console.log('Bouton open facture',inv.factureId,this.chantierId);
     this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: this.chantierId}]);
   }
-  deleteInvoice(inv:Facture){
+  async deleteInvoice(inv:Facture) : Promise<void>{
+    let res : string =null;
+    await this.modal.open('delInv',inv.factureName)
+    .then(result => result.result
+      .then((data) => {
+        res="OK";
+      }, (reason) => {
+      res="DISMISS" }
+      ));
 
+    if(res==='DISMISS')
+        return ;
+    if(inv.receivedMoney!=null)
+    {
+      inv.receivedMoney.forEach(element => {
+        this.DeleteReceive(inv,element);
+      });
+    }
     this.chantier.factures = this.chantier.factures.filter(a => a.factureId !== inv.factureId);
     if(this.indexFind>=0)
     {
@@ -230,8 +247,18 @@ export class Worksite implements OnInit {
     console.log('Bouton open facture',inv.factureId,this.chantierId);
     this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: this.chantierId}]);
   }
-  deleteDevis(inv:Facture){
+  async deleteDevis(inv:Facture){
+    let res : string =null;
+    await this.modal.open('delDev',inv.factureName)
+    .then(result => result.result
+      .then((data) => {
+        res="OK";
+      }, (reason) => {
+      res="DISMISS" }
+      ));
 
+    if(res==='DISMISS')
+        return ;
     this.chantier.devis = this.chantier.devis.filter(a => a.factureId !== inv.factureId);
     if(this.indexFind>=0)
     {
@@ -311,8 +338,20 @@ export class Worksite implements OnInit {
     console.log('chantiers saved', this.chantierList);
     this.router.navigate(['tb-home'],{replaceUrl:true});
   }
-  FinishChantier()
-  {}
+  async FinishChantier()
+  {
+    let res : string =null;
+    await this.modal.open('endChantier','')
+    .then(result => result.result
+      .then((data) => {
+        res="OK";
+      }, (reason) => {
+      res="DISMISS" }
+      ));
+
+    if(res==='DISMISS')
+        return ;
+  }
 
   CalculTotalHour()
   {

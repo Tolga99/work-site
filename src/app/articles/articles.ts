@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isThursday } from 'date-fns';
 import { threadId } from 'worker_threads';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
@@ -18,10 +20,9 @@ export class Articles implements OnInit {
   catList : Array<Category> = [];
   actualCat : Category = null;
 
-  public redirectTo: string;
-  constructor(private storageService:StorageService, private router:Router,private route:ActivatedRoute)
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS : NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute)
   {
-    this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   async ionViewDidEnter(){
@@ -92,8 +93,34 @@ export class Articles implements OnInit {
       this.router.navigate(['article-form',{modifArt: p.productId, modif: 'YES'}],{replaceUrl:true});
     else this.router.navigate(['article-form',{modif: 'YES'}],{replaceUrl:true});
   }
-  DeleteProduct(p : Product)
+  async DeleteProduct(p : Product)
   {
+    let res : string =null;
+    await this.modal.open('delArt',p.productName)
+    .then(result => result.result
+      .then((data) => {
+        res="OK";
+      }, (reason) => {
+      res="DISMISS" }
+      ));
+
+    if(res==='DISMISS')
+        return ;
+
+  }
+  async DeleteCategory(c : Category)
+  {
+    let res : string =null;
+    await this.modal.open('delCat',c.categoryName)
+    .then(result => result.result
+      .then((data) => {
+        res="OK";
+      }, (reason) => {
+      res="DISMISS" }
+      ));
+
+    if(res==='DISMISS')
+        return ;
 
   }
   GoBack()
