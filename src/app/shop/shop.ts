@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
@@ -23,10 +26,15 @@ export class Shop implements OnInit {
   chantierId : string;
   type : string;
 
-  public redirectTo: string;
-  constructor(private storageService:StorageService, private router:Router,private route:ActivatedRoute)
+  formArt = new FormGroup({
+    productName: new FormControl('',Validators.required),
+    description: new FormControl(''),
+    priceHtva: new FormControl('', [Validators.required]),
+  });
+
+  public modal = new NgbdModalFocus(this.modalS);
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute)
   {
-    this.redirectTo = route.snapshot.data.redirectTo;
   }
 
   async ionViewDidEnter(){
@@ -161,5 +169,42 @@ export class Shop implements OnInit {
     this.router.navigate(['invoice',
                         {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false'}],
                         {replaceUrl:true});
+  }
+  async AddFastProduct()
+  {
+    const invalid = [];
+    const controls = this.formArt.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        let nom='';
+        if(name==='productName')
+          nom='Nom article';
+        if(name==='priceHtva')
+          nom='Prix HTVA';
+        invalid.push(nom);
+      }
+    }
+    if (!this.formArt.valid)
+    {
+      let res : string =null;
+      await this.modal.open('field',invalid.toString())
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
+    }
+    let p = new Product(
+      '-1',
+      this.formArt.get('productName').value,
+      this.formArt.get('description').value,
+      this.formArt.get('priceHtva').value,
+      null,
+      null,
+    );
+    this.panierList.push(p);
+
   }
 }

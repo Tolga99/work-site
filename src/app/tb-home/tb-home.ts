@@ -47,9 +47,9 @@ export class TabHome implements OnInit {
     await this.modal.open('delChantier','')
     .then(result => result.result
       .then((data) => {
-        res="OK";
+        res='OK';
       }, (reason) => {
-      res="DISMISS" }
+      res='DISMISS' }
       ));
 
     if(res==='DISMISS')

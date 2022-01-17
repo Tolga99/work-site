@@ -135,6 +135,8 @@ export class Invoice implements OnInit {
       this.panierList.forEach(element => {
         console.log('total value :' ,total);
           total = total + Number.parseFloat(element.priceHtva.toString());
+          total = Math.round(total * 100) / 100; // arrondi
+
       })
       console.log('total value :' ,total);
       this.formInv.get('priceHtva').setValue(total);

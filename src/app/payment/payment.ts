@@ -66,7 +66,6 @@ export class Payment implements OnInit {
       f.receivedMoney.forEach(element => {
           total=element.price+total;
       });
-      //console.log(total);
 
       total = Math.round(total * 100) / 100; // arrondi
       return total;

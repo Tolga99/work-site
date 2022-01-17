@@ -17,13 +17,13 @@ import { StorageService } from '../services/storage.service';
 export class ArticleForm implements OnInit, OnDestroy{
 
   uuidValue: string;
-  images = "";
-  //chantierId: string;
+  images = '';
+  // chantierId: string;
   artId: string;
   actualCat: string;
 
   art : Product;
-  //indexFind: number;
+  // indexFind: number;
   modif : string;
   modifArt : Product;
   artList : Array<Product> = [];
@@ -31,8 +31,8 @@ export class ArticleForm implements OnInit, OnDestroy{
 
   formArt = new FormGroup({
     productName: new FormControl('',Validators.required),
-    description: new FormControl('', Validators.required),
-    category: new FormControl('', Validators.required),
+    description: new FormControl(''),
+    category: new FormControl(''),
     priceHtva: new FormControl('', [Validators.required]),
   });
   public modal = new NgbdModalFocus(this.modalS);
@@ -45,20 +45,20 @@ export class ArticleForm implements OnInit, OnDestroy{
     console.log('Cleared');
 }
   async ngOnInit() {
-    this.artList =await this.storageService.get("Articles");
+    this.artList =await this.storageService.get('Articles');
     if(this.artList==null)
       this.artList = new Array<Product>();
 
     this.actualCat = this.route.snapshot.paramMap.get('actualCat');
-    this.modifArt= this.artList.find(a => a.productId == this.route.snapshot.paramMap.get('modifArt'));
+    this.modifArt= this.artList.find(a => a.productId === this.route.snapshot.paramMap.get('modifArt'));
     this.modif = this.route.snapshot.paramMap.get('modif');
 
     this.catList = await this.storageService.get('Categories');
-    if(this.modif=="YES")
+    if(this.modif==='YES')
     {
       console.log('modification',this.modif);
 
-      //this.indexFind =this.artList.findIndex(x => x.productId == existId);
+      // this.indexFind =this.artList.findIndex(x => x.productId == existId);
       // if(this.indexFind>=0)
       // {
         this.artId= this.modifArt.productId;
@@ -73,19 +73,18 @@ export class ArticleForm implements OnInit, OnDestroy{
           this.images=this.modifArt.imageProduct;
       // }
     }else {
-      this.modif="NO";
+      this.modif='NO';
       console.log('creation',this.modif);
       this.artId= this.generateUUID();
 
     }
     if(this.actualCat!=null)
     {
-      this.formArt.get("category").setValue(this.actualCat);
+      this.formArt.get('category').setValue(this.actualCat);
     }
   }
 
   async CreateWorksite() {
-   
   }
 
   get f(){
@@ -93,16 +92,16 @@ export class ArticleForm implements OnInit, OnDestroy{
   }
 
   onFileChange(event) {
-    if (event.target.files && event.target.files[0]) 
+    if (event.target.files && event.target.files[0])
     {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) 
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++)
       {
-        var reader = new FileReader();
-        reader.onload = (event:any) => 
+        const reader = new FileReader();
+        reader.onload = (event:any) =>
         {
           console.log(event.target.result);
-          this.images=event.target.result; 
+          this.images=event.target.result;
           this.formArt.patchValue({
           fileSource: this.images
           });
@@ -147,15 +146,14 @@ export class ArticleForm implements OnInit, OnDestroy{
       this.images[0],
     );
 
-    if(this.modif=="YES")
+    if(this.modif==='YES')
     {
-      let indexFind =this.artList.findIndex(x => x.productId == this.modifArt.productId);
+      const indexFind =this.artList.findIndex(x => x.productId === this.modifArt.productId);
       this.artList.splice(indexFind,1);
       this.artList[indexFind] = this.art;
     }else this.artList.push(this.art);
     this.storageService.set('Articles',this.artList);
-  
-    console.log("invoice saved", this.artList);
+    console.log('invoice saved', this.artList);
     this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
   }
   generateUUID()
@@ -165,7 +163,7 @@ export class ArticleForm implements OnInit, OnDestroy{
   }
   resetImages()
   {
-    this.images="";
+    this.images='';
   }
   selectCategory(event: Event) {
     this.actualCat = (event.target as HTMLSelectElement).value;

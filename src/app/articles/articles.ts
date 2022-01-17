@@ -99,9 +99,9 @@ export class Articles implements OnInit {
     await this.modal.open('delArt',p.productName)
     .then(result => result.result
       .then((data) => {
-        res="OK";
+        res='OK';
       }, (reason) => {
-      res="DISMISS" }
+      res='DISMISS' }
       ));
 
     if(res==='DISMISS')
@@ -114,9 +114,9 @@ export class Articles implements OnInit {
     await this.modal.open('delCat',c.categoryName)
     .then(result => result.result
       .then((data) => {
-        res="OK";
+        res='OK';
       }, (reason) => {
-      res="DISMISS" }
+      res='DISMISS' }
       ));
 
     if(res==='DISMISS')

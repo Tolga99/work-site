@@ -69,6 +69,28 @@
 
   </div>
   <hr>
+
+  <form [formGroup]="formArt" (ngSubmit)="AddFastProduct()">
+
+  <div class="card-header">
+    Création rapide d'article
+  </div>
+  <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+    <label for="productName">Nom article</label>
+    <input type="text" id="productName" name="productName" formControlName="productName" placeholder="..." required="required">
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" formControlName="description" placeholder="..."
+      style="height:100px;"></textarea>
+
+    <label for="priceHtva">Prix HTVA</label>
+    <input type="text" id="priceHtva" name="priceHtva" formControlName="priceHtva" placeholder="..." required="required">
+  </div>
+  <div class="card-footer text-muted">
+    <button type="submit" class="btn btn-secondary">Ajouter article au panier</button>
+  </div>
+  </form>
+  <hr>
   <div class="card-header">
     Panier
   </div>

@@ -48,9 +48,9 @@ export class TabContacts implements OnInit  {
     await this.modal.open('delCli',user.firstName+' '+user.lastName.toUpperCase())
     .then(result => result.result
       .then((data) => {
-        res="OK";
+        res='OK';
       }, (reason) => {
-      res="DISMISS" }
+      res='DISMISS' }
       ));
 
     if(res==='DISMISS')

@@ -209,9 +209,9 @@ export class Worksite implements OnInit {
     await this.modal.open('delInv',inv.factureName)
     .then(result => result.result
       .then((data) => {
-        res="OK";
+        res='OK';
       }, (reason) => {
-      res="DISMISS" }
+      res='DISMISS' }
       ));
 
     if(res==='DISMISS')
@@ -252,9 +252,9 @@ export class Worksite implements OnInit {
     await this.modal.open('delDev',inv.factureName)
     .then(result => result.result
       .then((data) => {
-        res="OK";
+        res='OK';
       }, (reason) => {
-      res="DISMISS" }
+      res='DISMISS' }
       ));
 
     if(res==='DISMISS')
@@ -363,9 +363,9 @@ export class Worksite implements OnInit {
     await this.modal.open('endChantier','')
     .then(result => result.result
       .then((data) => {
-        res="OK";
+        res='OK';
       }, (reason) => {
-      res="DISMISS" }
+      res='DISMISS' }
       ));
 
     if(res==='DISMISS')
@@ -434,7 +434,7 @@ export class Worksite implements OnInit {
   IsInvoicePaid(f : Facture) :string
   {
     const total = f.totalPrice;
-    let paid : number=0;
+    let paid=0;
     if(f.receivedMoney!=null)
     {
       f.receivedMoney.forEach(element => {
@@ -448,11 +448,11 @@ export class Worksite implements OnInit {
   // PDF
   async GeneratePDFInvoice( f : Facture)
   {
-    let profile : User =await this.storageService.get('MyProfile');
-    let clientlist : Array<User> = await this.storageService.get('Contacts');
-    let client : User = clientlist.find(a => a.userId == this.chantier.clientId);
+    const profile : User =await this.storageService.get('MyProfile');
+    const clientlist : Array<User> = await this.storageService.get('Contacts');
+    const client : User = clientlist.find(a => a.userId === this.chantier.clientId);
     let y = 0;
-    let doc = new jsPDF();
+    const doc = new jsPDF();
     doc.setFontSize(18);
     if(f.type==='facture')
       doc.text('Facture', 90, 8);
@@ -467,7 +467,7 @@ export class Worksite implements OnInit {
     doc.text('N° facture :'+f.factureName, 15, 50);
     doc.text('Date : '+f.date, 15, 55);
     y=60;
-    
+
     let tableColumns;
     let articleRows;
     if(f.mode==='creation')
@@ -525,13 +525,13 @@ export class Worksite implements OnInit {
       doc.setTextColor('FFFFFF');
       doc.text('TOTAL HTVA : '+Math.round((f.priceHtva) * 100) / 100+'€', 150, y);
       y+=6;
-  
+
       doc.setFillColor('A0A0A0');
       doc.rect(150,y-5,55,5.5,'F');
       doc.setTextColor('FFFFFF');
       doc.text('Remise '+f.remise+'% : '+ Math.round((f.priceHtva-htva) * 100) / 100+'€', 150, y);
       y+=6;
-  
+
       doc.setFillColor('A0A0A0');
       doc.rect(150,y-5,55,5.5,'F');
       doc.setTextColor('FFFFFF');

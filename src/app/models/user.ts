@@ -6,7 +6,7 @@ export interface IUser
     address:string;
     phone:string;
     mail:string;
-    //list chantiers
+    // list chantiers
     tva:string;
 }
 
@@ -18,7 +18,7 @@ export class User implements IUser {
         public address:string,
         public phone:string,
         public mail:string,
-        //list chantiers
+        // list chantiers
         public tva:string
     ) {
     }

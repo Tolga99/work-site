@@ -27,8 +27,8 @@ export class CategoryForm implements OnInit,OnDestroy {
   catList : Array<Category> = [];
   formCat = new FormGroup({
     categoryName: new FormControl('',Validators.required),
-    description: new FormControl('', Validators.required),
-    categoryPar: new FormControl('', [Validators.required]),
+    description: new FormControl(''),
+    categoryPar: new FormControl(''),
   });
   selectedCat : string;
 
@@ -177,10 +177,14 @@ export class CategoryForm implements OnInit,OnDestroy {
     if(parent === true)
     {
       // AJOUT DE LA CATEGORIE PARENT
-      if(this.parentCat.subCategories==null)
-        this.parentCat.subCategories = new Array<Category>();
-      this.parentCat.subCategories.push(this.cat);
-      this.catList[this.catList.findIndex(a => a.categoryId === this.parentCat.categoryId)] = this.parentCat;
+      if(this.parentCat!=null)
+      {
+        if(this.parentCat.subCategories==null)
+          this.parentCat.subCategories = new Array<Category>();
+        this.parentCat.subCategories.push(this.cat);
+        this.catList[this.catList.findIndex(a => a.categoryId === this.parentCat.categoryId)] = this.parentCat;
+
+      }
 
     }
     if(this.modif==='YES')
