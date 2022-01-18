@@ -8,11 +8,11 @@
 </ion-header>
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
-    {{formChantier.valid}}
     <div class="form-group" required="required">
-    <label for="chantierName">Nom chantier</label>
-    <input type="text" id="chantierName" name="chantierName" formControlName="chantierName" placeholder="..." required="required">
-</div>
+      <label for="chantierName">Nom chantier</label>
+      <input type="text" id="chantierName" name="chantierName" formControlName="chantierName" placeholder="..."
+        required="required">
+    </div>
     <label for="address">Adresse du chantier</label>
     <input type="text" id="address" name="address" formControlName="address" placeholder="...">
     <hr>
@@ -217,28 +217,28 @@
         </thead>
         <tbody *ngFor="let inv of chantier?.factures">
           <tr mdbTableCol *ngFor="let p of inv.receivedMoney">
-          <!-- <th scope="row">{{h.id}}</th> -->
-          <td>{{inv.factureName}}</td>
-          <td>{{p.price}}</td>
-          <td>{{inv.totalPrice}}</td>
-          <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
-          <td>{{p.date}}</td>
-          <td> <button type="button" (click)="DeleteReceive(inv,p)"> </button></td>
-          <td (click)="$event.stopPropagation()">
-            <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-              <mat-icon>more_horiz</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item type="button">
-                <mat-icon>edit</mat-icon>
-                <span>Modifier</span>
+            <!-- <th scope="row">{{h.id}}</th> -->
+            <td>{{inv.factureName}}</td>
+            <td>{{p.price}}</td>
+            <td>{{inv.totalPrice}}</td>
+            <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
+            <td>{{p.date}}</td>
+            <td> <button type="button" (click)="DeleteReceive(inv,p)"> </button></td>
+            <td (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
+                <mat-icon>more_horiz</mat-icon>
               </button>
-              <button mat-menu-item type="button" (click)="DeleteReceive(inv,p)">
-                <mat-icon>delete</mat-icon>
-                <span>Supprimer</span>
-              </button>
-            </mat-menu>
-          </td>          <!-- </tr> -->
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item type="button">
+                  <mat-icon>edit</mat-icon>
+                  <span>Modifier</span>
+                </button>
+                <button mat-menu-item type="button" (click)="DeleteReceive(inv,p)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </td> <!-- </tr> -->
         </tbody>
       </table>
     </div>

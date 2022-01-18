@@ -12,11 +12,12 @@
       <label for="factureName" [hidden]="type=='devis'">Nom facture</label>
       <label for="factureName" [hidden]="type=='facture'">Nom devis</label>
 
-      <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="..." required="required">
+      <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="..."
+        required="required">
     </div>
 
     <div class="form-group" required="required">
-    <button for="art" [hidden]="ScanMode" (click)="GoShopping()" type="button">Ajouter articles</button>
+      <button for="art" [hidden]="ScanMode" (click)="GoShopping()" type="button">Ajouter articles</button>
     </div>
     <div class="card-header" [hidden]="ScanMode">
       Panier
@@ -62,31 +63,34 @@
 
     <div class="form-group" required="required">
 
-    <label for="typePay">Type de paiement</label>
-    <select formControlName="typePay" required="required">
-      <option value='cash'>Paiement cash</option>
-      <option value='bancaire'>Virement bancaire</option>
-    </select>
+      <label for="typePay">Type de paiement</label>
+      <select formControlName="typePay" required="required">
+        <option value='cash'>Paiement cash</option>
+        <option value='bancaire'>Virement bancaire</option>
+      </select>
     </div>
     <!-- articles -->
     <div class="form-group" required="required">
-    <label for="htva" [hidden]="ScanMode">Prix HTVA</label>
-    <input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="..." required="required">
-</div>
-<div class="form-group" required="required">
+      <label for="htva" [hidden]="ScanMode">Prix HTVA</label>
+      <input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="..."
+        required="required">
+    </div>
+    <div class="form-group" required="required">
 
-    <label for="tva" [hidden]="ScanMode">TVA</label>
-    <input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="..." required="required">
-</div>
-<div class="form-group" required="required">
-    <label for="remise" [hidden]="ScanMode">Remise</label>
-    <input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="..." required="required">
-</div>
-<div class="form-group" required="required">
-    <label for="totalPrice" [hidden]="!ScanMode">Prix à payer</label>
-    <input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice" required="required"
-      placeholder="125,35">
-</div>
+      <label for="tva" [hidden]="ScanMode">TVA</label>
+      <input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="..."
+        required="required">
+    </div>
+    <div class="form-group" required="required">
+      <label for="remise" [hidden]="ScanMode">Remise</label>
+      <input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="..."
+        required="required">
+    </div>
+    <div class="form-group" required="required">
+      <label for="totalPrice" [hidden]="!ScanMode">Prix à payer</label>
+      <input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice"
+        required="required" placeholder="125,35">
+    </div>
     <hr>
     <label for="description">Description</label>
     <textarea id="description" name="description" formControlName="description" placeholder="..."
@@ -101,5 +105,4 @@
       <input type="submit" [hidden]="ScanMode==true" value="Créer devis">
     </div>
   </form>
-  {{formInv.valid}}
 </div>

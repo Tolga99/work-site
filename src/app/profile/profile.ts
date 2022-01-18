@@ -17,10 +17,10 @@ export class Profile implements OnInit{
   formProfile = new FormGroup({
     firstName: new FormControl('',Validators.required),
     lastName: new FormControl('', Validators.required),
-    address: new FormControl('',Validators.required),
-    phone: new FormControl('', Validators.required),
-    mail: new FormControl('', Validators.required),
-    tva: new FormControl('',Validators.required),
+    address: new FormControl(''),
+    phone: new FormControl(''),
+    mail: new FormControl(''),
+    tva: new FormControl(''),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router) {
@@ -32,18 +32,18 @@ export class Profile implements OnInit{
     console.log('nginit profil ',this.storageService.get('MyProfile'));
 
     this.storageService.init();
-    if(this.storageService.get('MyProfile')!=null)
+    let profile : User = await this.storageService.get('MyProfile');
+    if(profile!=null)
     {
         this.formProfile.setValue({
-          firstName: this.storageService.get('firstName'),
-          lastName:  this.storageService.get('lastName'),
-          address:  this.storageService.get('address'),
-          phone:  this.storageService.get('phone'),
-          mail:  this.storageService.get('mail'),
-          tva: this.storageService.get('tva'),
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          address: profile.address,
+          phone: profile.phone,
+          mail: profile.mail,
+          tva: profile.tva,
         });
-    }
-    if(this.formProfile.get('firstName').value === '[object Promise]' || null)
+    }else
     {
       this.formProfile.setValue({
         firstName: '',

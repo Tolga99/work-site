@@ -80,7 +80,6 @@ export class TabCalendar implements OnInit {
       action: string;
       event: CalendarEvent;
     };
-
     actions: CalendarEventAction[] = [
       {
         label: '<i class="fas fa-fw fa-pencil-alt"></i>',
@@ -190,6 +189,7 @@ export class TabCalendar implements OnInit {
     handleEvent(action: string, event: CalendarEvent): void {
       this.modalData = { event, action };
       this.modal.open(this.modalContent, { size: 'lg' });
+      
     }
 
     addEvent(): void {
@@ -225,7 +225,7 @@ export class TabCalendar implements OnInit {
     NewClient()
     {
       console.log('create client');
-      this.router.navigate(['new-contact',{tag: 'chantier'}]);
+      this.router.navigate(['new-contact',{tag: 'chantier'}],{replaceUrl:true});
     }
     GoBack()
     {

@@ -24,7 +24,7 @@ export class CreateWorksite implements OnInit {
   formWork = new FormGroup({
     worksiteName: new FormControl('',Validators.required),
     client: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
+    description: new FormControl(''),
     address : new FormControl(''),
   });
 

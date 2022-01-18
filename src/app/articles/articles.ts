@@ -38,6 +38,12 @@ export class Articles implements OnInit {
     this.catList = await this.storageService.get('Categories');
     if(this.catList!=null)
       this.catList = this.catList.filter(a => a.categoryParent == null);
+
+    this.catList.forEach(element => {
+      if(element.categoryImage==null)
+        element.categoryImage='..//resources//White-square.jpg';
+      
+    });
   }
   CreateCategory()
   {

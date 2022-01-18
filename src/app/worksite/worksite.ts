@@ -34,8 +34,8 @@ export class Worksite implements OnInit {
   formChantier = new FormGroup({
    chantierName: new FormControl('', [Validators.required]),
    // imgChantier: new FormControl('', [Validators.required]),
-   description: new FormControl('', [Validators.required]),
-   address : new FormControl('',Validators.required),
+   description: new FormControl(''),
+   address : new FormControl(''),
  });
 
   headElementsInv = ['Nom facture', 'Total','Date'];

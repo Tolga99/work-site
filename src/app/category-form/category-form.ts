@@ -160,7 +160,7 @@ export class CategoryForm implements OnInit,OnDestroy {
       this.formCat.get('description').value,
       this.parentCat,
       this.catList.find(a => a.categoryId === this.modifCat.categoryId).subCategories,
-      this.images[0],
+      this.images,
     );
   }else
   {
@@ -170,7 +170,7 @@ export class CategoryForm implements OnInit,OnDestroy {
       this.formCat.get('description').value,
       this.parentCat,
       null,
-      this.images[0],
+      this.images,
     );
   }
 

@@ -143,7 +143,7 @@ export class ArticleForm implements OnInit, OnDestroy{
       this.formArt.get('description').value,
       this.formArt.get('priceHtva').value,
       this.formArt.get('category').value,
-      this.images[0],
+      this.images,
     );
 
     if(this.modif==='YES')

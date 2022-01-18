@@ -18,7 +18,7 @@ export class Hours implements OnInit {
 
   formHour = new FormGroup({
     date: new FormControl('',Validators.required),
-    description: new FormControl('',Validators.required),
+    description: new FormControl(''),
   });
   hour : Hour;
   date : string;

@@ -7,11 +7,10 @@
   </ion-toolbar>
 </ion-header>
 <div class="container" style="overflow-y: auto;">
-  
+
   <form [formGroup]="formPay" (ngSubmit)="SavePay()">
-    {{formPay.valid}}
-      <div class="card-header">
-    Selectionnez la facture concernée : 
+    <div class="card-header">
+      Selectionnez la facture concernée :
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
@@ -23,14 +22,14 @@
         </thead>
         <tbody>
           <tr mdbTableCol *ngFor="let inv of this.chantier?.factures" (click)="SelectInvoice(inv)">
-          <!-- [ngClass]="{ 'selectedInv' : inv }"> -->
+            <!-- [ngClass]="{ 'selectedInv' : inv }"> -->
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{inv.factureName}}</td>
             <td>{{inv.totalPrice}}</td>
             <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
             <td>{{inv.date}}</td>
         </tbody>
-        
+
       </table>
 
     </div>
@@ -41,7 +40,7 @@
       <label for="payment">Paiement : </label>
       <input type="text" id="payment" name="payment" formControlName="payment" placeholder="..." required="required">
     </div>
-    <button class="btn btn-danger" > Enregistrer paiement</button>
+    <button class="btn btn-danger"> Enregistrer paiement</button>
   </form>
   <button type="submit" class="btn btn-danger" (click)="Terminer()"> Terminer paiement</button>
 

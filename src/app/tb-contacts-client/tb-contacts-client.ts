@@ -25,10 +25,10 @@ export class TabContactsClient implements OnInit {
    formClient = new FormGroup({
     firstName: new FormControl('',Validators.required),
     lastName: new FormControl('', Validators.required),
-    address: new FormControl('',Validators.required),
-    phone: new FormControl('', Validators.required),
-    mail: new FormControl('', Validators.required),
-    tva: new FormControl('',Validators.required),
+    address: new FormControl(''),
+    phone: new FormControl(''),
+    mail: new FormControl(''),
+    tva: new FormControl(''),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,

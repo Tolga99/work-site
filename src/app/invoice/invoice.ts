@@ -37,7 +37,7 @@ export class Invoice implements OnInit {
     factureName: new FormControl('',Validators.required),
     description: new FormControl(''),
     typePay: new FormControl('', [Validators.required]),
-    priceHtva: new FormControl({value:'',disabled:true}, [Validators.required]),
+    priceHtva: new FormControl({value:'0',disabled:true}),
     tva: new FormControl('0',),
     remise: new FormControl('0',),
     totalPrice : new FormControl('0',),
