@@ -21,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let inv of this.chantier?.factures" (click)="SelectInvoice(inv)">
+          <tr mdbTableCol *ngFor="let inv of this.chantier?.factures" (click)="SelectInvoice(inv)" [ngClass]="{'class_name': inv === selectedInv}" >
             <!-- [ngClass]="{ 'selectedInv' : inv }"> -->
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{inv.factureName}}</td>

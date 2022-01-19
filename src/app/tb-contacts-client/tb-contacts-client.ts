@@ -29,6 +29,8 @@ export class TabContactsClient implements OnInit {
     phone: new FormControl(''),
     mail: new FormControl(''),
     tva: new FormControl(''),
+    iban: new FormControl(''),
+    bic: new FormControl(''),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,
@@ -60,6 +62,8 @@ export class TabContactsClient implements OnInit {
           phone:  this.contactsList[this.indexFind].phone,
           mail:  this.contactsList[this.indexFind].mail,
           tva: this.contactsList[this.indexFind].tva,
+          iban: this.contactsList[this.indexFind].iban,
+          bic: this.contactsList[this.indexFind].bic,
         });
       }
     }else
@@ -102,7 +106,10 @@ export class TabContactsClient implements OnInit {
       this.formClient.get('address').value,
       this.formClient.get('phone').value,
       this.formClient.get('mail').value,
-      this.formClient.get('tva').value
+      null,
+      this.formClient.get('tva').value,
+      this.formClient.get('iban').value,
+      this.formClient.get('bic').value
     );
     if(this.indexFind>=0)
     {

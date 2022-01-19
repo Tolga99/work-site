@@ -19,7 +19,7 @@ export class Payment implements OnInit {
   chantierList : Array<Chantier>;
   chantierIndex : number;
   chantierId : string;
-  selectedInv : Facture;
+  public selectedInv : Facture;
   ReceivedMoney : number;
   formPay = new FormGroup({
    chantierName: new FormControl(''),

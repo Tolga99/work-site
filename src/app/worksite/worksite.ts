@@ -571,7 +571,6 @@ export class Worksite implements OnInit {
     doc.text('Signature de l\'acheteur', 140, y);
     y+=6;
 
-
     doc.save('exempleFacture.pdf');
   }
 }

@@ -98,6 +98,12 @@ export class CreateWorksite implements OnInit {
     this.chantierList.push(this.newWorksite);
     this.storageService.set('Chantiers',this.chantierList);
 
+    if(this.client.historique==null)
+      this.client.historique= new Array<string>();
+    this.client.historique.push(this.newWorksite.chantierId);
+
+    this.clientList[this.clientList.findIndex(a => a.userId == this.client.userId)] = this.client;
+    this.storageService.set('Contacts', this.clientList);
     console.log('Chantier crée, redirection...');
     this.router.navigate(['/tb-home']);
   }

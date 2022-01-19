@@ -6,8 +6,11 @@ export interface IUser
     address:string;
     phone:string;
     mail:string;
+    historique : Array<string>;
     // list chantiers
     tva:string;
+    iban:string;
+    bic:string;
 }
 
 export class User implements IUser {
@@ -18,8 +21,13 @@ export class User implements IUser {
         public address:string,
         public phone:string,
         public mail:string,
+        public historique : Array<string>,
+
         // list chantiers
-        public tva:string
+        public tva:string,
+        public iban:string,
+        public bic:string
+
     ) {
     }
 

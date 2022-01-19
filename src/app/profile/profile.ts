@@ -21,6 +21,8 @@ export class Profile implements OnInit{
     phone: new FormControl(''),
     mail: new FormControl(''),
     tva: new FormControl(''),
+    iban: new FormControl(''),
+    bic: new FormControl(''),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router) {
@@ -42,6 +44,8 @@ export class Profile implements OnInit{
           phone: profile.phone,
           mail: profile.mail,
           tva: profile.tva,
+          iban: profile.iban,
+          bic: profile.bic,
         });
     }else
     {
@@ -52,6 +56,8 @@ export class Profile implements OnInit{
         phone:  '',
         mail:  '',
         tva: '',
+        iban: '',
+        bic: '',
       });
     }
   }
@@ -90,7 +96,11 @@ export class Profile implements OnInit{
       this.formProfile.get('address').value,
       this.formProfile.get('phone').value,
       this.formProfile.get('mail').value,
-      this.formProfile.get('tva').value
+      null,
+      this.formProfile.get('tva').value,
+      this.formProfile.get('iban').value,
+      this.formProfile.get('bic').value,
+
     );
 
     this.storageService.setProfile(this.myAccount);
