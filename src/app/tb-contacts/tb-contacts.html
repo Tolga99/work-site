@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr mdbTableCol *ngFor="let el of contactsList" (click)="ClickContact(el)">
+          <tr mdbTableCol *ngFor="let el of contactsList" (click)="OpenContact(el)">
             <!-- <th scope="row" >{{el.userId}}</th> -->
             <td>{{el.firstName}}</td>
             <td>{{el.lastName}}</td>
@@ -29,7 +29,7 @@
                 <mat-icon>more_horiz</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item type="button">
+                <button mat-menu-item type="button" (click)="EditContact(el)"> 
                   <mat-icon>edit</mat-icon>
                   <span>Modifier</span>
                 </button>

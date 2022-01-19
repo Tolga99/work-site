@@ -47,6 +47,10 @@ const routes: Routes = [
         loadChildren: () => import('../tb-contacts/tb-contacts.module').then(m => m.TabContactsModule)
       },
       {
+        path: 'client',
+        loadChildren: () => import('../client/client.module').then(m => m.ClientModule)
+      },
+      {
         path:'new-contact',
         loadChildren: () => import('../tb-contacts-client/tb-contacts-client.module').then(m => m.TabContactsClientModule)
       },

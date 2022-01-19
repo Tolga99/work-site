@@ -12,6 +12,7 @@ import 'jspdf-autotable'
 import { User } from '../models/user';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-worksite',
   templateUrl: 'worksite.html',
@@ -572,5 +573,23 @@ export class Worksite implements OnInit {
     y+=6;
 
     doc.save('exempleFacture.pdf');
+    // var rawdata = doc.output();
+
+    // var len = rawdata.length,
+    // ab = new ArrayBuffer(len),
+    // u8 = new Uint8Array(ab);
+
+    // while(len--) u8[len] = rawdata.charCodeAt(len);
+
+    // var blob = new Blob([ab], { type : "application/pdf" });
+
+
+    // // var iframe = document.getElementById('outputPDFnormale');
+    // // iframe.style.width = '60%';
+    // // iframe.style.height = '650px';
+    // // //iframe.src = URL.createObjectURL(blob)
+
+    // // var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"});
+    // FileSaver.saveAs(blob, 'Ordini.pdf');
   }
 }

@@ -3,6 +3,7 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
 .my-custom-scrollbar {
 position: relative;
 height: 200px;
@@ -10,6 +11,8 @@ overflow: auto;
 }
 .table-wrapper-scroll-y {
 display: block;
+height: auto;
+
 }
 
 /* Add a background color and some padding around the form */
