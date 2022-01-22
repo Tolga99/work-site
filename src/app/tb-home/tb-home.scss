@@ -49,4 +49,16 @@ input[type=submit]:hover {
   background-color: #45a049;
 }
 
+.item {white-space: nowrap;display:inline  }
+table {
+  width: 100%;
+}
 
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}

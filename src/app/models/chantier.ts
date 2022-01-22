@@ -9,7 +9,7 @@ export interface IChantier
     // dates
     chantierId: string;
     worksiteName: string;
-    clientLastName: string;
+   // clientLastName: string;
     clientId:string;
     description : string;
     address : string
@@ -28,7 +28,7 @@ export class Chantier implements IChantier {
     constructor(
         public chantierId:string,
         public worksiteName:string,
-        public clientLastName:string,
+      //  public clientLastName:string,
         public clientId:string,
         public description: string,
         public address: string,

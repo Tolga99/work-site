@@ -68,15 +68,15 @@ export class Hours implements OnInit {
         // d.setHours(this.hour.hour,this.hour.minute,0,0);
         // let dd = new Date(d.toString());
         // console.log(d.toLocaleDateString(),d.toTimeString(),d.toUTCString(),d.toLocaleTimeString());
-        // console.log(d.toISOString());
+        console.log('dt',d.toISOString());
 
         this.formHour.setValue({
           date: d.toISOString(),
           description:  this.hoursList[this.indexFind].description,
         });
+        this.formHour.updateValueAndValidity();
         // this.formHour.get('date').setValue(d.toISOString());
-        this.formHour.patchValue({ date : d.toISOString()});
-        this.ngOnInit();
+        // this.formHour.patchValue({ date : d.toISOString()});
       }
     }else
     {

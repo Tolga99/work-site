@@ -20,7 +20,7 @@ export class CreateWorksite implements OnInit {
   public chantierList : Array<Chantier> = [];
   clientList : Array<User> = [];
   date : string;
-
+  userId : string;
   formWork = new FormGroup({
     worksiteName: new FormControl('',Validators.required),
     client: new FormControl('', Validators.required),
@@ -34,18 +34,26 @@ export class CreateWorksite implements OnInit {
   }
   async ionViewDidEnter(){
     console.log('view did enter');
-    this.storageService.init();
-    this.clientList = await this.storageService.get('Contacts');
+    //this.storageService.init();
+    //this.clientList = await this.storageService.get('Contacts');
+
   }
   async ngOnInit() {
     const nowDate = new Date();
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
-   // var maliste = await this.storageService.get('listClient');
 
-   // console.log('here is maliste',maliste);
-   this.storageService.init();
-   this.clientList = await this.storageService.get('Contacts');
-   console.log(this.clientList);
+    this.userId = this.route.snapshot.paramMap.get('userId');
+    console.log(this.userId);
+    this.storageService.init();
+    this.clientList = await this.storageService.get('Contacts');
+    console.log(this.clientList);
+    if(this.userId !== null)
+    {
+      this.formWork.get('client').setValue(this.clientList.find(a => a.userId === this.userId).userId);
+      // this.formWork.get('client').setValue(this.clientList.find(a => a.userId === this.userId));
+      // this.formWork.get('client').setValue(this.clientList.find(a => a.userId === this.userId).userId);
+     // this.formWork.patchValue({client : this.clientList.find(a => a.userId === this.userId).lastName.toUpperCase()});
+    }
   }
 
   async CreateWorksite() {
@@ -78,7 +86,7 @@ export class CreateWorksite implements OnInit {
     this.newWorksite = new Chantier(
       this.generateUUID(),
       this.formWork.get('worksiteName').value,
-      this.client.lastName,
+      // this.client.lastName,
       this.client.userId,
       this.formWork.get('description').value,
       this.formWork.get('address').value,
@@ -105,7 +113,7 @@ export class CreateWorksite implements OnInit {
     this.clientList[this.clientList.findIndex(a => a.userId == this.client.userId)] = this.client;
     this.storageService.set('Contacts', this.clientList);
     console.log('Chantier crée, redirection...');
-    this.router.navigate(['/tb-home']);
+    this.router.navigate(['/tb-home'],{replaceUrl:true});
   }
   NewClient()
   {

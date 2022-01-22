@@ -14,7 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 @NgModule({
   imports: [
     IonicModule,
-    ClientRoutingModule,SharedModule, NgApexchartsModule,
+    ClientRoutingModule,SharedModule, NgApexchartsModule,CommonModule ,
   ],
   declarations: [Client]
 })

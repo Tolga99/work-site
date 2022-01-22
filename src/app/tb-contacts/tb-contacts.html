@@ -29,6 +29,10 @@
                 <mat-icon>more_horiz</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
+                <button mat-menu-item type="button" (click)="NewWork(el)"> 
+                  <mat-icon>add_location</mat-icon>
+                  <span>Nouveau chantier</span>
+                </button>
                 <button mat-menu-item type="button" (click)="EditContact(el)"> 
                   <mat-icon>edit</mat-icon>
                   <span>Modifier</span>

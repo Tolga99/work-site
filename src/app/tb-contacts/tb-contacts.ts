@@ -63,5 +63,9 @@ export class TabContacts implements OnInit  {
     this.contactsList = this.contactsList.filter(a => a.userId !== user.userId);
     this.storageService.set('Contacts', this.contactsList);
   }
+  NewWork(us : User)
+  {
+    this.router.navigate(['createworksite',{userId : us.userId}],{replaceUrl:true});
+  }
 }
 

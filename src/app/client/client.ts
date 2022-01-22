@@ -15,6 +15,7 @@ import {
 } from 'ng-apexcharts';
 import { element } from 'protractor';
 import { Chantier } from '../models/chantier';
+import { Facture } from '../models/facture';
 import { User } from '../models/user';
 import { StorageService } from '../services/storage.service';
 
@@ -42,20 +43,22 @@ export class Client implements OnInit{
   client : User;
   chantiers : Array<Chantier>;
   userId : string='';
+  headElements = ['Nom chantier', 'Nom Client', 'Date début','Adresse','Etat'];
+
   constructor(private storageService : StorageService, private router : Router, private route : ActivatedRoute) {
     this.chartOptions = {
       series: [
         {
-          name: 'Net Profit',
-          data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+          name: 'Argent payé',
+          data: []
         },
         {
-          name: 'Revenue',
-          data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+          name: 'Total à payer',
+          data: []
         },
         {
-          name: 'Free Cash Flow',
-          data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+          name: 'Reste à payer',
+          data: []
         }
       ],
       chart: {
@@ -92,7 +95,7 @@ export class Client implements OnInit{
       },
       yaxis: {
         title: {
-          text: '$ (thousands)'
+          text: '€'
         }
       },
       fill: {
@@ -101,11 +104,18 @@ export class Client implements OnInit{
       tooltip: {
         y: {
           formatter(val) {
-            return '$ ' + val + ' thousands';
+            return val + '€';
           }
         }
       }
     };
+  }
+  GetName()
+  {
+    var name = '/';
+    if(this.client)
+      name = this.client.lastName.toUpperCase() +' '+ this.client.firstName;
+    return name;
   }
   async ngOnInit() {
 
@@ -115,13 +125,41 @@ export class Client implements OnInit{
     this.client = clients.find(a => a.userId == this.userId);
 
     let chantiers : Array<Chantier> = await this.storageService.get('Chantiers');
-    this.chantiers = chantiers.filter(a => a.clientId == this.client.userId);
+    this.chantiers = chantiers.filter(a => a.clientId === this.client.userId);
+    let i = 0;
     this.chantiers.forEach(element => {
-      
+
     for (let index = 0; index < element.factures?.length; index++) {
-      this.chartOptions.xaxis.categories[index] = element.factures[index].factureName;
+      this.chartOptions.xaxis.categories[i] = element.factures[index].factureName;
+      this.chartOptions.series[1].data[i] = element.factures[index].totalPrice;
+      this.chartOptions.series[0].data[i]  = this.GetAllReceivedMoney(element.factures[index]);
+      this.chartOptions.series[2].data[i]  = element.factures[index].totalPrice - this.GetAllReceivedMoney(element.factures[index]);
+
+      i++;
     }
   });
+  console.log(this.chartOptions.xaxis.categories);
   }
+  public GetAllReceivedMoney(f : Facture) : number
+  {
+      let total= 0;
+      if(f.receivedMoney==null)
+        f.receivedMoney = new Array<{price: number, date : string}>();
 
+      f.receivedMoney.forEach(element => {
+          total=element.price+total;
+      });
+
+      total = Math.round(total * 100) / 100; // arrondi
+      return total;
+  }
+  EditContact()
+  {
+    this.router.navigate(['new-contact',{userId: this.client.userId}]);
+    console.log('click',this.client.firstName);
+  }
+  GoBack()
+  {
+    this.router.navigate(['tb-contacts'],{replaceUrl:true});
+  }
 }

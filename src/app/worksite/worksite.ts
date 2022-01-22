@@ -100,7 +100,7 @@ export class Worksite implements OnInit {
         this.chantier = new Chantier(
           this.chantierList[this.indexFind].chantierId,
           this.chantierList[this.indexFind].worksiteName,
-          this.chantierList[this.indexFind].clientLastName,
+          //this.chantierList[this.indexFind].clientLastName,
           this.chantierList[this.indexFind].clientId,
           this.chantierList[this.indexFind].description,
           this.chantierList[this.indexFind].address,
@@ -335,7 +335,7 @@ export class Worksite implements OnInit {
     this.chantier = new Chantier(
       this.chantier.chantierId,
       this.formChantier.get('chantierName').value,
-      this.chantier.clientLastName,
+      //this.chantier.clientLastName,
       this.chantier.clientId,
       this.formChantier.get('description').value,
       this.formChantier.get('address').value,
