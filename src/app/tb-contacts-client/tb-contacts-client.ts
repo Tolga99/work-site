@@ -113,7 +113,7 @@ export class TabContactsClient implements OnInit {
     );
     if(this.indexFind>=0)
     {
-      this.contactsList.splice(this.indexFind,1);
+      // this.contactsList.splice(this.indexFind,1);
       this.contactsList[this.indexFind] = this.client;
     }else this.contactsList.push(this.client);
     this.storageService.set('Contacts',this.contactsList);

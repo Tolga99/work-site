@@ -8,6 +8,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { TabContactsRoutingModule } from './tb-contacts-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     ExploreContainerComponentModule,
     TabContactsRoutingModule,
+    MaterialModule,
 
   ],
   declarations: [TabContacts]

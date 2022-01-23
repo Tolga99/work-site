@@ -23,49 +23,53 @@
 </ion-header>
 <ion-content [fullscreen]="true">
 
+  <div class="card-header">
+    Profil
+  </div>
+
   <ion-item>
     <ion-label position="fixed" style="font-weight: lighter;">Prénom : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.firstName}}</ion-label>
   </ion-item>
 
-<ion-item>
-  <ion-label position="fixed" style="font-weight: lighter;">Nom : </ion-label>
-  <ion-label style="font-weight: bolder;">{{client?.lastName.toUpperCase()}}</ion-label>
-</ion-item>
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">Nom : </ion-label>
+    <ion-label style="font-weight: bolder;">{{client?.lastName.toUpperCase()}}</ion-label>
+  </ion-item>
 
-<ion-item>
-  <ion-label position="fixed" style="font-weight: lighter;">Adresse : </ion-label>
-  <ion-label style="font-weight: bolder;">{{client?.address}}</ion-label>
-</ion-item>
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">Adresse : </ion-label>
+    <ion-label style="font-weight: bolder;">{{client?.address}}</ion-label>
+  </ion-item>
 
-<ion-item>
-  <ion-label position="fixed" style="font-weight: lighter;">Téléphone : </ion-label>
-  <ion-label style="font-weight: bolder;">{{client?.phone}}</ion-label>
-</ion-item>
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">Téléphone : </ion-label>
+    <ion-label style="font-weight: bolder;">{{client?.phone}}</ion-label>
+  </ion-item>
 
-<ion-item>
-  <ion-label position="fixed" style="font-weight: lighter;">Mail : </ion-label>
-  <ion-label style="font-weight: bolder;">{{client?.mail}}</ion-label>
-</ion-item>
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">Mail : </ion-label>
+    <ion-label style="font-weight: bolder;">{{client?.mail}}</ion-label>
+  </ion-item>
 
-<ion-item>
-  <ion-label position="fixed" style="font-weight: lighter;">TVA : </ion-label>
-  <ion-label style="font-weight: bolder;">{{client?.tva}}</ion-label>
-</ion-item>
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">TVA : </ion-label>
+    <ion-label style="font-weight: bolder;">{{client?.tva}}</ion-label>
+  </ion-item>
 
-<ion-item>
-  <ion-label position="fixed" style="font-weight: lighter;">IBAN : </ion-label>
-  <ion-label style="font-weight: bolder;">{{client?.iban}}</ion-label>
-</ion-item>
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">IBAN : </ion-label>
+    <ion-label style="font-weight: bolder;">{{client?.iban}}</ion-label>
+  </ion-item>
 
-<ion-item>
-  <ion-label position="fixed" style="font-weight: lighter;">BIC : </ion-label>
-  <ion-label style="font-weight: bolder;">{{client?.bic}}</ion-label>
-</ion-item>
-<hr>
-<div class="card-header">
- Historique
-</div>
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">BIC : </ion-label>
+    <ion-label style="font-weight: bolder;">{{client?.bic}}</ion-label>
+  </ion-item>
+  <hr>
+  <div class="card-header">
+    Historique
+  </div>
   <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
     <table mat-table class="table table-bordered table-striped mb-0">
 
@@ -88,7 +92,10 @@
       </tbody>
     </table>
   </div>
-
+  <hr>
+  <div class="card-header">
+    Achats du client
+  </div>
   <div id="chart">
     <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
       [plotOptions]="chartOptions.plotOptions" [yaxis]="chartOptions.yaxis" [legend]="chartOptions.legend"

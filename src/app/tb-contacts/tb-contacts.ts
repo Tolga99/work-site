@@ -1,7 +1,12 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
+import { Chantier } from '../models/chantier';
 import { User } from '../models/user';
 import { StorageService } from '../services/storage.service';
 
@@ -12,25 +17,57 @@ import { StorageService } from '../services/storage.service';
 })
 export class TabContacts implements OnInit  {
   // headElements = ['#', 'Prenom', 'Nom', 'Adresse'];
-  headElements = ['Prenom', 'Nom', 'Adresse'];
+  headElements = ['lastName', 'firstName', 'address','...'];
 
   contactsList: Array<User> = [];
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS : NgbModal,private router: Router,private storageService: StorageService) {
-    console.log('dans construct');
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
+
+  dataSource: MatTableDataSource<User>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private modalS : NgbModal,
+              private storageService:StorageService,
+              private router: Router,
+              private _liveAnnouncer: LiveAnnouncer)
+              {
+              }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+
   async ionViewDidEnter(){
     console.log('view did enter');
     this.storageService.init();
-    this.contactsList =await this.storageService.get('Contacts');
+    this.contactsList = await this.storageService.get('Contacts');
+    this.dataSource = new MatTableDataSource(this.contactsList);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   async ngOnInit(): Promise<void> {
-    console.log('dans init');
     this.storageService.init();
-    this.contactsList =await this.storageService.get('Contacts');
+    this.contactsList = await this.storageService.get('Contacts');
+    this.dataSource = new MatTableDataSource(this.contactsList);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   CreateClient(){

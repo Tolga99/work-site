@@ -13,6 +13,10 @@ import { User } from '../models/user';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as FileSaver from 'file-saver';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 @Component({
   selector: 'app-worksite',
   templateUrl: 'worksite.html',
@@ -39,12 +43,73 @@ export class Worksite implements OnInit {
    address : new FormControl(''),
  });
 
-  headElementsInv = ['Nom facture', 'Total','Date'];
-  headElementsHour = ['Description', 'Heure travail','Date'];
+  headElementsInv = ['factureName', 'totalPrice','date','IsPaid','...'];
+  headElementsDev = ['factureName', 'totalPrice','date','...'];
+
+  headElementsHour = ['description', 'workTime','date','...'];
   headElementsRecv = ['Nom Facture','Argent reçu' , 'Total','Restant','Date reception'];
 
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)
+
+
+  dataSourceFacture: MatTableDataSource<Facture>;
+  @ViewChild(MatPaginator) paginatorFacture: MatPaginator;
+  @ViewChild(MatSort) sortFacture: MatSort;
+
+  dataSourceDevis: MatTableDataSource<Facture>;
+  @ViewChild(MatPaginator) paginatorDevis: MatPaginator;
+  @ViewChild(MatSort) sortDevis: MatSort;
+
+  dataSourceHeure: MatTableDataSource<Hour>;
+  @ViewChild(MatPaginator) paginatorHeure: MatPaginator;
+  @ViewChild(MatSort) sortHeure: MatSort;
+
+
+  applyFilterFacture(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSourceFacture.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceFacture.paginator) {
+      this.dataSourceFacture.paginator.firstPage();
+    }
+  }
+  applyFilterDevis(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSourceDevis.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceDevis.paginator) {
+      this.dataSourceDevis.paginator.firstPage();
+    }
+  }
+  applyFilterHeure(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSourceHeure.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceHeure.paginator) {
+      this.dataSourceHeure.paginator.firstPage();
+    }
+  }
+  announceSortChangeFacture(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+  announceSortChangeDevis(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+  announceSortChangeHeure(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute,
+    private _liveAnnouncer: LiveAnnouncer)
   {
   }
 
@@ -74,6 +139,18 @@ export class Worksite implements OnInit {
       if(this.chantierList.find(a => a.chantierId === this.chantierId).devis!=null)
         this.chantier.devis = this.chantierList.find(a => a.chantierId === this.chantierId).devis;
       else this.chantier.devis = new Array<Facture>();
+
+      this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
+      this.dataSourceFacture.paginator = this.paginatorFacture;
+      this.dataSourceFacture.sort = this.sortFacture;
+
+      this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
+      this.dataSourceDevis.paginator = this.paginatorDevis;
+      this.dataSourceDevis.sort = this.sortDevis;
+
+      this.dataSourceHeure = new MatTableDataSource(this.chantier.hours);
+      this.dataSourceHeure.paginator = this.paginatorHeure;
+      this.dataSourceHeure.sort = this.sortHeure;
       this.CalculTotalHour();
 
     }
@@ -129,6 +206,18 @@ export class Worksite implements OnInit {
 
         if(!this.chantier.hours)
         this.chantier.hours = new Array<Hour>();
+
+        this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
+        this.dataSourceFacture.paginator = this.paginatorFacture;
+        this.dataSourceFacture.sort = this.sortFacture;
+  
+        this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
+        this.dataSourceDevis.paginator = this.paginatorDevis;
+        this.dataSourceDevis.sort = this.sortDevis;
+  
+        this.dataSourceHeure = new MatTableDataSource(this.chantier.hours);
+        this.dataSourceHeure.paginator = this.paginatorHeure;
+        this.dataSourceHeure.sort = this.sortHeure;
       }
     }else console.log('creation',existId);
     this.CalculTotalHour();
@@ -230,6 +319,8 @@ export class Worksite implements OnInit {
       this.chantierList[this.indexFind] = this.chantier;
     }else this.chantierList.push(this.chantier);
     this.storageService.set('Chantiers',this.chantierList);
+
+    this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
   }
 
 
@@ -267,6 +358,9 @@ export class Worksite implements OnInit {
       this.chantierList[this.indexFind] = this.chantier;
     }else this.chantierList.push(this.chantier);
     this.storageService.set('Chantiers',this.chantierList);
+
+    this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
+
   }
 
   TransformToInvoice(d : Facture)
@@ -301,6 +395,9 @@ export class Worksite implements OnInit {
       this.chantierList[this.indexFind] = this.chantier;
     }else this.chantierList.push(this.chantier);
     this.storageService.set('Chantiers',this.chantierList);
+
+    this.dataSourceHeure = new MatTableDataSource(this.chantier.hours);
+
   }
   AddPayment()
   {

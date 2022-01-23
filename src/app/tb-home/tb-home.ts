@@ -26,23 +26,22 @@ export class TabHome implements OnInit{
   clientsList : Array<User> = [];
   headElements = ['worksiteName', 'client', 'dateStart','address','isFinished','...'];
 
+  public modal = new NgbdModalFocus(this.modalS);
+
+  name = true;
+  client = false;
+  date = false;
+  address = false;
+  state = false;
+  
   dataSource: MatTableDataSource<Chantier>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
-  public modal = new NgbdModalFocus(this.modalS);
-
-  name: boolean = true;
-  client: boolean = false;
-  date: boolean = false;
-  address: boolean = false;
-  state: boolean = false;
-
   constructor(private modalS : NgbModal,
               private storageService:StorageService,
               private router: Router,
-              private _liveAnnouncer: LiveAnnouncer) 
+              private _liveAnnouncer: LiveAnnouncer)
               {
               }
 
@@ -55,7 +54,7 @@ export class TabHome implements OnInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -78,7 +77,7 @@ export class TabHome implements OnInit{
     // {
     //   this.searchList.forEach( element =>{
     //     this.dataSource.filter = element.address.toLowerCase();
-  
+
     //   });
     // }
     if (this.dataSource.paginator) {
@@ -102,7 +101,7 @@ export class TabHome implements OnInit{
     this.chantierList = await this.storageService.get('Chantiers');
     this.dataSource = new MatTableDataSource(this.chantierList);
 
-    //this.searchList = this.chantierList;
+    // this.searchList = this.chantierList;
     this.clientsList = await this.storageService.get('Contacts');
 
     this.dataSource.paginator = this.paginator;
@@ -248,7 +247,7 @@ export class TabHome implements OnInit{
   }
   GetName(el: Chantier)
   {
-    var name = '/'; 
+    var name = '/';
     const us = this.clientsList.find(a => a.userId === el.clientId);
     if(us)
       name = us.lastName.toUpperCase() +' '+ us.firstName;

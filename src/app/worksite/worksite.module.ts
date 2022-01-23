@@ -6,6 +6,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { SharedModule } from '../shared/shared.module';
 import { WorksiteRoutingModule } from './worksite-routing.module';
 import { NgbdModalFocusModule } from '../modal/modal-focus.module';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   declarations: [Worksite],
@@ -16,6 +17,7 @@ import { NgbdModalFocusModule } from '../modal/modal-focus.module';
     ExploreContainerComponentModule,
     WorksiteRoutingModule,
     NgbdModalFocusModule,
+    MaterialModule,
   ]
 })
 export class WorksiteModule { }
