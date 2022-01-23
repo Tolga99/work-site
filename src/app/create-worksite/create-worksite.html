@@ -8,27 +8,34 @@
     </ion-toolbar>
   </ion-header>
   <form [formGroup]="formWork" (ngSubmit)="CreateWorksite()">
-    <div class="form-group" required="required">
-      <label for="name">Nom chantier</label>
-      <input type="text" id="name" name="name" formControlName="worksiteName" placeholder="..." required="required">
-    </div>
-    <div class="form-group" required="required">
-      <label for="client">Client</label>
-      <select formControlName="client" matNativeControl (change)="selectClient($event)" required="required">
-        <option></option>
-        <option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName.toUpperCase()}}
-          {{name.firstName}} </option>
-      </select>
 
-      <button class="btn"><i class="fa fa-home" (click)="NewClient()">Nouveau client ?</i></button>
-    </div>
+    <ion-item class="form-group" required="required">
+      <ion-label position="floating">Nom chantier</ion-label>
+      <ion-input type="text" id="name" name="name" formControlName="worksiteName" placeholder="..." required="required"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Client</ion-label>
+      <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="client"
+        (change)="selectClient($event)">
+        <ion-select-option></ion-select-option>
+        <ion-select-option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName.toUpperCase()}}
+          {{name.firstName}} </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <button type="button" (click)="NewClient()">Nouveau client ?</button>
+
     <hr>
-    <label for="address">Adresse du chantier</label>
-    <input type="text" id="address" name="address" formControlName="address" placeholder="...">
+    <ion-item class="form-group" required="required">
+      <ion-label position="floating">Adresse du chantier</ion-label>
+      <ion-input type="text" id="address" name="address" formControlName="address" placeholder="..."></ion-input>
+    </ion-item>
 
-    <label for="description">Description</label>
-    <textarea id="description" name="description" formControlName="description" placeholder="..."
-      style="height:100px;"></textarea>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
+        style="height:100px;"></ion-textarea>
+    </ion-item>
 
     <input type="submit" value="Créer chantier">
   </form>

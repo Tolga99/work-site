@@ -8,13 +8,14 @@
 </ion-header>
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
-    <div class="form-group" required="required">
-      <label for="factureName" [hidden]="type=='devis'">Nom facture</label>
-      <label for="factureName" [hidden]="type=='facture'">Nom devis</label>
 
-      <input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="..."
-        required="required">
-    </div>
+    <ion-item class="form-group" required="required">
+      <ion-label position="floating" [hidden]="type=='devis'">Nom Facture</ion-label>
+      <ion-label position="floating" [hidden]="type=='facture'">Nom devis</ion-label>
+
+      <ion-input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="..."
+        required="required"></ion-input>
+    </ion-item>
 
     <div class="form-group" required="required">
       <button for="art" [hidden]="ScanMode" (click)="GoShopping()" type="button">Ajouter articles</button>
@@ -42,6 +43,7 @@
       </table>
 
     </div>
+
     <div [hidden]="type=='devis'">
       <label for="imgFactures" [hidden]="!ScanMode">Photos facture</label>
     </div>
@@ -49,6 +51,12 @@
       <label for="imgFactures" [hidden]="!ScanMode">Photos devis</label>
     </div>
 
+    <ion-item [hidden]="type=='devis'">
+      <ion-label position="floating" [hidden]="!ScanMode">Photos facture</ion-label>
+    </ion-item>
+    <ion-item [hidden]="type=='facture'">
+      <ion-label position="floating" [hidden]="!ScanMode">Photos devis</ion-label>
+    </ion-item>
     <!-- Select File -->
     <input [hidden]="!ScanMode" id="imgFactures" type="file" class="form-control" multiple=""
       (change)="onFileChange($event)">
@@ -61,40 +69,46 @@
       </button>
     </div>
 
-    <div class="form-group" required="required">
-
-      <label for="typePay">Type de paiement</label>
-      <select formControlName="typePay" required="required">
-        <option value='cash'>Paiement cash</option>
-        <option value='bancaire'>Virement bancaire</option>
-      </select>
-    </div>
+    <ion-item>
+      <ion-label>Type de paiement</ion-label>
+      <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="typePay" required="required">
+        <ion-select-option value="cash"> Paiement cash </ion-select-option>
+        <ion-select-option value="bancaire"> Virement bancaire </ion-select-option>
+      </ion-select>
+    </ion-item>
     <!-- articles -->
-    <div class="form-group" required="required">
-      <label for="htva" [hidden]="ScanMode">Prix HTVA</label>
-      <input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="..."
-        required="required">
-    </div>
-    <div class="form-group" required="required">
 
-      <label for="tva" [hidden]="ScanMode">TVA</label>
-      <input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="..."
-        required="required">
-    </div>
-    <div class="form-group" required="required">
-      <label for="remise" [hidden]="ScanMode">Remise</label>
-      <input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="..."
-        required="required">
-    </div>
-    <div class="form-group" required="required">
-      <label for="totalPrice" [hidden]="!ScanMode">Prix à payer</label>
-      <input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice"
-        required="required" placeholder="125,35">
-    </div>
+    <ion-item class="form-group" required="required" [hidden]="ScanMode">
+      <ion-label position="floating">Prix HTVA</ion-label>
+      <ion-input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="..."
+      required="required"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-group" required="required" [hidden]="ScanMode">
+      <ion-label position="floating">TVA</ion-label>
+      <ion-input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="..."
+      required="required"></ion-input>
+    </ion-item>
+
+
+    <ion-item class="form-group" required="required" [hidden]="ScanMode">
+      <ion-label position="floating">Remise</ion-label>
+      <ion-input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="..."
+      required="required"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-group" required="required" [hidden]="!ScanMode">
+      <ion-label position="floating">Prix à payer</ion-label>
+      <ion-input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice"
+      required="required" placeholder="125,35"></ion-input>
+    </ion-item>
+
     <hr>
-    <label for="description">Description</label>
-    <textarea id="description" name="description" formControlName="description" placeholder="..."
-      style="height:100px;"></textarea>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
+        style="height:100px;"></ion-textarea>
+    </ion-item>
 
     <div [hidden]="type=='devis'">
       <input type="submit" [hidden]="!ScanMode" value="Scanner chantier">

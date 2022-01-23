@@ -8,18 +8,23 @@
 </ion-header>
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
-    <div class="form-group" required="required">
-      <label for="chantierName">Nom chantier</label>
-      <input type="text" id="chantierName" name="chantierName" formControlName="chantierName" placeholder="..."
-        required="required">
-    </div>
-    <label for="address">Adresse du chantier</label>
-    <input type="text" id="address" name="address" formControlName="address" placeholder="...">
-    <hr>
-    <label for="description">Description</label>
-    <textarea id="description" name="description" formControlName="description" placeholder="..."
-      style="height:100px;"></textarea>
 
+    <ion-item class="form-group" required="required">
+      <ion-label position="floating">Nom chantier</ion-label>
+      <ion-input type="text" id="name" name="name" formControlName="chantierName" placeholder="..." required="required"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-group" required="required">
+      <ion-label position="floating">Adresse du chantier</ion-label>
+      <ion-input type="text" id="address" name="address" formControlName="address" placeholder="..."></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
+        style="height:100px;"></ion-textarea>
+    </ion-item>
+<hr>
     <div class="card-header">
       Images du chantier
     </div>

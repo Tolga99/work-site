@@ -13,32 +13,45 @@
 
 <ion-content [fullscreen]="true">
   <div class="container">
+
     <form [formGroup]="formProfile" (ngSubmit)="UpdateProfile()">
-      <div class="form-group" required="required">
-        <label for="firstName">Prenom</label>
-        <input type="text" id="firstName" placeholder="Your name.." formControlName="firstName" required="required">
-      </div>
-      <div class="form-group" required="required">
-        <label for="lastName">Nom</label>
-        <input type="text" id="lastName" placeholder="Your last name.." formControlName="lastName" required="required">
-      </div>
-      <label for="address">Adresse</label>
-      <input type="text" id="address" placeholder=".." formControlName="address">
-
-      <label for="phone">Phone</label>
-      <input type="text" id="phone" placeholder="..." formControlName="phone">
-
-      <label for="mail">Mail</label>
-      <input type="text" id="mail" placeholder="..." formControlName="mail">
-
-      <label for="tva">TVA</label>
-      <input type="text" id="tva" placeholder="..." formControlName="tva">
-
-      <label for="iban">Iban</label>
-      <input type="text" id="iban" placeholder="BE ..." formControlName="iban">
+      <ion-item class="form-group" required="required">
+        <ion-label position="floating">Prénom</ion-label>
+        <ion-input type="text" id="firstName" placeholder="Your name.." formControlName="firstName" required="required"></ion-input>
+      </ion-item>
+      <ion-item class="form-group" required="required">
+        <ion-label position="floating">Nom</ion-label>
+        <ion-input type="text" id="lastName" placeholder="Your last name.." formControlName="lastName" required="required"></ion-input>
+      </ion-item>
+      <ion-item class="form-group" required="required">
+        <ion-label position="floating">Adresse</ion-label>
+        <ion-input type="text" id="address" placeholder=".." formControlName="address"></ion-input>
+      </ion-item>
       
-      <label for="bic">BIC</label>
-      <input type="text" id="bic" placeholder="..." formControlName="bic">
+      <ion-item class="form-group">
+        <ion-label position="floating">Phone</ion-label>
+        <ion-input type="text" id="phone" placeholder="..." formControlName="phone"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label position="floating">Mail</ion-label>
+        <ion-input type="text" id="mail" placeholder="..." formControlName="mail"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label position="floating">TVA</ion-label>
+        <ion-input type="text" id="tva" placeholder="..." formControlName="tva"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label position="floating">IBAN</ion-label>
+        <ion-input type="text" id="iban" placeholder="BE ..." formControlName="iban"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label position="floating">BIC</ion-label>
+        <ion-input type="text" id="bic" placeholder="..." formControlName="bic"></ion-input>
+      </ion-item>
       
       <button class="btn btn-secondary" type="submit">Actualiser profil</button>
     </form>

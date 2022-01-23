@@ -12,9 +12,11 @@
     <ion-datetime formControlName="date" presentation="time"></ion-datetime>
 
     <hr>
-    <label for="description">Description</label>
-    <textarea id="description" name="description" formControlName="description" placeholder="..."
-      style="height:100px;"></textarea>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
+        style="height:100px;"></ion-textarea>
+    </ion-item>
 
     <input type="submit" value="Ajouter préstation">
   </form>

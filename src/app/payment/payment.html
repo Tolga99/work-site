@@ -36,10 +36,10 @@
     <!-- <div>
       <label for="">Reste à payer : {{selectedInv?.totalPrice - ReceivedMoney }}</label>
     </div> -->
-    <div class="form-group" required="required">
-      <label for="payment">Paiement : </label>
-      <input type="text" id="payment" name="payment" formControlName="payment" placeholder="..." required="required">
-    </div>
+    <ion-item class="form-group" required="required">
+      <ion-label position="floating">Paiement</ion-label>
+      <ion-input type="number" id="payment" name="payment" formControlName="payment" placeholder="..." required="required"></ion-input>
+    </ion-item>
     <button class="btn btn-danger"> Enregistrer paiement</button>
   </form>
   <button type="submit" class="btn btn-danger" (click)="Terminer()"> Terminer paiement</button>

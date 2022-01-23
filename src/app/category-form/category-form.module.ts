@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonIcon, IonItem } from '@ionic/angular';
 
 import { CategoryFormRoutingModule } from './category-form-routing.module';
 
@@ -15,7 +15,7 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     IonicModule,
     CategoryFormRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [CategoryForm]
 })

@@ -9,16 +9,21 @@
 <div class="container" style="overflow-y: auto;">
   <form [formGroup]="formCat" (ngSubmit)="onSubmit()">
 
-    <div class="form-group" required="required">
-      <label for="categoryName">Nom catégorie</label>
-      <input type="text" id="categoryName" name="categoryName" formControlName="categoryName" placeholder="..."
-        required="required">
-    </div>
-    <label for="categoryPar">Sous-Catégorie</label>
-    <select formControlName="categoryPar" (change)="changePar($event)">
-      <option></option>
-      <option *ngFor="let c of catList" [value]="c.categoryId"> {{c.categoryName}} </option>
-    </select>
+    <ion-item class="form-group" required="required">
+      <ion-label position="floating">Nom catégorie</ion-label>
+      <ion-input type="text" id="categoryName" name="categoryName" formControlName="categoryName" placeholder="..."
+        required="required"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Sous-catégorie</ion-label>
+      <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="categoryPar"
+        (change)="changePar($event)">
+        <ion-select-option></ion-select-option>
+        <ion-select-option *ngFor="let c of catList" [value]="c.categoryId"> {{c.categoryName}} </ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <hr>
 
     <label for="imgCat">Photo de la catégorie</label>
@@ -35,9 +40,12 @@
 
 
     <hr>
-    <label for="description">Description</label>
-    <textarea id="description" name="description" formControlName="description" placeholder="..."
-      style="height:100px;"></textarea>
+
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
+        style="height:100px;"></ion-textarea>
+    </ion-item>
 
     <input type="submit" value="Créer catégorie">
   </form>
