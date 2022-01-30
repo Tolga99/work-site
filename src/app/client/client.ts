@@ -117,6 +117,28 @@ export class Client implements OnInit{
       name = this.client.lastName.toUpperCase() +' '+ this.client.firstName;
     return name;
   }
+  async ionViewDidEnter(){
+    this.userId = this.route.snapshot.paramMap.get('userId');
+    this.storageService.init();
+    let clients : Array<User> = await this.storageService.get('Contacts');
+    this.client = clients.find(a => a.userId == this.userId);
+
+    let chantiers : Array<Chantier> = await this.storageService.get('Chantiers');
+    this.chantiers = chantiers.filter(a => a.clientId === this.client.userId);
+    let i = 0;
+    this.chantiers.forEach(element => {
+
+    for (let index = 0; index < element.factures?.length; index++) {
+      this.chartOptions.xaxis.categories[i] = element.factures[index].factureName;
+      this.chartOptions.series[1].data[i] = element.factures[index].totalPrice;
+      this.chartOptions.series[0].data[i]  = this.GetAllReceivedMoney(element.factures[index]);
+      this.chartOptions.series[2].data[i]  = element.factures[index].totalPrice - this.GetAllReceivedMoney(element.factures[index]);
+
+      i++;
+    }
+  });
+  console.log(this.chartOptions.xaxis.categories);
+  }
   async ngOnInit() {
 
     this.userId = this.route.snapshot.paramMap.get('userId');
@@ -155,7 +177,7 @@ export class Client implements OnInit{
   }
   EditContact()
   {
-    this.router.navigate(['new-contact',{userId: this.client.userId}]);
+    this.router.navigate(['new-contact',{userId: this.client.userId,tag: 'profile'}]);
     console.log('click',this.client.firstName);
   }
   GoBack()

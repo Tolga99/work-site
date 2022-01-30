@@ -1,6 +1,6 @@
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { TabCalendar } from './tb-calendar';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -13,6 +13,12 @@ import { TabCalendarRoutingModule } from './tb-calendar-routing.module';
 import { UtilsModule } from '../utils/module';
 
 import { SharedModule } from '../shared/shared.module';
+import localeFr from '@angular/common/locales/fr';
+import localeTr from '@angular/common/locales/tr';
+
+registerLocaleData(localeFr);
+registerLocaleData(localeTr);
+
 
 @NgModule({
   imports: [

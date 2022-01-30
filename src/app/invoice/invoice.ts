@@ -8,6 +8,7 @@ import { Product } from '../models/product';
 import { Chantier } from '../models/chantier';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
+import { NumericValueAccessor } from '@ionic/angular';
 
 @Component({
   selector: 'app-invoice',
@@ -235,6 +236,19 @@ export class Invoice implements OnInit {
       const remise : string =this.formInv.get('remise').value;
       let htva :number =this.formInv.get('priceHtva').value;
       const tva=this.formInv.get('tva').value;
+
+      if(!Number(remise.toString()))
+      {
+        console.log('pas un numeric');
+      }
+      if(!Number(htva.toString()))
+      {
+        console.log('pas un numeric');
+      }
+      if(!Number(tva.toString()))
+      {
+        console.log('pas un numeric');
+      }
 
       if(Number.parseFloat(remise) !== 0)
       {

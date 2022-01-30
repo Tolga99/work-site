@@ -20,6 +20,7 @@ export class TabContactsClient implements OnInit {
   indexFind =-5;
   uuidValue: string;
   tag: string;
+  modif:string;
 
 
    formClient = new FormGroup({
@@ -44,14 +45,14 @@ export class TabContactsClient implements OnInit {
     if(this.contactsList==null)
       this.contactsList = new Array<User>();
 
-    const modif = this.route.snapshot.paramMap.get('userId');
+    this.modif = this.route.snapshot.paramMap.get('userId');
     this.tag = this.route.snapshot.paramMap.get('tag');
 
-    if(modif!=null)
+    if(this.modif!=null)
     {
-      console.log('modification',modif);
+      console.log('modification',this.modif);
       this.storageService.get('Contacts');
-      this.indexFind =this.contactsList.findIndex(x => x.userId === modif);
+      this.indexFind =this.contactsList.findIndex(x => x.userId === this.modif);
       if(this.indexFind>=0)
       {
         this.clientId= this.contactsList[this.indexFind].userId;
@@ -68,7 +69,7 @@ export class TabContactsClient implements OnInit {
       }
     }else
     {
-      console.log('creation',modif);
+      console.log('creation',this.modif);
       this.clientId= this.generateUUID();
     }
   }
@@ -117,11 +118,17 @@ export class TabContactsClient implements OnInit {
       this.contactsList[this.indexFind] = this.client;
     }else this.contactsList.push(this.client);
     this.storageService.set('Contacts',this.contactsList);
-    if(this.tag==null)
+    if(!this.tag)
     {
       this.router.navigate(['/tb-contacts'],{replaceUrl:true});
     }
-    else this.router.navigate(['/createworksite'],{replaceUrl:true});
+    else if(this.tag.toLowerCase() === 'chantier')
+    {
+      this.router.navigate(['/createworksite'],{replaceUrl:true});
+    }else if(this.tag.toLowerCase() === 'profile')
+    {
+      this.router.navigate(['/client',{userId : this.modif}],{replaceUrl:true});
+    }
   }
   generateUUID()
   {
@@ -130,6 +137,16 @@ export class TabContactsClient implements OnInit {
   }
   GoBack()
   {
-    this.router.navigate(['tb-contacts'],{replaceUrl:true});
+    if(!this.tag)
+    {
+      this.router.navigate(['/tb-contacts'],{replaceUrl:true});
+    }
+    else if(this.tag.toLowerCase() === 'chantier')
+    {
+      this.router.navigate(['/createworksite'],{replaceUrl:true});
+    }else if(this.tag.toLowerCase() === 'profile')
+    {
+      this.router.navigate(['/client',{userId : this.modif}],{replaceUrl:true});
+    }
   }
 }

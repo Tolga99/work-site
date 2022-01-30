@@ -212,6 +212,41 @@ import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
         constructor(public modal: NgbActiveModal) {
           this.label= NgbdModalFocus.label;
         }  }
+
+        @Component({
+          selector: 'ngbd-modal-calendar',
+          template: `
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-title">Infos</h4>
+            <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Titre : <span class="text-primary">{{fields[0]}}</span></strong></p>
+            <p><strong>Client : <span class="text-primary">{{fields[1]}}</span></strong></p>
+            <p><strong>Description : <span class="text-primary">{{fields[2]}}</span></strong></p>
+            <p><strong>Date début : <span class="text-primary">{{fields[3]}}</span></strong></p>
+            <p><strong>Date fin : <span class="text-primary">{{fields[4]}}</span></strong></p>
+
+            <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
+            <!-- <span class="text-danger">This operation can not be undone.</span> -->
+            <!-- </p> -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+          </div>
+          `
+        })
+        export class NgbdModalCalendar {
+          label = '';
+          fields = [];
+          constructor(public modal: NgbActiveModal) {
+            this.label= NgbdModalFocus.label;
+            this.fields=this.label.split('|',5);
+            console.log(this.fields);
+          }  }
+        
 @Component({
   selector: 'ngbd-modal-confirm-autofocus',
   template: `
@@ -246,6 +281,7 @@ const MODALS: {[name: string]: Type<any>} = {
   delCat :NgbdModalDelCat,
   delArt :NgbdModalDelArt,
   field : NgbdModalField,
+  calendar : NgbdModalCalendar,
 };
 
 @Component({
@@ -256,6 +292,7 @@ export class NgbdModalFocus {
   withAutofocus = `<button type="button" ngbAutofocus class="btn btn-danger"
       (click)="modal.close('Ok click')">Ok</button>`;
     public static label :string;
+    public static fields :string[];
   constructor(private _modalService: NgbModal) {}
 
   async open(name: string, label:string) :Promise<NgbModalRef> {

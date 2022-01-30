@@ -27,6 +27,7 @@ import { colors } from '../utils/colors';
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { User } from '../models/user';
+import { NgbdModalFocus } from '../modal/modal-focus';
 
 
 @Component({
@@ -48,6 +49,7 @@ import { User } from '../models/user';
   // styleUrls: ['tb-calendar.page.scss']
 })
 export class TabCalendar implements OnInit {
+  locale: string = 'fr';
 
   clientList : Array<User> = [];
 
@@ -142,8 +144,8 @@ export class TabCalendar implements OnInit {
     ];
 
     activeDayIsOpen: boolean = true;
-
-    constructor(private modal: NgbModal, private router: Router,private storageService: StorageService) {}
+    public modalTolg = new NgbdModalFocus(this.modalS);
+    constructor(private modalS :NgbModal,private modal: NgbModal, private router: Router,private storageService: StorageService) {}
     async ngOnInit(): Promise<void> {
       this.storageService.init();
       this.clientList = await this.storageService.get('Contacts');
@@ -186,9 +188,23 @@ export class TabCalendar implements OnInit {
       this.handleEvent('Dropped or resized', event);
     }
 
-    handleEvent(action: string, event: CalendarEvent): void {
-      this.modalData = { event, action };
-      this.modal.open(this.modalContent, { size: 'lg' });
+    async handleEvent(action: string, event: CalendarEvent): Promise<void> {
+      //this.modalData = { event, action };
+      //this.modal.open(this.modalContent, { size: 'lg' });
+      let res : string =null;
+      const start = event.start.toLocaleTimeString()+' - '+event.start.getDate()+'/'+(event.start.getMonth()+1)+'/'+event.start.getFullYear();
+      const end = event.end.toLocaleTimeString()+' - '+event.end.getDate()+'/'+(event.end.getMonth()+1)+'/'+event.end.getFullYear();
+
+      const client = this.clientList.find(a=>a.userId==event.client)?.lastName?.toUpperCase() +' '+this.clientList.find(a=>a.userId==event.client)?.firstName;
+      const infos = event.title + '|'+ client + '|'+ event.description + '|'+ start + '|'+ end;
+      await this.modalTolg.open('calendar',infos)
+      .then(result => result.result
+        .then((data) => {
+          res='OK';
+        }, (reason) => {
+        res='DISMISS' }
+        ));
+        return;
       
     }
 
@@ -196,7 +212,7 @@ export class TabCalendar implements OnInit {
       this.events = [
         ...this.events,
         {
-          title: 'New event',
+          title: '',
           client: null,
           description: null,
           start: startOfDay(new Date()),
