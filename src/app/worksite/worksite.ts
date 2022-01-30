@@ -12,11 +12,12 @@ import 'jspdf-autotable'
 import { User } from '../models/user';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as FileSaver from 'file-saver';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { Filesystem, Directory, Encoding, FilesystemDirectory } from '@capacitor/filesystem';
 @Component({
   selector: 'app-worksite',
   templateUrl: 'worksite.html',
@@ -109,8 +110,9 @@ export class Worksite implements OnInit {
   }
 
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute,
-    private _liveAnnouncer: LiveAnnouncer)
+    private _liveAnnouncer: LiveAnnouncer,private file: File)
   {
+    
   }
 
   generateUUID()
@@ -152,7 +154,14 @@ export class Worksite implements OnInit {
       this.dataSourceHeure.paginator = this.paginatorHeure;
       this.dataSourceHeure.sort = this.sortHeure;
       this.CalculTotalHour();
+      this.dataSourceFacture._filterData(this.dataSourceFacture.data);
+        this.dataSourceFacture.paginator.nextPage();
 
+        // this.dataSourceDevis._filterData(this.dataSourceDevis.data);
+        // this.dataSourceDevis.paginator.nextPage();
+
+        // this.dataSourceHeure._filterData(this.dataSourceHeure.data);
+        // this.dataSourceHeure.paginator.nextPage();
     }
   }
 
@@ -576,7 +585,7 @@ export class Worksite implements OnInit {
       articleRows.splice(0,1);
       f.products.forEach(element => {
         articleRows.push([element.productName,element.description,1,element.priceHtva,element.priceHtva]);
-        y+=15;
+        y+=10;
       });
     }else
     {
@@ -585,6 +594,12 @@ export class Worksite implements OnInit {
       articleRows = [[,,]];
       articleRows.splice(0,1);
       articleRows.push([f.description,f.totalPrice]);
+      var string = f.description;
+      if(string.match(/\n/gi))
+      {
+        console.log(string.match(/\n/gi).length);
+        y += string.match(/a/gi).length*5;
+      }
       y+=15;
     }
 
@@ -668,8 +683,49 @@ export class Worksite implements OnInit {
     doc.text('Signature du vendeur', 8, y);
     doc.text('Signature de l\'acheteur', 140, y);
     y+=6;
+    var blob = doc.output('blob');
 
-    doc.save('exempleFacture.pdf');
+
+
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+    {
+      try {
+        Filesystem.writeFile({
+          path: f.factureName+'.pdf',
+          data: doc.output('datauristring'),
+          directory: Directory.Documents
+        });
+      } catch (e) {
+        console.error("Unable to write file", e);
+      }    
+    }
+    else
+    {
+      console.log('PC');
+      doc.save(f.factureName+'.pdf');
+    }
+//     window.open(URL.createObjectURL(blob));
+
+// function writeFile(fileEntry, dataObj) {
+//   return $q(function (resolve, reject) {
+//       fileEntry.createWriter(function (fileWriter) {
+//           fileWriter.onwriteend = function () {
+//               resolve();
+//           };
+//           fileWriter.onerror = function (e) {
+//               reject(e);
+//           };
+//           fileWriter.write(dataObj);
+//       });
+//   });
+// }
+
+// window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs)
+// {
+
+
+   // doc.save('exempleFacture.pdf');
+  
     // var rawdata = doc.output();
 
     // var len = rawdata.length,

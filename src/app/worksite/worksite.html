@@ -6,7 +6,8 @@
     </ion-button>
   </ion-toolbar>
 </ion-header>
-<div class="container" style="overflow-y: auto;">
+
+<div style="overflow-y: auto;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
 
     <ion-item class="form-group" required="required">
@@ -25,40 +26,15 @@
         style="height:100px;"></ion-textarea>
     </ion-item>
 <hr>
-    <div class="card-header">
-      Images du chantier
-    </div>
-    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
-      <table class="table table-bordered table-striped mb-0">
-        <thead>
-          <tr>
-            <th>Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr mdbTableCol *ngFor='let url of imagesC'>
-            <!-- <th scope="row">{{el.id}}</th> -->
-            <td><img src="{{url}}" alt="" height=100 width=100 /></td>
-            <td> <button type="button" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
-          </tr>
-        </tbody>
-      </table>
 
-    </div>
-    <div class="card-footer text-muted">
-      <input id="imgChantier" type="file" class="form-control" multiple="" (change)="onFileChangeChantier($event)">
-    </div>
-
-    <hr>
-
-
+<div >
     <div class="card-header">
       Factures
     </div>
 
 
     <mat-form-field appearance="standard">
-      <mat-label>Filter</mat-label>
+      <mat-label>Recherche</mat-label>
       <input matInput (keyup)="applyFilterFacture($event)" placeholder="Ex. Mia" #input>
     </mat-form-field>
 
@@ -114,13 +90,13 @@
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          <td class="mat-cell" colspan="4">No data matching the Recherche "{{input.value}}"</td>
         </tr>
 
       </table>
 
-      <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of dataSource">
-      </mat-paginator>
+      <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons  aria-label="Select page of dataSourceFacture"></mat-paginator>
+    </div>
     </div>
 
     <div class="card-footer text-muted">
@@ -134,7 +110,7 @@
     </div>
 
     <mat-form-field appearance="standard">
-      <mat-label>Filter</mat-label>
+      <mat-label>Recherche</mat-label>
       <input matInput (keyup)="applyFilterDevis($event)" placeholder="Ex. Mia" #input>
     </mat-form-field>
 
@@ -194,12 +170,12 @@
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          <td class="mat-cell" colspan="4">No data matching the Recherche "{{input.value}}"</td>
         </tr>
 
       </table>
 
-      <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of dataSource">
+      <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of dataSourceDevis">
       </mat-paginator>
     </div>
 
@@ -207,6 +183,48 @@
       <button type="button" class="btn btn-secondary" (click)="scanDevis()">Scanner devis</button>
       <button type="button" class="btn btn-secondary" (click)="createDevis()">Créer devis</button>
     </div>
+
+    <div class="card-header">
+      Argent reçu
+    </div>
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElementsRecv" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let inv of chantier?.factures">
+          <tr mdbTableCol *ngFor="let p of inv.receivedMoney">
+            <!-- <th scope="row">{{h.id}}</th> -->
+            <td>{{inv.factureName}}</td>
+            <td>{{p.price}}</td>
+            <td>{{inv.totalPrice}}</td>
+            <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
+            <td>{{p.date}}</td>
+            <td> <button type="button" (click)="DeleteReceive(inv,p)"> </button></td>
+            <td (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item type="button">
+                  <mat-icon>edit</mat-icon>
+                  <span>Modifier</span>
+                </button>
+                <button mat-menu-item type="button" (click)="DeleteReceive(inv,p)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </td> <!-- </tr> -->
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer text-muted">
+      <button type="button" class="btn btn-secondary" (click)="AddPayment()">Ajouter paiement</button>
+    </div>
+
     <hr>
     <div class="card-header">
       Heures préstées
@@ -214,7 +232,7 @@
 
 
     <mat-form-field appearance="standard">
-      <mat-label>Filter</mat-label>
+      <mat-label>Recherche</mat-label>
       <input matInput (keyup)="applyFilterHeure($event)" placeholder="Ex. Mia" #input>
     </mat-form-field>
 
@@ -261,12 +279,12 @@
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          <td class="mat-cell" colspan="4">No data matching the Recherche "{{input.value}}"</td>
         </tr>
 
       </table>
 
-      <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of dataSource">
+      <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of dataSourceHeure">
       </mat-paginator>
     </div>
 
@@ -277,9 +295,34 @@
       <button type="button" class="btn btn-secondary" (click)="AddHour()">Ajouter prestation</button>
     </div>
 
+    <div class="card-header">
+      Images du chantier
+    </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
+        <thead>
+          <tr>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor='let url of imagesC'>
+            <!-- <th scope="row">{{el.id}}</th> -->
+            <td><img src="{{url}}" alt="" height=100 width=100 /></td>
+            <td> <button type="button" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
 
+    </div>
+    <div class="card-footer text-muted">
+      <input id="imgChantier" type="file" class="form-control" multiple="" (change)="onFileChangeChantier($event)">
+    </div>
+
+    <hr>
+
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
         <thead>
           <tr>
             <th>Image</th>
@@ -298,47 +341,6 @@
     </div>
     <div class="card-footer text-muted">
       <input id="imgChantier" type="file" class="form-control" multiple="" (change)="onFileChangeTicket($event)">
-    </div>
-
-    <div class="card-header">
-      Argent reçu
-    </div>
-    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
-      <table class="table table-bordered table-striped mb-0">
-        <thead>
-          <tr>
-            <th *ngFor="let head of headElementsRecv" scope="col">{{head}} </th>
-          </tr>
-        </thead>
-        <tbody *ngFor="let inv of chantier?.factures">
-          <tr mdbTableCol *ngFor="let p of inv.receivedMoney">
-            <!-- <th scope="row">{{h.id}}</th> -->
-            <td>{{inv.factureName}}</td>
-            <td>{{p.price}}</td>
-            <td>{{inv.totalPrice}}</td>
-            <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
-            <td>{{p.date}}</td>
-            <td> <button type="button" (click)="DeleteReceive(inv,p)"> </button></td>
-            <td (click)="$event.stopPropagation()">
-              <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-                <mat-icon>more_horiz</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item type="button">
-                  <mat-icon>edit</mat-icon>
-                  <span>Modifier</span>
-                </button>
-                <button mat-menu-item type="button" (click)="DeleteReceive(inv,p)">
-                  <mat-icon>delete</mat-icon>
-                  <span>Supprimer</span>
-                </button>
-              </mat-menu>
-            </td> <!-- </tr> -->
-        </tbody>
-      </table>
-    </div>
-    <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="AddPayment()">Ajouter paiement</button>
     </div>
 
     <button type="submit" class="btn btn-success">Actualiser chantier</button>

@@ -24,7 +24,7 @@ export class TabHome implements OnInit{
   chantierList : Array<Chantier> = [];
   searchList : Array<Chantier> = [];
   clientsList : Array<User> = [];
-  headElements = ['worksiteName', 'client', 'dateStart','address','isFinished','...'];
+  headElements = ['worksiteName', 'client', 'dateStart','address','...'];
 
   public modal = new NgbdModalFocus(this.modalS);
 

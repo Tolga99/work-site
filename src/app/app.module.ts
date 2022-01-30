@@ -11,17 +11,18 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { StorageService } from './services/storage.service';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-
+import { File } from '@awesome-cordova-plugins/file/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), BrowserAnimationsModule, AppRoutingModule,
     IonicStorageModule.forRoot(), CalendarModule.forRoot({
       provide: DateAdapter,
-      useFactory: adapterFactory,
+      useFactory: adapterFactory
     })],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File],
   bootstrap: [AppComponent],
+
 })
 export class AppModule {
 }
