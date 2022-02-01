@@ -184,10 +184,10 @@
       <button type="button" class="btn btn-secondary" (click)="createDevis()">Créer devis</button>
     </div>
 
-    <div class="card-header">
+    <div class="card-header" >
       Argent reçu
     </div>
-    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" id="managerTable">
       <table class="table table-bordered table-striped mb-0">
         <thead>
           <tr>
@@ -202,7 +202,6 @@
             <td>{{inv.totalPrice}}</td>
             <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
             <td>{{p.date}}</td>
-            <td> <button type="button" (click)="DeleteReceive(inv,p)"> </button></td>
             <td (click)="$event.stopPropagation()">
               <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
                 <mat-icon>more_horiz</mat-icon>

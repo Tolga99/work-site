@@ -14,6 +14,9 @@ import {
   isSameDay,
   isSameMonth,
   addHours,
+  startOfMonth,
+  startOfWeek,
+  endOfWeek,
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,6 +31,7 @@ import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { User } from '../models/user';
 import { NgbdModalFocus } from '../modal/modal-focus';
+import { MatListItem } from '@angular/material/list';
 
 
 @Component({
@@ -102,60 +106,91 @@ export class TabCalendar implements OnInit {
 
     refresh = new Subject<void>();
 
-    events: CalendarEvent[] = [
-      // {
-      //   start: subDays(startOfDay(new Date()), 1),
-      //   end: addDays(new Date(), 1),
-      //   title: 'A 3 day event',
-      //   color: colors.red,
-      //   actions: this.actions,
-      //   allDay: true,
-      //   resizable: {
-      //     beforeStart: true,
-      //     afterEnd: true,
-      //   },
-      //   draggable: true,
-      // },
-      // {
-      //   start: startOfDay(new Date()),
-      //   title: 'An event with no end date',
-      //   color: colors.yellow,
-      //   actions: this.actions,
-      // },
-      // {
-      //   start: subDays(endOfMonth(new Date()), 3),
-      //   end: addDays(endOfMonth(new Date()), 3),
-      //   title: 'A long event that spans 2 months',
-      //   color: colors.blue,
-      //   allDay: true,
-      // },
-      // {
-      //   start: addHours(startOfDay(new Date()), 2),
-      //   end: addHours(new Date(), 2),
-      //   title: 'A draggable and resizable event',
-      //   color: colors.yellow,
-      //   actions: this.actions,
-      //   resizable: {
-      //     beforeStart: true,
-      //     afterEnd: true,
-      //   },
-      //   draggable: true,
-      // },
-    ];
+    events: CalendarEvent[] = [];
 
     activeDayIsOpen: boolean = true;
     public modalTolg = new NgbdModalFocus(this.modalS);
-    constructor(private modalS :NgbModal,private modal: NgbModal, private router: Router,private storageService: StorageService) {}
+    constructor(private modalS :NgbModal,
+                private modal: NgbModal,
+                private router: Router,
+                private storageService: StorageService)
+                {
+                }
     async ngOnInit(): Promise<void> {
       this.storageService.init();
       this.clientList = await this.storageService.get('Contacts');
+      this.events = await this.storageService.get('Events');
+      if(!this.events)
+        this.events = [];
+      console.log(this.events);
+      this.fetchEvents();
     }
 
     async ionViewDidEnter(){
       this.storageService.init();
       this.clientList = await this.storageService.get('Contacts');
+      this.events = await this.storageService.get('Events');
+      if(!this.events)
+        this.events = [];
+      console.log(this.events);
+      this.fetchEvents();
     }
 
+    async fetchEvents(): Promise<void> {
+      const getStart: any = {
+        month: startOfMonth,
+        week: startOfWeek,
+        day: startOfDay,
+      }[this.view];
+  
+      const getEnd: any = {
+        month: endOfMonth,
+        week: endOfWeek,
+        day: endOfDay,
+      }[this.view];
+      const list : CalendarEvent[] = await this.storageService.get('Events');
+      list.forEach(element => {
+        this.events.push(element);
+      });
+      // for(let i = 0; i<list.length; i++)
+      // {
+      //   this.events = [
+      //     ...this.events,
+      //     {
+      //       title: list[i].title,
+      //       client: null,
+      //       description: null,
+      //       start: startOfDay(new Date()),
+      //       end: endOfDay(new Date()),
+      //       color: colors.red,
+      //       draggable: true,
+      //       resizable: {
+      //         beforeStart: true,
+      //         afterEnd: true,
+      //       },
+      //     },
+      //   ];
+      // }
+      // this.events = list;
+      // this.events = list.map(({ value,index,array }: {value : CalendarEvent, index:number, array: CalendarEvent[] }) => {
+      //       return array.map((film: CalendarEvent) => {
+      //         return {
+      //           title: '',
+      //           client: null,
+      //           description: null,
+      //           start: startOfDay(new Date()),
+      //           end: endOfDay(new Date()),
+      //           color: colors.red,
+      //           draggable: true,
+      //           resizable: {
+      //             beforeStart: true,
+      //             afterEnd: true,
+      //           }
+      //         };
+      //       });
+      //     })
+      //   );
+    }
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
       if (isSameMonth(date, this.viewDate)) {
         if (
@@ -186,26 +221,33 @@ export class TabCalendar implements OnInit {
         return iEvent;
       });
       this.handleEvent('Dropped or resized', event);
+      this.storageService.set('Events',this.events);
     }
 
     async handleEvent(action: string, event: CalendarEvent): Promise<void> {
-      //this.modalData = { event, action };
-      //this.modal.open(this.modalContent, { size: 'lg' });
+      this.storageService.set('Events',this.events);
       let res : string =null;
-      const start = event.start.toLocaleTimeString()+' - '+event.start.getDate()+'/'+(event.start.getMonth()+1)+'/'+event.start.getFullYear();
-      const end = event.end.toLocaleTimeString()+' - '+event.end.getDate()+'/'+(event.end.getMonth()+1)+'/'+event.end.getFullYear();
+      const start = event.start.toLocaleTimeString()+' - '
+                    +event.start.getDate()+'/'
+                    +(event.start.getMonth()+1)+'/'
+                    +event.start.getFullYear();
 
-      const client = this.clientList.find(a=>a.userId==event.client)?.lastName?.toUpperCase() +' '+this.clientList.find(a=>a.userId==event.client)?.firstName;
-      const infos = event.title + '|'+ client + '|'+ event.description + '|'+ start + '|'+ end;
+      const end = event.end.toLocaleTimeString()+' - '
+                  +event.end.getDate()+'/'
+                  +(event.end.getMonth()+1)+'/'
+                  +event.end.getFullYear();
+
+      const client = this.clientList.find(a=>a.userId === event.client)?.lastName?.toUpperCase() +' '
+                      +this.clientList.find(a=>a.userId === event.client)?.firstName;
+
+      const infos = event.title + '|'+
+                    client + '|'+ event.description + '|'+ start + '|'+ end;
       await this.modalTolg.open('calendar',infos)
       .then(result => result.result
-        .then((data) => {
-          res='OK';
-        }, (reason) => {
+      .then((data) => {res='OK';} , (reason) => {
         res='DISMISS' }
         ));
         return;
-      
     }
 
     addEvent(): void {
@@ -225,12 +267,19 @@ export class TabCalendar implements OnInit {
           },
         },
       ];
+      this.storageService.set('Events',this.events);
     }
 
     deleteEvent(eventToDelete: CalendarEvent) {
       this.events = this.events.filter((event) => event !== eventToDelete);
+      this.storageService.set('Events',this.events);
     }
 
+    LoadEvents()
+    {
+      this.addEvent();
+      this.deleteEvent(this.events[this.events.length]);
+    }
     setView(view: CalendarView) {
       this.view = view;
     }
@@ -245,6 +294,7 @@ export class TabCalendar implements OnInit {
     }
     GoBack()
     {
+      this.storageService.set('Events',this.events);
       this.router.navigate(['tb-contacts'],{replaceUrl:true});
     }
   }

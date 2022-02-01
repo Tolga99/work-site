@@ -3,17 +3,31 @@
   <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
-        <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-          (viewDateChange)="closeOpenMonthViewDay()">
+        <div class="btn btn-primary" 
+             mwlCalendarPreviousView 
+             [view]="view" 
+             [(viewDate)]="viewDate"
+             (viewDateChange)="closeOpenMonthViewDay()"
+             (viewDateChange)="fetchEvents()"
+             (viewChange)="fetchEvents()">
           <!-- Previous -->
           Précédent
         </div>
-        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+        <div class="btn btn-outline-secondary" 
+             mwlCalendarToday 
+             [(viewDate)]="viewDate"
+             (viewDateChange)="fetchEvents()"
+             (viewChange)="fetchEvents()">
           <!-- Today -->
           Aujourd'hui
         </div>
-        <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-          (viewDateChange)="closeOpenMonthViewDay()">
+        <div class="btn btn-primary" 
+             mwlCalendarNextView 
+             [view]="view" 
+             [(viewDate)]="viewDate"
+             (viewDateChange)="closeOpenMonthViewDay()"
+             (viewDateChange)="fetchEvents()"
+             (viewChange)="fetchEvents()">
           <!-- Next -->
           Suivant
         </div>

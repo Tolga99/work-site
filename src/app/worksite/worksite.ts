@@ -17,6 +17,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ToastController} from '@ionic/angular';
 import { Filesystem, Directory, Encoding, FilesystemDirectory } from '@capacitor/filesystem';
 @Component({
   selector: 'app-worksite',
@@ -110,7 +111,7 @@ export class Worksite implements OnInit {
   }
 
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute,
-    private _liveAnnouncer: LiveAnnouncer,private file: File)
+    private _liveAnnouncer: LiveAnnouncer,private file: File, private toastController: ToastController)
   {
     
   }
@@ -695,6 +696,7 @@ export class Worksite implements OnInit {
           data: doc.output('datauristring'),
           directory: Directory.Documents
         });
+        this.presentToast(f.factureName+'.pdf a été généré');
       } catch (e) {
         console.error("Unable to write file", e);
       }    
@@ -703,6 +705,7 @@ export class Worksite implements OnInit {
     {
       console.log('PC');
       doc.save(f.factureName+'.pdf');
+      this.presentToast(f.factureName+'.pdf a été généré');
     }
 //     window.open(URL.createObjectURL(blob));
 
@@ -744,5 +747,12 @@ export class Worksite implements OnInit {
 
     // // var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"});
     // FileSaver.saveAs(blob, 'Ordini.pdf');
+  }
+  async presentToast(text : string) {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 2000
+    });
+    toast.present();
   }
 }
