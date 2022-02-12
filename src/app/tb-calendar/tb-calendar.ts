@@ -4,6 +4,8 @@ import {
   ViewChild,
   TemplateRef,
   OnInit,
+  NgZone,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   startOfDay,
@@ -113,7 +115,8 @@ export class TabCalendar implements OnInit {
     constructor(private modalS :NgbModal,
                 private modal: NgbModal,
                 private router: Router,
-                private storageService: StorageService)
+                private storageService: StorageService,
+                private cd : ChangeDetectorRef)
                 {
                 }
     async ngOnInit(): Promise<void> {
@@ -123,7 +126,9 @@ export class TabCalendar implements OnInit {
       if(!this.events)
         this.events = [];
       console.log(this.events);
-      this.fetchEvents();
+      //this.fetchEvents();
+      this.events = Object.assign([],this.events);
+      this.cd.detectChanges();
     }
 
     async ionViewDidEnter(){
@@ -133,7 +138,8 @@ export class TabCalendar implements OnInit {
       if(!this.events)
         this.events = [];
       console.log(this.events);
-      this.fetchEvents();
+      this.events = Object.assign([],this.events);
+      this.cd.detectChanges();
     }
 
     async fetchEvents(): Promise<void> {

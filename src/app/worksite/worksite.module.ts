@@ -8,7 +8,6 @@ import { WorksiteRoutingModule } from './worksite-routing.module';
 import { NgbdModalFocusModule } from '../modal/modal-focus.module';
 import { MaterialModule } from '../material.module';
 import { MatNativeDateModule } from '@angular/material/core';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @NgModule({
   declarations: [Worksite],

@@ -233,21 +233,27 @@ export class Invoice implements OnInit {
     {
       let total=0;
       let totalTva = 0;
-      const remise : string =this.formInv.get('remise').value;
-      let htva :number =this.formInv.get('priceHtva').value;
-      const tva=this.formInv.get('tva').value;
+      var remise : string =this.formInv.get('remise').value;
+      remise = remise.toString().replace(',','.');
+      var htvaString : string = this.formInv.get('priceHtva').value;
+      htvaString = htvaString.toString().replace(',','.');
+      let htva :number = Number.parseFloat(htvaString);
+
+      var tvaString : string = this.formInv.get('tva').value;
+      tvaString = tvaString.toString().replace(',','.');
+      var tva :number = Number.parseFloat(tvaString);
 
       if(!Number(remise.toString()))
       {
-        console.log('pas un numeric');
+        console.log('pas un numeric',remise.toString());
       }
       if(!Number(htva.toString()))
       {
-        console.log('pas un numeric');
+        console.log('pas un numeric',htva.toString());
       }
       if(!Number(tva.toString()))
       {
-        console.log('pas un numeric');
+        console.log('pas un numeric',tva.toString());
       }
 
       if(Number.parseFloat(remise) !== 0)
@@ -256,7 +262,7 @@ export class Invoice implements OnInit {
         htva = Math.round(htva * 100) / 100; // arrondi
 
       }
-      totalTva = htva / 100 * Number.parseFloat(tva);
+      totalTva = htva / 100 * Number.parseFloat(tva.toString());
       totalTva = Math.round(totalTva * 100) / 100; // arrondi
 
       total= Number.parseFloat(htva.toString()) + totalTva;

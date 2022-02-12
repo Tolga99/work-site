@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -29,7 +29,11 @@ export class Hours implements OnInit {
   indexFind: number;
 
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,public router:Router, public storageService: StorageService,public route:ActivatedRoute)
+  constructor(private modalS :NgbModal,
+              public router:Router, 
+              public storageService: StorageService,
+              public route:ActivatedRoute,
+              private cd : ChangeDetectorRef)
   {
   }
   async ngOnInit(): Promise<void> {
@@ -69,12 +73,14 @@ export class Hours implements OnInit {
         // let dd = new Date(d.toString());
         // console.log(d.toLocaleDateString(),d.toTimeString(),d.toUTCString(),d.toLocaleTimeString());
         console.log('dt',d.toISOString());
-
         this.formHour.setValue({
           date: d.toISOString(),
           description:  this.hoursList[this.indexFind].description,
         });
         this.formHour.updateValueAndValidity();
+        console.log('opening Hours');
+        this.cd.detectChanges();
+        // this.cd.detectChanges();
         // this.formHour.get('date').setValue(d.toISOString());
         // this.formHour.patchValue({ date : d.toISOString()});
       }

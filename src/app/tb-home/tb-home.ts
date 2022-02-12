@@ -21,6 +21,7 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
   styleUrls: ['tb-home.scss']
 })
 export class TabHome implements OnInit{
+  TabView = 'enCours';
   chantierList : Array<Chantier> = [];
   searchList : Array<Chantier> = [];
   clientsList : Array<User> = [];
@@ -252,5 +253,9 @@ export class TabHome implements OnInit{
     if(us)
       name = us.lastName.toUpperCase() +' '+ us.firstName;
     return name;
+  }
+  SetTabView(type : string)
+  {
+    this.TabView = type;
   }
 }

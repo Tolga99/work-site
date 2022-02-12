@@ -11,6 +11,14 @@
     <param name="android-package" value="io.github.pwlin.cordova.plugins.fileopener2.FileOpener2"/>
   </feature>
 
+  <feature name="LocalNotification">
+    <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification"/>
+  </feature>
+
+  <feature name="Badge">
+    <param name="android-package" value="de.appplant.cordova.plugin.badge.Badge"/>
+  </feature>
+
   <feature name="Device">
     <param name="android-package" value="org.apache.cordova.device.Device"/>
   </feature>

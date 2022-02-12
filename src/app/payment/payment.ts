@@ -64,6 +64,11 @@ export class Payment implements OnInit {
         f.receivedMoney = new Array<{price: number, date : string}>();
 
       f.receivedMoney.forEach(element => {
+          if(element.price.toString().includes(',') === true)
+          {
+            const price = element.price.toString().replace(',','.');
+            element.price = Number.parseFloat(price);
+          }
           total=element.price+total;
       });
 
@@ -101,13 +106,20 @@ export class Payment implements OnInit {
         return;
     }
 
-    const pay=this.formPay.get('payment').value;
-    if(Number.parseFloat(pay)==null)
+    var payString : string = this.formPay.get('payment').value;
+    if(payString.toString().includes(',') === true)
+    {
+      payString.toString().replace(',','.');
+    }
+    var pay : number = Number.parseFloat(payString);
+    console.log("payString : ",payString);
+    console.log("pay : ",pay);
+    if(pay==null)
       return;
     if(this.selectedInv==null)
       return;
 
-    if (Number.parseFloat(pay)>(this.selectedInv?.totalPrice - this.GetAllReceivedMoney(this.selectedInv)))
+    if (pay>(this.selectedInv?.totalPrice - this.GetAllReceivedMoney(this.selectedInv)))
     {
       let res : string =null;
       await this.modal.open('field','Argent encodé plus grand que le reste à payer')
@@ -119,7 +131,7 @@ export class Payment implements OnInit {
         ));
         return;
     }
-    this.selectedInv.receivedMoney.push({price : Number.parseFloat(pay),date : this.date});
+    this.selectedInv.receivedMoney.push({price : pay,date : this.date});
     const index= this.chantier.factures.findIndex(a => a.factureId === this.selectedInv.factureId);
     this.chantier.factures[index] = this.selectedInv;
 

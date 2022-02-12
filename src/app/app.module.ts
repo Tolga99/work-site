@@ -12,6 +12,7 @@ import { StorageService } from './services/storage.service';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { File } from '@awesome-cordova-plugins/file/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -20,7 +21,7 @@ import { File } from '@awesome-cordova-plugins/file/ngx';
       provide: DateAdapter,
       useFactory: adapterFactory
     })],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File,LocalNotifications],
   bootstrap: [AppComponent],
 
 })

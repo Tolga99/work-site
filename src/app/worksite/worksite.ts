@@ -18,6 +18,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ToastController} from '@ionic/angular';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Filesystem, Directory, Encoding, FilesystemDirectory } from '@capacitor/filesystem';
 @Component({
   selector: 'app-worksite',
@@ -26,6 +27,7 @@ import { Filesystem, Directory, Encoding, FilesystemDirectory } from '@capacitor
 })
 export class Worksite implements OnInit {
 
+  TabView = 'general';
   uuidValue : string;
   chantierId: string;
   imagesC = [];
@@ -110,8 +112,14 @@ export class Worksite implements OnInit {
     }
   }
 
-  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute,
-    private _liveAnnouncer: LiveAnnouncer,private file: File, private toastController: ToastController)
+  constructor(private modalS :NgbModal,
+              private storageService:StorageService, 
+              private router: Router, 
+              private route: ActivatedRoute,
+              private _liveAnnouncer: LiveAnnouncer,
+              private file: File, 
+              private toastController: ToastController,
+              private localNotifications : LocalNotifications)
   {
     
   }
@@ -163,6 +171,10 @@ export class Worksite implements OnInit {
 
         // this.dataSourceHeure._filterData(this.dataSourceHeure.data);
         // this.dataSourceHeure.paginator.nextPage();
+        console.log('current tab : ',this.TabView);
+        this.dataSourceHeure.paginator.firstPage();
+
+
     }
   }
 
@@ -231,6 +243,7 @@ export class Worksite implements OnInit {
       }
     }else console.log('creation',existId);
     this.CalculTotalHour();
+    console.log('current tab : ',this.TabView);
 
   }
 
@@ -697,6 +710,12 @@ export class Worksite implements OnInit {
           directory: Directory.Documents
         });
         this.presentToast(f.factureName+'.pdf a été généré');
+        this.localNotifications.schedule({
+          id: 1,
+          text: f.factureName+'.pdf a été généré',
+          // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
+          data: { secret: 'a' }
+        });
       } catch (e) {
         console.error("Unable to write file", e);
       }    
@@ -706,6 +725,12 @@ export class Worksite implements OnInit {
       console.log('PC');
       doc.save(f.factureName+'.pdf');
       this.presentToast(f.factureName+'.pdf a été généré');
+      this.localNotifications.schedule({
+        id: 1,
+        text: f.factureName+'.pdf a été généré',
+        // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
+        data: { secret: 'a' }
+      });
     }
 //     window.open(URL.createObjectURL(blob));
 
@@ -754,5 +779,10 @@ export class Worksite implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+  SetTabView(newView : string)
+  {
+    console.log('new TabView');
+    this.TabView = newView;
   }
 }
