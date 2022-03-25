@@ -9,6 +9,9 @@ import { Chantier } from '../models/chantier';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { NumericValueAccessor } from '@ionic/angular';
+import { ShoppingCart } from '../models/shoppingCart';
+import { InvoiceSettings } from '../models/Settings/invoiceSettings';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-invoice',
@@ -27,13 +30,14 @@ export class Invoice implements OnInit {
   type : string;
   date: string;
   inv : Facture;
+  invSettings : InvoiceSettings;
   indexFind: number;
   invList : Array<Facture> = [];
   receivedMoney: Array<{ price: number, date: string}>;
 
   // productsList : Array<Product>= [];
   headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
-  panierList : Array<Product> = [];
+  panierList : Array<ShoppingCart> = [];
   formInv = new FormGroup({
     factureName: new FormControl('',Validators.required),
     description: new FormControl(''),
@@ -111,9 +115,9 @@ export class Invoice implements OnInit {
         this.mode = this.invList[this.indexFind].mode;
         this.receivedMoney = this.invList[this.indexFind].receivedMoney;
         console.log('mode ',this.mode);
-        console.log(this.invList[this.indexFind].products);
+        console.log(this.invList[this.indexFind].cart);
         if(this.mode === 'creation')
-          this.panierList = this.invList[this.indexFind].products;
+          this.panierList = this.invList[this.indexFind].cart;
         console.log(this.panierList);
       }
     }else {
@@ -131,17 +135,47 @@ export class Invoice implements OnInit {
     if(invoiceId!=null)
     {
       this.invoiceId= invoiceId;
-      this.panierList= this.invList.find(a=>a.factureId === this.invoiceId).products;
+      this.panierList= this.invList.find(a=>a.factureId === this.invoiceId).cart;
       let total = 0;
       this.panierList.forEach(element => {
         console.log('total value :' ,total);
-          total = total + Number.parseFloat(element.priceHtva.toString());
+          total = total + (Number.parseFloat(element.product.priceHtva.toString()) * element.quantity);
           total = Math.round(total * 100) / 100; // arrondi
 
       })
       console.log('total value :' ,total);
       this.formInv.get('priceHtva').setValue(total);
     }
+    this.invSettings = await this.storageService.get('MyInvoiceSettings');
+    console.log(this.invSettings);      
+    let generatedName = '';
+
+    if(this.invSettings.positionApres)
+    {
+      generatedName += this.invSettings.factureName + this.invSettings.extType;
+    }
+    console.log(this.invSettings.exts, this.invSettings.exts.length);
+    if(this.invSettings.exts === 'Num')
+    {
+      generatedName += this.invSettings.extNum;
+      this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
+      console.log(generatedName);
+    }else if(this.invSettings.exts === 'Date')
+    {
+
+    }else if(this.invSettings.exts === 'NumDate')
+    {
+
+    }else if(this.invSettings.exts === 'DateNum')
+    {
+
+    }
+
+    if(this.invSettings.positionAvant)
+    {
+      generatedName += this.invSettings.extType + this.invSettings.factureName;
+    }
+    this.formInv.get('factureName').setValue(generatedName);
   }
 
   GoShopping()
@@ -314,7 +348,7 @@ export class Invoice implements OnInit {
     else chantier.devis = this.invList;
     chantierl[chantierIndex] = chantier;
     this.storageService.set('Chantiers',chantierl);
-
+    this.storageService.set('MyInvoiceSettings',this.invSettings);
     console.log('invoice saved', this.invList);
     this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }

@@ -7,6 +7,7 @@ import { Category } from '../models/category';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
 import { Product } from '../models/product';
+import { ShoppingCart } from '../models/shoppingCart';
 import { StorageService } from '../services/storage.service';
 
 @Component({
@@ -16,9 +17,10 @@ import { StorageService } from '../services/storage.service';
 })
 export class Shop implements OnInit {
 
-  headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
+  headElementsArt = ['Nom article', 'Description','Prix Unitaire',''];
+  headElementsArtCart = ['Nom article', 'Description','Prix Unitaire','Quantité','Prix total',''];
   artList : Array<Product> = [];
-  panierList : Array<Product> = [];
+  panierList : Array<ShoppingCart> = null;
   catList : Array<Category> = [];
   actualCat : Category = null;
 
@@ -90,11 +92,27 @@ export class Shop implements OnInit {
 
   AddProduct(p : Product)
   {
-    this.panierList.push(p);
+    if(this.panierList == null)
+      this.panierList = new Array<ShoppingCart>();
+    const indexExist = this.panierList.findIndex(a => a.product.productId === p.productId);
+    if(indexExist === -1)
+    {
+      this.panierList.push(new ShoppingCart(p,1));
+    }else
+    {
+      this.panierList[indexExist].quantity += 1;
+    }
   }
-  RemoveProduct(p : Product)
+  RemoveProduct(p : ShoppingCart)
   {
-    this.panierList.splice(this.panierList.findIndex(a => a.productId === p.productId),1);
+    const indexExist = this.panierList.findIndex(a => a.product.productId === p.product.productId);
+    if(this.panierList[indexExist].quantity === 1)
+    {
+      this.panierList.splice(this.panierList.findIndex(a => a.product.productId === p.product.productId),1);
+    }else
+    {
+      this.panierList[indexExist].quantity -= 1;
+    }
   }
   async SavePanier()
   {
@@ -114,7 +132,7 @@ export class Shop implements OnInit {
       {
         invIndex= listInv.findIndex(a => a.factureId === this.invoiceId);
 
-        inv.products= this.panierList;
+        inv.cart= this.panierList;
         listInv[invIndex]= inv;
       }else
       {
@@ -204,7 +222,7 @@ export class Shop implements OnInit {
       null,
       null,
     );
-    this.panierList.push(p);
+    this.panierList.push(new ShoppingCart(p,1));
 
   }
 }

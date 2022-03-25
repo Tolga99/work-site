@@ -14,7 +14,7 @@
         <mat-card-title-group (click)="EnterCategory(el)">
           <mat-card-title>{{el.categoryName}}</mat-card-title>
           <mat-card-subtitle>{{el.description}}</mat-card-subtitle>
-          <img class="img-fluid" mat-card-lg-image src="{{el.categoryImage}}" style='width:100%;' [border]="0" alt="Null"
+          <img class="img-fluid" mat-card-lg-image src="{{el.categoryImage}}" style='max-width: 70px; max-height: 70px;' [border]="0" alt="Null"
             onerror="this.onerror=null; this.src=null">
         </mat-card-title-group>
         <button type="button" (click)="ModifyCategory(el)">...</button>

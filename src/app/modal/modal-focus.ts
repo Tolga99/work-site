@@ -247,6 +247,37 @@ import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
             console.log(this.fields);
           }  }
         
+    
+          @Component({
+            selector: 'ngbd-modal-incomplete',
+            template: `
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-title">A propos</h4>
+              <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p><strong>Developed by <span class="text-primary">Tolga Ov</span></strong></p>
+              <p><strong><span class="text-primary">FEBRUARY 2022</span></strong></p>
+              <p><strong>WorkSite - <span class="text-primary">Version 1.0</span></strong></p>
+              <p><strong><span class="text-primary">Copyright All Rights Reserved</span></strong></p>
+
+              <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
+              <!-- <span class="text-danger">This operation can not be undone.</span> -->
+              <!-- </p> -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+            </div>
+            `
+          })
+          export class NgbdModalAbout {
+            label = '';
+            constructor(public modal: NgbActiveModal) {
+              this.label= NgbdModalFocus.label;
+            }  }
+    
 @Component({
   selector: 'ngbd-modal-confirm-autofocus',
   template: `
@@ -282,6 +313,7 @@ const MODALS: {[name: string]: Type<any>} = {
   delArt :NgbdModalDelArt,
   field : NgbdModalField,
   calendar : NgbdModalCalendar,
+  about : NgbdModalAbout,
 };
 
 @Component({

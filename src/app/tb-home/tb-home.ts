@@ -108,6 +108,8 @@ export class TabHome implements OnInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
+    let systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+    document.body.setAttribute('data-theme', 'light');
    // var maliste = await this.storageService.get('listClient');
 
    // console.log('here is maliste',maliste);

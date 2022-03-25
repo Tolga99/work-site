@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     component: Tabs,
     children: [
-      //CHANTIER
+      // CHANTIER
       {
         path: 'tb-home',
         loadChildren: () => import('../tb-home/tb-home.module').then(m => m.TabHomeModule)
@@ -36,12 +36,12 @@ const routes: Routes = [
         path: 'payment',
         loadChildren: () => import('../payment/payment.module').then(m => m.PaymentModule)
       },
-      //CALENDRIER
+      // CALENDRIER
       {
         path: 'tb-calendar',
         loadChildren: () => import('../tb-calendar/tb-calendar.module').then(m => m.TabCalendarModule)
       },
-      //CONTACTS
+      // CONTACTS
       {
         path: 'tb-contacts',
         loadChildren: () => import('../tb-contacts/tb-contacts.module').then(m => m.TabContactsModule)
@@ -54,7 +54,7 @@ const routes: Routes = [
         path:'new-contact',
         loadChildren: () => import('../tb-contacts-client/tb-contacts-client.module').then(m => m.TabContactsClientModule)
       },
-      //REGLAGES
+      // REGLAGES
       {
         path: 'tb-settings',
         loadChildren: () => import('../tb-settings/tb-settings.module').then(m => m.TabSettingsModule)
@@ -63,7 +63,11 @@ const routes: Routes = [
         path:'my-profile',
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfileModule)
       },
-      //ARTICLES CATEGORIES
+      {
+        path: 'settings',
+        loadChildren: () => import('../settings/settings.module').then( m => m.SettingsModule)
+      },
+      // ARTICLES CATEGORIES
       {
         path:'articles',
         loadChildren: () => import('../articles/articles.module').then(m => m.ArticlesModule)

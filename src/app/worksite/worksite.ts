@@ -597,8 +597,8 @@ export class Worksite implements OnInit {
       // articleRows :[[string,string,number,number,number]];
       articleRows = [[,,,,,]];
       articleRows.splice(0,1);
-      f.products.forEach(element => {
-        articleRows.push([element.productName,element.description,1,element.priceHtva,element.priceHtva]);
+      f.cart.forEach(element => {
+        articleRows.push([element.product.productName,element.product.description,1,element.product.priceHtva,element.product.priceHtva]);
         y+=10;
       });
     }else

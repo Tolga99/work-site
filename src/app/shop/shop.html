@@ -14,7 +14,8 @@
         <mat-card-title-group (click)="EnterCategory(el)">
           <mat-card-title>{{el.categoryName}}</mat-card-title>
           <mat-card-subtitle>{{el.description}}</mat-card-subtitle>
-          <img mat-card-lg-image src="{{el.categoryImage}}">
+          <img class="img-fluid" mat-card-lg-image src="{{el.categoryImage}}" style='max-width: 70px; max-height: 70px;' [border]="0" alt="Null"
+          onerror="this.onerror=null; this.src=null">
         </mat-card-title-group>
       </mat-card>
     </div>
@@ -84,7 +85,7 @@
       <textarea id="description" name="description" formControlName="description" placeholder="..."
         style="height:100px;"></textarea>
 
-      <label for="priceHtva">Prix HTVA</label>
+      <label for="priceHtva">Prix unitaire</label>
       <input type="text" id="priceHtva" name="priceHtva" formControlName="priceHtva" placeholder="..."
         required="required">
     </div>
@@ -101,15 +102,18 @@
 
       <thead>
         <tr>
-          <th *ngFor="let head of headElementsArt" scope="col">{{head}} </th>
+          <th *ngFor="let head of headElementsArtCart" scope="col">{{head}} </th>
         </tr>
       </thead>
       <tbody>
         <tr mdbTableCol *ngFor="let p of panierList">
           <!-- <th scope="row">{{el.id}}</th> -->
-          <td>{{p.productName}}</td>
-          <td>{{p.description}}</td>
-          <td>{{p.priceHtva}}</td>
+          <td>{{p.product.productName}}</td>
+          <td>{{p.product.description}}</td>
+          <td>{{p.product.priceHtva}}</td>
+          <td>{{p.quantity}}</td>
+          <td>{{p.product.priceHtva * p.quantity}}</td>
+
           <!-- <td>{{p.categoryId}}</td> -->
           <td>
             <!-- <button mat-icon-button [matMenuTriggerFor]="menu">

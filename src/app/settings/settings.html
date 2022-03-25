@@ -1,0 +1,100 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-button (click)="GoBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <ion-label>Retour</ion-label>
+      </ion-button>
+      <ion-title>
+        Acceuil
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  
+  <ion-content [fullscreen]="true">
+    <div>
+      <form [formGroup]="formInvoice" (ngSubmit)="UpdateInvoiceSettings()">
+        <div class="jumbotron text-center">
+          <div class="card-header">
+            Factures
+          </div>
+          <ion-item class="form-group">
+            <ion-label position="stacked">Nom de facture</ion-label>
+            <ion-input type="text" id="factureName" placeholder="FactureVente" formControlName="factureName"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Type d'extension</ion-label>
+            <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="exts" 
+              (ionChange)="selectExtType($event)">
+              <ion-select-option></ion-select-option>
+              <ion-select-option *ngFor="let c of extTypes" [value]="c">
+                {{c}}  
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="form-group">
+            <ion-label position="stacked" style="font-size: medium;">Position de l'extension</ion-label>
+            <ion-item>
+              <ion-label position="fixed" style="font-size: smaller;">Avant le nom</ion-label>
+              <ion-checkbox id="avant" name="avant" formControlName="positionAvant"></ion-checkbox>
+            </ion-item>
+            <ion-item>
+              <ion-label position="fixed" style="font-size: smaller;">Apres le nom</ion-label>
+              <ion-checkbox name="apres" id="apres" formControlName="positionApres"></ion-checkbox>
+            </ion-item>          
+          </ion-item>
+          <ion-item class="form-group">
+            <ion-label position="stacked">Séparateur de l'extension</ion-label>
+            <ion-input type="text" id="ext" placeholder="- / ; _ #" formControlName="extType"></ion-input>
+          </ion-item>
+          <ion-item class="form-group">
+            <ion-label position="stacked">Valeur de l'extension (incrémenté)</ion-label>
+            <ion-input type="text" id="ext" placeholder="1" formControlName="extNum"></ion-input>
+          </ion-item>
+          <button class="btn btn-secondary" type="submit">Sauvegarder paramètres facture</button>
+  </div>
+</form>
+  </div>
+  </ion-content>
+  
+      <!-- <form [formGroup]="formProfile" (ngSubmit)="UpdateProfile()">
+        <ion-item class="form-group" required="required">
+          <ion-label position="floating">Prénom</ion-label>
+          <ion-input type="text" id="firstName" placeholder="Your name.." formControlName="firstName" required="required"></ion-input>
+        </ion-item>
+        <ion-item class="form-group" required="required">
+          <ion-label position="floating">Nom</ion-label>
+          <ion-input type="text" id="lastName" placeholder="Your last name.." formControlName="lastName" required="required"></ion-input>
+        </ion-item>
+        <ion-item class="form-group" required="required">
+          <ion-label position="floating">Adresse</ion-label>
+          <ion-input type="text" id="address" placeholder=".." formControlName="address"></ion-input>
+        </ion-item>
+        
+        <ion-item class="form-group">
+          <ion-label position="floating">Phone</ion-label>
+          <ion-input type="text" id="phone" placeholder="..." formControlName="phone"></ion-input>
+        </ion-item>
+  
+        <ion-item class="form-group">
+          <ion-label position="floating">Mail</ion-label>
+          <ion-input type="text" id="mail" placeholder="..." formControlName="mail"></ion-input>
+        </ion-item>
+  
+        <ion-item class="form-group">
+          <ion-label position="floating">TVA</ion-label>
+          <ion-input type="text" id="tva" placeholder="..." formControlName="tva"></ion-input>
+        </ion-item>
+  
+        <ion-item class="form-group">
+          <ion-label position="floating">IBAN</ion-label>
+          <ion-input type="text" id="iban" placeholder="BE ..." formControlName="iban"></ion-input>
+        </ion-item>
+  
+        <ion-item class="form-group">
+          <ion-label position="floating">BIC</ion-label>
+          <ion-input type="text" id="bic" placeholder="..." formControlName="bic"></ion-input>
+        </ion-item>
+        
+        <button class="btn btn-secondary" type="submit">Actualiser profil</button>
+      </form> -->

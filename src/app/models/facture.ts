@@ -1,4 +1,5 @@
 import { Product } from './product';
+import { ShoppingCart } from './shoppingCart';
 
 export interface IFacture
 {
@@ -10,7 +11,7 @@ export interface IFacture
     // date
     // valid: boolean;
     // list product
-    products : Array<Product>;
+    cart : Array<ShoppingCart>;
     description : string;
     images : Array<string>;
     date : string;
@@ -37,7 +38,7 @@ export class Facture implements IFacture {
         public images: Array<string>,
         // public receivedMoney: Array<number>,
         public receivedMoney: Array<{ price: number, date: string}>,
-        public products : Array<Product>,
+        public cart : Array<ShoppingCart>,
         public mode : string ,// SCAN OU CREE
         public type : string, // Facture ou Devis;
 
@@ -55,8 +56,8 @@ export class Facture implements IFacture {
     public GetProductsTotalPrice() : number
     {
         let total : number;
-        this.products.forEach(element => {
-            total += element.priceHtva;
+        this.cart.forEach(element => {
+            total += element.product.priceHtva * element.quantity;
         })
         return total;
     }
