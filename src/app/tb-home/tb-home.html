@@ -3,16 +3,16 @@
 <div class="jumbotron text-center">
 <div class="card text-center">
   <div class="card-header">
-    Mes chantiers
+    {{myWorksites}}
   </div>
 </div>
 
 
   <mat-form-field appearance="standard">
-    <mat-label>Recherche</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    <mat-label>{{search}}</mat-label>
+    <input style="width: 75%;" matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+      <ion-toggle name="chantierFilter" (ionChange)="ToggleFilter($event)"> Terminés</ion-toggle>
   </mat-form-field>
-
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
       class="table table-striped">
@@ -76,7 +76,7 @@
   </div>
 
   <div class="card-footer text-muted">
-    <button type="button" class="btn btn-secondary" (click)="CreateWorksite()">Nouveau chantier</button>
+    <button type="button" class="btn btn-secondary" (click)="CreateWorksite()">{{newWorksite}}</button>
   </div>
 </div>
 

@@ -225,6 +225,7 @@ export class CategoryForm implements OnInit,OnDestroy {
   resetImages()
   {
     this.images='';
+    return null;
   }
   GoBack()
   {

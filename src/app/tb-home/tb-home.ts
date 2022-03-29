@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tb-home',
@@ -26,6 +27,15 @@ export class TabHome implements OnInit{
   searchList : Array<Chantier> = [];
   clientsList : Array<User> = [];
   headElements = ['worksiteName', 'client', 'dateStart','address','...'];
+
+  public home: string;
+  public calendar: string;
+  public contacts: string;
+  public settings: string;
+  public myWorksites: string;
+  public search: string;
+  public newWorksite: string;
+  public language: string;
 
   public modal = new NgbdModalFocus(this.modalS);
 
@@ -42,16 +52,18 @@ export class TabHome implements OnInit{
   constructor(private modalS : NgbModal,
               private storageService:StorageService,
               private router: Router,
-              private _liveAnnouncer: LiveAnnouncer)
+              private _liveAnnouncer: LiveAnnouncer,
+              private _translate: TranslateService)
               {
               }
 
   async ionViewDidEnter(){
     console.log('view did enter');
+    this.getDeviceLanguage();
     this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
     this.clientsList = await this.storageService.get('Contacts');
-    this.dataSource = new MatTableDataSource(this.chantierList);
+    this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -259,5 +271,70 @@ export class TabHome implements OnInit{
   SetTabView(type : string)
   {
     this.TabView = type;
+  }
+  ToggleFilter(event)
+  {
+    console.log(event);
+    if(event.detail.checked === true)
+    {
+      console.log('Afficher chantiers terminées')
+      this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished !== 'En cours'));
+    }else
+    {
+      console.log('Afficher chantiers en cours')
+      this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
+
+    }
+  }
+  _initialiseTranslation(): void {
+    this._translate.get('home').subscribe((res: string) => {
+      this.home = res;
+    });
+    this._translate.get('calendar').subscribe((res: string) => {
+      this.calendar = res;
+    });
+    this._translate.get('contacts').subscribe((res: string) => {
+      this.contacts = res;
+    });
+    this._translate.get('settings').subscribe((res: string) => {
+      this.settings = res;
+    });
+    this._translate.get('myWorksites').subscribe((res: string) => {
+      this.myWorksites = res;
+    });
+    this._translate.get('search').subscribe((res: string) => {
+      this.search = res;
+    });
+    this._translate.get('newWorksite').subscribe((res: string) => {
+      this.newWorksite = res;
+    });
+  }
+
+  public changeLanguage(): void {
+    this._translateLanguage();
+  }
+
+  _translateLanguage(): void {
+    this._translate.use(this.language);
+    this._initialiseTranslation();
+  }
+
+  _initTranslate(language) {
+    // Set the default language for translation strings, and the current language.
+    this._translate.setDefaultLang('en');
+    if (language) {
+      this.language = language;
+    }
+    else {
+      // Set your language here
+      this.language = 'en';
+    }
+    this._translateLanguage();
+  }
+
+  getDeviceLanguage() {
+    if (window.Intl && typeof window.Intl === 'object') {
+      this._initTranslate(navigator.language)
+    }
   }
 }

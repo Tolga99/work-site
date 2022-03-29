@@ -162,13 +162,22 @@ export class Invoice implements OnInit {
       console.log(generatedName);
     }else if(this.invSettings.exts === 'Date')
     {
-
+      generatedName += nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
+      console.log(generatedName);
     }else if(this.invSettings.exts === 'NumDate')
     {
+      generatedName += this.invSettings.extNum;
+      generatedName += '-'+nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
 
+      this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
+      console.log(generatedName);
     }else if(this.invSettings.exts === 'DateNum')
     {
+      generatedName += nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
+      generatedName += '-'+this.invSettings.extNum;
 
+      this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
+      console.log(generatedName);
     }
 
     if(this.invSettings.positionAvant)

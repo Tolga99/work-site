@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import {MaterialModule} from '../material.module';
 // import {TableOverviewExample} from './table-overview-example';
 import {MatNativeDateModule} from '@angular/material/core';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -20,7 +21,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     CommonModule,
     ExploreContainerComponentModule,
     TabHomeRoutingModule,
-    SharedModule,
+    SharedModule,HttpClientModule,
     MatNativeDateModule,MaterialModule
   ],
   declarations: [TabHome]

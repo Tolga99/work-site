@@ -1,0 +1,7 @@
+App/build
+App/Pods
+App/Podfile.lock
+DerivedData
+xcuserdata
+
+# Cordova plugins for Capacitor

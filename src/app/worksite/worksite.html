@@ -357,7 +357,7 @@
               <tr mdbTableCol *ngFor='let url of imagesC'>
                 <!-- <th scope="row">{{el.id}}</th> -->
                 <td><img src="{{url}}" alt="" height=100 width=100 /></td>
-                <td> <button type="button" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
+                <td> <button type="button" class="btn btn-danger" (click)="DeleteImageChantier(url)"> <i class="far fa-trash-alt"></i></button></td>
               </tr>
             </tbody>
           </table>
@@ -378,11 +378,8 @@
             </thead>
             <tbody>
               <tr mdbTableCol *ngFor='let url of imagesT'>
-                <!-- <th scope="row">{{el.id}}</th> -->
-                <td>test</td>
-                <td>test</td>
                 <td><img src="{{url}}" alt="" height=100 width=100 /></td>
-                <td> <button type="button" class="btn btn-danger"> <i class="far fa-trash-alt"></i></button></td>
+                <td> <button type="button" class="btn btn-danger" (click)="DeleteImage(url)"> <i class="far fa-trash-alt"></i></button></td>
               </tr>
             </tbody>
           </table>

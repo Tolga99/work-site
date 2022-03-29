@@ -785,4 +785,12 @@ export class Worksite implements OnInit {
     console.log('new TabView');
     this.TabView = newView;
   }
+  DeleteImage(url : string)
+  {
+    this.imagesT = this.imagesT.filter(a => a !== url);
+  }
+  DeleteImageChantier(url : string)
+  {
+    this.imagesC = this.imagesC.filter(a => a !== url);
+  }
 }

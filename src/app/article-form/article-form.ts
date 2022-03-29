@@ -8,6 +8,7 @@ import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
+import { PhotoService } from '../services/photo.service';
 
 @Component({
   selector: 'app-article-form',
@@ -36,7 +37,8 @@ export class ArticleForm implements OnInit, OnDestroy{
     priceHtva: new FormControl('', [Validators.required]),
   });
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router
+    , private route: ActivatedRoute, public photoService : PhotoService)
   {
   }
 
@@ -164,6 +166,7 @@ export class ArticleForm implements OnInit, OnDestroy{
   resetImages()
   {
     this.images='';
+    return null;
   }
   selectCategory(event: Event) {
     this.actualCat = (event.target as HTMLSelectElement).value;
@@ -171,5 +174,8 @@ export class ArticleForm implements OnInit, OnDestroy{
   GoBack()
   {
     this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
+  }
+  addPhotoToGallery() {
+    this.photoService.addNewToGallery();
   }
 }
