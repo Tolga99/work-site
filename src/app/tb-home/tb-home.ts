@@ -15,6 +15,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tb-home',
@@ -53,6 +54,7 @@ export class TabHome implements OnInit{
               private storageService:StorageService,
               private router: Router,
               private _liveAnnouncer: LiveAnnouncer,
+              private http: HttpClient,
               private _translate: TranslateService)
               {
               }
@@ -110,6 +112,8 @@ export class TabHome implements OnInit{
   }
 
   async ngOnInit() {
+    this.router.navigate(['login'],{replaceUrl:true});
+
     this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
     this.dataSource = new MatTableDataSource(this.chantierList);

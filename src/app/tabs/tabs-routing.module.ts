@@ -7,6 +7,10 @@ const routes: Routes = [
     path: '',
     component: Tabs,
     children: [
+      {
+        path: 'login',
+        loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
+      },
       // CHANTIER
       {
         path: 'tb-home',

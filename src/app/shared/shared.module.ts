@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -21,6 +21,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatCardModule,
     MatIconModule,
     MatMenuModule,
+    HttpClientModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

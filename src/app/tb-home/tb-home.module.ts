@@ -21,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     ExploreContainerComponentModule,
     TabHomeRoutingModule,
-    SharedModule,HttpClientModule,
+    SharedModule,
     MatNativeDateModule,MaterialModule
   ],
   declarations: [TabHome]

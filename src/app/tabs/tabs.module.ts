@@ -6,13 +6,16 @@ import { FormsModule } from '@angular/forms';
 import { TabsRoutingModule } from './tabs-routing.module';
 
 import { Tabs } from './tabs';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    TabsRoutingModule
+    TabsRoutingModule,
+    SharedModule
   ],
   declarations: [Tabs]
 })

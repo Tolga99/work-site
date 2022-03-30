@@ -35,7 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
             }),
             IonicModule.forRoot(), 
             BrowserAnimationsModule, 
-            AppRoutingModule,
+            AppRoutingModule,HttpClientModule,
             IonicStorageModule.forRoot(), CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
@@ -45,7 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   // or after 30 seconds (whichever comes first).
   registrationStrategy: 'registerWhenStable:30000'
 })],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File,LocalNotifications,PhotoService],
+  providers: [HttpClientModule,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File,LocalNotifications,PhotoService],
   bootstrap: [AppComponent],
 
 })

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -14,7 +15,12 @@ export class Tabs {
   public settings: string;
   public language: string;
 
-  constructor(private _translate: TranslateService) {}
+  constructor(private _translate: TranslateService
+              ,private http: HttpClient) {}
+  async ionViewDidEnter(){
+    console.log('view did enter');
+    this.getDeviceLanguage();
+  }
   _initialiseTranslation(): void {
     this._translate.get('home').subscribe((res: string) => {
       this.home = res;
