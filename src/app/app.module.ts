@@ -19,19 +19,34 @@ import { PhotoService } from './services/photo.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
-  }
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { firebaseConfig } from '../environments/environment.prod';
+import { AuthService } from './shared/services/auth.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// export function HttpLoaderFactory(http: HttpClient) {
+//   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+//   }
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
+    NgbModule,
             TranslateModule.forRoot({
               loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-              }
+                deps: [HttpClient],
+              },
+              defaultLanguage:'fr',
             }),
             IonicModule.forRoot(), 
             BrowserAnimationsModule, 
@@ -45,9 +60,14 @@ export function HttpLoaderFactory(http: HttpClient) {
   // or after 30 seconds (whichever comes first).
   registrationStrategy: 'registerWhenStable:30000'
 })],
-  providers: [HttpClientModule,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File,LocalNotifications,PhotoService],
+  providers: [HttpClientModule,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File,LocalNotifications,PhotoService,AuthService],
   bootstrap: [AppComponent],
 
 })
 export class AppModule {
+}
+
+export function HttpLoaderFactory(http : HttpClient): TranslateHttpLoader 
+{
+  return new TranslateHttpLoader(http);
 }

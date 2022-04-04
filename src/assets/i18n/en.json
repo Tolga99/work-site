@@ -6,5 +6,135 @@
     
     "myWorksites": "My worksites",
     "search": "Search",
-    "newWorksite": "New worksite"
+    "newWorksite": "New worksite",
+
+    "nameWorksite": "Name of worksite",
+    "nameClient" : "Name of client",
+    "startDate" : "Date started",
+    "address" : "Address",
+    "state" : "state",
+    "edit" : "Edit",
+
+    "myProfile" : "My profile",
+    "myArticles" : "My items",
+    "about" : "About",
+    "logout" : "Logout",
+
+    "name" : "Name",
+    "fName" : "First name",
+    "newClient" : "New client",
+
+    "back" : "Go back",
+
+    "phone" : "Phone",
+    "mail" : "Mail",
+    "tva" : "TVA",
+    "iban": "IBAN",
+    "bic" : "BIC",
+    "saveClient" : "Save client",
+
+    "profile" : "Profile",
+    "history" : "History",
+    "achats" : "Purchases",
+
+    "previous" : "Previous",
+    "today" : "Today",
+    "next" : "Next",
+    "month" : "Month",
+    "week" : "Week",
+    "day" : "Day",
+    "rdv" : "Appointment",
+    "title" : "Title",
+    "client" : "Client",
+    "description" : "Description",
+    "endDate" : "End date",
+    "delete" : "Delete",
+    "new" : "Nouveau",
+
+    "updateProfile" : "Update profile",
+
+    "newClient?" : "New client ?",
+    "worksiteAddress" : "Address of worksite",
+    "createWorksite" : "Create worksite",
+
+    "general" : "General",
+    "work" : "Work",
+    "pictures" : "Pictures",
+    "infos" : "Informations",
+    "invoices" : "Invoices",
+    "invoiceName" : "Invoice name",
+    "total" : "Total",
+    "date" : "Date",
+    "scanInvoice" : "Scan invoice",
+    "createInvoice" : "Create invoice",
+
+    "estimate" : "Estimates",
+    "estimateName" : "Estimate name",
+    "scanEstimate" : "Scan estimate",
+    "createEstimate" : "Create estimate",
+
+    "receivedMoney" : "Received money",
+    "remaining" : "Remaining",
+    "receiptDate" : "Receipt date",
+    "addPayment" : "Add payment",
+
+    "hoursWorked" : "Hours worked",
+    "hourWorked" : "Hour worked",
+    "addWork" : "Add work",
+    "totalHours" : "Total hours :",
+
+    "worksitePictures" : "Worksite pictures",
+    "pictures" : "Pictures",
+
+    "updateWorksite" : "Update worksite",
+    "finishWorksite" : "Finish worksite",
+
+    "newCategory" : "New category",
+    "productName" : "Product",
+    "htvaPrice" : "Price HTVA",
+    "category" : "Category",
+    "new product" : "New product",
+
+    "nameCategory" : "Category name",
+    "subCategory" : "Sub-category",
+    "picCategory" : "Category picture",
+    "createCategory" : "Create category",
+
+    "nameProduct" : "Product name",
+    "addProduct" : "Add product",
+
+    "extType" : "Type of extension",
+    "extPos" : "Position of extension",
+    "beforeName" : "Before name",
+    "afterName" : "After name",
+    "extSeparator" : "Separator of extension",
+    "extVal" : "Value of extension",
+    "saveInvSettings" : "Save invoice settings",
+
+    "paymentType" : "Type of payment",
+    "discount" : "discount",
+    "unitPrice" : "Unit price",
+    "fastProduct" : "Quick creation of product",
+    "cart" : "Cart",
+    "quantity" : "Quantité",
+    "totalPrice" : "Total price",
+    "addProductToCart" : "Add product to cart",
+    "finalize" : "Finalize",
+    "invoicePicture" : "Pictures of invoice",
+
+    "estimatePicture" : "Pictures of estimate",
+    "priceToPay" : "Price to pay",
+
+    "selectInvoice" : "Select the revelant invoice :",
+    "leftToPay" : "Left to pay",
+    "payment" : "Payment",
+    "addPay" : "Add payment",
+    "savePay" : "Save payment",
+    
+    "addWorkTime" : "Add WorkTime",
+    "myClients" : "My contacts",
+    "picProduct" : "Picture of product",
+    "byBank" : "Bank transfer",
+    "byCash" : "Cash payment",
+    "tickets" : "Tickets"
     }

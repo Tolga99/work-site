@@ -11,7 +11,7 @@
              (viewDateChange)="fetchEvents()"
              (viewChange)="fetchEvents()">
           <!-- Previous -->
-          Précédent
+          {{'previous' | translate}}
         </div>
         <div class="btn btn-outline-secondary" 
              mwlCalendarToday 
@@ -19,7 +19,7 @@
              (viewDateChange)="fetchEvents()"
              (viewChange)="fetchEvents()">
           <!-- Today -->
-          Aujourd'hui
+          {{'today' | translate}}
         </div>
         <div class="btn btn-primary" 
              mwlCalendarNextView 
@@ -29,7 +29,7 @@
              (viewDateChange)="fetchEvents()"
              (viewChange)="fetchEvents()">
           <!-- Next -->
-          Suivant
+          {{'next' | translate}}
         </div>
       </div>
     </div>
@@ -40,15 +40,15 @@
       <div class="btn-group">
         <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
           <!-- Month -->
-          Mois
+          {{'month' | translate}}
         </div>
         <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
           <!-- Week -->
-          Semaine
+          {{'week' | translate}}
         </div>
         <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
           <!-- Day -->
-          Jour
+          {{'day' | translate}}
         </div>
       </div>
     </div>
@@ -74,10 +74,10 @@
 
   <h3>
     <!-- Edit events -->
-    Rendez-vous
+    {{'rdv' | translate}}
     <button class="btn btn-primary float-right" (click)="addEvent()">
       <!-- Add new -->
-      Nouveau
+      {{'new' | translate}}
     </button>
     <div class="clearfix"></div>
   </h3>
@@ -86,14 +86,14 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>Titre</th>
-          <th>Client</th>
-          <th>Description</th>
+          <th>{{'title' | translate}}</th>
+          <th>{{'client' | translate}}</th>
+          <th>{{'description' | translate}}</th>
           <!-- <th>Primary color</th>
           <th>Secondary color</th> -->
-          <th>Date début</th>
-          <th>Date fin</th>
-          <th>Supprimer</th>
+          <th>{{'startDate' | translate}}</th>
+          <th>{{'endDate' | translate}}</th>
+          <th>{{'delete' | translate}}</th>
         </tr>
       </thead>
 
@@ -109,7 +109,7 @@
             </select>
             <ion-tab-button (click)="NewClient()">
               <ion-icon name="person-add"></ion-icon>
-              <ion-label>Nouveau client ?</ion-label>
+              <ion-label>{{'newClient?' | translate}}</ion-label>
             </ion-tab-button>
           </td>
           <td>
@@ -144,7 +144,7 @@
 
   <ng-template #modalContent let-close="close">
     <div class="modal-header">
-      <h5 class="modal-title">Détails</h5>
+      <h5 class="modal-title">{{'details' | translate}}</h5>
       <button type="button" class="close" (click)="close()">
         <span aria-hidden="true">&times;</span>
       </button>

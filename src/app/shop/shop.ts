@@ -48,6 +48,9 @@ export class Shop implements OnInit {
   }
 
   async ngOnInit() {
+    if(this.panierList == null)
+      this.panierList = new Array<ShoppingCart>();
+
     this.storageService.init();
     this.artList = await this.storageService.get('Articles');
     this.catList = await this.storageService.get('Categories');
@@ -92,8 +95,6 @@ export class Shop implements OnInit {
 
   AddProduct(p : Product)
   {
-    if(this.panierList == null)
-      this.panierList = new Array<ShoppingCart>();
     const indexExist = this.panierList.findIndex(a => a.product.productId === p.productId);
     if(indexExist === -1)
     {

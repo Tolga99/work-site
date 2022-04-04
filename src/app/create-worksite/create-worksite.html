@@ -3,40 +3,40 @@
     <ion-toolbar>
       <ion-button (click)="GoBack()">
         <ion-icon name="arrow-back"></ion-icon>
-        <ion-label>Retour</ion-label>
+        <ion-label>{{'back' | translate}}</ion-label>
       </ion-button>
     </ion-toolbar>
   </ion-header>
   <form [formGroup]="formWork" (ngSubmit)="CreateWorksite()">
 
     <ion-item class="form-group" required="required">
-      <ion-label position="floating">Nom chantier</ion-label>
+      <ion-label position="floating">{{'nameWorksite' | translate}}</ion-label>
       <ion-input type="text" id="name" name="name" formControlName="worksiteName" placeholder="..." required="required"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Client</ion-label>
+      <ion-label>{{'client' | translate}}</ion-label>
       <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="client"
-        (change)="selectClient($event)">
+        (ionChange)="selectClient($event)">
         <ion-select-option></ion-select-option>
         <ion-select-option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName.toUpperCase()}}
           {{name.firstName}} </ion-select-option>
       </ion-select>
     </ion-item>
-    <button type="button" (click)="NewClient()">Nouveau client ?</button>
+    <button type="button" (click)="NewClient()">{{'newClient?' | translate}}</button>
 
     <hr>
     <ion-item class="form-group" required="required">
-      <ion-label position="floating">Adresse du chantier</ion-label>
+      <ion-label position="floating">{{'worksiteAddress' | translate}}</ion-label>
       <ion-input type="text" id="address" name="address" formControlName="address" placeholder="..."></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Description</ion-label>
+      <ion-label position="floating">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
         style="height:100px;"></ion-textarea>
     </ion-item>
 
-    <input type="submit" value="Créer chantier">
+    <input type="submit" value="{{'createWorksite' | translate}}">
   </form>
 </div>

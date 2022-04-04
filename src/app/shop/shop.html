@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>Retour</ion-label>
+      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -21,12 +21,12 @@
     </div>
 
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="BackCategory()">Go back</button>
+      <button type="button" class="btn btn-secondary" (click)="BackCategory()">{{'back' | translate}}</button>
     </div>
   </div>
   <hr>
   <div class="card-header">
-    Mes articles
+    {{'myArticles' | translate}}
   </div>
   <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-bordered table-striped mb-0">
@@ -45,7 +45,7 @@
           <td>
             <button mat-menu-item type="button" (click)="AddProduct(p)">
               <mat-icon>add</mat-icon>
-              <span>Ajouter au panier</span>
+              <span>{{'addProductToCart' | translate}}</span>
             </button>
           </td>
           <!-- <td>{{p.categoryId}}</td> -->
@@ -74,28 +74,28 @@
   <form [formGroup]="formArt" (ngSubmit)="AddFastProduct()">
 
     <div class="card-header">
-      Création rapide d'article
+      {{'fastProduct' | translate}}
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
-      <label for="productName">Nom article</label>
+      <label for="productName">{{'productName' | translate}}</label>
       <input type="text" id="productName" name="productName" formControlName="productName" placeholder="..."
         required="required">
 
-      <label for="description">Description</label>
+      <label for="description">{{'description' | translate}}</label>
       <textarea id="description" name="description" formControlName="description" placeholder="..."
         style="height:100px;"></textarea>
 
-      <label for="priceHtva">Prix unitaire</label>
+      <label for="priceHtva">{{'unitPrice' | translate}}</label>
       <input type="text" id="priceHtva" name="priceHtva" formControlName="priceHtva" placeholder="..."
         required="required">
     </div>
     <div class="card-footer text-muted">
-      <button type="submit" class="btn btn-secondary">Ajouter article au panier</button>
+      <button type="submit" class="btn btn-secondary">{{'addProductToCart' | translate}}</button>
     </div>
   </form>
   <hr>
   <div class="card-header">
-    Panier
+    {{'cart' | translate}}
   </div>
   <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-bordered table-striped mb-0">
@@ -126,7 +126,7 @@
               </button> -->
             <button mat-menu-item (click)="RemoveProduct(p)">
               <mat-icon>delete</mat-icon>
-              <span>Supprimer</span>
+              <span>{{'delete' | translate}}</span>
             </button>
             <!-- </mat-menu> -->
           </td>
@@ -136,9 +136,9 @@
 
   </div>
   <div class="card-footer text-muted">
-    <button type="button" class="btn btn-secondary" (click)="CreateProduct()">Ajouter article au panier</button>
+    <button type="button" class="btn btn-secondary" (click)="CreateProduct()">{{'addProductToCart' | translate}}</button>
   </div>
   <div>
-    <button type="button" class="btn btn-danger" (click)="SavePanier()">Finaliser</button>
+    <button type="button" class="btn btn-danger" (click)="SavePanier()">{{'finalize' | translate}}</button>
   </div>
 </div>

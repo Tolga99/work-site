@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Hour {\n  constructor(hourId, date, description, hour, minute) {\n    this.hourId = hourId;\n    this.date = date;\n    this.description = description;\n    this.hour = hour;\n    this.minute = minute;\n    this.workTime = hour.toString() + 'h' + minute.toString();\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

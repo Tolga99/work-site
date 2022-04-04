@@ -1,0 +1,141 @@
+{
+    "home" : "ev",
+    "calendar": "Takvim",
+    "contacts": "Kişiler",
+    "settings": "Ayarlar",
+    
+    "myWorksites": "Çalışma sitelerim",
+    "search" : "Arama",
+    "newWorksite": "Yeni şantiye",
+
+    "nameWorksite": "Şantiyenin adı",
+    "nameClient": "Müşterinin adı",
+    "startDate" : "Başlama tarihi",
+    "address" : "Adres",
+    "state": "durum",
+
+    "myProfile": "Profilim",
+    "myArticles": "Öğelerim",
+    "about" : "hakkında",
+    "logout": "Çıkış",
+
+    "name" : "İsim",
+    "fname" : "Ad",
+    "newClient" : "Yeni müşteri",
+
+    "back" : "Geri dön",
+
+    "phone" : "Telefon",
+    "mail": "Posta",
+    "tva": "TVA",
+    "iban": "IBAN",
+    "bic" : "BIC",
+    "saveClient": "Müşteriyi kaydet",
+
+    "profile": "Profil",
+    "history" : "Tarih",
+    "achats" : "Satın alınanlar",
+
+    "previous" : "Önceki",
+    "today": "Bugün",
+    "next": "Sonraki",
+    "month" : "Ay",
+    "week": "Hafta",
+    "day": "gün",
+    "rdv" : "Randevu",
+    "title" : "Başlık",
+    "client": "Müşteri",
+    "description" : "Açıklama",
+    "endDate" : "Bitiş tarihi",
+    "delete" : "Sil",
+    "new" : "Yeni",
+
+    "updateProfile": "Profili güncelle",
+
+    "newClient?" : "Yeni müşteri ?",
+    "worksiteAddress" : "Şantiyenin adresi",
+    "createWorksite": "Çalışma sitesi oluştur",
+
+    "general" : "genel",
+    "work" : "çalış",
+    "picutres" : "Resimler",
+    "infos" : "Bilgiler",
+    "invoices" : "Faturalar",
+    "invoicesName": "Fatura adı",
+    "total" : "Toplam",
+    "date": "Tarih",
+    "scanInvoice" : "Faturayı tara",
+    "createInvoice": "Fatura oluştur",
+
+    "estimate": "Tahminler",
+    "estimatesName": "Tahmin adı",
+    "scanEstimate" : "Tarama tahmini",
+    "createEtimate": "Tahmin oluştur",
+
+    "receivedMoney": "Alınan para",
+    "remaining" : "Kalan",
+    "receiptDate" : "Makbuz tarihi",
+    "addPayment" : "Ödeme ekle",
+
+    "hoursWorked" : "Çalışılan saatler",
+    "hourWorked" : "Çalışılan saat",
+    "addWork": "İş ekle",
+    "totalHours" : "Toplam saat :",
+
+    "worksitePictures" : "Şantiye Resimleri",
+    "pictures" : "Resimler",
+
+    "updateWorksite": "Çalışma sitesini güncelle",
+    "finishWorksite": "Şantiyeyi bitir",
+
+    "newCategory" : "Yeni kategori",
+    "productName" : "Ürün",
+    "htvaPrice" : "Fiyat HTVA",
+    "category" : "Kategori",
+    "new product" : "Yeni ürün",
+
+    "nameCategory" : "Kategori adı",
+    "altKategori" : "Alt kategori",
+    "picCategory" : "Kategori resmi",
+    "createCategory": "Kategori oluştur",
+
+    "nameProduct" : "Ürün adı",
+    "addProduct" : "Ürün ekle",
+
+    "extType" : "Uzantı türü",
+    "extPos" : "Uzantının konumu",
+    "beforeName" : "Addan önce",
+    "afterName" : "Adın ardından",
+    "extSeparator" : "Uzantı ayırıcısı",
+    "extVal" : "Uzantı değeri",
+    "saveInvSettings": "Fatura ayarlarını kaydet",
+
+    "paymentType" : "Ödeme türü",
+    "discount" : "indirim",
+    "unitPrice" : "Birim fiyat",
+    "fastProduct" : "Ürünün hızlı oluşturulması",
+    "araba": "Sepet",
+    "quantity": "Nicelik",
+    "totalPrice" : "Toplam fiyat",
+    "addProductToCart" : "Ürünü sepete ekle",
+    "finalize" : "Sonlandır",
+    "invoicePicture" : "Fatura Resimleri",
+
+    "estimatePicture" : "Tahmin resimleri",
+    "priceToPay": "Ödenecek fiyat",
+
+    "selectInvoice" : "İlgili faturayı seçin :",
+    "leftToPay" : "Ödemek için sol",
+    "payment" : "Ödeme",
+    "addPay" : "Ödeme ekle",
+    "savePay" : "Ödemeyi kaydet",
+    
+    "addWorkTime": "Çalışma Zamanı Ekle",
+
+    "myClients" : "My contacts",
+    "picProduct" : "Image de l'article",
+
+    "byBank" : "Banka transferi",
+    "byCash" : "Nakit ödeme",
+    "tickets" : "Biletler"
+    }

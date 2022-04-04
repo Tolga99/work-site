@@ -1,16 +1,16 @@
 <ion-content [fullscreen]="true">
   <div class="card text-center">
     <div class="card-header">
-      Réglages
+      {{'settings' | translate}}
     </div>
-    <button type="button" class="btn btn-danger btn-lg" (click)='MyProfile()'>Mon profil</button>
-    <button type="button" class="btn btn-danger btn-lg" (click)="MyProducts()">Mes articles</button>
-    <button type="button" class="btn btn-danger btn-lg" (click)="MySettings()">Paramètres</button>
-    <button type="button" class="btn btn-danger btn-lg" (click)="About()">A propos</button>
+    <button type="button" class="btn btn-danger btn-lg" (click)='MyProfile()'>{{'myProfile' | translate}}</button>
+    <button type="button" class="btn btn-danger btn-lg" (click)="MyProducts()">{{'myArticles' | translate}}</button>
+    <button type="button" class="btn btn-danger btn-lg" (click)="MySettings()">{{'settings' | translate}}</button>
+    <button type="button" class="btn btn-danger btn-lg" (click)="About()">{{'about' | translate}}</button>
 
 
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-danger">Se déconnecter ?</button>
+      <button type="button" class="btn btn-danger">{{'logout' | translate}}</button>
     </div>
   </div>
 </ion-content>

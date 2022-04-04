@@ -57,11 +57,12 @@ export class TabHome implements OnInit{
               private http: HttpClient,
               private _translate: TranslateService)
               {
+                _translate.setDefaultLang('fr');
+                _translate.use('fr');
               }
 
   async ionViewDidEnter(){
     console.log('view did enter');
-    this.getDeviceLanguage();
     this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
     this.clientsList = await this.storageService.get('Contacts');
@@ -112,7 +113,7 @@ export class TabHome implements OnInit{
   }
 
   async ngOnInit() {
-    this.router.navigate(['login'],{replaceUrl:true});
+    // this.router.navigate(['login'],{replaceUrl:true});
 
     this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
@@ -288,57 +289,6 @@ export class TabHome implements OnInit{
       console.log('Afficher chantiers en cours')
       this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
 
-    }
-  }
-  _initialiseTranslation(): void {
-    this._translate.get('home').subscribe((res: string) => {
-      this.home = res;
-    });
-    this._translate.get('calendar').subscribe((res: string) => {
-      this.calendar = res;
-    });
-    this._translate.get('contacts').subscribe((res: string) => {
-      this.contacts = res;
-    });
-    this._translate.get('settings').subscribe((res: string) => {
-      this.settings = res;
-    });
-    this._translate.get('myWorksites').subscribe((res: string) => {
-      this.myWorksites = res;
-    });
-    this._translate.get('search').subscribe((res: string) => {
-      this.search = res;
-    });
-    this._translate.get('newWorksite').subscribe((res: string) => {
-      this.newWorksite = res;
-    });
-  }
-
-  public changeLanguage(): void {
-    this._translateLanguage();
-  }
-
-  _translateLanguage(): void {
-    this._translate.use(this.language);
-    this._initialiseTranslation();
-  }
-
-  _initTranslate(language) {
-    // Set the default language for translation strings, and the current language.
-    this._translate.setDefaultLang('en');
-    if (language) {
-      this.language = language;
-    }
-    else {
-      // Set your language here
-      this.language = 'en';
-    }
-    this._translateLanguage();
-  }
-
-  getDeviceLanguage() {
-    if (window.Intl && typeof window.Intl === 'object') {
-      this._initTranslate(navigator.language)
     }
   }
 }

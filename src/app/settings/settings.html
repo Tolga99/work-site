@@ -2,11 +2,8 @@
     <ion-toolbar>
       <ion-button (click)="GoBack()">
         <ion-icon name="arrow-back"></ion-icon>
-        <ion-label>Retour</ion-label>
+        <ion-label>{{'back' | translate}}</ion-label>
       </ion-button>
-      <ion-title>
-        Acceuil
-      </ion-title>
     </ion-toolbar>
   </ion-header>
   
@@ -16,14 +13,14 @@
       <form [formGroup]="formInvoice" (ngSubmit)="UpdateInvoiceSettings()">
         <div class="jumbotron text-center">
           <div class="card-header">
-            Factures
+            {{'invoices' | translate}}
           </div>
           <ion-item class="form-group">
-            <ion-label position="stacked">Nom de facture</ion-label>
+            <ion-label position="stacked">{{'invoiceName' | translate}}</ion-label>
             <ion-input type="text" id="factureName" placeholder="FactureVente" formControlName="factureName"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="stacked">Type d'extension</ion-label>
+            <ion-label position="stacked">{{'extType' | translate}}</ion-label>
             <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="exts" 
               (ionChange)="selectExtType($event)">
               <ion-select-option></ion-select-option>
@@ -33,25 +30,25 @@
             </ion-select>
           </ion-item>
           <ion-item class="form-group">
-            <ion-label position="stacked" style="font-size: medium;">Position de l'extension</ion-label>
+            <ion-label position="stacked" style="font-size: medium;">{{'extPos' | translate}}</ion-label>
             <ion-item>
-              <ion-label position="fixed" style="font-size: smaller;">Avant le nom</ion-label>
+              <ion-label position="fixed" style="font-size: smaller;">{{'beforeName' | translate}}</ion-label>
               <ion-checkbox id="avant" name="avant" formControlName="positionAvant"></ion-checkbox>
             </ion-item>
             <ion-item>
-              <ion-label position="fixed" style="font-size: smaller;">Apres le nom</ion-label>
+              <ion-label position="fixed" style="font-size: smaller;">{{'afterName' | translate}}</ion-label>
               <ion-checkbox name="apres" id="apres" formControlName="positionApres"></ion-checkbox>
             </ion-item>          
           </ion-item>
           <ion-item class="form-group">
-            <ion-label position="stacked">Séparateur de l'extension</ion-label>
+            <ion-label position="stacked">{{'extSeparator' | translate}}</ion-label>
             <ion-input type="text" id="ext" placeholder="- / ; _ #" formControlName="extType"></ion-input>
           </ion-item>
           <ion-item class="form-group">
-            <ion-label position="stacked">Valeur de l'extension (incrémenté)</ion-label>
+            <ion-label position="stacked">{{'extVal' | translate}}</ion-label>
             <ion-input type="text" id="ext" placeholder="1" formControlName="extNum"></ion-input>
           </ion-item>
-          <button class="btn btn-secondary" type="submit">Sauvegarder paramètres facture</button>
+          <button class="btn btn-secondary" type="submit">{{'saveInvSettings' | translate}}</button>
   </div>
 </form>
   </div>

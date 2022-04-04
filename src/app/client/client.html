@@ -1,14 +1,3 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <fieldset>
-    <ion-button (click)="GoBack()">
-      <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>Retour</ion-label>
-    </ion-button>
-    <ion-title>Client : {{GetName()}}</ion-title>
-  </fieldset>
-  </ion-toolbar>
-</ion-header> -->
 <ion-header>
   <ion-toolbar>
     <ion-button slot="start" (click)="GoBack()">
@@ -24,51 +13,51 @@
 <ion-content [fullscreen]="true">
 
   <div class="card-header">
-    Profil
+    {{'profile' | translate}}
   </div>
 
   <ion-item>
-    <ion-label position="fixed" style="font-weight: lighter;">Prénom : </ion-label>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'fName' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.firstName}}</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-label position="fixed" style="font-weight: lighter;">Nom : </ion-label>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'name' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.lastName.toUpperCase()}}</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-label position="fixed" style="font-weight: lighter;">Adresse : </ion-label>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'address' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.address}}</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-label position="fixed" style="font-weight: lighter;">Téléphone : </ion-label>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'phone' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.phone}}</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-label position="fixed" style="font-weight: lighter;">Mail : </ion-label>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'mail' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.mail}}</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-label position="fixed" style="font-weight: lighter;">TVA : </ion-label>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'tva' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.tva}}</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-label position="fixed" style="font-weight: lighter;">IBAN : </ion-label>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'iban' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.iban}}</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-label position="fixed" style="font-weight: lighter;">BIC : </ion-label>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'bic' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.bic}}</ion-label>
   </ion-item>
   <hr>
   <div class="card-header">
-    Historique
+    {{'history' | translate}}
   </div>
   <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
     <table mat-table class="table table-bordered table-striped mb-0">
@@ -94,7 +83,7 @@
   </div>
   <hr>
   <div class="card-header">
-    Achats du client
+    {{'achats' | translate}}
   </div>
   <div id="chart">
     <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"

@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>Retour</ion-label>
+      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -23,13 +23,13 @@
     </div>
 
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="BackCategory()">Go back</button>
-      <button type="button" class="btn btn-secondary" (click)="CreateCategory()">Nouvelle catégorie</button>
+      <button type="button" class="btn btn-secondary" (click)="BackCategory()">{{'back' | translate}}</button>
+      <button type="button" class="btn btn-secondary" (click)="CreateCategory()">{{'newCategory' | translate}}</button>
     </div>
   </div>
   <hr>
   <div class="card-header">
-    Mes articles
+    {{'myArticles' | translate}}
   </div>
   <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-bordered table-striped mb-0">
@@ -51,11 +51,11 @@
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="ModifyProduct(p)" type="button">
                 <mat-icon>edit</mat-icon>
-                <span>Modifier</span>
+                <span>{{'edit' | translate}}</span>
               </button>
               <button mat-menu-item (click)="DeleteProduct(p)" type="button">
                 <mat-icon>delete</mat-icon>
-                <span>Supprimer</span>
+                <span>{{'delete' | translate}}</span>
               </button>
             </mat-menu>
           </td>
@@ -65,6 +65,6 @@
 
   </div>
   <div class="card-footer text-muted">
-    <button type="button" class="btn btn-secondary" (click)="CreateProduct()">Nouvelle article</button>
+    <button type="button" class="btn btn-secondary" (click)="CreateProduct()">{{'new product' | translate}}</button>
   </div>
 </div>

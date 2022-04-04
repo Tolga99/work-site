@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>Retour</ion-label>
+      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -10,7 +10,7 @@
 
   <form [formGroup]="formPay" (ngSubmit)="SavePay()">
     <div class="card-header">
-      Selectionnez la facture concernée :
+      {{'selectInvoice' | translate}}
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
@@ -37,11 +37,11 @@
       <label for="">Reste à payer : {{selectedInv?.totalPrice - ReceivedMoney }}</label>
     </div> -->
     <ion-item class="form-group" required="required">
-      <ion-label position="floating">Paiement</ion-label>
+      <ion-label position="floating">{{'payment' | translate}}</ion-label>
       <ion-input type="number" id="payment" name="payment" formControlName="payment" placeholder="..." required="required"></ion-input>
     </ion-item>
-    <button class="btn btn-danger"> Enregistrer paiement</button>
+    <button class="btn btn-danger"> {{'addPay' | translate}}</button>
   </form>
-  <button type="submit" class="btn btn-danger" (click)="Terminer()"> Terminer paiement</button>
+  <button type="submit" class="btn btn-danger" (click)="Terminer()">{{'savePay' | translate}}</button>
 
 </div>

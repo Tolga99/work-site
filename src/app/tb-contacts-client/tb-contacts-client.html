@@ -2,10 +2,10 @@
   <ion-toolbar>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>Retour</ion-label>
+      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
     <ion-title>
-      Contacts
+      {{'contacts' | translate}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,46 +14,46 @@
     <form [formGroup]="formClient" (ngSubmit)="onSubmit()">
 
       <ion-item class="form-group" required="required">
-        <ion-label position="floating">Prénom</ion-label>
+        <ion-label position="floating">{{'fName' | translate}}</ion-label>
         <ion-input type="text" id="firstName" placeholder="Your name.." formControlName="firstName" required="required">
         </ion-input>
       </ion-item>
       <ion-item class="form-group" required="required">
-        <ion-label position="floating">Nom</ion-label>
+        <ion-label position="floating">{{'name' | translate}}</ion-label>
         <ion-input type="text" id="lastName" placeholder="Your last name.." formControlName="lastName"
           required="required"></ion-input>
       </ion-item>
       <ion-item class="form-group" required="required">
-        <ion-label position="floating">Adresse</ion-label>
+        <ion-label position="floating">{{'address' | translate}}</ion-label>
         <ion-input type="text" id="address" placeholder=".." formControlName="address"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">Phone</ion-label>
+        <ion-label position="floating">{{'phone' | translate}}</ion-label>
         <ion-input type="text" id="phone" placeholder="..." formControlName="phone"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">Mail</ion-label>
+        <ion-label position="floating">{{'mail' | translate}}</ion-label>
         <ion-input type="text" id="mail" placeholder="..." formControlName="mail"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">TVA</ion-label>
+        <ion-label position="floating">{{'tva' | translate}}</ion-label>
         <ion-input type="text" id="tva" placeholder="..." formControlName="tva"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">IBAN</ion-label>
+        <ion-label position="floating">{{'iban' | translate}}</ion-label>
         <ion-input type="text" id="iban" placeholder="BE ..." formControlName="iban"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">BIC</ion-label>
+        <ion-label position="floating">{{'bic' | translate}}</ion-label>
         <ion-input type="text" id="bic" placeholder="..." formControlName="bic"></ion-input>
       </ion-item>
 
-      <button type="submit" class="btn btn-secondary">Sauvegarder client</button>
+      <button type="submit" class="btn btn-secondary">{{'saveClient' | translate}}</button>
     </form>
   </div>
 </ion-content>

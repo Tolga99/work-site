@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from './models/user';
 import { StorageService } from './services/storage.service';
 
@@ -8,28 +9,15 @@ import { StorageService } from './services/storage.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  userList : User[] = [];
 
-  constructor(private storageService:StorageService) 
-  {
-  }
+  constructor(translate: TranslateService) {
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('fr');
+
+     // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use('fr');
+}
   ngOnInit(): void {
+    throw new Error('Method not implemented.');
   }
- /* async ngOnInit() {
-await this.storageService.init();
-     
-    this.userList.push({
-      userId:1
-     // name :'Ercan'
-    });
-    
-    this.userList.push({
-      userId:2
-   //   name :'Tolga'
-    });
-
-
-    // this.storageService.set('maliste',this.userList);
-  }
-*/
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { NgbdModalFocus } from '../modal/modal-focus';
 @Component({
   selector: 'app-tb-settings',
@@ -10,7 +11,7 @@ import { NgbdModalFocus } from '../modal/modal-focus';
 export class TabSettings implements OnInit {
 
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private router:Router) {}
+  constructor(private modalS :NgbModal,private router:Router, private translateService : TranslateService) {}
   ngOnInit(): void { 
   }
   MyProfile()

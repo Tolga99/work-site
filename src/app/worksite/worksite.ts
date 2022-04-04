@@ -582,8 +582,14 @@ export class Worksite implements OnInit {
     doc.setFontSize(11);
     doc.setTextColor(100);
 
-    doc.text(profile.firstName+'\n'+profile.lastName.toUpperCase()+'\n'+profile.address, 14, 15);
-    doc.text(client.firstName+'\n'+client.lastName.toUpperCase()+'\n'+client.address+'\n'+client.phone, 150, 30);
+    if(profile !== null)
+    {
+      doc.text(profile.firstName+'\n'+profile.lastName.toUpperCase()+'\n'+profile.address, 14, 15);
+    }else doc.text(''+'\n'+''+'\n'+'', 14, 15);
+    if(client !== null)
+    {
+      doc.text(client.firstName+'\n'+client.lastName.toUpperCase()+'\n'+client.address+'\n'+client.phone, 150, 30);
+    }else doc.text(''+'\n'+''+'\n'+'', 14, 15);
 
     doc.text('N° facture :'+f.factureName, 15, 50);
     doc.text('Date : '+f.date, 15, 55);
@@ -688,9 +694,17 @@ export class Worksite implements OnInit {
     y+=10;
     doc.text('Coordonnées bancaires :',80,y);
     y+=6;
-    doc.text('Titulaire du compte : '+profile.firstName+' '+profile.lastName.toUpperCase(),80,y);
-    y+=6;
-    doc.text('IBAN : bidonbidonbidon',80,y);
+    if(profile !== null)
+    {
+      doc.text('Titulaire du compte : '+profile.firstName+' '+profile.lastName.toUpperCase(),80,y);
+      y+=6;
+      doc.text('IBAN : ' + profile.iban.toString(),80,y);
+    }else 
+    {
+      doc.text('Titulaire du compte : ',80,y);
+      y+=6;
+      doc.text('IBAN : ',80,y);
+    }
     y+=6;
 
     y+=10;

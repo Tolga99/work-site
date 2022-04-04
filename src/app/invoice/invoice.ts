@@ -147,44 +147,47 @@ export class Invoice implements OnInit {
       this.formInv.get('priceHtva').setValue(total);
     }
     this.invSettings = await this.storageService.get('MyInvoiceSettings');
-    console.log(this.invSettings);      
-    let generatedName = '';
-
-    if(this.invSettings.positionApres)
+    if(this.invSettings !== null)
     {
-      generatedName += this.invSettings.factureName + this.invSettings.extType;
+      console.log(this.invSettings);
+      let generatedName = '';
+
+      if(this.invSettings.positionApres)
+      {
+        generatedName += this.invSettings.factureName + this.invSettings.extType;
+      }
+      console.log(this.invSettings.exts, this.invSettings.exts.length);
+      if(this.invSettings.exts === 'Num')
+      {
+        generatedName += this.invSettings.extNum;
+        this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
+        console.log(generatedName);
+      }else if(this.invSettings.exts === 'Date')
+      {
+        generatedName += nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
+        console.log(generatedName);
+      }else if(this.invSettings.exts === 'NumDate')
+      {
+        generatedName += this.invSettings.extNum;
+        generatedName += '-'+nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
+
+        this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
+        console.log(generatedName);
+      }else if(this.invSettings.exts === 'DateNum')
+      {
+        generatedName += nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
+        generatedName += '-'+this.invSettings.extNum;
+
+        this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
+        console.log(generatedName);
+      }
+
+      if(this.invSettings.positionAvant)
+      {
+        generatedName += this.invSettings.extType + this.invSettings.factureName;
+      }
+      this.formInv.get('factureName').setValue(generatedName);
     }
-    console.log(this.invSettings.exts, this.invSettings.exts.length);
-    if(this.invSettings.exts === 'Num')
-    {
-      generatedName += this.invSettings.extNum;
-      this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
-      console.log(generatedName);
-    }else if(this.invSettings.exts === 'Date')
-    {
-      generatedName += nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
-      console.log(generatedName);
-    }else if(this.invSettings.exts === 'NumDate')
-    {
-      generatedName += this.invSettings.extNum;
-      generatedName += '-'+nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
-
-      this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
-      console.log(generatedName);
-    }else if(this.invSettings.exts === 'DateNum')
-    {
-      generatedName += nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
-      generatedName += '-'+this.invSettings.extNum;
-
-      this.invSettings.extNum = Number.parseInt(this.invSettings.extNum.toString()) + 1;
-      console.log(generatedName);
-    }
-
-    if(this.invSettings.positionAvant)
-    {
-      generatedName += this.invSettings.extType + this.invSettings.factureName;
-    }
-    this.formInv.get('factureName').setValue(generatedName);
   }
 
   GoShopping()

@@ -3,20 +3,20 @@
     <ion-toolbar>
       <ion-button (click)="GoBack()">
         <ion-icon name="arrow-back"></ion-icon>
-        <ion-label>Retour</ion-label>
+        <ion-label>{{'back' | translate}}</ion-label>
       </ion-button>
     </ion-toolbar>
   </ion-header>
   <form [formGroup]="formArt" (ngSubmit)="onSubmit()">
 
     <ion-item class="form-group" required="required">
-      <ion-label position="floating">Nom article</ion-label>
+      <ion-label position="floating">{{'nameProduct' | translate}}</ion-label>
       <ion-input type="text" id="productName" name="productName" formControlName="productName" placeholder="..."
       required="required"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Catégorie</ion-label>
+      <ion-label>{{'category' | translate}}</ion-label>
       <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="category"
         (change)="selectCategory($event)">
         <ion-select-option></ion-select-option>
@@ -26,7 +26,7 @@
     </ion-item>
     <hr>
 
-    <label for="imgCat">Photo de l'article</label>
+    <label for="imgCat">{{'picProduct' | translate}}</label>
     <input id="imgCat" type="file" class="form-control" multiple="" (change)="onFileChange($event)">
     <!-- <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
 
@@ -57,17 +57,17 @@
     <!-- </div> -->
 
     <ion-item class="form-group" required="required">
-      <ion-label position="floating">Prix HTVA</ion-label>
+      <ion-label position="floating">{{'htvaPrice' | translate}}</ion-label>
       <ion-input type="text" id="priceHtva" name="priceHtva" formControlName="priceHtva" placeholder="..."
       required="required"></ion-input>
     </ion-item>
     <hr>
     <ion-item>
-      <ion-label position="floating">Description</ion-label>
+      <ion-label position="floating">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
         style="height:100px;"></ion-textarea>
     </ion-item>
 
-    <input type="submit" value="Ajouter article">
+    <input type="submit" value="{{'addProduct' | translate}}">
   </form>
 </div>

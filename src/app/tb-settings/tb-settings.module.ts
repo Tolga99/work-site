@@ -7,12 +7,13 @@ import { TabSettings } from './tb-settings';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { TabSettingsRoutingModule } from './tb-settings-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
-    FormsModule,
+    FormsModule,SharedModule,
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: TabSettings }]),
     TabSettingsRoutingModule,

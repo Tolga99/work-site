@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>Retour</ion-label>
+      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -10,13 +10,13 @@
   <form [formGroup]="formCat" (ngSubmit)="onSubmit()">
 
     <ion-item class="form-group" required="required">
-      <ion-label position="floating">Nom catégorie</ion-label>
+      <ion-label position="floating">{{'nameCategory' | translate}}</ion-label>
       <ion-input type="text" id="categoryName" name="categoryName" formControlName="categoryName" placeholder="..."
         required="required"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Sous-catégorie</ion-label>
+      <ion-label>{{'subCategory' | translate}}</ion-label>
       <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="categoryPar"
         (change)="changePar($event)">
         <ion-select-option></ion-select-option>
@@ -26,7 +26,7 @@
 
     <hr>
 
-    <label for="imgCat">Photo de la catégorie</label>
+    <label for="imgCat">{{'picCategory' | translate}}</label>
     <input id="imgCat" type="file" class="form-control" multiple="" (change)="onFileChange($event)">
     <!-- <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
 
@@ -42,11 +42,11 @@
     <hr>
 
     <ion-item>
-      <ion-label position="floating">Description</ion-label>
+      <ion-label position="floating">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
         style="height:100px;"></ion-textarea>
     </ion-item>
 
-    <input type="submit" value="Créer catégorie">
+    <input type="submit" value="{{'createCategory' | translate}}">
   </form>
 </div>

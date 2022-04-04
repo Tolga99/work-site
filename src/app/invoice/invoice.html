@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>Retour</ion-label>
+      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -10,18 +10,18 @@
   <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
 
     <ion-item class="form-group" required="required">
-      <ion-label position="floating" [hidden]="type=='devis'">Nom Facture</ion-label>
-      <ion-label position="floating" [hidden]="type=='facture'">Nom devis</ion-label>
+      <ion-label position="floating" [hidden]="type=='devis'">{{'invoiceName' | translate}}</ion-label>
+      <ion-label position="floating" [hidden]="type=='facture'">{{'estimateName' | translate}}</ion-label>
 
       <ion-input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="..."
         required="required"></ion-input>
     </ion-item>
 
     <div class="form-group" required="required">
-      <button for="art" [hidden]="ScanMode" (click)="GoShopping()" type="button">Ajouter articles</button>
+      <button for="art" [hidden]="ScanMode" (click)="GoShopping()" type="button">{{'addProduct' | translate}}</button>
     </div>
     <div class="card-header" [hidden]="ScanMode">
-      Panier
+      {{'cart' | translate}}
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" [hidden]="ScanMode">
       <table class="table table-bordered table-striped mb-0">
@@ -34,9 +34,9 @@
         <tbody>
           <tr mdbTableCol *ngFor="let p of panierList">
             <!-- <th scope="row">{{el.id}}</th> -->
-            <td>{{p.productName}}</td>
-            <td>{{p.description}}</td>
-            <td>{{p.priceHtva}}</td>
+            <td>{{p.product.productName}}</td>
+            <td>{{p.product.description}}</td>
+            <td>{{p.product.priceHtva}}</td>
             <!-- <td>{{p.categoryId}}</td> -->
           </tr>
         </tbody>
@@ -45,17 +45,17 @@
     </div>
 
     <div [hidden]="type=='devis'">
-      <label for="imgFactures" [hidden]="!ScanMode">Photos facture</label>
+      <label for="imgFactures" [hidden]="!ScanMode">{{'invoicePicture' | translate}}</label>
     </div>
     <div [hidden]="type=='facture'">
-      <label for="imgFactures" [hidden]="!ScanMode">Photos devis</label>
+      <label for="imgFactures" [hidden]="!ScanMode">{{'estimatePicture' | translate}}</label>
     </div>
 
     <ion-item [hidden]="type=='devis'">
-      <ion-label position="floating" [hidden]="!ScanMode">Photos facture</ion-label>
+      <ion-label position="floating" [hidden]="!ScanMode">{{'invoicePicture' | translate}}</ion-label>
     </ion-item>
     <ion-item [hidden]="type=='facture'">
-      <ion-label position="floating" [hidden]="!ScanMode">Photos devis</ion-label>
+      <ion-label position="floating" [hidden]="!ScanMode">{{'estimatePicture' | translate}}</ion-label>
     </ion-item>
     <!-- Select File -->
     <input [hidden]="!ScanMode" id="imgFactures" type="file" class="form-control" multiple=""
@@ -70,53 +70,53 @@
     </div>
 
     <ion-item>
-      <ion-label>Type de paiement</ion-label>
+      <ion-label>{{'paymentType' | translate}}</ion-label>
       <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="typePay" required="required">
-        <ion-select-option value="cash"> Paiement cash </ion-select-option>
-        <ion-select-option value="bancaire"> Virement bancaire </ion-select-option>
+        <ion-select-option value="cash">{{'byCash' | translate}}</ion-select-option>
+        <ion-select-option value="bancaire">{{'byBank' | translate}}</ion-select-option>
       </ion-select>
     </ion-item>
     <!-- articles -->
 
     <ion-item class="form-group" required="required" [hidden]="ScanMode">
-      <ion-label position="floating">Prix HTVA</ion-label>
+      <ion-label position="floating">{{'htvaPrice' | translate}}</ion-label>
       <ion-input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="124.5"
       required="required"></ion-input>
     </ion-item>
 
     <ion-item class="form-group" required="required" [hidden]="ScanMode">
-      <ion-label position="floating">TVA</ion-label>
+      <ion-label position="floating">{{'tva' | translate}}</ion-label>
       <ion-input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="21.6"
       required="required"></ion-input>
     </ion-item>
 
 
     <ion-item class="form-group" required="required" [hidden]="ScanMode">
-      <ion-label position="floating">Remise</ion-label>
+      <ion-label position="floating">{{'discount' | translate}}</ion-label>
       <ion-input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="10"
       required="required"></ion-input>
     </ion-item>
 
     <ion-item class="form-group" required="required" [hidden]="!ScanMode">
-      <ion-label position="floating">Prix à payer</ion-label>
+      <ion-label position="floating">{{'priceToPay' | translate}}</ion-label>
       <ion-input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice"
       required="required" placeholder="125.35"></ion-input>
     </ion-item>
 
     <hr>
     <ion-item>
-      <ion-label position="floating">Description</ion-label>
+      <ion-label position="floating">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
         style="height:100px;"></ion-textarea>
     </ion-item>
 
     <div [hidden]="type=='devis'">
-      <input type="submit" [hidden]="!ScanMode" value="Scanner chantier">
-      <input type="submit" [hidden]="ScanMode==true" value="Créer chantier">
+      <input type="submit" [hidden]="!ScanMode" value="{{'scanInvoice' | translate}}">
+      <input type="submit" [hidden]="ScanMode==true" value="{{'createInvoice' | translate}}">
     </div>
     <div [hidden]="type!='devis'">
-      <input type="submit" [hidden]="!ScanMode" value="Scanner devis">
-      <input type="submit" [hidden]="ScanMode==true" value="Créer devis">
+      <input type="submit" [hidden]="!ScanMode" value="{{'scanEstimate' | translate}}">
+      <input type="submit" [hidden]="ScanMode==true" value="{{'createEstimate' | translate}}">
     </div>
   </form>
 </div>

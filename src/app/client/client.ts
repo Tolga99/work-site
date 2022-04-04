@@ -160,6 +160,7 @@ export class Client implements OnInit{
       i++;
     }
   });
+  window.dispatchEvent(new Event('resize'));
   console.log(this.chartOptions.xaxis.categories);
   }
   public GetAllReceivedMoney(f : Facture) : number

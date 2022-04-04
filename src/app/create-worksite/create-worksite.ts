@@ -127,7 +127,8 @@ export class CreateWorksite implements OnInit {
   }
   selectClient(event: Event) {
     const s = (event.target as HTMLSelectElement).value;
-    this.formWork.patchValue({address : this.clientList.find(a => a.userId === s).address});
+    this.formWork.get('address').setValue(this.clientList.find(a => a.userId === s).address.toString());
+    console.log(this.formWork.get('address'));
   }
   GoBack()
   {

@@ -1,0 +1,143 @@
+{
+    "home": "Accueil",
+    "calendar": "Calendrier",
+    "contacts": "Contacts",
+    "settings": "Réglages",
+    
+    "myWorksites": "Mes chantiers",
+    "search": "Rechercher",
+    "newWorksite": "Nouveau chantier",
+
+    "nameWorksite": "Nom du chantier",
+    "nameClient" : "Nom du client",
+    "startDate" : "Date de début",
+    "address" : "Adresse",
+    "state" : "Etat",
+    "edit" : "Edit",
+
+
+    "myProfile" : "Mon profil",
+    "myArticles" : "Mes articles",
+    "about" : "A propos",
+    "logout" : "Déconnexion",
+
+    "name" : "Nom",
+    "fName" : "Prénom",
+    "newClient" : "Nouveau client",
+
+    "back" : "Retour",
+
+    "phone" : "Téléphone",
+    "mail" : "Email",
+    "tva" : "TVA",
+    "iban": "IBAN",
+    "bic" : "BIC",
+    "saveClient" : "Sauvegarder client",
+
+    "profile" : "Profil",
+    "history" : "Historique",
+    "achats" : "Achats",
+
+    "previous" : "Précedent",
+    "today" : "Aujourd'hui",
+    "next" : "Suivant",
+    "month" : "Mois",
+    "week" : "Semaine",
+    "day" : "Jour",
+    "rdv" : "Rendez-vous",
+    "title" : "Titre",
+    "client" : "Client",
+    "description" : "Description",
+    "endDate" : "Date de fin",
+    "delete" : "Supprimer",
+    "new" : "Nouveau",
+
+    "updateProfile" : "Actualiser profil",
+
+    "newClient?" : "Nouveau client ?",
+    "worksiteAddress" : "Adresse du chantier",
+    "createWorksite" : "Créer chantier",
+
+    "general" : "Général",
+    "work" : "Travail",
+    "pictures" : "Images",
+    "infos" : "Informations",
+    "invoices" : "Factures",
+    "invoiceName" : "Nom de la facture",
+    "total" : "Total",
+    "date" : "Date",
+    "scanInvoice" : "Scanner facture",
+    "createInvoice" : "Créer facture",
+
+    "estimate" : "Devis",
+    "estimateName" : "Nom du devis",
+    "scanEstimate" : "Scanner devis",
+    "createEstimate" : "Créer devis",
+
+    "receivedMoney" : "Argent reçu",
+    "remaining" : "Restant",
+    "receiptDate" : "Date de récéption",
+    "addPayment" : "Ajouter paiement",
+
+    "hoursWorked" : "Heure préstées",
+    "hourWorked" : "Temps de travail",
+    "addWork" : "Ajouter préstation",
+    "totalHours" : "Total des heures :",
+
+    "worksitePictures" : "Images du chantier",
+    "pictures" : "Images",
+
+    "updateWorksite" : "Mettre chantier à jour",
+    "finishWorksite" : "Finaliser le chantier",
+
+    "newCategory" : "Nouvelle catégorie",
+    "productName" : "Nom de l'article",
+    "htvaPrice" : "Prix HTVA",
+    "category" : "Catégorie",
+    "new product" : "Nouvel article",
+
+    "nameCategory" : "Nom de la catégorie",
+    "subCategory" : "Sous-catégorie",
+    "picCategory" : "Image de la catégorie",
+    "createCategory" : "Créer catégorie",
+
+    "nameProduct" : "Nom de l'article",
+    "addProduct" : "Ajouter article",
+
+    "extType" : "Type d'éxtension",
+    "extPos" : "Position de l'éxtension",
+    "beforeName" : "Avant le nom",
+    "afterName" : "Après le nom",
+    "extSeparator" : "Séparateur de l'éxtension",
+    "extVal" : "Valeur de l'éxtension",
+    "saveInvSettings" : "Enregistrer les paramètres de la facture",
+
+    "paymentType" : "Type de paiement",
+    "discount" : "Remise",
+    "unitPrice" : "Prix unitaire",
+    "fastProduct" : "Création rapide d'article",
+    "cart" : "Panier",
+    "quantity" : "Quantité",
+    "totalPrice" : "Prix total",
+    "addProductToCart" : "Ajouter article dans le panier",
+    "finalize" : "Finaliser",
+    "invoicePicture" : "Images de la facture",
+
+    "estimatePicture" : "Images du devis",
+    "priceToPay" : "Prix à payer",
+
+    "selectInvoice" : "Sélectionnez la facture concernée :",
+    "leftToPay" : "Reste à payer",
+    "payment" : "Paiement",
+    "addPay" : "Ajouter paiement",
+    "savePay" : "Sauvegarder paiement",
+    
+    "addWorkTime" : "Ajouter préstation",
+
+    "myClients" : "My contacts",
+    "picProduct" : "Image de l'article",
+
+    "byBank" : "Virement bancaire",
+    "byCash" : "Paiement cash",
+    "tickets" : "Tickets"
+    }

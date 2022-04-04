@@ -27,14 +27,14 @@ export function HttpLoaderFactory(http: HttpClient) {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
-      },isolate:true
+      },isolate:true,defaultLanguage:'fr'
     })
   ]
   ,exports:[
     FormsModule,ReactiveFormsModule,
     MatCardModule,
     MatIconModule,
-    MatMenuModule,
+    MatMenuModule,TranslateModule
   ]
 })
 export class SharedModule { }
