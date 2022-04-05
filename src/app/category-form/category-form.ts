@@ -14,6 +14,7 @@ import { StorageService } from '../services/storage.service';
 })
 export class CategoryForm implements OnInit,OnDestroy {
 
+  selectedCategory : Category;
   uuidValue: string;
   images = '';
   // chantierId: string;

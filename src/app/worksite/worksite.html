@@ -135,11 +135,10 @@
           <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
             aria-label="Select page of dataSourceFacture"></mat-paginator>
         </div>
-      </div>
-
-      <div class="card-footer text-muted">
-        <button type="button" class="btn btn-secondary" (click)="scanInvoice()">{{'scanInvoice' | translate}}</button>
-        <button type="button" class="btn btn-secondary" (click)="createInvoice()">{{'createInvoice' | translate}}</button>
+        <div class="card-footer text-muted">
+          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanInvoice()">{{'scanInvoice' | translate}}</button>
+          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()">{{'createInvoice' | translate}}</button>
+        </div>
       </div>
 
       <hr>
@@ -219,8 +218,8 @@
           </mat-paginator>
         </div>
         <div class="card-footer text-muted">
-          <button type="button" class="btn btn-secondary" (click)="scanDevis()">{{'scanEstimate' | translate}}</button>
-          <button type="button" class="btn btn-secondary" (click)="createDevis()">{{'createEstimate' | translate}}</button>
+          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()">{{'scanEstimate' | translate}}</button>
+          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()">{{'createEstimate' | translate}}</button>
         </div>
       </div>
       <div class="jumbotron text-center">
@@ -261,7 +260,7 @@
           </table>
         </div>
         <div class="card-footer text-muted">
-          <button type="button" class="btn btn-secondary" (click)="AddPayment()">{{'addPayment' | translate}}</button>
+          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="AddPayment()">{{'addPayment' | translate}}</button>
         </div>
       </div>
       <div class="jumbotron text-center">
@@ -269,13 +268,13 @@
           <table class="table table-bordered table-striped mb-0">
             <thead>
               <tr>
-                <th>{{'pictures' | translate}}</th>
+                <th>{{'tickets' | translate}}</th>
               </tr>
             </thead>
             <tbody>
               <tr mdbTableCol *ngFor='let url of imagesT'>
                 <td><img src="{{url}}" alt="" height=100 width=100 /></td>
-                <td> <button type="button" class="btn btn-danger" (click)="DeleteImage(url)"> <i class="far fa-trash-alt"></i></button></td>
+                <td> <button type="button" class="btn btn-danger" style="background-color:orange;" (click)="DeleteImage(url)"> <i class="far fa-trash-alt"></i></button></td>
               </tr>
             </tbody>
           </table>
@@ -354,10 +353,10 @@
         </div>
 
         <div class="card-footer">
-          {{'totalHours' | translate}} : {{totalHours}}
+          {{'totalHours' | translate}} {{totalHours}}
         </div>
         <div class="card-footer text-muted">
-          <button type="button" class="btn btn-secondary" (click)="AddHour()">{{'addWork' | translate}}</button>
+          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="AddHour()">{{'addWork' | translate}}</button>
         </div>
       </div>
     </div>
@@ -378,7 +377,7 @@
               <tr mdbTableCol *ngFor='let url of imagesC'>
                 <!-- <th scope="row">{{el.id}}</th> -->
                 <td><img src="{{url}}" alt="" height=100 width=100 /></td>
-                <td> <button type="button" class="btn btn-danger" (click)="DeleteImageChantier(url)"> <i class="far fa-trash-alt"></i></button></td>
+                <td> <button type="button" class="btn btn-danger" style="background-color:orange;" (click)="DeleteImageChantier(url)"> <i class="far fa-trash-alt"></i></button></td>
               </tr>
             </tbody>
           </table>

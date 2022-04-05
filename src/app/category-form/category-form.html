@@ -15,13 +15,26 @@
         required="required"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <!-- <ion-item>
       <ion-label>{{'subCategory' | translate}}</ion-label>
       <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="categoryPar"
         (change)="changePar($event)">
         <ion-select-option></ion-select-option>
         <ion-select-option *ngFor="let c of catList" [value]="c.categoryId"> {{c.categoryName}} </ion-select-option>
       </ion-select>
+    </ion-item> -->
+
+    <ion-item>
+      <ion-label>{{'subCategory' | translate}}</ion-label>
+      <ionic-selectable
+        [(ngModel)]="selectedCategory"
+        [items]="catList"
+        itemValueField="categoryId"
+        itemTextField="categoryName"
+        [canSearch]="true"
+        formControlName="categoryPar"
+        (ionChange)="changePar($event)">
+      </ionic-selectable>
     </ion-item>
 
     <hr>

@@ -16,6 +16,7 @@ import { NgbdModalFocus } from '../modal/modal-focus';
 export class CreateWorksite implements OnInit {
   newWorksite : Chantier;
   client : User;
+  selectedClient : User;
   uuidValue : string;
   public chantierList : Array<Chantier> = [];
   clientList : Array<User> = [];

@@ -27,6 +27,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { firebaseConfig } from '../environments/environment.prod';
 import { AuthService } from './shared/services/auth.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { IonicSelectableModule } from 'ionic-selectable';
 // export function HttpLoaderFactory(http: HttpClient) {
 //   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 //   }
@@ -39,6 +40,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
+    IonicSelectableModule,
     NgbModule,
             TranslateModule.forRoot({
               loader: {

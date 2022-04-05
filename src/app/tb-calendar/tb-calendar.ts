@@ -34,6 +34,7 @@ import { StorageService } from '../services/storage.service';
 import { User } from '../models/user';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { MatListItem } from '@angular/material/list';
+import { IonicSelectableComponent } from 'ionic-selectable';
 
 
 @Component({
@@ -302,6 +303,12 @@ export class TabCalendar implements OnInit {
     {
       this.storageService.set('Events',this.events);
       this.router.navigate(['tb-contacts'],{replaceUrl:true});
+    }
+    clientChange(event: {
+      component: IonicSelectableComponent,
+      value: any
+    }) {
+      console.log('client:', event.value);
     }
   }
 

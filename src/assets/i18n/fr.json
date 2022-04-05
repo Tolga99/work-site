@@ -139,5 +139,11 @@
 
     "byBank" : "Virement bancaire",
     "byCash" : "Paiement cash",
-    "tickets" : "Tickets"
+    "tickets" : "Tickets",
+
+    "editEstimate" : "Modifier devis",
+    "transformToInv" : "Convertir en facture",
+    "genPDF" : "Générer en PDF",
+
+    "editInv" : "Modifier facture"
     }

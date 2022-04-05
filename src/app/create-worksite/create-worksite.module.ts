@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { SharedModule } from '../shared/shared.module';
 import { CreateWorksiteRoutingModule } from './create-worksite-routing.module';
-
+import { IonicSelectableModule } from 'ionic-selectable';
 
 
 @NgModule({
@@ -15,7 +15,8 @@ import { CreateWorksiteRoutingModule } from './create-worksite-routing.module';
     CommonModule,
     SharedModule,
     ExploreContainerComponentModule,
-    CreateWorksiteRoutingModule
+    CreateWorksiteRoutingModule,
+    IonicSelectableModule
   ]
 })
 export class CreateWorksiteModule { }

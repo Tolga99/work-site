@@ -11,6 +11,8 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TabCalendarRoutingModule } from './tb-calendar-routing.module';
 import { UtilsModule } from '../utils/module';
+import { IonicSelectableModule } from 'ionic-selectable';
+
 
 import { SharedModule } from '../shared/shared.module';
 import localeFr from '@angular/common/locales/fr';
@@ -28,6 +30,7 @@ registerLocaleData(localeTr);
     ExploreContainerComponentModule,
     TabCalendarRoutingModule,
     NgbModalModule,
+    IonicSelectableModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

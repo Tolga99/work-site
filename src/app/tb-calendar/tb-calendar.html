@@ -3,7 +3,7 @@
   <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
-        <div class="btn btn-primary" 
+        <div class="btn btn-primary" style="background-color:orange;"
              mwlCalendarPreviousView 
              [view]="view" 
              [(viewDate)]="viewDate"
@@ -13,7 +13,7 @@
           <!-- Previous -->
           {{'previous' | translate}}
         </div>
-        <div class="btn btn-outline-secondary" 
+        <div class="btn btn-outline-secondary" style="background-color:orange;"
              mwlCalendarToday 
              [(viewDate)]="viewDate"
              (viewDateChange)="fetchEvents()"
@@ -21,7 +21,7 @@
           <!-- Today -->
           {{'today' | translate}}
         </div>
-        <div class="btn btn-primary" 
+        <div class="btn btn-primary" style="background-color:orange;"
              mwlCalendarNextView 
              [view]="view" 
              [(viewDate)]="viewDate"
@@ -37,16 +37,16 @@
       <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>
     </div>
     <div class="col-md-4">
-      <div class="btn-group">
-        <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+      <div class="btn-group" style="background-color:orange;">
+        <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month" style="background-color:orange;">
           <!-- Month -->
           {{'month' | translate}}
         </div>
-        <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+        <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week" style="background-color:orange;">
           <!-- Week -->
           {{'week' | translate}}
         </div>
-        <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+        <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day" style="background-color:orange;">
           <!-- Day -->
           {{'day' | translate}}
         </div>
@@ -75,7 +75,7 @@
   <h3>
     <!-- Edit events -->
     {{'rdv' | translate}}
-    <button class="btn btn-primary float-right" (click)="addEvent()">
+    <button class="btn btn-primary float-right" style="background-color:orange;" (click)="addEvent()">
       <!-- Add new -->
       {{'new' | translate}}
     </button>
@@ -103,10 +103,22 @@
             <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
           </td>
           <td>
-            <select [(ngModel)]="event.client">
+            <ion-item>
+              <!-- <ion-label>{{'client' | translate}}</ion-label> -->
+              <ionic-selectable
+                [(ngModel)]="event.client"
+                [items]="clientList"
+                itemValueField="userId"
+                itemTextField="lastName"
+                [canSearch]="true"
+                formControlName="client"
+                (onChange)="clientChange($event)">
+              </ionic-selectable>
+            </ion-item>
+            <!-- <select [(ngModel)]="event.client">
               <option></option>
               <option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName}} </option>
-            </select>
+            </select> -->
             <ion-tab-button (click)="NewClient()">
               <ion-icon name="person-add"></ion-icon>
               <ion-label>{{'newClient?' | translate}}</ion-label>
@@ -160,7 +172,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      <button type="button" class="btn btn-outline-secondary" style="background-color:orange;" (click)="close()">
         OK
       </button>
     </div>

@@ -21,7 +21,7 @@
     </div>
 
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="BackCategory()">{{'back' | translate}}</button>
+      <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="BackCategory()">{{'back' | translate}}</button>
     </div>
   </div>
   <hr>
@@ -90,7 +90,7 @@
         required="required">
     </div>
     <div class="card-footer text-muted">
-      <button type="submit" class="btn btn-secondary">{{'addProductToCart' | translate}}</button>
+      <button type="submit" class="btn btn-secondary" style="background-color:orange;">{{'addProductToCart' | translate}}</button>
     </div>
   </form>
   <hr>
@@ -135,10 +135,10 @@
     </table>
 
   </div>
-  <div class="card-footer text-muted">
-    <button type="button" class="btn btn-secondary" (click)="CreateProduct()">{{'addProductToCart' | translate}}</button>
-  </div>
+  <!-- <div class="card-footer text-muted">
+    <button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;">{{'addProductToCart' | translate}}</button>
+  </div> -->
   <div>
-    <button type="button" class="btn btn-danger" (click)="SavePanier()">{{'finalize' | translate}}</button>
+    <button type="button" class="btn btn-danger" (click)="SavePanier()" style="background-color:orange;">{{'finalize' | translate}}</button>
   </div>
 </div>

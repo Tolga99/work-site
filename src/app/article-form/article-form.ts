@@ -17,6 +17,7 @@ import { PhotoService } from '../services/photo.service';
 })
 export class ArticleForm implements OnInit, OnDestroy{
 
+  selectedCat : Category;
   uuidValue: string;
   images = '';
   // chantierId: string;

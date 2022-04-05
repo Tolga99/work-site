@@ -8,6 +8,8 @@ import { ArticleFormRoutingModule } from './article-form-routing.module';
 
 import { ArticleForm } from './article-form';
 import { SharedModule } from '../shared/shared.module';
+import { IonicSelectableModule } from 'ionic-selectable';
+
 
 @NgModule({
   imports: [
@@ -15,7 +17,8 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     IonicModule,
     ArticleFormRoutingModule,
-    SharedModule
+    SharedModule,
+    IonicSelectableModule
   ],
   declarations: [ArticleForm]
 })

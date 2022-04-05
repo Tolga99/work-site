@@ -136,5 +136,11 @@
     "picProduct" : "Picture of product",
     "byBank" : "Bank transfer",
     "byCash" : "Cash payment",
-    "tickets" : "Tickets"
+    "tickets" : "Tickets",
+    
+    "editEstimate" : "Edit estimate",
+    "transformToInv" : "Convert to invoice",
+    "genPDF" : "Generate a PDF",
+
+    "editInv" : "Edit invoice"
     }

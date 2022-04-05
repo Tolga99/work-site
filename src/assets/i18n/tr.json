@@ -137,5 +137,11 @@
 
     "byBank" : "Banka transferi",
     "byCash" : "Nakit ödeme",
-    "tickets" : "Biletler"
+    "tickets" : "Biletler",
+
+    "editEstimate" : "Tahmini düzenle",
+    "transformToInv" : "Faturaya dönüştür",
+    "genPDF" : "PDF oluştur",
+
+    "editInv" : "Faturayı düzenle"
     }

@@ -30,5 +30,8 @@ export class User implements IUser {
 
     ) {
     }
-
+    public toString()
+    {
+        return this.lastName.toUpperCase() + ' ' + this.firstName;
+    }
   }
