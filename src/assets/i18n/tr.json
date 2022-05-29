@@ -143,5 +143,6 @@
     "transformToInv" : "Faturaya dönüştür",
     "genPDF" : "PDF oluştur",
 
-    "editInv" : "Faturayı düzenle"
+    "editInv" : "Faturayı düzenle",
+    "assign" : "Bağlamak"
     }

@@ -7,7 +7,6 @@ import { NgApexchartsModule } from "ng-apexcharts";
 
 import { ClientRoutingModule } from './client-routing.module';
 import { Client } from './client';
-import { BrowserModule } from "@angular/platform-browser";
 import { SharedModule } from '../shared/shared.module';
 
 

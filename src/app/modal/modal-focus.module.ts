@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../shared/shared.module';
 
 import {
   NgbdModalDelArt,
@@ -12,18 +13,19 @@ import {
   NgbdModalDelChantier,
   NgbdModalEndChantier,
   NgbdModalConfirmAutofocus,
-  NgbdModalFocus
+  NgbdModalFocus,
+  NgbdModalAssign,
 } from './modal-focus';
 
 @NgModule({
-  imports: [CommonModule, NgbModule],
+  imports: [IonicModule,CommonModule, NgbModule,SharedModule],
   declarations: [NgbdModalFocus,NgbdModalDelArt,
     NgbdModalDelCat,
     NgbdModalDelCli,
     NgbdModalDelDev,
     NgbdModalDelInv,
     NgbdModalDelChantier,
-    NgbdModalEndChantier,NgbdModalConfirmAutofocus],
+    NgbdModalEndChantier,NgbdModalConfirmAutofocus,NgbdModalAssign],
   exports: [NgbdModalFocus],
   bootstrap: [NgbdModalFocus]
 })

@@ -18,6 +18,5 @@ export class AppComponent implements OnInit {
     translate.use('fr');
 }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 }

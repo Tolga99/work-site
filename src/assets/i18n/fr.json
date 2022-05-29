@@ -145,5 +145,6 @@
     "transformToInv" : "Convertir en facture",
     "genPDF" : "Générer en PDF",
 
-    "editInv" : "Modifier facture"
+    "editInv" : "Modifier facture",
+    "assign" : "Assigner"
     }

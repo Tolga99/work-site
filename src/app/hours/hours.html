@@ -9,7 +9,7 @@
 <div class="container">
   <form [formGroup]="formHour" (ngSubmit)="CreateHour()">
 
-    <ion-datetime formControlName="date" presentation="time"></ion-datetime>
+    <ion-datetime formControlName="date" presentation="time" [(ngModel)]="dateHour"></ion-datetime>
 
     <hr>
     <ion-item>

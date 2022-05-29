@@ -1,5 +1,7 @@
-import {Component, Type} from '@angular/core';
+import {Component, OnInit, Type} from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Chantier } from '../models/chantier';
+import { StorageService } from '../services/storage.service';
 
 @Component({
     selector: 'ngbd-modal-del-inv',
@@ -212,7 +214,51 @@ import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
         constructor(public modal: NgbActiveModal) {
           this.label= NgbdModalFocus.label;
         }  }
+        @Component({
+          selector: 'ngbd-modal-assign',
+          template: `
+          <div class="modal-header">
+          <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-bordered table-striped mb-0">
 
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{head | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let chantier of this.listChantier" (click)="SelectWorksite(chantier)" [ngClass]="{'class_name': chantier === selectedChantier}" >
+            <td>{{chantier.worksiteName}}</td>
+            <td>{{chantier.address}}</td>
+            <td>{{chantier.clientId}}</td>
+        </tbody>
+      </table>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close(this.selectedChantier)">Ok</button>
+          </div>
+    </div>
+        </div>
+          `,
+        styleUrls: ['./modal-focus.scss'],
+        })
+        export class NgbdModalAssign implements OnInit {
+          headElements = ['worksite','address', 'client'];
+          label = '';
+          listChantier : Chantier[] = [];
+          selectedChantier : Chantier;
+          constructor(public modal: NgbActiveModal,private storage : StorageService) {
+          }
+          async ngOnInit() {
+            this.storage.init();
+            this.listChantier = await this.storage.get('Chantiers');
+            console.log("All chantiers : ",this.listChantier);
+            console.log('Facture : ',NgbdModalFocus.label);
+          }
+          SelectWorksite(worksite : Chantier)
+          {
+            this.selectedChantier=worksite;
+          }
+    }
         @Component({
           selector: 'ngbd-modal-calendar',
           template: `
@@ -314,6 +360,7 @@ const MODALS: {[name: string]: Type<any>} = {
   field : NgbdModalField,
   calendar : NgbdModalCalendar,
   about : NgbdModalAbout,
+  assign : NgbdModalAssign,
 };
 
 @Component({

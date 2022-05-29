@@ -16,6 +16,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
+import { Facture } from '../models/facture';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tb-home',
@@ -25,9 +27,12 @@ import { HttpClient } from '@angular/common/http';
 export class TabHome implements OnInit{
   TabView = 'enCours';
   chantierList : Array<Chantier> = [];
+  invList : Array<Facture> = [];
   searchList : Array<Chantier> = [];
   clientsList : Array<User> = [];
   headElements = ['worksiteName', 'client', 'dateStart','address','...'];
+  headElementsInv = ['factureName', 'totalPrice','date','...'];
+
 
   public home: string;
   public calendar: string;
@@ -50,6 +55,10 @@ export class TabHome implements OnInit{
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  dataSourceF: MatTableDataSource<Facture>;
+  @ViewChild(MatPaginator) paginatorF: MatPaginator;
+  @ViewChild(MatSort) sortF: MatSort;
+
   constructor(private modalS : NgbModal,
               private storageService:StorageService,
               private router: Router,
@@ -57,6 +66,7 @@ export class TabHome implements OnInit{
               private http: HttpClient,
               private _translate: TranslateService)
               {
+                this.storageService.init();
                 _translate.setDefaultLang('fr');
                 _translate.use('fr');
               }
@@ -65,37 +75,27 @@ export class TabHome implements OnInit{
     console.log('view did enter');
     this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
+    this.invList = await this.storageService.get('NAfactures');
     this.clientsList = await this.storageService.get('Contacts');
+
     this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSourceF = new MatTableDataSource(this.invList);
+    this.dataSourceF.paginator = this.paginatorF;
+    this.dataSourceF.sort = this.sortF;
+
+    this.dataSourceF._filterData(this.dataSourceF.data);
+    this.dataSourceF.paginator.nextPage();
+    console.log('current tab : ',this.TabView);
+    this.dataSourceF.paginator.firstPage();
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    // const noms = this.clientsList.filter(a => a.lastName.toLowerCase().includes(filterValue.toLowerCase()));
-    // this.searchList = [];
-    // noms.forEach(element => {
-    //   this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-    // });
-
-    // const prenoms = this.clientsList.filter(a => a.firstName.toLowerCase().includes(filterValue.toLowerCase()));
-    // prenoms.forEach(element => {
-    //   this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-    // });
-
-    // if(this.searchList.length === 0)
-    // {
-    //   this.dataSource.filter = filterValue.trim().toLowerCase();
-    // }else
-    // {
-    //   this.searchList.forEach( element =>{
-    //     this.dataSource.filter = element.address.toLowerCase();
-
-    //   });
-    // }
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -114,10 +114,12 @@ export class TabHome implements OnInit{
 
   async ngOnInit() {
     // this.router.navigate(['login'],{replaceUrl:true});
-
-    this.storageService.init();
+    await this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
     this.dataSource = new MatTableDataSource(this.chantierList);
+
+    this.invList = await this.storageService.get('NAfactures');
+    this.dataSourceF = new MatTableDataSource(this.invList);
 
     // this.searchList = this.chantierList;
     this.clientsList = await this.storageService.get('Contacts');
@@ -125,8 +127,8 @@ export class TabHome implements OnInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    let systemDark = window.matchMedia("(prefers-color-scheme: dark)");
-    document.body.setAttribute('data-theme', 'light');
+    this.dataSourceF.paginator = this.paginatorF;
+    this.dataSourceF.sort = this.sortF;
    // var maliste = await this.storageService.get('listClient');
 
    // console.log('here is maliste',maliste);
@@ -289,6 +291,156 @@ export class TabHome implements OnInit{
       console.log('Afficher chantiers en cours')
       this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
 
+    }
+  }
+  createInvoice()
+  {
+    console.log('Bouton nv facture (creation)');
+    this.router.navigate(['invoice',{chantierId: 'null', type: 'facture', mode:'false'}]);
+  }
+  scanInvoice()
+  {
+    console.log('Bouton nv facture (scan)');
+    this.router.navigate(['invoice',{chantierId: 'null', type: 'facture', mode:'true'}]);
+  }
+  async assignInvoice(inv : Facture)
+  {
+    console.log('Assign invoice');
+    let res : string =null;
+    await this.modal.open('assign',inv.factureId)
+    .then(result => result.result
+      .then((data) => {
+        if(data.chantierId !== null)
+        {
+          let worksiteInvoices;
+          if(inv.type.toLowerCase() === 'facture')
+          {
+            worksiteInvoices = data.factures;
+          }else worksiteInvoices = data.devis;
+
+          worksiteInvoices.push(inv);
+          const chantier = this.chantierList.find(a => a.chantierId === data.chantierId);
+          const chantierIndex = this.chantierList.findIndex(a => a.chantierId === data.chantierId); 
+          if(inv.type.toLowerCase() === 'facture')
+            chantier.factures= worksiteInvoices;
+          else chantier.devis = worksiteInvoices;
+      
+          this.chantierList[chantierIndex] = chantier;
+          this.storageService.set('Chantiers',this.chantierList);
+
+          this.invList.splice(this.invList.findIndex(a => a.factureId === inv.factureId),1);
+          this.dataSourceF = new MatTableDataSource(this.invList);
+          //ASSIGN ENDED
+          res='OK';
+        }
+      }, (reason) => {
+      res='DISMISS' }
+      ));
+
+    if(res==='DISMISS')
+        return ;
+  }
+  openInvoice(inv : Facture)
+  {
+  //   console.log('Bouton open facture',inv.factureId);
+  //   this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: this.chantierId}]);
+  }
+  async deleteInvoice(inv:Facture) : Promise<void>{
+  //   let res : string =null;
+  //   await this.modal.open('delInv',inv.factureName)
+  //   .then(result => result.result
+  //     .then((data) => {
+  //       res='OK';
+  //     }, (reason) => {
+  //     res='DISMISS' }
+  //     ));
+
+  //   if(res==='DISMISS')
+  //       return ;
+  //   if(inv.receivedMoney!=null)
+  //   {
+  //     inv.receivedMoney.forEach(element => {
+  //       this.DeleteReceive(inv,element);
+  //     });
+  //   }
+  //   this.chantier.factures = this.chantier.factures.filter(a => a.factureId !== inv.factureId);
+  //   if(this.indexFind>=0)
+  //   {
+  //    // this.chantierList.splice(this.indexFind,1);
+  //     this.chantierList[this.indexFind] = this.chantier;
+  //   }else this.chantierList.push(this.chantier);
+  //   this.storageService.set('Chantiers',this.chantierList);
+
+  //   this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
+  }
+
+
+  createDevis()
+  {
+    console.log('Bouton nv facture (creation)');
+    this.router.navigate(['invoice',{chantierId: 'null', type: 'devis', mode:'false'}]);
+  }
+  scanDevis()
+  {
+    console.log('Bouton nv facture (scan)');
+    this.router.navigate(['invoice',{chantierId: 'null', type: 'devis', mode:'true'}]);
+  }
+  openDevis(inv : Facture)
+  {
+  //   console.log('Bouton open facture',inv.factureId);
+  //   this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: this.chantierId}]);
+  }
+  async deleteDevis(inv:Facture){
+  //   let res : string =null;
+  //   await this.modal.open('delDev',inv.factureName)
+  //   .then(result => result.result
+  //     .then((data) => {
+  //       res='OK';
+  //     }, (reason) => {
+  //     res='DISMISS' }
+  //     ));
+
+  //   if(res==='DISMISS')
+  //       return ;
+  //   this.chantier.devis = this.chantier.devis.filter(a => a.factureId !== inv.factureId);
+  //   if(this.indexFind>=0)
+  //   {
+  //    // this.chantierList.splice(this.indexFind,1);
+  //     this.chantierList[this.indexFind] = this.chantier;
+  //   }else this.chantierList.push(this.chantier);
+  //   this.storageService.set('Chantiers',this.chantierList);
+
+  //   this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
+
+  }
+
+  TransformToInvoice(d : Facture)
+  {
+  //   const index=this.chantier.devis.findIndex(a => a.factureId === d.factureId);
+  //   this.generateUUID();
+  //   d.factureId= this.uuidValue;
+  //   this.chantier.factures.push(d);
+  //   // this.chantier.devis.splice(index,1); s'il faut supprimer
+  //   this.chantierList[this.chantierList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.chantier;
+  //   this.storageService.set('Chantiers',this.chantierList);
+  }
+  applyFilterFacture(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSourceF.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceF.paginator) {
+      this.dataSourceF.paginator.firstPage();
+    }
+  }
+  announceSortChangeFacture(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
   }
 }

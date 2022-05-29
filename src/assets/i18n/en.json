@@ -142,5 +142,6 @@
     "transformToInv" : "Convert to invoice",
     "genPDF" : "Generate a PDF",
 
-    "editInv" : "Edit invoice"
+    "editInv" : "Edit invoice",
+    "assign" : "Assign"
     }

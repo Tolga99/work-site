@@ -92,7 +92,7 @@
   </mat-form-field>
 
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSourceFacture" matSort (matSortChange)="announceSortChangeFacture($event)">
+    <table mat-table [dataSource]="dataSourceF" matSort (matSortChange)="announceSortChangeFacture($event)">
       <ng-container matColumnDef="factureName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> {{'invoiceName' | translate}}
         </th>
@@ -120,10 +120,14 @@
               <mat-icon>edit</mat-icon>
               <span>{{'editInv' | translate}}</span>
             </button>
-            <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
+            <button mat-menu-item type="button" (click)="assignInvoice(row)">
+              <mat-icon></mat-icon>
+              <span>{{'assign' | translate}}</span>
+            </button>
+            <!-- <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
               <mat-icon>picture_as_pdf</mat-icon>
               <span>{{'genPDF' | translate}}</span>
-            </button>
+            </button> -->
             <button mat-menu-item type="button" (click)="deleteInvoice(row)">
               <mat-icon>delete</mat-icon>
               <span>{{'delete' | translate}}</span>
@@ -151,8 +155,8 @@
     <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()">{{'createInvoice' | translate}}</button>
   </div>
   <div class="card-footer text-muted">
-    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanInvoice()">{{'scanEstimate' | translate}}</button>
-    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()">{{'createEstimate' | translate}}</button>
+    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()">{{'scanEstimate' | translate}}</button>
+    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()">{{'createEstimate' | translate}}</button>
   </div>
 </div>
 

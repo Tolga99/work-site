@@ -55,6 +55,11 @@ export class CreateWorksite implements OnInit {
       // this.formWork.get('client').setValue(this.clientList.find(a => a.userId === this.userId).userId);
      // this.formWork.patchValue({client : this.clientList.find(a => a.userId === this.userId).lastName.toUpperCase()});
     }
+    this.formWork.get('client').valueChanges.subscribe((value: User) => {
+      console.log('selected',value);
+      this.formWork.get('address').setValue(this.clientList.find(a => a.userId === value.userId).address.toString());
+      console.log(this.formWork.get('address'));
+    });
   }
 
   async CreateWorksite() {
@@ -82,7 +87,8 @@ export class CreateWorksite implements OnInit {
         ));
         return;
     }
-    this.client = this.clientList.find(x => x.userId === this.formWork.get('client').value);
+    console.log(this.formWork.get('client').value);
+    this.client = this.clientList.find(x => x.userId === this.formWork.get('client').value.userId);
     this.storageService.init();
     this.newWorksite = new Chantier(
       this.generateUUID(),
@@ -125,11 +131,6 @@ export class CreateWorksite implements OnInit {
   {
       this.uuidValue=UUID.UUID();
       return this.uuidValue;
-  }
-  selectClient(event: Event) {
-    const s = (event.target as HTMLSelectElement).value;
-    this.formWork.get('address').setValue(this.clientList.find(a => a.userId === s).address.toString());
-    console.log(this.formWork.get('address'));
   }
   GoBack()
   {

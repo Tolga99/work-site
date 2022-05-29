@@ -17,13 +17,11 @@
     <ion-item>
       <ion-label>{{'client' | translate}}</ion-label>
       <ionic-selectable
-        [(ngModel)]="selectedClient"
         [items]="clientList"
         itemValueField="userId"
         itemTextField="lastName"
         [canSearch]="true"
-        formControlName="client"
-        (ionChange)="selectClient($event)">
+        formControlName="client">
       </ionic-selectable>
     </ion-item>
 

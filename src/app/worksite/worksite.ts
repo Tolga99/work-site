@@ -117,7 +117,6 @@ export class Worksite implements OnInit {
               private router: Router, 
               private route: ActivatedRoute,
               private _liveAnnouncer: LiveAnnouncer,
-              private file: File, 
               private toastController: ToastController,
               private localNotifications : LocalNotifications)
   {
@@ -163,18 +162,11 @@ export class Worksite implements OnInit {
       this.dataSourceHeure.paginator = this.paginatorHeure;
       this.dataSourceHeure.sort = this.sortHeure;
       this.CalculTotalHour();
+      
       this.dataSourceFacture._filterData(this.dataSourceFacture.data);
-        this.dataSourceFacture.paginator.nextPage();
-
-        // this.dataSourceDevis._filterData(this.dataSourceDevis.data);
-        // this.dataSourceDevis.paginator.nextPage();
-
-        // this.dataSourceHeure._filterData(this.dataSourceHeure.data);
-        // this.dataSourceHeure.paginator.nextPage();
-        console.log('current tab : ',this.TabView);
-        this.dataSourceHeure.paginator.firstPage();
-
-
+      this.dataSourceFacture.paginator.nextPage();
+      console.log('current tab : ',this.TabView);
+      this.dataSourceHeure.paginator.firstPage();
     }
   }
 

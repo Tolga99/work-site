@@ -76,7 +76,7 @@ export class Invoice implements OnInit {
     this.type = this.route.snapshot.paramMap.get('type'); // devis ou facture
 
     const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
-    if(this.chantierId!=null)
+    if(this.chantierId!=null && this.chantierId !== 'null')
     {
       if(this.type === 'facture')
         this.invList = chantierl.find(a => a.chantierId === this.chantierId).factures;
@@ -350,19 +350,31 @@ export class Invoice implements OnInit {
       else this.invList.push(this.inv);
     }
     console.log('list apres : ', this.invList);
-
-    const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
-    const chantier = chantierl.find(a => a.chantierId === this.chantierId);
-    const chantierIndex = chantierl.findIndex(a => a.chantierId === this.chantierId);
-
-    if(this.type === 'facture')
-      chantier.factures= this.invList;
-    else chantier.devis = this.invList;
-    chantierl[chantierIndex] = chantier;
-    this.storageService.set('Chantiers',chantierl);
     this.storageService.set('MyInvoiceSettings',this.invSettings);
+    if(this.chantierId !== 'null')
+    {
+      const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
+      const chantier = chantierl.find(a => a.chantierId === this.chantierId);
+      const chantierIndex = chantierl.findIndex(a => a.chantierId === this.chantierId); 
+      if(this.type === 'facture')
+        chantier.factures= this.invList;
+      else chantier.devis = this.invList;
+  
+      chantierl[chantierIndex] = chantier;
+      this.storageService.set('Chantiers',chantierl);
+      this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+    }else
+    {
+      let invs : Array<Facture> = await this.storageService.get('NAfactures');
+      if(invs === null)
+      {
+        invs = new Array<Facture>();
+      }
+      invs.push(this.inv);
+      this.storageService.set('NAfactures',invs);
+      this.router.navigate(['/tb-home'],{replaceUrl:true});
+    }
     console.log('invoice saved', this.invList);
-    this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }
   generateUUID()
   {
