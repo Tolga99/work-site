@@ -12,6 +12,7 @@ import { NumericValueAccessor } from '@ionic/angular';
 import { ShoppingCart } from '../models/shoppingCart';
 import { InvoiceSettings } from '../models/Settings/invoiceSettings';
 import { stringify } from 'querystring';
+import { throws } from 'assert';
 
 @Component({
   selector: 'app-invoice',
@@ -54,7 +55,7 @@ export class Invoice implements OnInit {
 
   async ionViewDidEnter(){
     const tmpMode : string=this.route.snapshot.paramMap.get('mode');
-
+    console.log('ionViewDidEnter');
     if(tmpMode === 'false') // creation
     {
       this.ScanMode=false; // creation
@@ -62,6 +63,24 @@ export class Invoice implements OnInit {
     {
       this.ScanMode=true;
     }
+    this.storageService.init();
+
+    const factureName : string=this.route.snapshot.paramMap.get('factureName');
+    const description : string=this.route.snapshot.paramMap.get('description');
+    const tva : string=this.route.snapshot.paramMap.get('tva');
+    const typePay : string=this.route.snapshot.paramMap.get('typePay');
+    const remise : string=this.route.snapshot.paramMap.get('remise');
+
+    if(factureName !== null && factureName !== '')
+      this.formInv.get('factureName').setValue(factureName);
+    if(description !== null && description !== '')
+      this.formInv.get('description').setValue(description);
+    if(tva !== null && tva !== '')
+      this.formInv.get('tva').setValue(tva);
+    if(typePay !== null && typePay !== '')
+      this.formInv.get('typePay').setValue(typePay);
+    if(remise !== null && remise !== '')
+      this.formInv.get('remise').setValue(remise);
   }
   async ngOnInit() {
 
@@ -76,6 +95,7 @@ export class Invoice implements OnInit {
     this.type = this.route.snapshot.paramMap.get('type'); // devis ou facture
 
     const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
+    
     if(this.chantierId!=null && this.chantierId !== 'null')
     {
       if(this.type === 'facture')
@@ -192,10 +212,11 @@ export class Invoice implements OnInit {
 
   GoShopping()
   {
-
     // this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
-    this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
-
+    this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId,
+      factureName : this.formInv.get('factureName').value, remise : this.formInv.get('remise').value,
+      tva : this.formInv.get('tva').value, description : this.formInv.get('description').value,
+      typePay : this.formInv.get('typePay').value}]);
   }
   async CreateWorksite() {
 

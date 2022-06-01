@@ -7,6 +7,7 @@ import { Chantier } from '../models/chantier';
 import { User } from '../models/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-createworksite',
@@ -35,8 +36,8 @@ export class CreateWorksite implements OnInit {
   }
   async ionViewDidEnter(){
     console.log('view did enter');
-    //this.storageService.init();
-    //this.clientList = await this.storageService.get('Contacts');
+    this.storageService.init();
+    this.clientList = await this.storageService.get('Contacts');
 
   }
   async ngOnInit() {
@@ -51,9 +52,6 @@ export class CreateWorksite implements OnInit {
     if(this.userId !== null)
     {
       this.formWork.get('client').setValue(this.clientList.find(a => a.userId === this.userId).userId);
-      // this.formWork.get('client').setValue(this.clientList.find(a => a.userId === this.userId));
-      // this.formWork.get('client').setValue(this.clientList.find(a => a.userId === this.userId).userId);
-     // this.formWork.patchValue({client : this.clientList.find(a => a.userId === this.userId).lastName.toUpperCase()});
     }
     this.formWork.get('client').valueChanges.subscribe((value: User) => {
       console.log('selected',value);
@@ -125,7 +123,7 @@ export class CreateWorksite implements OnInit {
   NewClient()
   {
     console.log('create client');
-    this.router.navigate(['new-contact',{tag: 'chantier'}],{replaceUrl:true});
+    this.router.navigate(['new-contact',{tag: 'chantier'}]);
   }
   generateUUID()
   {

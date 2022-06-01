@@ -308,6 +308,7 @@ import { StorageService } from '../services/storage.service';
               <p><strong><span class="text-primary">FEBRUARY 2022</span></strong></p>
               <p><strong>WorkSite - <span class="text-primary">Version 1.0</span></strong></p>
               <p><strong><span class="text-primary">Copyright All Rights Reserved</span></strong></p>
+              <p><strong>Contact : <span class="text-primary">Ovalit19@gmail.com</span></strong></p>
 
               <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
               <!-- <span class="text-danger">This operation can not be undone.</span> -->

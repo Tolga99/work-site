@@ -28,6 +28,12 @@ export class Shop implements OnInit {
   chantierId : string;
   type : string;
 
+  invName : string;
+  invRemise : string;
+  invTypePay : string;
+  invTva : string;
+  invDescription : string;
+
   formArt = new FormGroup({
     productName: new FormControl('',Validators.required),
     description: new FormControl(''),
@@ -48,9 +54,6 @@ export class Shop implements OnInit {
   }
 
   async ngOnInit() {
-    if(this.panierList == null)
-      this.panierList = new Array<ShoppingCart>();
-
     this.storageService.init();
     this.artList = await this.storageService.get('Articles');
     this.catList = await this.storageService.get('Categories');
@@ -58,6 +61,21 @@ export class Shop implements OnInit {
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
     this.invoiceId = this.route.snapshot.paramMap.get('invoiceId');
     this.type = this.route.snapshot.paramMap.get('type');
+
+    this.invName = this.route.snapshot.paramMap.get('factureName');
+    this.invTva = this.route.snapshot.paramMap.get('tva');
+    this.invTypePay = this.route.snapshot.paramMap.get('typePay');
+    this.invRemise = this.route.snapshot.paramMap.get('remise');
+    this.invDescription = this.route.snapshot.paramMap.get('description');
+
+    if(this.chantierId != null && this.invoiceId != null)
+    {
+      let chantierList : Chantier[] = await this.storageService.get('Chantiers');
+      if(chantierList?.find(a => a.chantierId === this.chantierId).factures?.find(b => b.factureId === this.invoiceId)?.cart != null)
+        this.panierList = chantierList.find(a => a.chantierId === this.chantierId).factures.find(b => b.factureId === this.invoiceId).cart;
+    }
+    if(this.panierList == null)
+    this.panierList = new Array<ShoppingCart>();
 
     if(this.catList!=null)
       this.catList = this.catList.filter(a => a.categoryParent == null);
@@ -180,13 +198,19 @@ export class Shop implements OnInit {
     chantierl[chantierIndex] = chantier;
     this.storageService.set('Chantiers',chantierl);
     this.router.navigate(['/invoice',
-                        {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false'}],
+                        {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
+                        ,factureName : this.invName, remise : this.invRemise,
+                        tva : this.invTva, description : this.invDescription,
+                        typePay : this.invTypePay}],
                         {replaceUrl:true});
   }
   GoBack()
   {
     this.router.navigate(['invoice',
-                        {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false'}],
+                        {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
+                        ,factureName : this.invName, remise : this.invRemise,
+                        tva : this.invTva, description : this.invDescription,
+                        typePay : this.invTypePay}],
                         {replaceUrl:true});
   }
   async AddFastProduct()
