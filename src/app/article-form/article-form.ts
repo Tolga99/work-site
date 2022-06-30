@@ -1,5 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -32,11 +32,11 @@ export class ArticleForm implements OnInit, OnDestroy{
   artList : Array<Product> = [];
   catList : Array<Category> = [];
 
-  formArt = new FormGroup({
-    productName: new FormControl('',Validators.required),
-    description: new FormControl(''),
-    category: new FormControl(''),
-    priceHtva: new FormControl('', [Validators.required]),
+  formArt = new UntypedFormGroup({
+    productName: new UntypedFormControl('',Validators.required),
+    description: new UntypedFormControl(''),
+    category: new UntypedFormControl(''),
+    priceHtva: new UntypedFormControl('', [Validators.required]),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router

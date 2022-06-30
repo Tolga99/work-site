@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { StorageService } from '../services/storage.service';
 import { UUID } from 'angular2-uuid';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,14 +39,14 @@ export class Invoice implements OnInit {
   // productsList : Array<Product>= [];
   headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
   panierList : Array<ShoppingCart> = [];
-  formInv = new FormGroup({
-    factureName: new FormControl('',Validators.required),
-    description: new FormControl(''),
-    typePay: new FormControl('', [Validators.required]),
-    priceHtva: new FormControl({value:'0',disabled:true}),
-    tva: new FormControl('0',),
-    remise: new FormControl('0',),
-    totalPrice : new FormControl('0',),
+  formInv = new UntypedFormGroup({
+    factureName: new UntypedFormControl('',Validators.required),
+    description: new UntypedFormControl(''),
+    typePay: new UntypedFormControl('', [Validators.required]),
+    priceHtva: new UntypedFormControl({value:'0',disabled:true}),
+    tva: new UntypedFormControl('0',),
+    remise: new UntypedFormControl('0',),
+    totalPrice : new UntypedFormControl('0',),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)

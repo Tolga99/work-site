@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -17,9 +17,9 @@ import { StorageService } from '../services/storage.service';
 export class Hours implements OnInit {
 
   public dateHour;
-  formHour = new FormGroup({
-    date: new FormControl('',Validators.required),
-    description: new FormControl(''),
+  formHour = new UntypedFormGroup({
+    date: new UntypedFormControl('',Validators.required),
+    description: new UntypedFormControl(''),
   });
   hour : Hour;
   date : string;

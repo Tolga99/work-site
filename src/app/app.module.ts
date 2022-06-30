@@ -36,41 +36,39 @@ import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [BrowserModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    IonicSelectableModule,
-    FontAwesomeModule,
-    NgbModule,
-            TranslateModule.forRoot({
-              loader: {
+    declarations: [AppComponent],
+    imports: [BrowserModule,
+        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireAuthModule,
+        AngularFirestoreModule,
+        AngularFireStorageModule,
+        AngularFireDatabaseModule,
+        IonicSelectableModule,
+        FontAwesomeModule,
+        NgbModule,
+        TranslateModule.forRoot({
+            loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient],
-              },
-              defaultLanguage:'fr',
-            }),
-            IonicModule.forRoot(), 
-            BrowserAnimationsModule, 
-            AppRoutingModule,HttpClientModule,
-            IonicStorageModule.forRoot(), CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory
-    }), ServiceWorkerModule.register('ngsw-worker.js', {
-  enabled: environment.production,
-  // Register the ServiceWorker as soon as the application is stable
-  // or after 30 seconds (whichever comes first).
-  registrationStrategy: 'registerWhenStable:30000'
-})],
-  providers: [ImagePicker,Camera,AppRate,AppVersion,HttpClientModule,
-              { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File,LocalNotifications,PhotoService,AuthService],
-  bootstrap: [AppComponent],
-
+            },
+            defaultLanguage: 'fr',
+        }),
+        IonicModule.forRoot(),
+        BrowserAnimationsModule,
+        AppRoutingModule, HttpClientModule,
+        IonicStorageModule.forRoot(), CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory
+        }), ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000'
+        })],
+    providers: [ImagePicker, Camera, AppRate, AppVersion, HttpClientModule,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService, File, LocalNotifications, PhotoService, AuthService],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

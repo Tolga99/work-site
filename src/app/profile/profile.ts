@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
@@ -14,15 +14,15 @@ import { StorageService } from '../services/storage.service';
 export class Profile implements OnInit{
   public myAccount: User;
   public bgImage = '/src/assets/worksiteBackground.png';
-  formProfile = new FormGroup({
-    firstName: new FormControl('',Validators.required),
-    lastName: new FormControl('', Validators.required),
-    address: new FormControl(''),
-    phone: new FormControl(''),
-    mail: new FormControl(''),
-    tva: new FormControl(''),
-    iban: new FormControl(''),
-    bic: new FormControl(''),
+  formProfile = new UntypedFormGroup({
+    firstName: new UntypedFormControl('',Validators.required),
+    lastName: new UntypedFormControl('', Validators.required),
+    address: new UntypedFormControl(''),
+    phone: new UntypedFormControl(''),
+    mail: new UntypedFormControl(''),
+    tva: new UntypedFormControl(''),
+    iban: new UntypedFormControl(''),
+    bic: new UntypedFormControl(''),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router) {

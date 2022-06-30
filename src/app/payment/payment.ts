@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
@@ -21,10 +21,10 @@ export class Payment implements OnInit {
   chantierId : string;
   public selectedInv : Facture;
   ReceivedMoney : number;
-  formPay = new FormGroup({
-   chantierName: new FormControl(''),
-   payment: new FormControl('', [Validators.required]),
-   address : new FormControl(''),
+  formPay = new UntypedFormGroup({
+   chantierName: new UntypedFormControl(''),
+   payment: new UntypedFormControl('', [Validators.required]),
+   address : new UntypedFormControl(''),
  });
 
   headElementsInv = ['Nom facture', 'Total','Reste à payer','Date'];

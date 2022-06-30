@@ -1,5 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -26,10 +26,10 @@ export class CategoryForm implements OnInit,OnDestroy {
   parentCat : Category;
   // indexFind: number;
   catList : Array<Category> = [];
-  formCat = new FormGroup({
-    categoryName: new FormControl('',Validators.required),
-    description: new FormControl(''),
-    categoryPar: new FormControl(''),
+  formCat = new UntypedFormGroup({
+    categoryName: new UntypedFormControl('',Validators.required),
+    description: new UntypedFormControl(''),
+    categoryPar: new UntypedFormControl(''),
   });
   selectedCat : string;
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { StorageService } from '../services/storage.service';
 import { UUID } from 'angular2-uuid';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,11 +23,11 @@ export class CreateWorksite implements OnInit {
   clientList : Array<User> = [];
   date : string;
   userId : string;
-  formWork = new FormGroup({
-    worksiteName: new FormControl('',Validators.required),
-    client: new FormControl('', Validators.required),
-    description: new FormControl(''),
-    address : new FormControl(''),
+  formWork = new UntypedFormGroup({
+    worksiteName: new UntypedFormControl('',Validators.required),
+    client: new UntypedFormControl('', Validators.required),
+    description: new UntypedFormControl(''),
+    address : new UntypedFormControl(''),
   });
 
   public modal = new NgbdModalFocus(this.modalS);

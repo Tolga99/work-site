@@ -68,9 +68,8 @@ export class Client implements OnInit{
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '55%',
-          endingShape: 'rounded'
-        }
+          columnWidth: '55%'
+            }
       },
       dataLabels: {
         enabled: false

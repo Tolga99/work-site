@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 import { element } from 'protractor';
@@ -41,11 +41,11 @@ export class Worksite implements OnInit {
   // hoursList : Array<Hour>;
   chantierList: Array<Chantier>;
 
-  formChantier = new FormGroup({
-   chantierName: new FormControl('', [Validators.required]),
+  formChantier = new UntypedFormGroup({
+   chantierName: new UntypedFormControl('', [Validators.required]),
    // imgChantier: new FormControl('', [Validators.required]),
-   description: new FormControl(''),
-   address : new FormControl(''),
+   description: new UntypedFormControl(''),
+   address : new UntypedFormControl(''),
  });
 
   headElementsInv = ['factureName', 'totalPrice','date','IsPaid','...'];

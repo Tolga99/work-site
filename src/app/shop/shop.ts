@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
@@ -34,10 +34,10 @@ export class Shop implements OnInit {
   invTva : string;
   invDescription : string;
 
-  formArt = new FormGroup({
-    productName: new FormControl('',Validators.required),
-    description: new FormControl(''),
-    priceHtva: new FormControl('', [Validators.required]),
+  formArt = new UntypedFormGroup({
+    productName: new UntypedFormControl('',Validators.required),
+    description: new UntypedFormControl(''),
+    priceHtva: new UntypedFormControl('', [Validators.required]),
   });
 
   public modal = new NgbdModalFocus(this.modalS);

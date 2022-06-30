@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isThisSecond } from 'date-fns';
@@ -15,13 +15,13 @@ import { StorageService } from '../services/storage.service';
 export class Settings implements OnInit{
   ext = '';
   extTypes = ['Numéro (Ex: 34)', 'Date (Ex: JJ/MM/AAAA)','Numéro-Date','Date-Numero'];
-  formInvoice = new FormGroup({
-    factureName: new FormControl('',Validators.required),
-    exts: new FormControl('',Validators.required),
-    extType: new FormControl(''),
-    extNum: new FormControl(''),
-    positionAvant: new FormControl(''),
-    positionApres: new FormControl(''),
+  formInvoice = new UntypedFormGroup({
+    factureName: new UntypedFormControl('',Validators.required),
+    exts: new UntypedFormControl('',Validators.required),
+    extType: new UntypedFormControl(''),
+    extNum: new UntypedFormControl(''),
+    positionAvant: new UntypedFormControl(''),
+    positionApres: new UntypedFormControl(''),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router) {
