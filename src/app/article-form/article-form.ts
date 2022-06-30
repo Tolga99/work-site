@@ -9,6 +9,7 @@ import { Category } from '../models/category';
 import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
 import { PhotoService } from '../services/photo.service';
+import { Camera,CameraOptions  } from '@awesome-cordova-plugins/camera/ngx';
 
 @Component({
   selector: 'app-article-form',
@@ -23,7 +24,7 @@ export class ArticleForm implements OnInit, OnDestroy{
   // chantierId: string;
   artId: string;
   actualCat: string;
-
+  currentImage: any;
   art : Product;
   // indexFind: number;
   modif : string;
@@ -39,7 +40,8 @@ export class ArticleForm implements OnInit, OnDestroy{
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router
-    , private route: ActivatedRoute, public photoService : PhotoService)
+    , private route: ActivatedRoute, public photoService : PhotoService
+    , private camera : Camera)
   {
   }
 
@@ -172,11 +174,36 @@ export class ArticleForm implements OnInit, OnDestroy{
   selectCategory(event: Event) {
     this.actualCat = (event.target as HTMLSelectElement).value;
   }
-  GoBack()
+  async GoBack()
   {
+    let res : string =null;
+    await this.modal.open('exitPage','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS'; }
+      ));
+    if(res === 'DISMISS')
+        return;
     this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
   }
   addPhotoToGallery() {
     this.photoService.addNewToGallery();
+  }
+  takePicture() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.currentImage = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      // Handle error
+      console.log("Camera issue:" + err);
+    });
   }
 }

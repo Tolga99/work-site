@@ -13,7 +13,7 @@ import { StorageService } from '../services/storage.service';
 })
 export class Profile implements OnInit{
   public myAccount: User;
-
+  public bgImage = '/src/assets/worksiteBackground.png';
   formProfile = new FormGroup({
     firstName: new FormControl('',Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -105,11 +105,21 @@ export class Profile implements OnInit{
 
     this.storageService.setProfile(this.myAccount);
     console.log('Profil actualisé, redirection...');
-    this.router.navigate(['/tb-settings']);
+    this.router.navigate(['/tb-home']);
 
   }
-  GoBack()
+  async GoBack()
   {
-    this.router.navigate(['tb-settings'],{replaceUrl:true});
+    let res : string =null;
+    await this.modal.open('exitPage','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS'; }
+      ));
+    if(res === 'DISMISS')
+        return;
+    this.router.navigate(['tb-home'],{replaceUrl:true});
   }
 }

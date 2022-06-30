@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar>
+    <ion-title class="ion-text-center">{{'invoices' | translate}}</ion-title>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-header>
-<div class="container" style="overflow-y: auto;">
+<div class="container" style="overflow-y: auto; background-color: white;">
   <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
 
     <ion-item class="form-group" required="required">
@@ -14,7 +14,7 @@
       <ion-label position="floating" [hidden]="type=='facture'">{{'estimateName' | translate}}</ion-label>
 
       <ion-input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="..."
-        required="required"></ion-input>
+        required="required" maxlength="50"></ion-input>
     </ion-item>
 
     <div class="form-group" required="required">
@@ -81,33 +81,33 @@
     <ion-item class="form-group" required="required" [hidden]="ScanMode">
       <ion-label position="floating">{{'htvaPrice' | translate}}</ion-label>
       <ion-input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="124.5"
-      required="required"></ion-input>
+      required="required" maxlength="12"></ion-input>
     </ion-item>
 
     <ion-item class="form-group" required="required" [hidden]="ScanMode">
       <ion-label position="floating">{{'tva' | translate}}</ion-label>
       <ion-input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="21.6"
-      required="required"></ion-input>
+      required="required" maxlength="4"></ion-input>
     </ion-item>
 
 
     <ion-item class="form-group" required="required" [hidden]="ScanMode">
       <ion-label position="floating">{{'discount' | translate}}</ion-label>
       <ion-input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="10"
-      required="required"></ion-input>
+      required="required" maxlength="4"></ion-input>
     </ion-item>
 
     <ion-item class="form-group" required="required" [hidden]="!ScanMode">
       <ion-label position="floating">{{'priceToPay' | translate}}</ion-label>
       <ion-input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice"
-      required="required" placeholder="125.35"></ion-input>
+      required="required" placeholder="125.35" maxlength="12"></ion-input>
     </ion-item>
 
     <hr>
     <ion-item>
       <ion-label position="floating">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
-        style="height:100px;"></ion-textarea>
+        style="height:100px;" maxlength="50"></ion-textarea>
     </ion-item>
 
     <div [hidden]="type=='devis'">

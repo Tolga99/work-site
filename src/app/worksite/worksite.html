@@ -1,17 +1,19 @@
 <ion-content style="justify-content: start;">
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-header>
   <ion-toolbar>
     <ion-tabs>
       <ion-tab-bar slot="top">
+        <ion-tab-button (click)="GoBack()" style="color: orange;">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-tab-button>
         <ion-tab-button (click)="SetTabView('general')">
           <ion-icon name="information-circle"></ion-icon>
           <ion-label>{{'general' | translate}}</ion-label>
@@ -37,34 +39,33 @@
   </ion-toolbar>
 </ion-header>
 
-
-<div style="overflow-y: auto; justify-content: start;">
+<div style="overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
-    <div [hidden]="(TabView !== 'general')" class="jumbotron text-center">
-      <div class="card-header">
+    <div [hidden]="(TabView !== 'general')" class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
+      <div class="card-header tabHeader">
         {{'infos' | translate}}
       </div>
       <ion-item class="form-group" required="required">
         <ion-label position="floating">{{'nameWorksite' | translate}}</ion-label>
         <ion-input type="text" id="name" name="name" formControlName="chantierName" placeholder="..."
-          required="required"></ion-input>
+          required="required" maxlength="50"></ion-input>
       </ion-item>
 
       <ion-item class="form-group" required="required">
         <ion-label position="floating">{{'worksiteAddress' | translate}}</ion-label>
-        <ion-input type="text" id="address" name="address" formControlName="address" placeholder="..."></ion-input>
+        <ion-input type="text" id="address" name="address" formControlName="address" placeholder="..." maxlength="50"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">{{'description' | translate}}</ion-label>
-        <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
+        <ion-textarea id="description" name="description" formControlName="description" placeholder="..." maxlength="50"
           style="height:100px;"></ion-textarea>
       </ion-item>
       <hr>
     </div>
     <div [hidden]="(TabView !== 'achats')">
-      <div class="jumbotron text-center">
-        <div class="card-header">
+      <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
+        <div class="card-header tabHeader">
           {{'invoices' | translate}}
         </div>
 
@@ -102,19 +103,19 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
               <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
                 <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-                  <mat-icon>more_horiz</mat-icon>
+                   <ion-icon name="list"></ion-icon>
                 </button>
                 <mat-menu #menu="matMenu">
                   <button mat-menu-item type="button" (click)="openInvoice(row)">
-                    <mat-icon>edit</mat-icon>
+                    <ion-icon name="create"></ion-icon>
                     <span>{{'editInv' | translate}}</span>
                   </button>
                   <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
-                    <mat-icon>picture_as_pdf</mat-icon>
+                    <ion-icon name="print"></ion-icon>
                     <span>{{'genPDF' | translate}}</span>
                   </button>
                   <button mat-menu-item type="button" (click)="deleteInvoice(row)">
-                    <mat-icon>delete</mat-icon>
+                    <ion-icon name="trash"></ion-icon>
                     <span>{{'delete' | translate}}</span>
                   </button>
                 </mat-menu>
@@ -127,7 +128,7 @@
 
             <!-- Row shown when there is no matching data. -->
             <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">No data matching the Recherche "{{input.value}}"</td>
+              <td class="mat-cell" colspan="4">{{'noData' | translate}} "{{input.value}}"</td>
             </tr>
 
           </table>
@@ -135,15 +136,17 @@
           <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
             aria-label="Select page of dataSourceFacture"></mat-paginator>
         </div>
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted" style="text-align:center; display: flex;
+        justify-content: space-evenly;
+        align-items: center;">
           <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanInvoice()">{{'scanInvoice' | translate}}</button>
           <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()">{{'createInvoice' | translate}}</button>
         </div>
       </div>
 
       <hr>
-      <div class="jumbotron text-center">
-        <div class="card-header">
+      <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
+        <div class="card-header tabHeader">
           {{'estimate' | translate}}
         </div>
 
@@ -180,23 +183,23 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
               <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
                 <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-                  <mat-icon>more_horiz</mat-icon>
+                   <ion-icon name="list"></ion-icon>
                 </button>
                 <mat-menu #menu="matMenu">
                   <button mat-menu-item type="button" (click)="openDevis(row)">
-                    <mat-icon>edit</mat-icon>
+                    <ion-icon name="create"></ion-icon>
                     <span>{{'editEstimate' | translate}}</span>
                   </button>
                   <button mat-menu-item (click)="TransformToInvoice(row)" type="button">
-                    <mat-icon>edit</mat-icon>
+                    <ion-icon name="create"></ion-icon>
                     <span>{{'transformToInv' | translate}}</span>
                   </button>
                   <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
-                    <mat-icon>picture_as_pdf</mat-icon>
+                    <ion-icon name="print"></ion-icon>
                     <span>{{'genPDF' | translate}}</span>
                   </button>
                   <button mat-menu-item type="button" (click)="deleteDevis(row)">
-                    <mat-icon>delete</mat-icon>
+                    <ion-icon name="trash"></ion-icon>
                     <span>{{'delete' | translate}}</span>
                   </button>
                 </mat-menu>
@@ -209,7 +212,7 @@
 
             <!-- Row shown when there is no matching data. -->
             <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">No data matching the Recherche "{{input.value}}"</td>
+              <td class="mat-cell" colspan="4">{{'noData' | translate}} "{{input.value}}"</td>
             </tr>
 
           </table>
@@ -217,13 +220,15 @@
           <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of dataSourceDevis">
           </mat-paginator>
         </div>
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted" style="text-align:center; display: flex;
+        justify-content: space-evenly;
+        align-items: center;">
           <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()">{{'scanEstimate' | translate}}</button>
           <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()">{{'createEstimate' | translate}}</button>
         </div>
       </div>
-      <div class="jumbotron text-center">
-        <div class="card-header">
+      <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
+        <div class="card-header tabHeader">
           {{'receivedMoney' | translate}}
         </div>
         <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" id="managerTable">
@@ -243,15 +248,15 @@
                 <td>{{p.date}}</td>
                 <td (click)="$event.stopPropagation()">
                   <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-                    <mat-icon>more_horiz</mat-icon>
+                     <ion-icon name="list"></ion-icon>
                   </button>
                   <mat-menu #menu="matMenu">
                     <button mat-menu-item type="button">
-                      <mat-icon>edit</mat-icon>
+                      <ion-icon name="create"></ion-icon>
                       <span>{{'edit' | translate}}</span>
                     </button>
                     <button mat-menu-item type="button" (click)="DeleteReceive(inv,p)">
-                      <mat-icon>delete</mat-icon>
+                      <ion-icon name="trash"></ion-icon>
                       <span>{{'delete' | translate}}</span>
                     </button>
                   </mat-menu>
@@ -263,7 +268,7 @@
           <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="AddPayment()">{{'addPayment' | translate}}</button>
         </div>
       </div>
-      <div class="jumbotron text-center">
+      <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
         <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
           <table class="table table-bordered table-striped mb-0">
             <thead>
@@ -287,8 +292,8 @@
     </div>
 
     <div [hidden]="(TabView !== 'travail')">
-      <div class="jumbotron text-center">
-        <div class="card-header">
+      <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
+        <div class="card-header tabHeader">
           {{'hoursWorked' | translate}}
         </div>
 
@@ -322,15 +327,15 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
               <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
                 <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-                  <mat-icon>more_horiz</mat-icon>
+                   <ion-icon name="list"></ion-icon>
                 </button>
                 <mat-menu #menu="matMenu" (click)="$event.stopPropagation()">
                   <button mat-menu-item type="button" (click)="openHour(row)">
-                    <mat-icon>edit</mat-icon>
+                    <ion-icon name="create"></ion-icon>
                     <span>{{'edit' | translate}}</span>
                   </button>
                   <button mat-menu-item (click)="deleteHour(row)" type="button">
-                    <mat-icon>delete</mat-icon>
+                    <ion-icon name="trash"></ion-icon>
                     <span>{{'delete' | translate}}</span>
                   </button>
                 </mat-menu>
@@ -343,7 +348,7 @@
 
             <!-- Row shown when there is no matching data. -->
             <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">No data matching the Recherche "{{input.value}}"</td>
+              <td class="mat-cell" colspan="4">{{'noData' | translate}} "{{input.value}}"</td>
             </tr>
 
           </table>
@@ -362,8 +367,8 @@
     </div>
 
     <div [hidden]="(TabView !== 'images')">
-      <div class="jumbotron text-center">
-        <div class="card-header">
+      <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
+        <div class="card-header tabHeader">
           {{'worksitePictures' | translate}}
         </div>
         <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
@@ -389,8 +394,10 @@
       </div>
     </div>
   <div class="card-footer text-muted">
-    <button type="submit" class="btn btn-success">{{'updateWorksite' | translate}}</button>
-    <button type="submit" class="btn btn-danger" (click)="FinishChantier()">{{'finishWorksite' | translate}}</button>
+    <ion-buttons style="padding: 10px; margin: 5px;">
+    <ion-button type="submit" class="btn btn-success" style="width:88%;">{{'updateWorksite' | translate}}</ion-button>
+    <ion-button type="submit" class="btn btn-danger" (click)="FinishChantier()" style="width: 88%;">{{'finishWorksite' | translate}}</ion-button>
+  </ion-buttons>
   </div>
   </form>
 </div>

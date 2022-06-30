@@ -20,10 +20,10 @@ export class Shop implements OnInit {
   headElementsArt = ['Nom article', 'Description','Prix Unitaire',''];
   headElementsArtCart = ['Nom article', 'Description','Prix Unitaire','Quantité','Prix total',''];
   artList : Array<Product> = [];
-  panierList : Array<ShoppingCart> = null;
+  panierList : Array<ShoppingCart> = [];
   catList : Array<Category> = [];
   actualCat : Category = null;
-
+  openCatAccordion = '';
   invoiceId : string;
   chantierId : string;
   type : string;
@@ -79,7 +79,8 @@ export class Shop implements OnInit {
 
     if(this.catList!=null)
       this.catList = this.catList.filter(a => a.categoryParent == null);
-  }
+    this.openCatAccordion = this.catList == null ? '' : 'categories';
+    }
   async EnterCategory(c : Category)
   {
     this.actualCat = c;
@@ -204,8 +205,19 @@ export class Shop implements OnInit {
                         typePay : this.invTypePay}],
                         {replaceUrl:true});
   }
-  GoBack()
+  async GoBack()
   {
+    let res : string =null;
+    await this.modal.open('exitPage','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS'; }
+      ));
+    if(res === 'DISMISS')
+        return;
+
     this.router.navigate(['invoice',
                         {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
                         ,factureName : this.invName, remise : this.invRemise,
@@ -227,7 +239,16 @@ export class Shop implements OnInit {
         invalid.push(nom);
       }
     }
-    if (!this.formArt.valid)
+    var priceString : string = this.formArt.get('priceHtva').value;
+    while(priceString.includes(','))
+    {
+      priceString = priceString.replace(',','.');
+    }
+    this.formArt.get('priceHtva').setValue(priceString);
+    var price = Number.parseFloat(priceString);
+
+    console.log(price);
+    if (!this.formArt.valid || Number.isNaN(price))
     {
       let res : string =null;
       await this.modal.open('field',invalid.toString())
@@ -238,7 +259,7 @@ export class Shop implements OnInit {
         res='DISMISS' }
         ));
         return;
-    }
+    }else console.log(this.formArt.get('priceHtva').value);
     let p = new Product(
       '-1',
       this.formArt.get('productName').value,

@@ -123,15 +123,26 @@ export class Settings implements OnInit{
       this.formInvoice.get('positionApres').value,
     ));
     console.log('Parametres de facture actualisé, redirection...');
-    this.router.navigate(['tb-settings'],{replaceUrl:true});
+    this.router.navigate(['tb-home'],{replaceUrl:true});
 
   }
   selectExtType(event) {
     console.log('select', event);
     this.ext = (event.target as HTMLSelectElement).value;
   }
-  GoBack()
+  async GoBack()
   {
-    this.router.navigate(['tb-settings'],{replaceUrl:true});
+    let res : string =null;
+    await this.modal.open('exitPage','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS'; }
+      ));
+    if(res === 'DISMISS')
+        return;
+
+    this.router.navigate(['tb-home'],{replaceUrl:true});
   }
 }

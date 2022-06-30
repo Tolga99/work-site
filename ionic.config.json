@@ -1,7 +1,9 @@
 {
   "name": "WorkSite",
   "integrations": {
-    "capacitor": {},
+    "capacitor": {
+      "enabled": false
+    },
     "cordova": {}
   },
   "type": "angular",

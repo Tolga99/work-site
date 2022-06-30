@@ -7,19 +7,19 @@ import { StorageService } from '../services/storage.service';
     selector: 'ngbd-modal-del-inv',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Suppresion facture</h4>
+      <h4 class="modal-title" id="modal-title">{{'deletingInvoice' | translate}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>Etes-vous sur de supprimer la facture : <span class="text-primary">{{label}}</span>  </strong></p>
-      <p>Toutes les informations liées a cette facture seront définitivement supprimés.
+      <p><strong>{{'deletingInvoiceTxt1' | translate}}<span class="text-primary">{{label}}</span>  </strong></p>
+      <p>{{'deletingInvoiceTxt2' | translate}}
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       </p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{'cancel' | translate}}</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
     </div>
     `
@@ -31,23 +31,51 @@ import { StorageService } from '../services/storage.service';
     }
   }
 
+  @Component({
+    selector: 'ngbd-modal-exit-page',
+    template: `
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">{{'exitPage' | translate}}</h4>
+      <!-- <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button> -->
+    </div>
+    <div class="modal-body">
+      <p><strong>{{'exitPageTxt1' | translate}}</strong></p>
+      <p>{{'exitPageTxt2' | translate}}
+      <!-- <span class="text-danger">This operation can not be undone.</span> -->
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{'cancel' | translate}}</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">{{'yes' | translate}}</button>
+    </div>
+    `
+  })
+  export class NgbdModalExitPage {
+      label = '';
+    constructor(public modal: NgbActiveModal) {
+      this.label= NgbdModalFocus.label;
+    }
+  }
+
 @Component({
     selector: 'ngbd-modal-del-dev',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Suppresion devis</h4>
+      <h4 class="modal-title" id="modal-title">{{'deletingEstimate' | translate}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>Etes-vous sur de supprimer le devis : <span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
-      <p>Toutes les informations liées a ce devis seront définitivement supprimés.
+      <p><strong>{{'deletingEstimateTxt1' | translate}}<span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p>{{'deletingEstimateTxt2' | translate}}
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       </p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{'cancel' | translate}}</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
     </div>
     `
@@ -62,19 +90,19 @@ import { StorageService } from '../services/storage.service';
     selector: 'ngbd-modal-del-chan',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Suppresion chantier</h4>
+      <h4 class="modal-title" id="modal-title">{{'deletingWorksite' | translate}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>Etes-vous sur de supprimer ce chantier ?</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
-      <p>Toutes les informations liées a ce chantier seront définitivement supprimés.
-      <span class="text-danger">Cette action est irréversible.</span>
+      <p><strong>{{'deletingWorksiteTxt1' | translate}}</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p>{{'deletingWorksiteTxt2' | translate}}
+      <span class="text-danger">{{'deletingWorksiteTxt3' | translate}}</span>
       </p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{'cancel' | translate}}</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
     </div>
     `
@@ -87,19 +115,19 @@ import { StorageService } from '../services/storage.service';
     selector: 'ngbd-modal-end-chantier',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Terminer chantier</h4>
+      <h4 class="modal-title" id="modal-title">{{"finishingWorksite | translate"}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>Etes-vous sur de terminer ce chantier ?</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p><strong>{{"finishingWorksiteTxt1 | translate"}}</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
       <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       <!-- </p> -->
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{'cancel' | translate}}</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
     </div>
     `
@@ -112,19 +140,19 @@ import { StorageService } from '../services/storage.service';
     selector: 'ngbd-modal-del-cli',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Suppresion client</h4>
+      <h4 class="modal-title" id="modal-title">{{"deletingClient | translate"}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>Etes-vous sur de supprimer le client : <span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
-      <p>Toutes les informations liées a ce client seront définitivement supprimés.
+      <p><strong>{{"deletingClientTxt1 | translate"}}<span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p>{{"deletingClientTxt2 | translate"}}
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       </p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{'cancel' | translate}}</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
     </div>
     `
@@ -139,19 +167,19 @@ import { StorageService } from '../services/storage.service';
     selector: 'ngbd-modal-del-cat',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Suppresion catégorie</h4>
+      <h4 class="modal-title" id="modal-title">{{"deletingCategory | translate"}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>Etes-vous sur de supprimer la catégorie : <span class="text-primary">{{label}}</span>   ?</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
-      <p>Toutes les informations liées a cette catégorie seront définitivement supprimés.
+      <p><strong>{{"deletingCategoryTxt1 | translate"}}<span class="text-primary">{{label}}</span>   ?</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p>{{"deletingCategoryTxt2 | translate"}}
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       </p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{'cancel' | translate}}</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
     </div>
     `
@@ -166,19 +194,19 @@ import { StorageService } from '../services/storage.service';
     selector: 'ngbd-modal-del-art',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Suppresion article</h4>
+      <h4 class="modal-title" id="modal-title">{{"deletingProduct | translate"}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>Etes-vous sur de supprimer l'article : <span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p><strong>{{"deletingProductTxt1 | translate"}}<span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
       <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       <!-- </p> -->
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{'cancel' | translate}}</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
     </div>
     `
@@ -193,13 +221,13 @@ import { StorageService } from '../services/storage.service';
         selector: 'ngbd-modal-incomplete',
         template: `
         <div class="modal-header">
-          <h4 class="modal-title" id="modal-title">Champs obligatoires</h4>
+          <h4 class="modal-title" id="modal-title">{{"mandatoryFields | translate"}}</h4>
           <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p><strong>Les champs suivant ne sont pas corrects : <span class="text-primary">{{label}}</span></strong></p>
+          <p><strong>{{"mandatoryFieldsTxt1 | translate"}} <span class="text-primary">{{label}}</span></strong></p>
           <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
           <!-- <span class="text-danger">This operation can not be undone.</span> -->
           <!-- </p> -->
@@ -263,17 +291,17 @@ import { StorageService } from '../services/storage.service';
           selector: 'ngbd-modal-calendar',
           template: `
           <div class="modal-header">
-            <h4 class="modal-title" id="modal-title">Infos</h4>
+            <h4 class="modal-title" id="modal-title">{{"infos | translate"}}</h4>
             <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <p><strong>Titre : <span class="text-primary">{{fields[0]}}</span></strong></p>
-            <p><strong>Client : <span class="text-primary">{{fields[1]}}</span></strong></p>
-            <p><strong>Description : <span class="text-primary">{{fields[2]}}</span></strong></p>
-            <p><strong>Date début : <span class="text-primary">{{fields[3]}}</span></strong></p>
-            <p><strong>Date fin : <span class="text-primary">{{fields[4]}}</span></strong></p>
+            <p><strong>{{"title | translate"}} : <span class="text-primary">{{fields[0]}}</span></strong></p>
+            <p><strong>{{"client | translate"}} : <span class="text-primary">{{fields[1]}}</span></strong></p>
+            <p><strong>{{"description | translate"}} : <span class="text-primary">{{fields[2]}}</span></strong></p>
+            <p><strong>{{"startDate | translate"}} : <span class="text-primary">{{fields[3]}}</span></strong></p>
+            <p><strong>{{"endDate | translate"}} : <span class="text-primary">{{fields[4]}}</span></strong></p>
 
             <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
             <!-- <span class="text-danger">This operation can not be undone.</span> -->
@@ -298,18 +326,17 @@ import { StorageService } from '../services/storage.service';
             selector: 'ngbd-modal-incomplete',
             template: `
             <div class="modal-header">
-              <h4 class="modal-title" id="modal-title">A propos</h4>
+              <h4 class="modal-title" id="modal-title">{{"about | translate"}}</h4>
               <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <p><strong>Developed by <span class="text-primary">Tolga Ov</span></strong></p>
-              <p><strong><span class="text-primary">FEBRUARY 2022</span></strong></p>
-              <p><strong>WorkSite - <span class="text-primary">Version 1.0</span></strong></p>
+              <p><strong>{{"developedBy | translate"}}  <span class="text-primary">Tolga Ov</span></strong></p>
+              <p><strong><span class="text-primary">JUNE 2022</span></strong></p>
+              <p><strong>WorkSite - <span class="text-primary">Version 0.1 - BETA</span></strong></p>
               <p><strong><span class="text-primary">Copyright All Rights Reserved</span></strong></p>
-              <p><strong>Contact : <span class="text-primary">Ovalit19@gmail.com</span></strong></p>
-
+              <p><strong>Contact : </strong></p> <A HREF="mailto:Ovalit19@gmail.com">Ovalit19@gmail.com</A>
               <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
               <!-- <span class="text-danger">This operation can not be undone.</span> -->
               <!-- </p> -->
@@ -362,6 +389,7 @@ const MODALS: {[name: string]: Type<any>} = {
   calendar : NgbdModalCalendar,
   about : NgbdModalAbout,
   assign : NgbdModalAssign,
+  exitPage : NgbdModalExitPage
 };
 
 @Component({

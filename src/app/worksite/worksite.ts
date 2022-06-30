@@ -20,6 +20,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ToastController} from '@ionic/angular';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Filesystem, Directory, Encoding, FilesystemDirectory } from '@capacitor/filesystem';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 @Component({
   selector: 'app-worksite',
   templateUrl: 'worksite.html',
@@ -118,7 +119,8 @@ export class Worksite implements OnInit {
               private route: ActivatedRoute,
               private _liveAnnouncer: LiveAnnouncer,
               private toastController: ToastController,
-              private localNotifications : LocalNotifications)
+              private localNotifications : LocalNotifications,
+              private imgPicker : ImagePicker)
   {
     
   }
@@ -507,8 +509,18 @@ export class Worksite implements OnInit {
     }
 
   }
-  GoBack()
+  async GoBack()
   {
+    let res : string =null;
+    await this.modal.open('exitPage','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS'; }
+      ));
+    if(res === 'DISMISS')
+        return;
     this.router.navigate(['tb-home'],{replaceUrl:true});
   }
   ImagePopUp(url : string)
@@ -715,6 +727,7 @@ export class Worksite implements OnInit {
           data: doc.output('datauristring'),
           directory: Directory.Documents
         });
+        doc.output('datauri');
         this.presentToast(f.factureName+'.pdf a été généré');
         this.localNotifications.schedule({
           id: 1,
@@ -730,6 +743,7 @@ export class Worksite implements OnInit {
     {
       console.log('PC');
       doc.save(f.factureName+'.pdf');
+      doc.output('dataurlnewwindow');     //opens the data uri in new window
       this.presentToast(f.factureName+'.pdf a été généré');
       this.localNotifications.schedule({
         id: 1,
@@ -798,5 +812,24 @@ export class Worksite implements OnInit {
   DeleteImageChantier(url : string)
   {
     this.imagesC = this.imagesC.filter(a => a !== url);
+  }
+
+  imgRes: any;
+  options: any;
+  imagePicker() {
+    this.options = {
+      width: 200,
+      quality: 30,
+      outputType: 1
+    };
+    
+    this.imgRes = [];
+    this.imgPicker.getPictures(this.options).then((results) => {
+      for (var i = 0; i < results.length; i++) {
+        this.imgRes.push('data:image/jpeg;base64,' + results[i]);
+      }
+    }, (error) => {
+      alert(error);
+    });
   }
 }

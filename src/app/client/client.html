@@ -1,21 +1,20 @@
 <ion-header>
   <ion-toolbar>
+    <ion-title class="ion-text-center">{{'client' | translate}}</ion-title>
     <ion-button slot="start" (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <!-- <ion-label>Retour</ion-label> -->
     </ion-button>
     <ion-button slot="end" (click)="EditContact()">
       <ion-icon name="pencil-outline"></ion-icon>
     </ion-button>
-    <ion-title slot="">Client : {{GetName()}}</ion-title>
+    <ion-title slot="" style="font-size:smaller; text-align: center;">{{GetName()}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
-
-  <div class="card-header">
+<ion-content [fullscreen]="true" style="background-color: white;">
+  <div class="tab">
+  <div class="card-header tabHeader">
     {{'profile' | translate}}
   </div>
-
   <ion-item>
     <ion-label position="fixed" style="font-weight: lighter;">{{'fName' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.firstName}}</ion-label>
@@ -55,13 +54,17 @@
     <ion-label position="fixed" style="font-weight: lighter;">{{'bic' | translate}} : </ion-label>
     <ion-label style="font-weight: bolder;">{{client?.bic}}</ion-label>
   </ion-item>
-  <hr>
-  <div class="card-header">
+</div>
+<div class="tab">
+  <div class="card-header tabHeader">
     {{'history' | translate}}
   </div>
   <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+    <div [hidden]="chantiers != null && chantiers.length > 0">
+      <ion-label style="color: gray;">
+        {{'noData' | translate}}</ion-label>
+    </div>
     <table mat-table class="table table-bordered table-striped mb-0">
-
       <thead>
         <tr>
           <th *ngFor="let head of headElements" scope="col">{{head}} </th>
@@ -81,8 +84,9 @@
       </tbody>
     </table>
   </div>
-  <hr>
-  <div class="card-header">
+  </div>
+  <div class="tab">
+  <div class="card-header tabHeader">
     {{'achats' | translate}}
   </div>
   <div id="chart">
@@ -91,5 +95,5 @@
       [fill]="chartOptions.fill" [stroke]="chartOptions.stroke" [tooltip]="chartOptions.tooltip"
       [xaxis]="chartOptions.xaxis"></apx-chart>
   </div>
-
+</div>
 </ion-content>

@@ -4,3 +4,15 @@
   }
   fieldset { border: 0; }
 fieldset.display { border: 1px solid #cccccc; }
+.tabHeader
+{
+  background-color: orange;
+  color: white;
+  text-align: center;
+  border: 1px solid lightgray;
+border-radius: 4px;
+}
+.tab{
+  margin: 10px;
+border-bottom: 1px solid black;
+}

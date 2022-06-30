@@ -1,5 +1,5 @@
 
-<div style="overflow-y: auto;">
+<div style="overflow-y: auto; background-color: white;">
   <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
@@ -126,7 +126,7 @@
           </td>
           <td>
             <textarea id="description" name="description" [(ngModel)]="event.description" placeholder="..."
-              style="height:100px;"></textarea>
+              style="height:100px;" maxlength="50"></textarea>
           </td>
           <!-- <td>
             <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()" />

@@ -19,7 +19,7 @@ export class Articles implements OnInit {
   artList : Array<Product> = [];
   catList : Array<Category> = [];
   actualCat : Category = null;
-
+  openCatAccordion = null;
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS : NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute)
   {
@@ -37,8 +37,10 @@ export class Articles implements OnInit {
     this.artList = await this.storageService.get('Articles');
     this.catList = await this.storageService.get('Categories');
     if(this.catList!=null)
+    {
       this.catList = this.catList.filter(a => a.categoryParent == null);
-
+      this.openCatAccordion = 'categories';
+    }else this.openCatAccordion = '';
     this.catList.forEach(element => {
       if(element.categoryImage==null)
         element.categoryImage='..//resources//White-square.jpg';
@@ -128,9 +130,5 @@ export class Articles implements OnInit {
     if(res==='DISMISS')
         return ;
 
-  }
-  GoBack()
-  {
-    this.router.navigate(['tb-settings'],{replaceUrl:true});
   }
 }

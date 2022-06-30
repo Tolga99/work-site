@@ -1,9 +1,9 @@
-<div class="container" style="overflow-y: auto;">
+<div class="container" style="overflow-y: auto; background-color: white;">
   <ion-header>
     <ion-toolbar>
+      <ion-title class="ion-text-center">{{'createWorksite' | translate}}</ion-title>
       <ion-button (click)="GoBack()">
         <ion-icon name="arrow-back"></ion-icon>
-        <ion-label>{{'back' | translate}}</ion-label>
       </ion-button>
     </ion-toolbar>
   </ion-header>
@@ -11,7 +11,8 @@
 
     <ion-item class="form-group" required="required">
       <ion-label position="floating">{{'nameWorksite' | translate}}</ion-label>
-      <ion-input type="text" id="name" name="name" formControlName="worksiteName" placeholder="..." required="required"></ion-input>
+      <ion-input type="text" id="name" name="name" formControlName="worksiteName" placeholder="..." required="required"
+        maxlength="50"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -39,13 +40,14 @@
     <hr>
     <ion-item class="form-group" required="required">
       <ion-label position="floating">{{'worksiteAddress' | translate}}</ion-label>
-      <ion-input type="text" id="address" name="address" formControlName="address" placeholder="..."></ion-input>
+      <ion-input type="text" id="address" name="address" formControlName="address" placeholder="..."
+      maxlength="50"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
-        style="height:100px;"></ion-textarea>
+        style="height:100px;" maxlength="50"></ion-textarea>
     </ion-item>
 
     <input type="submit" value="{{'createWorksite' | translate}}">

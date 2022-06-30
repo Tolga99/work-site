@@ -161,7 +161,6 @@ export class Invoice implements OnInit {
         console.log('total value :' ,total);
           total = total + (Number.parseFloat(element.product.priceHtva.toString()) * element.quantity);
           total = Math.round(total * 100) / 100; // arrondi
-
       })
       console.log('total value :' ,total);
       this.formInv.get('priceHtva').setValue(total);
@@ -412,8 +411,21 @@ export class Invoice implements OnInit {
       this.ScanMode = false;
     else  this.ScanMode = true;
   }
-  GoBack()
+  async GoBack()
   {
-    this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+    let res : string =null;
+    await this.modal.open('exitPage','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS'; }
+      ));
+    if(res === 'DISMISS')
+        return;
+      
+    if(this.chantierId === 'null')
+    this.router.navigate(['/tb-home'],{replaceUrl:true});
+    else this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }
 }

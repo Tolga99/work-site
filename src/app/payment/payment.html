@@ -1,15 +1,15 @@
 <ion-header>
   <ion-toolbar>
+    <ion-title class="ion-text-center">{{'payment' | translate}}</ion-title>
     <ion-button (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-header>
-<div class="container" style="overflow-y: auto;">
+<div class="container" style="overflow-y: auto; background-color: white;">
 
   <form [formGroup]="formPay" (ngSubmit)="SavePay()">
-    <div class="card-header">
+    <div class="card-header tabHeader">
       {{'selectInvoice' | translate}}
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
@@ -38,7 +38,8 @@
     </div> -->
     <ion-item class="form-group" required="required">
       <ion-label position="floating">{{'payment' | translate}}</ion-label>
-      <ion-input type="number" id="payment" name="payment" formControlName="payment" placeholder="..." required="required"></ion-input>
+      <ion-input type="number" id="payment" name="payment" formControlName="payment" placeholder="..." required="required"
+      maxlength="12"></ion-input>
     </ion-item>
     <button class="btn btn-danger" style="background-color:orange;"> {{'addPay' | translate}}</button>
   </form>

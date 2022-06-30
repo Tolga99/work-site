@@ -15,6 +15,7 @@ import {
   NgbdModalConfirmAutofocus,
   NgbdModalFocus,
   NgbdModalAssign,
+  NgbdModalExitPage,
 } from './modal-focus';
 
 @NgModule({
@@ -25,7 +26,7 @@ import {
     NgbdModalDelDev,
     NgbdModalDelInv,
     NgbdModalDelChantier,
-    NgbdModalEndChantier,NgbdModalConfirmAutofocus,NgbdModalAssign],
+    NgbdModalEndChantier,NgbdModalConfirmAutofocus,NgbdModalAssign,NgbdModalExitPage],
   exports: [NgbdModalFocus],
   bootstrap: [NgbdModalFocus]
 })

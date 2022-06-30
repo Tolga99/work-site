@@ -18,7 +18,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { Facture } from '../models/facture';
 import { Storage } from '@ionic/storage';
-
+import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-tb-home',
   templateUrl: 'tb-home.html',
@@ -32,7 +36,7 @@ export class TabHome implements OnInit{
   clientsList : Array<User> = [];
   headElements = ['worksiteName', 'client', 'dateStart','address','...'];
   headElementsInv = ['factureName', 'totalPrice','date','...'];
-
+  toggleChantier = false;
 
   public home: string;
   public calendar: string;
@@ -64,11 +68,15 @@ export class TabHome implements OnInit{
               private router: Router,
               private _liveAnnouncer: LiveAnnouncer,
               private http: HttpClient,
-              private _translate: TranslateService)
+              private _translate: TranslateService, private appVersion : AppVersion,
+              private appRate : AppRate,
+              private library : FaIconLibrary)
               {
                 this.storageService.init();
                 _translate.setDefaultLang('fr');
                 _translate.use('fr');
+
+                library.addIcons(fasStar, farStar);
               }
 
   async ionViewDidEnter(){
@@ -95,7 +103,6 @@ export class TabHome implements OnInit{
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -169,7 +176,7 @@ export class TabHome implements OnInit{
   {
     var val : string = event.target.value;
     val = val.toLowerCase();
-    console.log(val);
+    console.log('s :',val);
     if(this.client === true)
     {
       const noms = this.clientsList.filter(a => a.lastName.toLowerCase().includes(val));
@@ -284,10 +291,12 @@ export class TabHome implements OnInit{
     console.log(event);
     if(event.detail.checked === true)
     {
+      this.toggleChantier = true;
       console.log('Afficher chantiers terminées')
       this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished !== 'En cours'));
     }else
     {
+      this.toggleChantier = false;
       console.log('Afficher chantiers en cours')
       this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
 
@@ -427,7 +436,6 @@ export class TabHome implements OnInit{
   applyFilterFacture(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
       this.dataSourceF.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSourceF.paginator) {
       this.dataSourceF.paginator.firstPage();
     }
@@ -442,5 +450,61 @@ export class TabHome implements OnInit{
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+  GoProfile()
+  {
+    console.log('show profile');
+    this.router.navigate(['my-profile']);
+  }
+  GoSettings()
+  {
+    console.log('show settings');
+    this.router.navigate(['settings']);
+  }
+
+  async About()
+  {
+    this.appVersion.getAppName();
+    this.appVersion.getPackageName();
+    this.appVersion.getVersionCode();
+    this.appVersion.getVersionNumber();
+    console.log(this.appVersion.getAppName());
+    console.log(this.appVersion.getPackageName());
+    console.log(this.appVersion.getVersionCode());
+    console.log(this.appVersion.getVersionNumber());
+
+    let res : string =null;
+    await this.modal.open('about','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS' }
+      ));
+      return;
+  }
+  RateApp()
+  {
+    this.appRate.setPreferences({
+      storeAppURL: {
+        ios: '&lt;app_id>',
+        android: 'market://details?id=&lt;package_name>',
+        windows: 'ms-windows-store://review/?ProductId=&lt;store_id>'
+      }
+    });
+    
+    this.appRate.promptForRating(true);
+    
+    // or, override the whole preferences object
+    this.appRate.setPreferences({
+      usesUntilPrompt: 3,
+      storeAppURL: {
+       ios: '&lt;app_id>',
+       android: 'market://details?id=&lt;package_name>',
+       windows: 'ms-windows-store://review/?ProductId=&lt;store_id>'
+      }
+    });
+    
+    this.appRate.promptForRating(false);
   }
 }

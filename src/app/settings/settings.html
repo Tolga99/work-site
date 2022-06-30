@@ -1,5 +1,6 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
+      <ion-title class="ion-text-center">{{'settings' | translate}}</ion-title>
       <ion-button (click)="GoBack()">
         <ion-icon name="arrow-back"></ion-icon>
         <ion-label>{{'back' | translate}}</ion-label>
@@ -8,7 +9,7 @@
   </ion-header>
   
   
-  <ion-content [fullscreen]="true">
+  <ion-content [fullscreen]="true" style="background-color: white;">
     <div>
       <form [formGroup]="formInvoice" (ngSubmit)="UpdateInvoiceSettings()">
         <div class="jumbotron text-center">
@@ -47,6 +48,10 @@
           <ion-item class="form-group">
             <ion-label position="stacked">{{'extVal' | translate}}</ion-label>
             <ion-input type="text" id="ext" placeholder="1" formControlName="extNum"></ion-input>
+          </ion-item>
+          <ion-item class="form-group"> 
+            <ion-label position="fixed" style="font-size: smaller;">{{'OpenPdfAfterGenerate' | translate}}</ion-label>
+            <ion-checkbox id="openPdf" name="openPdf" formControlName="openPdf"></ion-checkbox>
           </ion-item>
           <button class="btn btn-secondary" type="submit" style="background-color:orange;">{{'saveInvSettings' | translate}}</button>
   </div>

@@ -8,6 +8,7 @@ import { ArticlesRoutingModule } from './articles-routing.module';
 
 import { Articles } from './articles';
 import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material.module';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     IonicModule,
     ArticlesRoutingModule,
-    SharedModule,
+    SharedModule,MaterialModule
   ],
   declarations: [Articles]
 })

@@ -1,19 +1,61 @@
-
-<ion-content [fullscreen]="true" style="overflow-y: auto; justify-content: start;">
-<div class="jumbotron text-center">
-<div class="card text-center">
-  <div class="card-header">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title class="ion-text-center">{{'home' | translate}}</ion-title>
+      <dx-button icon="fa-solid fa-image-polaroid-user" slot="start" (click)="GoProfile()">
+      </dx-button>
+      <ion-button slot="end" mat-icon-button [matMenuTriggerFor]="menu">
+        <ion-icon name="settings"></ion-icon>
+      </ion-button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="GoSettings()">
+          <ion-icon name="create"></ion-icon>
+          <ion-label>{{'settings' | translate}}</ion-label>
+        </button>
+        <button mat-menu-item (click)="About()">
+          <ion-icon name="information-circle"></ion-icon>
+          <ion-label>{{'about' | translate}}</ion-label>
+        </button>
+      </mat-menu>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true" style="overflow-y: auto; justify-content: start;" style="background-image: url('/assets/worksiteBackground.png');">
+  <div class="jumbotron" style="background-color: light; margin: 10px; padding: 10px;">
+  <div class="card-header tabHeader">
     {{'myWorksites' | translate}}
-  </div>
 </div>
-
-
-  <mat-form-field appearance="standard">
-    <mat-label>{{'search' | translate}}</mat-label>
-    <input style="width: 75%;" matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-      <ion-toggle name="chantierFilter" (ionChange)="ToggleFilter($event)"> Terminés</ion-toggle>
-  </mat-form-field>
-  <div class="mat-elevation-z8">
+      <ion-grid>
+      <ion-row>
+        <ion-col style="display: flex;
+        justify-content: space-around;
+        align-items: center;">
+          <mat-form-field appearance="standard">
+          <mat-label>{{'search' | translate}}</mat-label>
+          <input style="width: 75%;" matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
+        </ion-col>
+        <ion-col style="display: flex;
+        justify-content: space-between;
+        align-items: center;">
+          <ion-toggle name="chantierFilter" (ionChange)="ToggleFilter($event)">
+          </ion-toggle>
+          <div [hidden]="toggleChantier" style="color:green">
+            <ion-label>{{'inProgress' | translate}}</ion-label>
+          </div>
+          <div [hidden]="!toggleChantier" style="color:red">
+            <ion-label>{{'finished' | translate}}</ion-label>
+          </div>
+       </ion-col>
+        <!-- <ion-col>
+          <div [hidden]="toggleChantier" style="color:green">
+            <ion-label>{{'inProgress' | translate}}</ion-label>
+          </div>
+          <div [hidden]="!toggleChantier" style="color:red">
+            <ion-label>{{'finished' | translate}}</ion-label>
+          </div>
+        </ion-col> -->
+      </ion-row>
+      </ion-grid>
+  <div class="mat-elevation-z8" style="background-color: white;">
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
       class="table table-striped">
       <!-- ID Column -->
@@ -46,15 +88,15 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
         <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
           <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_horiz</mat-icon>
+             <ion-icon name="list"></ion-icon>
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item>
-              <mat-icon>edit</mat-icon>
+              <ion-icon name="create"></ion-icon>
               <span>{{'edit' | translate}}</span>
             </button>
             <button mat-menu-item (click)="deleteWorksite(row)">
-              <mat-icon>delete</mat-icon>
+              <ion-icon name="trash"></ion-icon>
               <span>{{'delete' | translate}}</span>
             </button>
           </mat-menu>
@@ -66,7 +108,7 @@
 
       <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the Recherche "{{input.value}}"</td>
+        <td class="mat-cell" colspan="4">{{'noData' | translate}} "{{input.value}}"</td>
       </tr>
 
     </table>
@@ -75,22 +117,24 @@
     </mat-paginator>
   </div>
 
-  <div class="card-footer text-muted">
-    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="CreateWorksite()">{{'newWorksite' | translate}}</button>
+  <div class="card-footer text-muted" style="text-align:center;">
+    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="CreateWorksite()">
+      <ion-icon name="add-circle"></ion-icon> 
+      {{'newWorksite' | translate}}
+      </button>
+      
   </div>
 </div>
 
-<div class="jumbotron text-center">
-  <div class="card-header">
-    {{'invoices' | translate}} & {{'estimate' | translate}}
-  </div>
-
+  <div class="jumbotron" style="background-color: light; margin: 10px; padding: 10px;">
+    <div class="card-header tabHeader">
+      {{'invoices' | translate}} & {{'estimate' | translate}}
+    </div>
 
   <mat-form-field appearance="standard">
     <mat-label>{{'search' | translate}}</mat-label>
     <input matInput (keyup)="applyFilterFacture($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
-
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSourceF" matSort (matSortChange)="announceSortChangeFacture($event)">
       <ng-container matColumnDef="factureName">
@@ -113,23 +157,23 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
         <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
           <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_horiz</mat-icon>
+            <ion-icon name="list"></ion-icon>
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item type="button" (click)="openInvoice(row)">
-              <mat-icon>edit</mat-icon>
+              <ion-icon name="create"></ion-icon>
               <span>{{'editInv' | translate}}</span>
             </button>
             <button mat-menu-item type="button" (click)="assignInvoice(row)">
-              <mat-icon></mat-icon>
+              <ion-icon name="git-merge"></ion-icon>
               <span>{{'assign' | translate}}</span>
             </button>
-            <!-- <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
-              <mat-icon>picture_as_pdf</mat-icon>
+            <button mat-menu-item type="button">
+              <ion-icon name="print"></ion-icon>
               <span>{{'genPDF' | translate}}</span>
-            </button> -->
+            </button>
             <button mat-menu-item type="button" (click)="deleteInvoice(row)">
-              <mat-icon>delete</mat-icon>
+              <ion-icon name="trash"></ion-icon>
               <span>{{'delete' | translate}}</span>
             </button>
           </mat-menu>
@@ -142,7 +186,7 @@
 
       <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the Recherche "{{input.value}}"</td>
+        <td class="mat-cell" colspan="4">{{'noData' | translate}} "{{input.value}}"</td>
       </tr>
 
     </table>
@@ -150,13 +194,18 @@
     <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
       aria-label="Select page of dataSourceFacture"></mat-paginator>
   </div>
-  <div class="card-footer text-muted">
-    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanInvoice()">{{'scanInvoice' | translate}}</button>
-    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()">{{'createInvoice' | translate}}</button>
+  <div class="card-footer text-muted" style="text-align:center; display: flex;
+  justify-content: space-evenly;
+  align-items: center;">
+    <dx-button [text]="'scanInvoice' | translate" type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanInvoice()" icon="fa-solid fa-abacus"></dx-button>
+    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()">{{'createInvoice' | translate}}
+    <ion-icon name="paper"></ion-icon></button>
   </div>
-  <div class="card-footer text-muted">
-    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()">{{'scanEstimate' | translate}}</button>
-    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()">{{'createEstimate' | translate}}</button>
+  <div class="card-footer text-muted" style="text-align:center; display: flex;
+  justify-content: space-evenly;
+  align-items: center;">
+    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()">{{'scanEstimate' | translate}} <ion-icon name="reverse-camera"></ion-icon></button>
+    <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()">{{'createEstimate' | translate}} <ion-icon name="paper"></ion-icon></button>
   </div>
 </div>
 

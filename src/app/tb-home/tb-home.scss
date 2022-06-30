@@ -69,3 +69,16 @@ th {
 td, th {
   width: 25%;
 }
+::ng-deep .dx-datagrid .dx-data-row > td.bullet {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.tabHeader
+{
+  background-color: orange;
+  color: white;
+  text-align: center;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+}

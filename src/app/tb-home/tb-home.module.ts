@@ -11,6 +11,7 @@ import {MaterialModule} from '../material.module';
 // import {TableOverviewExample} from './table-overview-example';
 import {MatNativeDateModule} from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
+import { DxModule } from '../Dx.module';
 
 
 
@@ -22,7 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     ExploreContainerComponentModule,
     TabHomeRoutingModule,
     SharedModule,
-    MatNativeDateModule,MaterialModule
+    MatNativeDateModule,MaterialModule,DxModule,
   ],
   declarations: [TabHome]
 })

@@ -135,8 +135,19 @@ export class TabContactsClient implements OnInit {
       this.uuidValue=UUID.UUID();
       return this.uuidValue;
   }
-  GoBack()
+  async GoBack()
   {
+    let res : string =null;
+    await this.modal.open('exitPage','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS'; }
+      ));
+    if(res === 'DISMISS')
+        return;
+
     if(!this.tag)
     {
       this.router.navigate(['/tb-contacts'],{replaceUrl:true});

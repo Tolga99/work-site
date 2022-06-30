@@ -1,8 +1,15 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
-
+ion-content{
+  --ion-background-color: none; // Or whatever color you want
+  --ion-background-image: url('/assets/worksiteBackground.png');
+}
+ion-icon{
+  font-size: 21px;
+}
 /** Ionic CSS Variables **/
 :root {
+
   /** primary **/
   --ion-color-primary: #ffc409;
   --ion-color-primary-rgb: 255, 196, 9;
@@ -74,6 +81,8 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+  background-image: url('/assets/worksiteBackground.png');
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -145,6 +154,8 @@
     --ion-color-light-contrast-rgb: 255,255,255;
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
+    background-image: url('/assets/worksiteBackground.png');
+
   }
 
   /*
@@ -153,8 +164,8 @@
    */
 
   .ios body {
-    --ion-background-color: #000000;
-    --ion-background-color-rgb: 0,0,0;
+    // --ion-background-color: #000000;
+    // --ion-background-color-rgb: 0,0,0;
 
     --ion-text-color: #ffffff;
     --ion-text-color-rgb: 255,255,255;
@@ -182,12 +193,16 @@
     --ion-item-background: #000000;
 
     --ion-card-background: #1c1c1d;
+    background-image: url('/assets/worksiteBackground.png');
+
   }
 
   .ios ion-modal {
-    --ion-background-color: var(--ion-color-step-100);
+    // --ion-background-color: var(--ion-color-step-100);
     --ion-toolbar-background: var(--ion-color-step-150);
     --ion-toolbar-border-color: var(--ion-color-step-250);
+    background-image: url('/assets/worksiteBackground.png');
+
   }
 
 
@@ -197,8 +212,8 @@
    */
 
   .md body {
-    --ion-background-color: #121212;
-    --ion-background-color-rgb: 18,18,18;
+    // --ion-background-color: #121212;
+    // --ion-background-color-rgb: 18,18,18;
 
     --ion-text-color: #ffffff;
     --ion-text-color-rgb: 255,255,255;
@@ -232,5 +247,7 @@
     --ion-tab-bar-background: #1f1f1f;
 
     --ion-card-background: #1e1e1e;
+    background-image: url('/assets/worksiteBackground.png');
+
   }
 }

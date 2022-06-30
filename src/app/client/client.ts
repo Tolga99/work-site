@@ -96,6 +96,11 @@ export class Client implements OnInit{
       yaxis: {
         title: {
           text: '€'
+        },
+        labels: {
+          formatter(val) {
+              return val.toFixed(2) + '€';
+          }
         }
       },
       fill: {
@@ -104,7 +109,7 @@ export class Client implements OnInit{
       tooltip: {
         y: {
           formatter(val) {
-            return val + '€';
+            return val.toFixed(2) + '€';
           }
         }
       }

@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbdModalFocus } from '../modal/modal-focus';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+
 @Component({
   selector: 'app-tb-settings',
   templateUrl: 'tb-settings.html',
@@ -11,35 +14,13 @@ import { NgbdModalFocus } from '../modal/modal-focus';
 export class TabSettings implements OnInit {
 
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private router:Router, private translateService : TranslateService) {}
+  constructor(private modalS :NgbModal,private router:Router,
+              private translateService : TranslateService,) {}
   ngOnInit(): void { 
-  }
-  MyProfile()
-  {
-    console.log('show profile');
-    this.router.navigate(['my-profile']);
   }
   MyProducts()
   {
     console.log('show articles');
     this.router.navigate(['articles']);
-  }
-  MySettings()
-  {
-    console.log('show settings');
-    this.router.navigate(['settings']);
-  }
-
-  async About()
-  {
-    let res : string =null;
-    await this.modal.open('about','')
-    .then(result => result.result
-      .then((data) => {
-        res='OK';
-      }, (reason) => {
-      res='DISMISS' }
-      ));
-      return;
   }
 }

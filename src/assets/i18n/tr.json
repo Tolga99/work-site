@@ -144,5 +144,51 @@
     "genPDF" : "PDF oluştur",
 
     "editInv" : "Faturayı düzenle",
-    "assign" : "Bağlamak"
+    "assign" : "Bağlamak",
+    "OpenPdfAfterGenerate" : "Open PDF after generate",
+    "inProgress" : "In progress",
+    "finished" : "Finished",
+    
+    "cancel" : "Cancel",
+    "no" : "no",
+    "yes" : "yes",
+
+    "deletingInvoice" : "Deleting invoice",
+    "deletingInvoiceTxt1" : "Etes-vous sur de supprimer la facture : ",
+    "deletingInvoiceTxt2" : "Toutes les informations liées à cette facture seront définitivement supprimés.",
+
+    "deletingEstimate" : "Deleting estimate",
+    "deletingEstimateTxt1" : "Etes-vous sur de supprimer le devis :",
+    "deletingEstimateTxt2" : "Toutes les informations liées à ce devis seront définitivement supprimés.",
+
+    "deletingWorksite" : "Deleting worksite",
+    "deletingWorksiteTxt1" : "Etes-vous sur de supprimer ce chantier ?",
+    "deletingWorksiteTxt2" : "Toutes les informations liées à ce chantier seront définitivement supprimés.",
+    "deletingWorksiteTxt3" : "Cette action est irréversible.",
+
+    "finishingWorksite" : "Finishing worksite",
+    "finishingWorksiteTxt1" : "Etes-vous sur de terminer ce chantier ?",
+
+    "deletingClient" : "Deleting client",
+    "deletingClientTxt1" : "Etes-vous sur de supprimer le client : ",
+    "deletingClientTxt2" : "Toutes les informations liées à ce client seront définitivement supprimés.",
+
+    "deletingCategory" : "Deleting category",
+    "deletingCategoryTxt1" : "Etes-vous sur de supprimer la catégorie : ",
+    "deletingCategoryTxt2" : "Toutes les informations liées à cette catégorie seront définitivement supprimés.",
+
+    "deletingProduct" : "Suppresion article",
+    "deletingProductTxt1" : "Etes-vous sur de supprimer l'article : ",
+
+    "mandatoryFields" : "Mandatory fields",
+    "mandatoryFieldsTxt1" : "Les champs suivant ne sont pas corrects : ",
+
+    "developedBy" : "Developed by",
+
+    "exitPage" : "Exiting page",
+    "exitPageTxt1" : "Etes-vous sur de quitter la page ?",
+    "exitPageTxt2²" : "Toutes les données non-sauvegardées seront définitivement supprimées.",
+    
+    "noCategories" : "No Categories",
+    "noData" : "No data to display"
     }

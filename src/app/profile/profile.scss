@@ -69,3 +69,22 @@ input[type=submit]:hover {
   content:" *"; 
   color: red;
 }
+
+:host-context(.theme-light) h2 {
+  background-color: #eef;
+}
+.tabHeader
+{
+  background-color: orange;
+  color: white;
+  text-align: center;
+  border: 1px solid lightgray;
+border-radius: 4px;
+}
+
+.form-style
+{
+  background-color: white;
+  margin: 10px;
+  border-radius: 5px;
+}

@@ -1,53 +1,48 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-button (click)="GoBack()">
+    <ion-title class="ion-text-center">{{'profile' | translate}}</ion-title>
+    <ion-button slot="start" (click)="GoBack()">
       <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>{{'back' | translate}}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-header>
 
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" style="background-image: url('/assets/worksiteBackground.png');">
   <div class="container">
-
     <form [formGroup]="formProfile" (ngSubmit)="UpdateProfile()">
-      <ion-item class="form-group" required="required">
-        <ion-label position="floating">{{'fName' | translate}}</ion-label>
-        <ion-input type="text" id="firstName" placeholder="Your name.." formControlName="firstName" required="required"></ion-input>
+      <ion-item class="form-group form-style" required="required">
+        <ion-input type="text" id="lastName" [placeholder]="'name' | translate" formControlName="lastName" required="required"
+        maxlength="50"></ion-input>
       </ion-item>
-      <ion-item class="form-group" required="required">
-        <ion-label position="floating">{{'name' | translate}}</ion-label>
-        <ion-input type="text" id="lastName" placeholder="Your last name.." formControlName="lastName" required="required"></ion-input>
-      </ion-item>
-      <ion-item class="form-group" required="required">
-        <ion-label position="floating">{{'address' | translate}}</ion-label>
-        <ion-input type="text" id="address" placeholder=".." formControlName="address"></ion-input>
+      <ion-item class="form-group form-style" required="required">
+        <!-- <ion-label position="floating">{{'address' | translate}}</ion-label> -->
+        <ion-input type="text" id="address" [placeholder]="'address' | translate" formControlName="address" maxlength="50"></ion-input>
       </ion-item>
       
-      <ion-item class="form-group">
-        <ion-label position="floating">{{'phone' | translate}}</ion-label>
-        <ion-input type="text" id="phone" placeholder="..." formControlName="phone"></ion-input>
+      <ion-item class="form-group form-style">
+        <!-- <ion-label position="floating">{{'phone' | translate}}</ion-label> -->
+        <ion-input type="text" id="phone" [placeholder]="'phone' | translate" formControlName="phone" maxlength="20"></ion-input>
       </ion-item>
 
-      <ion-item class="form-group">
-        <ion-label position="floating">{{'mail' | translate}}</ion-label>
-        <ion-input type="text" id="mail" placeholder="..." formControlName="mail"></ion-input>
+      <ion-item class="form-group form-style">
+        <!-- <ion-label position="floating">{{'mail' | translate}}</ion-label> -->
+        <ion-input type="text" id="mail" [placeholder]="'mail' | translate" formControlName="mail" maxlength="50"></ion-input>
       </ion-item>
 
-      <ion-item class="form-group">
-        <ion-label position="floating">{{'tva' | translate}}</ion-label>
-        <ion-input type="text" id="tva" placeholder="..." formControlName="tva"></ion-input>
+      <ion-item class="form-group form-style">
+        <!-- <ion-label position="floating">{{'tva' | translate}}</ion-label> -->
+        <ion-input type="text" id="tva" [placeholder]="'tva' | translate" formControlName="tva" maxlength="12"></ion-input>
       </ion-item>
 
-      <ion-item class="form-group">
-        <ion-label position="floating">{{'iban' | translate}}</ion-label>
-        <ion-input type="text" id="iban" placeholder="BE ..." formControlName="iban"></ion-input>
+      <ion-item class="form-group form-style">
+        <!-- <ion-label position="floating">{{'iban' | translate}}</ion-label> -->
+        <ion-input type="text" id="iban" [placeholder]="'iban' | translate" formControlName="iban" maxlength="25"></ion-input>
       </ion-item>
 
-      <ion-item class="form-group">
-        <ion-label position="floating">{{'bic' | translate}}</ion-label>
-        <ion-input type="text" id="bic" placeholder="..." formControlName="bic"></ion-input>
+      <ion-item class="form-group form-style">
+        <!-- <ion-label position="floating">{{'bic' | translate}}</ion-label> -->
+        <ion-input type="text" id="bic" [placeholder]="'bic' | translate" formControlName="bic" maxlength="20"></ion-input>
       </ion-item>
       
       <button class="btn btn-secondary" type="submit" style="background-color:orange;">{{'updateProfile' | translate}}</button>

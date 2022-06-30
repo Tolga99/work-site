@@ -1,37 +1,51 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button (click)="GoBack()">
-      <ion-icon name="arrow-back"></ion-icon>
-      <ion-label>{{'back' | translate}}</ion-label>
-    </ion-button>
+    <ion-title class="ion-text-center">{{'myArticles' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<div style="overflow-y: auto;">
+<ion-content style="justify-content: start;">
 
-  <div class="container" style="overflow-y: auto;">
-    <div class="row">
-      <mat-card class="example-card col-4" *ngFor="let el of catList">
-        <mat-card-title-group (click)="EnterCategory(el)">
-          <mat-card-title>{{el.categoryName}}</mat-card-title>
-          <mat-card-subtitle>{{el.description}}</mat-card-subtitle>
-          <img class="img-fluid" mat-card-lg-image src="{{el.categoryImage}}" 
-               style='max-width: 70px; max-height: 70px;' [border]="0" alt="Null"
-               onerror="this.onerror=null; this.src='assets/icon/White-square.jpg'">
-        </mat-card-title-group>
-        <button type="button" (click)="ModifyCategory(el)">...</button>
-      </mat-card>
-    </div>
+<div style="overflow-y: auto; background-color: white;">
+ <!-- Basic -->
+<ion-accordion-group [value]="openCatAccordion">
+  <ion-accordion value="categories">
+    <ion-item slot="header" class="tabHeader" style="text-align: left;">
+      <ion-label>{{'Categories' | translate}}</ion-label>
+    </ion-item>
 
-    <div class="card-footer text-muted">
-      <button type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;">{{'back' | translate}}</button>
-      <button type="button" class="btn btn-secondary" (click)="CreateCategory()" style="background-color:orange;">{{'newCategory' | translate}}</button>
-    </div>
-  </div>
-  <hr>
-  <div class="card-header">
+    <ion-list slot="content">
+      <ion-item>
+        <ion-label [hidden]="this.catList!=null">    {{'noCategories' | translate}}</ion-label>
+        <div class="container" style="overflow-y: auto;">
+          <div class="row">
+            <mat-card class="example-card col-4" *ngFor="let el of catList">
+              <mat-card-title-group (click)="EnterCategory(el)">
+                <mat-card-title>{{el.categoryName}}</mat-card-title>
+                <mat-card-subtitle>{{el.description}}</mat-card-subtitle>
+                <img class="img-fluid" mat-card-lg-image src="{{el.categoryImage}}" 
+                     style='max-width: 70px; max-height: 70px;' [border]="0" alt="Null"
+                     onerror="this.onerror=null; this.src='assets/icon/White-square.jpg'">
+              </mat-card-title-group>
+              <button type="button" (click)="ModifyCategory(el)">...</button>
+            </mat-card>
+          </div>
+      
+          <div class="card-footer text-muted" style="text-align: center;">
+            <button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;">{{'back' | translate}}</button>
+            <button type="button" class="btn btn-secondary" (click)="CreateCategory()" style="background-color:orange;">{{'newCategory' | translate}}</button>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-accordion>
+</ion-accordion-group>
+<div class="card-header tabHeader">
     {{'myArticles' | translate}}
   </div>
-  <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+  <div [hidden]="artList.length>0">
+    {{'noData' | translate}}
+  </div>
+  <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" [hidden]="artList.length==0">
     <table class="table table-bordered table-striped mb-0">
 
       <thead>
@@ -46,15 +60,15 @@
           <td>{{p.priceHtva}}</td>
           <td (click)="$event.stopPropagation()">
             <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-              <mat-icon>more_horiz</mat-icon>
+               <ion-icon name="list"></ion-icon>
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="ModifyProduct(p)" type="button">
-                <mat-icon>edit</mat-icon>
+                <ion-icon name="create"></ion-icon>
                 <span>{{'edit' | translate}}</span>
               </button>
               <button mat-menu-item (click)="DeleteProduct(p)" type="button">
-                <mat-icon>delete</mat-icon>
+                <ion-icon name="trash"></ion-icon>
                 <span>{{'delete' | translate}}</span>
               </button>
             </mat-menu>
@@ -64,7 +78,8 @@
     </table>
 
   </div>
-  <div class="card-footer text-muted">
+  <div class="card-footer text-muted" style="text-align: center;">
     <button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;">{{'new product' | translate}}</button>
   </div>
 </div>
+</ion-content>

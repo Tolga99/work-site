@@ -130,8 +130,18 @@ export class CreateWorksite implements OnInit {
       this.uuidValue=UUID.UUID();
       return this.uuidValue;
   }
-  GoBack()
+  async GoBack()
   {
+    let res : string =null;
+    await this.modal.open('exitPage','')
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS'; }
+      ));
+    if(res === 'DISMISS')
+        return;
     this.router.navigate(['tb-home'],{replaceUrl:true});
   }
 }

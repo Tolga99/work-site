@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
@@ -31,6 +31,10 @@ import { IonicSelectableModule } from 'ionic-selectable';
 // export function HttpLoaderFactory(http: HttpClient) {
 //   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 //   }
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -41,6 +45,7 @@ import { IonicSelectableModule } from 'ionic-selectable';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     IonicSelectableModule,
+    FontAwesomeModule,
     NgbModule,
             TranslateModule.forRoot({
               loader: {
@@ -62,7 +67,8 @@ import { IonicSelectableModule } from 'ionic-selectable';
   // or after 30 seconds (whichever comes first).
   registrationStrategy: 'registerWhenStable:30000'
 })],
-  providers: [HttpClientModule,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File,LocalNotifications,PhotoService,AuthService],
+  providers: [ImagePicker,Camera,AppRate,AppVersion,HttpClientModule,
+              { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService,File,LocalNotifications,PhotoService,AuthService],
   bootstrap: [AppComponent],
 
 })
