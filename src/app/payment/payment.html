@@ -41,8 +41,8 @@
       <ion-input type="number" id="payment" name="payment" formControlName="payment" placeholder="..." required="required"
       maxlength="12"></ion-input>
     </ion-item>
-    <button class="btn btn-danger" style="background-color:orange;"> {{'addPay' | translate}}</button>
+    <dx-button icon="fas fa-cash-register" class="btn btn-danger" style="background-color:orange;"> {{'addPay' | translate}}</dx-button>
   </form>
-  <button type="submit" class="btn btn-danger" (click)="Terminer()">{{'savePay' | translate}}</button>
+  <dx-button type="submit" class="btn btn-danger" (click)="Terminer()">{{'savePay' | translate}}</dx-button>
 
 </div>

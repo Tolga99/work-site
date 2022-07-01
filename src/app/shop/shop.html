@@ -34,7 +34,7 @@
             </div>
         
             <div class="card-footer text-muted">
-              <button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;">{{'back' | translate}}</button>
+              <dx-button [hidden]="this.actualCat==null" icon="fas fa-arrow-left" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;">{{'back' | translate}}</dx-button>
             </div>
           </div>
         </ion-item>
@@ -59,10 +59,9 @@
           <td>{{p.description}}</td>
           <td>{{p.priceHtva}}</td>
           <td>
-            <button mat-menu-item type="button" (click)="AddProduct(p)">
-              <mat-icon>add</mat-icon>
+            <dx-button mat-menu-item icon="fas fa-cart-plus" type="button" (click)="AddProduct(p)">
               <span>{{'addProductToCart' | translate}}</span>
-            </button>
+            </dx-button>
           </td>
           <!-- <td>{{p.categoryId}}</td> -->
           <!-- <td>
@@ -107,7 +106,7 @@
         </ion-item>
     </div>
     <div class="card-footer text-muted" style="text-align: center;">
-      <button type="submit" class="btn btn-secondary" style="background-color:orange;">{{'addProductToCart' | translate}}</button>
+      <dx-button type="submit" class="btn btn-secondary" icon="fas fa-cart-plus" style="background-color:orange;">{{'addProductToCart' | translate}}</dx-button>
     </div>
   </form>
   <hr>
@@ -144,10 +143,9 @@
                 <ion-icon name="create"></ion-icon>
                 <span>Modifier</span>
               </button> -->
-            <button mat-menu-item (click)="RemoveProduct(p)">
-              <ion-icon name="trash"></ion-icon>
+            <dx-button mat-menu-item icon="fas fa-trash" (click)="RemoveProduct(p)">
               <span>{{'delete' | translate}}</span>
-            </button>
+            </dx-button>
             <!-- </mat-menu> -->
           </td>
         </tr>
@@ -159,7 +157,7 @@
     <button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;">{{'addProductToCart' | translate}}</button>
   </div> -->
   <div class="card-footer text-muted" style="text-align: center;">
-    <button type="button" class="btn btn-danger" (click)="SavePanier()" style="background-color:orange;">{{'finalize' | translate}}</button>
+    <dx-button type="button" class="btn btn-danger" (click)="SavePanier()" style="background-color:orange;">{{'finalize' | translate}}</dx-button>
   </div>
 </div>
 </ion-content>

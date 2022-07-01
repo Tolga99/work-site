@@ -102,22 +102,18 @@
             <ng-container matColumnDef="...">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
               <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-                <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-                   <ion-icon name="list"></ion-icon>
-                </button>
+                <dx-button icon="fas fa-bars" type="button" mat-icon-button [matMenuTriggerFor]="menu">
+                </dx-button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item type="button" (click)="openInvoice(row)">
-                    <ion-icon name="create"></ion-icon>
+                  <dx-button icon="fas fa-file-pen" mat-menu-item type="button" (click)="openInvoice(row)">
                     <span>{{'editInv' | translate}}</span>
-                  </button>
-                  <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
-                    <ion-icon name="print"></ion-icon>
+                  </dx-button>
+                  <dx-button icon="fas fa-file-pdf" mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
                     <span>{{'genPDF' | translate}}</span>
-                  </button>
-                  <button mat-menu-item type="button" (click)="deleteInvoice(row)">
-                    <ion-icon name="trash"></ion-icon>
+                  </dx-button>
+                  <dx-button icon="fas fa-trash" mat-menu-item type="button" (click)="deleteInvoice(row)">
                     <span>{{'delete' | translate}}</span>
-                  </button>
+                  </dx-button>
                 </mat-menu>
               </td>
             </ng-container>
@@ -139,8 +135,8 @@
         <div class="card-footer text-muted" style="text-align:center; display: flex;
         justify-content: space-evenly;
         align-items: center;">
-          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanInvoice()">{{'scanInvoice' | translate}}</button>
-          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()">{{'createInvoice' | translate}}</button>
+          <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanInvoice()" icon="fas fa-paste">{{'scanInvoice' | translate}}</dx-button>
+          <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()" icon="fas fa-file-invoice">{{'createInvoice' | translate}}</dx-button>
         </div>
       </div>
 
@@ -182,26 +178,21 @@
             <ng-container matColumnDef="...">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
               <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-                <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-                   <ion-icon name="list"></ion-icon>
-                </button>
+                <dx-button icon="fas fa-bars" type="button" mat-icon-button [matMenuTriggerFor]="menu">
+                </dx-button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item type="button" (click)="openDevis(row)">
-                    <ion-icon name="create"></ion-icon>
+                  <dx-button icon="fas fa-file-open" mat-menu-item type="button" (click)="openDevis(row)">
                     <span>{{'editEstimate' | translate}}</span>
-                  </button>
-                  <button mat-menu-item (click)="TransformToInvoice(row)" type="button">
-                    <ion-icon name="create"></ion-icon>
+                  </dx-button>
+                  <dx-button icon="fas fa-money-bill-transfer" mat-menu-item (click)="TransformToInvoice(row)" type="button">
                     <span>{{'transformToInv' | translate}}</span>
-                  </button>
-                  <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
-                    <ion-icon name="print"></ion-icon>
+                  </dx-button>
+                  <dx-button icon="fas fa-file-pdf" mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
                     <span>{{'genPDF' | translate}}</span>
-                  </button>
-                  <button mat-menu-item type="button" (click)="deleteDevis(row)">
-                    <ion-icon name="trash"></ion-icon>
+                  </dx-button>
+                  <dx-button icon="fas fa-trash" mat-menu-item type="button" (click)="deleteDevis(row)">
                     <span>{{'delete' | translate}}</span>
-                  </button>
+                  </dx-button>
                 </mat-menu>
               </td>
             </ng-container>
@@ -223,8 +214,8 @@
         <div class="card-footer text-muted" style="text-align:center; display: flex;
         justify-content: space-evenly;
         align-items: center;">
-          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()">{{'scanEstimate' | translate}}</button>
-          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()">{{'createEstimate' | translate}}</button>
+          <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()" icon="fas fa-paste">{{'scanEstimate' | translate}}</dx-button>
+          <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()" icon="fas fa-invoice-dollar">{{'createEstimate' | translate}}</dx-button>
         </div>
       </div>
       <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
@@ -247,25 +238,22 @@
                 <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
                 <td>{{p.date}}</td>
                 <td (click)="$event.stopPropagation()">
-                  <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-                     <ion-icon name="list"></ion-icon>
-                  </button>
+                  <dx-button icon="fas fa-bars" mat-icon-button [matMenuTriggerFor]="menu" type="button">
+                  </dx-button>
                   <mat-menu #menu="matMenu">
-                    <button mat-menu-item type="button">
-                      <ion-icon name="create"></ion-icon>
+                    <dx-button icon="fas fa-file-pen" mat-menu-item type="button">
                       <span>{{'edit' | translate}}</span>
-                    </button>
-                    <button mat-menu-item type="button" (click)="DeleteReceive(inv,p)">
-                      <ion-icon name="trash"></ion-icon>
+                    </dx-button>
+                    <dx-button icon="fas fa-trash" mat-menu-item type="button" (click)="DeleteReceive(inv,p)">
                       <span>{{'delete' | translate}}</span>
-                    </button>
+                    </dx-button>
                   </mat-menu>
                 </td> <!-- </tr> -->
             </tbody>
           </table>
         </div>
         <div class="card-footer text-muted">
-          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="AddPayment()">{{'addPayment' | translate}}</button>
+          <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="AddPayment()" icon="fas fa-cart-plus">{{'addPayment' | translate}}</dx-button>
         </div>
       </div>
       <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
@@ -279,7 +267,7 @@
             <tbody>
               <tr mdbTableCol *ngFor='let url of imagesT'>
                 <td><img src="{{url}}" alt="" height=100 width=100 /></td>
-                <td> <button type="button" class="btn btn-danger" style="background-color:orange;" (click)="DeleteImage(url)"> <i class="far fa-trash-alt"></i></button></td>
+                <td> <dx-button type="button" class="btn btn-danger" style="background-color:orange;" (click)="DeleteImage(url)" icon="fas fa-trash"></dx-button></td>
               </tr>
             </tbody>
           </table>
@@ -326,18 +314,15 @@
             <ng-container matColumnDef="...">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
               <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-                <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-                   <ion-icon name="list"></ion-icon>
-                </button>
+                <dx-button icon="fas fa-bars" mat-icon-button [matMenuTriggerFor]="menu" type="button">
+                </dx-button>
                 <mat-menu #menu="matMenu" (click)="$event.stopPropagation()">
-                  <button mat-menu-item type="button" (click)="openHour(row)">
-                    <ion-icon name="create"></ion-icon>
+                  <dx-button icon="fas fa-file-pen" mat-menu-item type="button" (click)="openHour(row)">
                     <span>{{'edit' | translate}}</span>
-                  </button>
-                  <button mat-menu-item (click)="deleteHour(row)" type="button">
-                    <ion-icon name="trash"></ion-icon>
+                  </dx-button>
+                  <dx-button icon="fas fa-trash" mat-menu-item (click)="deleteHour(row)" type="button">
                     <span>{{'delete' | translate}}</span>
-                  </button>
+                  </dx-button>
                 </mat-menu>
               </td>
             </ng-container>
@@ -361,7 +346,7 @@
           {{'totalHours' | translate}} {{totalHours}}
         </div>
         <div class="card-footer text-muted">
-          <button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="AddHour()">{{'addWork' | translate}}</button>
+          <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="AddHour()" icon="fas fa-clock">{{'addWork' | translate}}</dx-button>
         </div>
       </div>
     </div>
@@ -382,7 +367,7 @@
               <tr mdbTableCol *ngFor='let url of imagesC'>
                 <!-- <th scope="row">{{el.id}}</th> -->
                 <td><img src="{{url}}" alt="" height=100 width=100 /></td>
-                <td> <button type="button" class="btn btn-danger" style="background-color:orange;" (click)="DeleteImageChantier(url)"> <i class="far fa-trash-alt"></i></button></td>
+                <td> <dx-button type="button" class="btn btn-danger" style="background-color:orange;" (click)="DeleteImageChantier(url)" icon="fas fa-trash"></dx-button></td>
               </tr>
             </tbody>
           </table>

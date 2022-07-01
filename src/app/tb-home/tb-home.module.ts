@@ -23,7 +23,7 @@ import { DxModule } from '../Dx.module';
     ExploreContainerComponentModule,
     TabHomeRoutingModule,
     SharedModule,
-    MatNativeDateModule,MaterialModule,DxModule,
+    MatNativeDateModule,MaterialModule,
   ],
   declarations: [TabHome]
 })

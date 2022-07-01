@@ -46,9 +46,8 @@
     <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> -->
     <!-- <div *ngFor="let img of images"> -->
     <img class="original" [src]="images" height="150" width="200px" style="margin: 3px;" />
-    <button type="submit" (click)="resetImages()" class="btn btn-danger">
-      <i class="far fa-trash-alt"></i>
-    </button>
+    <dx-button type="submit" icon="fas fa-trash" (click)="resetImages()" class="btn btn-danger">
+    </dx-button>
     <!-- </div> -->
 
 

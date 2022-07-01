@@ -26,13 +26,13 @@
                      style='max-width: 70px; max-height: 70px;' [border]="0" alt="Null"
                      onerror="this.onerror=null; this.src='assets/icon/White-square.jpg'">
               </mat-card-title-group>
-              <button type="button" (click)="ModifyCategory(el)">...</button>
+              <dx-button type="button" (click)="ModifyCategory(el)" icon="fas fa-bars"></dx-button>
             </mat-card>
           </div>
       
           <div class="card-footer text-muted" style="text-align: center;">
-            <button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;">{{'back' | translate}}</button>
-            <button type="button" class="btn btn-secondary" (click)="CreateCategory()" style="background-color:orange;">{{'newCategory' | translate}}</button>
+            <dx-button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;" icon="fas fa-angle-left">{{'back' | translate}}</dx-button>
+            <dx-button type="button" class="btn btn-secondary" (click)="CreateCategory()" icon="fas fa-square-plus" style="background-color:orange;">{{'newCategory' | translate}}</dx-button>
           </div>
         </div>
       </ion-item>
@@ -59,18 +59,15 @@
           <td>{{p.description}}</td>
           <td>{{p.priceHtva}}</td>
           <td (click)="$event.stopPropagation()">
-            <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-               <ion-icon name="list"></ion-icon>
-            </button>
+            <dx-button [matMenuTriggerFor]="menu" icon="fas fa-bars" type="button">
+            </dx-button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="ModifyProduct(p)" type="button">
+              <dx-button mat-menu-item icon="fas pen-to-square" (click)="ModifyProduct(p)" type="button">
                 <ion-icon name="create"></ion-icon>
                 <span>{{'edit' | translate}}</span>
-              </button>
-              <button mat-menu-item (click)="DeleteProduct(p)" type="button">
-                <ion-icon name="trash"></ion-icon>
-                <span>{{'delete' | translate}}</span>
-              </button>
+              </dx-button>
+              <dx-button mat-menu-item icon="fas fa-trash" [textContent]="'delete' | translate" (click)="DeleteProduct(p)" type="button">
+              </dx-button>
             </mat-menu>
           </td>
         </tr>
@@ -79,7 +76,7 @@
 
   </div>
   <div class="card-footer text-muted" style="text-align: center;">
-    <button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;">{{'new product' | translate}}</button>
+    <dx-button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;" icon="fas fa-plus">{{'new product' | translate}}</dx-button>
   </div>
 </div>
 </ion-content>

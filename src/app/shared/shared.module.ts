@@ -8,6 +8,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DxModule } from '../Dx.module';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
@@ -23,6 +24,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatMenuModule,
     HttpClientModule,
     FontAwesomeModule,
+    DxModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -35,7 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,ReactiveFormsModule,
     MatCardModule,
     MatIconModule,
-    MatMenuModule,TranslateModule
+    MatMenuModule,TranslateModule,DxModule
   ]
 })
 export class SharedModule { }

@@ -18,7 +18,7 @@
     </ion-item>
 
     <div class="form-group" required="required">
-      <button for="art" [hidden]="ScanMode" (click)="GoShopping()" type="button">{{'addProduct' | translate}}</button>
+      <dx-button for="art" [hidden]="ScanMode" icon="fas fa-cart-plus" (click)="GoShopping()" type="button">{{'addProduct' | translate}}</dx-button>
     </div>
     <div class="card-header" [hidden]="ScanMode">
       {{'cart' | translate}}
@@ -64,9 +64,8 @@
     <div *ngFor="let img of images">
       <img [hidden]="!ScanMode" class="original" [alt]="img.Name" [src]="img" height="150" width="200px"
         style="margin: 3px;" />
-      <button type="submit" (click)="resetImages()" class="btn btn-danger">
-        <i class="far fa-trash-alt"></i>
-      </button>
+      <dx-button type="submit" icon="fas fa-trash"(click)="resetImages()" class="btn btn-danger">
+      </dx-button>
     </div>
 
     <ion-item>
