@@ -238,7 +238,7 @@ export class Worksite implements OnInit {
     }else console.log('creation',existId);
     this.CalculTotalHour();
     console.log('current tab : ',this.TabView);
-
+    console.log('chantier', this.chantier);
   }
 
   get f(){

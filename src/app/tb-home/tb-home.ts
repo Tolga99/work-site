@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ContentChildren, EventEmitter, OnInit, QueryList, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,12 +23,22 @@ import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
+import { DxiItemComponent, INestedOptionContainer, NestedOptionHost } from 'devextreme-angular';
 @Component({
   selector: 'app-tb-home',
   templateUrl: 'tb-home.html',
-  styleUrls: ['tb-home.scss']
+  styleUrls: ['tb-home.scss'],
+  providers : [NestedOptionHost]
 })
-export class TabHome implements OnInit{
+export class TabHome implements OnInit, INestedOptionContainer{
+  alignments : any[]= [
+    { value: 'settings', name: 'x', icon: 'fas fa-toolbox' },
+    { value: 'about', name: 'c', icon: 'fas fa-icon' },
+  ];
+  // <dx-button icon="" (click)="GoSettings()" [text]="">
+  // </dx-button>
+  // <dx-button icon="" (click)="About()" [text]="">
+  // </dx-button>
   TabView = 'enCours';
   chantierList : Array<Chantier> = [];
   invList : Array<Facture> = [];
@@ -62,7 +72,8 @@ export class TabHome implements OnInit{
   dataSourceF: MatTableDataSource<Facture>;
   @ViewChild(MatPaginator) paginatorF: MatPaginator;
   @ViewChild(MatSort) sortF: MatSort;
-
+  @ViewChild('myButton') myButton: DxiItemComponent;
+  @ContentChildren(DxiItemComponent) options: QueryList<DxiItemComponent>;
   constructor(private modalS : NgbModal,
               private storageService:StorageService,
               private router: Router,
@@ -70,15 +81,22 @@ export class TabHome implements OnInit{
               private http: HttpClient,
               private _translate: TranslateService, private appVersion : AppVersion,
               private appRate : AppRate,
-              private library : FaIconLibrary)
+              private library : FaIconLibrary,private optionHost: NestedOptionHost)
               {
                 this.storageService.init();
                 _translate.setDefaultLang('fr');
                 _translate.use('fr');
 
                 library.addIcons(fasStar, farStar);
-              }
+                optionHost.setHost(this);
 
+              }
+  instance: any;
+  isLinked: boolean;
+  optionChangedHandlers: EventEmitter<any>;
+  settingsButtonChanged = (e) => {
+    console.log(e);
+  };
   async ionViewDidEnter(){
     console.log('view did enter');
     this.storageService.init();
@@ -98,6 +116,10 @@ export class TabHome implements OnInit{
     this.dataSourceF.paginator.nextPage();
     console.log('current tab : ',this.TabView);
     this.dataSourceF.paginator.firstPage();
+
+    Object.defineProperty(this.myButton, "options", {  writable: true  });
+    this.myButton.options = this.options;
+
   }
 
   applyFilter(event: Event) {

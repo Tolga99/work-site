@@ -2,9 +2,8 @@
   <ion-header>
     <ion-toolbar>
       <ion-title class="ion-text-center">{{'createWorksite' | translate}}</ion-title>
-      <ion-button (click)="GoBack()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
+      <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
+      </dx-button>
     </ion-toolbar>
   </ion-header>
   <form [formGroup]="formWork" (ngSubmit)="CreateWorksite()">
@@ -35,7 +34,7 @@
           {{name.firstName}} </ion-select-option>
       </ion-select>
     </ion-item> -->
-    <dx-button type="button" icon="fas fa-user-plus" (click)="NewClient()">{{'newClient?' | translate}}</dx-button>
+    <dx-button type="button" icon="fas fa-user-plus" (click)="NewClient()" [text]="'newClient?' | translate" style="background-color: orange;"></dx-button>
 
     <hr>
     <ion-item class="form-group" required="required">
@@ -50,6 +49,6 @@
         style="height:100px;" maxlength="50"></ion-textarea>
     </ion-item>
 
-    <input type="submit" value="{{'createWorksite' | translate}}">
+    <dx-button [useSubmitBehavior]="true" type="submit" [text]="'createWorksite' | translate" style="background-color: orange;"></dx-button>
   </form>
 </div>

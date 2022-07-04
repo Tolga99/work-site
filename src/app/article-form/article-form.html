@@ -1,9 +1,8 @@
 <div class="container" style="overflow-y: auto; background-color: white;">
   <ion-header>
     <ion-toolbar>
-      <ion-button (click)="GoBack()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
+      <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
+      </dx-button>
     </ion-toolbar>
   </ion-header>
   <form [formGroup]="formArt" (ngSubmit)="onSubmit()">
@@ -83,6 +82,6 @@
         style="height:100px;" maxlength="50"></ion-textarea>
     </ion-item>
 
-    <input type="submit" value="{{'addProduct' | translate}}">
+    <dx-button [useSubmitBehavior]="true" type="submit" [text]="'addProduct' | translate" icon="fas fa-cart-plus" style="background-color: orange;"></dx-button>
   </form>
 </div>

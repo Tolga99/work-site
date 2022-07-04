@@ -3,21 +3,15 @@
       <ion-title class="ion-text-center">{{'home' | translate}}</ion-title>
       <dx-button style="background-color: orange;" icon="fas fa-id-badge" slot="start" (click)="GoProfile()">
       </dx-button>
-      <ion-button slot="end" mat-icon-button [matMenuTriggerFor]="menu">
-        <ion-icon name="settings"></ion-icon>
-      </ion-button>
-      <mat-menu #menu="matMenu">
-        <dx-button mat-menu-item icon="fas fa-toolbox" (click)="GoSettings()">
-          <ion-label>{{'settings' | translate}}</ion-label>
-        </dx-button>
-        <dx-button mat-menu-item icon="fas fa-icon" (click)="About()">
-          <ion-label>{{'about' | translate}}</ion-label>
-        </dx-button>
-      </mat-menu>
+      <dx-drop-down-button #myButton
+      location="before"
+      icon="fas fa-gear"
+
+    ></dx-drop-down-button>
     </ion-toolbar>
   </ion-header>
   <ion-content [fullscreen]="true" style="overflow-y: auto; justify-content: start;" style="background-image: url('/assets/worksiteBackground.png');">
-  <div class="jumbotron" style="background-color: light; margin: 10px; padding: 10px;">
+   <div class="jumbotron" style="background-color: light; margin: 10px; padding: 10px;">
   <div class="card-header tabHeader">
     {{'myWorksites' | translate}}
 </div>
@@ -88,11 +82,9 @@
           <dx-button mat-icon-button icon="fas fa-bars" [matMenuTriggerFor]="menu">
           </dx-button>
           <mat-menu #menu="matMenu">
-            <dx-button mat-menu-item icon="fas fa-file-pen">
-              <span>{{'edit' | translate}}</span>
+            <dx-button icon="fas fa-file-pen" [text]="'edit' | translate">
             </dx-button>
-            <dx-button mat-menu-item icon="fas fa-trash" (click)="deleteWorksite(row)">
-              <span>{{'delete' | translate}}</span>
+            <dx-button icon="fas fa-trash" (click)="deleteWorksite(row)" [text]="'delete' | translate">
             </dx-button>
           </mat-menu>
         </td>
@@ -113,10 +105,9 @@
   </div>
 
   <div class="card-footer text-muted" style="text-align:center;">
-    <dx-button icon="fas fa-square-plus" type="button" class="btn btn-secondary" style="background-color:orange;" (click)="CreateWorksite()">
-      {{'newWorksite' | translate}}
-      </dx-button>
-      
+    <dx-button icon="fas fa-square-plus" type="button" class="btn btn-secondary" style="background-color:orange;" 
+    (click)="CreateWorksite()" [text]="'newWorksite' | translate">     
+   </dx-button>
   </div>
 </div>
 
@@ -153,17 +144,13 @@
           <dx-button type="button" icon="fas fa-bars" mat-icon-button [matMenuTriggerFor]="menu">
           </dx-button>
           <mat-menu #menu="matMenu">
-            <dx-button mat-menu-item icon="fas fa-file-pen" type="button" (click)="openInvoice(row)">
-              <span>{{'editInv' | translate}}</span>
+            <dx-button icon="fas fa-file-pen" type="button" (click)="openInvoice(row)" [text]="'editInv' | translate">
             </dx-button>
-            <dx-button mat-menu-item icon="fas fa-link" type="button" (click)="assignInvoice(row)">
-              <span>{{'assign' | translate}}</span>
+            <dx-button icon="fas fa-link" type="button" (click)="assignInvoice(row)" [text]="'assign' | translate">
             </dx-button>
-            <dx-button mat-menu-item type="button" icon="fas fa-file-pdf">
-              <span>{{'genPDF' | translate}}</span>
+            <dx-button type="button" icon="fas fa-file-pdf" [text]="'genPDF' | translate">
             </dx-button>
-            <dx-button mat-menu-item icon="fas fa-trash" type="button" (click)="deleteInvoice(row)">
-              <span>{{'delete' | translate}}</span>
+            <dx-button icon="fas fa-trash" type="button" (click)="deleteInvoice(row)" [text]="'delete' | translate">
             </dx-button>
           </mat-menu>
         </td>
@@ -186,15 +173,17 @@
   <div class="card-footer text-muted" style="text-align:center; display: flex;
   justify-content: space-evenly;
   align-items: center;">
-    <dx-button [text]="'scanInvoice' | translate" type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanInvoice()" icon="fas fa-paste"></dx-button>
-    <dx-button type="button" icon="fas fa-file-invoice" class="btn btn-secondary" style="background-color:orange;" (click)="createInvoice()">{{'createInvoice' | translate}}
+    <dx-button [text]="'scanInvoice' | translate" type="button" class="btn btn-secondary" style="background-color:orange;" 
+    (click)="scanInvoice()" icon="fas fa-paste"></dx-button>
+    <dx-button type="button" icon="fas fa-file-invoice" class="btn btn-secondary" style="background-color:orange;" 
+    (click)="createInvoice()" [text]="'createInvoice' | translate">
     </dx-button>
   </div>
   <div class="card-footer text-muted" style="text-align:center; display: flex;
   justify-content: space-evenly;
   align-items: center;">
-    <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()" icon="fas fa-paste">{{'scanEstimate' | translate}}</dx-button>
-    <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()" icon="fas fa-file-invoice-dollar">{{'createEstimate' | translate}}</dx-button>
+    <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()" icon="fas fa-paste" [text]="'scanEstimate' | translate"></dx-button>
+    <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()" icon="fas fa-file-invoice-dollar" [text]="'createEstimate' | translate"></dx-button>
   </div>
 </div>
 

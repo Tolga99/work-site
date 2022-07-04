@@ -1,8 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-button (click)="GoBack()">
-      <ion-icon name="arrow-back"></ion-icon>
-    </ion-button>
+    <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
+    </dx-button>
     <ion-title class="ion-text-center">{{'contacts' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -50,7 +49,8 @@
         <ion-input type="text" id="bic" placeholder="..." formControlName="bic" maxlength="50"></ion-input>
       </ion-item>
 
-      <dx-button type="submit" class="btn btn-secondary" icon="fas fa-user-plus" style="background-color:orange;">{{'saveClient' | translate}}</dx-button>
+      <dx-button [useSubmitBehavior]="true" type="submit" class="btn btn-secondary" icon="fas fa-user-plus" 
+      style="background-color:orange;" [text]="'saveClient' | translate"></dx-button>
     </form>
   </div>
 </ion-content>

@@ -1,12 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">{{'invoices' | translate}}</ion-title>
-    <ion-button (click)="GoBack()">
-      <ion-icon name="arrow-back"></ion-icon>
-    </ion-button>
+    <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
+    </dx-button>
   </ion-toolbar>
 </ion-header>
-<div class="container" style="overflow-y: auto; background-color: white;">
+<div class="container" style="overflow-y: auto; background-color: white; height: 100%;">
   <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
 
     <ion-item class="form-group" required="required">
@@ -18,7 +17,8 @@
     </ion-item>
 
     <div class="form-group" required="required">
-      <dx-button for="art" [hidden]="ScanMode" icon="fas fa-cart-plus" (click)="GoShopping()" type="button">{{'addProduct' | translate}}</dx-button>
+      <dx-button for="art" [hidden]="ScanMode" icon="fas fa-cart-plus" (click)="GoShopping()" type="button" 
+      [text]="'addProduct' | translate" style="background-color: orange;"></dx-button>
     </div>
     <div class="card-header" [hidden]="ScanMode">
       {{'cart' | translate}}
@@ -110,12 +110,12 @@
     </ion-item>
 
     <div [hidden]="type=='devis'">
-      <input type="submit" [hidden]="!ScanMode" value="{{'scanInvoice' | translate}}">
-      <input type="submit" [hidden]="ScanMode==true" value="{{'createInvoice' | translate}}">
+      <dx-button [useSubmitBehavior]="true" style="background-color:orange;" type="submit" [hidden]="!ScanMode" [text]="'scanInvoice' | translate" icon="fas fa-paste"></dx-button>
+      <dx-button [useSubmitBehavior]="true" style="background-color:orange;" type="submit" [hidden]="ScanMode==true" [text]="'createInvoice' | translate" icon="fas fa-file-invoice"></dx-button>
     </div>
     <div [hidden]="type!='devis'">
-      <input type="submit" [hidden]="!ScanMode" value="{{'scanEstimate' | translate}}">
-      <input type="submit" [hidden]="ScanMode==true" value="{{'createEstimate' | translate}}">
+      <dx-button [useSubmitBehavior]="true" style="background-color:orange;" type="submit" [hidden]="!ScanMode" [text]="'scanEstimate' | translate"  icon="fas fa-paste"></dx-button>
+      <dx-button [useSubmitBehavior]="true" style="background-color:orange;" type="submit" [hidden]="ScanMode==true" [text]="'createEstimate' | translate" icon="fas fa-file-invoice-dollar"></dx-button>
     </div>
   </form>
 </div>

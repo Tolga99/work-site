@@ -1,10 +1,8 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
       <ion-title class="ion-text-center">{{'settings' | translate}}</ion-title>
-      <ion-button (click)="GoBack()">
-        <ion-icon name="arrow-back"></ion-icon>
-        <ion-label>{{'back' | translate}}</ion-label>
-      </ion-button>
+      <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
+      </dx-button>
     </ion-toolbar>
   </ion-header>
   
@@ -53,7 +51,7 @@
             <ion-label position="fixed" style="font-size: smaller;">{{'OpenPdfAfterGenerate' | translate}}</ion-label>
             <ion-checkbox id="openPdf" name="openPdf" formControlName="openPdf"></ion-checkbox>
           </ion-item>
-          <dx-button class="btn btn-secondary" type="submit" style="background-color:orange;">{{'saveInvSettings' | translate}}</dx-button>
+          <dx-button [useSubmitBehavior]="true" class="btn btn-secondary" type="submit" style="background-color:orange;" [text]="'saveInvSettings' | translate"></dx-button>
   </div>
 </form>
   </div>

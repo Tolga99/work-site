@@ -4,6 +4,9 @@ import {
     DxDataGridModule,
     DxBulletModule,
     DxTemplateModule,
+    DxDropDownBoxModule,
+    DxDropDownButtonModule,
+    DxiItemModule,
   } from 'devextreme-angular';
 @NgModule({
   exports: [
@@ -11,6 +14,9 @@ import {
     DxDataGridModule,
     DxBulletModule,
     DxTemplateModule,
+    DxDropDownBoxModule,
+    DxDropDownButtonModule,
+    DxiItemModule,
   ]
 })
 export class DxModule {}

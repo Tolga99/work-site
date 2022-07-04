@@ -38,14 +38,11 @@
             <dx-button mat-icon-button icon="fas fa-bars" [matMenuTriggerFor]="menu" type="button">
             </dx-button>
             <mat-menu #menu="matMenu">
-              <dx-button mat-menu-item icon="fas fa-person-digging" type="button" (click)="NewWork(row)">
-                <span>{{'newWorksite' | translate}}</span>
+              <dx-button mat-menu-item [text]="'newWorksite' | translate" icon="fas fa-person-digging" type="button" (click)="NewWork(row)">
               </dx-button>
-              <dx-button mat-menu-item icon="fas fa-user-pen" type="button" (click)="EditContact(row)">
-                <span>{{'edit' | translate}}</span>
+              <dx-button mat-menu-item [text]="'edit' | translate" icon="fas fa-user-pen" type="button" (click)="EditContact(row)">
               </dx-button>
-              <dx-button mat-menu-item icon="fas fa-trash" (click)="deleteContact(row)" type="button">
-                <span>{{'delete' | translate}}</span>
+              <dx-button mat-menu-item [text]="'delete' | translate" icon="fas fa-trash" (click)="deleteContact(row)" type="button">
               </dx-button>
             </mat-menu>
           </td>
@@ -70,7 +67,8 @@
 
     <div class="card text-center">
       <div class="card-footer text-muted">
-        <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" icon="fas fa-user-plus" (click)="CreateClient()">{{'newClient' | translate}}</dx-button>
+        <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" icon="fas fa-user-plus" 
+        (click)="CreateClient()" [text]="'newClient' | translate"></dx-button>
       </div>
     </div>
   </div>

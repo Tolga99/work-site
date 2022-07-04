@@ -31,8 +31,8 @@
           </div>
       
           <div class="card-footer text-muted" style="text-align: center;">
-            <dx-button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;" icon="fas fa-angle-left">{{'back' | translate}}</dx-button>
-            <dx-button type="button" class="btn btn-secondary" (click)="CreateCategory()" icon="fas fa-square-plus" style="background-color:orange;">{{'newCategory' | translate}}</dx-button>
+            <dx-button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;" icon="fas fa-angle-left" [text]="'back' | translate"></dx-button>
+            <dx-button type="button" class="btn btn-secondary" (click)="CreateCategory()" icon="fas fa-square-plus" style="background-color:orange;" [text]="'newCategory' | translate"></dx-button>
           </div>
         </div>
       </ion-item>
@@ -62,11 +62,9 @@
             <dx-button [matMenuTriggerFor]="menu" icon="fas fa-bars" type="button">
             </dx-button>
             <mat-menu #menu="matMenu">
-              <dx-button mat-menu-item icon="fas pen-to-square" (click)="ModifyProduct(p)" type="button">
-                <ion-icon name="create"></ion-icon>
-                <span>{{'edit' | translate}}</span>
+              <dx-button icon="fas pen-to-square" [text]="'edit' | translate" (click)="ModifyProduct(p)" type="button">
               </dx-button>
-              <dx-button mat-menu-item icon="fas fa-trash" [textContent]="'delete' | translate" (click)="DeleteProduct(p)" type="button">
+              <dx-button icon="fas fa-trash" [text]="'delete' | translate" (click)="DeleteProduct(p)" type="button">
               </dx-button>
             </mat-menu>
           </td>
@@ -76,7 +74,7 @@
 
   </div>
   <div class="card-footer text-muted" style="text-align: center;">
-    <dx-button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;" icon="fas fa-plus">{{'new product' | translate}}</dx-button>
+    <dx-button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;" icon="fas fa-plus" [text]="'new product' | translate"></dx-button>
   </div>
 </div>
 </ion-content>

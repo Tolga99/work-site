@@ -12,6 +12,7 @@ import {MaterialModule} from '../material.module';
 import {MatNativeDateModule} from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
 import { DxModule } from '../Dx.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -23,7 +24,7 @@ import { DxModule } from '../Dx.module';
     ExploreContainerComponentModule,
     TabHomeRoutingModule,
     SharedModule,
-    MatNativeDateModule,MaterialModule,
+    MatNativeDateModule,MaterialModule
   ],
   declarations: [TabHome]
 })

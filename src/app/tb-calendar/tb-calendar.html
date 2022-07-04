@@ -119,10 +119,8 @@
               <option></option>
               <option *ngFor="let name of clientList" [value]="name.userId"> {{name.lastName}} </option>
             </select> -->
-            <ion-tab-button (click)="NewClient()">
-              <ion-icon name="person-add"></ion-icon>
-              <ion-label>{{'newClient?' | translate}}</ion-label>
-            </ion-tab-button>
+            <dx-button (click)="NewClient()" [text]="'newClient?' | translate" icon="fas fa-user-plus">
+            </dx-button>
           </td>
           <td>
             <textarea id="description" name="description" [(ngModel)]="event.description" placeholder="..."
@@ -145,9 +143,8 @@
               dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
           </td>
           <td>
-            <ion-tab-button (click)="deleteEvent(event)">
-              <ion-icon name="trash"></ion-icon>
-            </ion-tab-button>
+            <dx-button (click)="deleteEvent(event)" icon="fas fa-trash">
+            </dx-button>
           </td>
         </tr>
       </tbody>

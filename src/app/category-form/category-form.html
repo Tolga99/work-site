@@ -1,9 +1,8 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">{{'category' | translate}}</ion-title>
-    <ion-button (click)="GoBack()">
-      <ion-icon name="arrow-back"></ion-icon>
-    </ion-button>
+    <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
+    </dx-button>
   </ion-toolbar>
 </ion-header>
 <div class="container" style="overflow-y: auto; background-color: white;">
@@ -59,6 +58,6 @@
         style="height:100px;" maxlength="50"></ion-textarea>
     </ion-item>
 
-    <input type="submit" value="{{'createCategory' | translate}}">
+    <dx-button [useSubmitBehavior]="true" type="submit" [text]="'createCategory' | translate" style="background-color: orange;"></dx-button>
   </form>
 </div>

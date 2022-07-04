@@ -1,12 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">{{'payment' | translate}}</ion-title>
-    <ion-button (click)="GoBack()">
-      <ion-icon name="arrow-back"></ion-icon>
-    </ion-button>
+    <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
+    </dx-button>
   </ion-toolbar>
 </ion-header>
-<div class="container" style="overflow-y: auto; background-color: white;">
+<div class="container" style="overflow-y: auto; background-color: white; height: 100%; width: 100%;">
 
   <form [formGroup]="formPay" (ngSubmit)="SavePay()">
     <div class="card-header tabHeader">
@@ -36,13 +35,17 @@
     <!-- <div>
       <label for="">Reste à payer : {{selectedInv?.totalPrice - ReceivedMoney }}</label>
     </div> -->
-    <ion-item class="form-group" required="required">
-      <ion-label position="floating">{{'payment' | translate}}</ion-label>
-      <ion-input type="number" id="payment" name="payment" formControlName="payment" placeholder="..." required="required"
+    <ion-item class="form-group" style="margin-top: 10px" required="required">
+      <ion-label>{{'payment' | translate}}</ion-label>
+      <ion-input type="number" id="payment" name="payment" formControlName="payment" placeholder="123,45" required="required"
       maxlength="12"></ion-input>
     </ion-item>
-    <dx-button icon="fas fa-cash-register" class="btn btn-danger" style="background-color:orange;"> {{'addPay' | translate}}</dx-button>
+    <div class="card-footer text-muted" style="text-align:center; display: flex;
+  justify-content: space-evenly;
+  align-items: center;">
+    <dx-button [useSubmitBehavior]="true" icon="fas fa-cash-register" class="btn btn-danger" style="background-color:orange;" [text]="'addPay' | translate"></dx-button>
+    <dx-button [useSubmitBehavior]="false" class="btn btn-danger" (click)="Terminer()" [text]="'savePay' | translate" style="background-color: orange;"></dx-button>
+  </div>
   </form>
-  <dx-button type="submit" class="btn btn-danger" (click)="Terminer()">{{'savePay' | translate}}</dx-button>
 
 </div>
