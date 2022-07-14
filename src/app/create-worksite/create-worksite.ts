@@ -8,6 +8,7 @@ import { User } from '../models/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { BehaviorSubject } from 'rxjs';
+import { MethodsService } from '../services/methods.service';
 
 @Component({
   selector: 'app-createworksite',
@@ -31,7 +32,8 @@ export class CreateWorksite implements OnInit {
   });
 
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router,private route:ActivatedRoute)
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router,
+    private route:ActivatedRoute, private methodsService : MethodsService)
   {
   }
   async ionViewDidEnter(){
@@ -132,6 +134,24 @@ export class CreateWorksite implements OnInit {
   }
   async GoBack()
   {
+    var result : string | undefined;
+    let cpt = 0;
+    Object.keys(this.formWork.controls).forEach(key => {
+      if(!this.methodsService.isNullOrEmpty(this.formWork.controls[key].value))
+      {
+        cpt ++;
+      }
+    });
+    if(cpt > 0)
+    {
+      result = await this.GoBackModal();
+    }
+    console.log(result);
+    if(result !== null)
+      this.router.navigate(['tb-home'],{replaceUrl:true});
+  }
+  async GoBackModal() : Promise<string>
+  {
     let res : string =null;
     await this.modal.open('exitPage','')
     .then(result => result.result
@@ -141,8 +161,8 @@ export class CreateWorksite implements OnInit {
       res='DISMISS'; }
       ));
     if(res === 'DISMISS')
-        return;
-    this.router.navigate(['tb-home'],{replaceUrl:true});
+        return null;
+    return '';
   }
 }
 

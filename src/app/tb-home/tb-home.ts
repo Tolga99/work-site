@@ -24,6 +24,7 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { DxiItemComponent, INestedOptionContainer, NestedOptionHost } from 'devextreme-angular';
+import { PdfService } from '../services/pdf.service';
 @Component({
   selector: 'app-tb-home',
   templateUrl: 'tb-home.html',
@@ -31,9 +32,15 @@ import { DxiItemComponent, INestedOptionContainer, NestedOptionHost } from 'deve
   providers : [NestedOptionHost]
 })
 export class TabHome implements OnInit, INestedOptionContainer{
-  alignments : any[]= [
-    { value: 'settings', name: 'x', icon: 'fas fa-toolbox' },
-    { value: 'about', name: 'c', icon: 'fas fa-icon' },
+  deleteText = '';
+  editText = '';
+  settingsBt : any[]= [
+    { value: 'settings', text: '', icon: 'fas fa-toolbox' },
+    { value: 'about',text: '', icon: 'fas fa-info' },
+  ];
+  settingsChantier : any[]= [
+    { value: 'edit', text: '', icon: 'fas fa-pencil-square-o' },
+    { value: 'delete',text: '', icon: 'fas fa-trash' },
   ];
   // <dx-button icon="" (click)="GoSettings()" [text]="">
   // </dx-button>
@@ -81,12 +88,16 @@ export class TabHome implements OnInit, INestedOptionContainer{
               private http: HttpClient,
               private _translate: TranslateService, private appVersion : AppVersion,
               private appRate : AppRate,
-              private library : FaIconLibrary,private optionHost: NestedOptionHost)
+              private library : FaIconLibrary,private optionHost: NestedOptionHost,
+              private translateService : TranslateService,
+              private pdfService : PdfService)
               {
                 this.storageService.init();
                 _translate.setDefaultLang('fr');
-                _translate.use('fr');
-
+                _translate.use('fr').toPromise();
+                translateService.addLangs(['en', 'fr']);
+                translateService.use('fr').toPromise();
+                translateService.setDefaultLang('fr');
                 library.addIcons(fasStar, farStar);
                 optionHost.setHost(this);
 
@@ -260,6 +271,10 @@ export class TabHome implements OnInit, INestedOptionContainer{
     {
       this.searchList = this.chantierList.filter(a => a.dateStart.toLowerCase().includes(val));
     }
+  }
+  GeneratePDFInvoice(f : Facture)
+  {
+    this.pdfService.GeneratePDFInvoice(null,f);
   }
   UpdateSearch(event)
   {
@@ -528,5 +543,15 @@ export class TabHome implements OnInit, INestedOptionContainer{
     });
     
     this.appRate.promptForRating(false);
+  }
+  settingsBtsClick(e : any)
+  {
+    if(e.item.value === 'about')
+    {
+      this.About();
+    }else //settings
+    {
+      this.GoSettings();
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
@@ -8,6 +8,7 @@ import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
 import { Product } from '../models/product';
 import { ShoppingCart } from '../models/shoppingCart';
+import { MethodsService } from '../services/methods.service';
 import { StorageService } from '../services/storage.service';
 
 @Component({
@@ -33,15 +34,16 @@ export class Shop implements OnInit {
   invTypePay : string;
   invTva : string;
   invDescription : string;
-
+  panierEmpty = 'YES';
   formArt = new UntypedFormGroup({
     productName: new UntypedFormControl('',Validators.required),
     description: new UntypedFormControl(''),
     priceHtva: new UntypedFormControl('', [Validators.required]),
   });
-
+  initialPanier :Array<ShoppingCart> = [];
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute)
+  constructor(private modalS :NgbModal,private storageService:StorageService,
+    private router:Router,private route:ActivatedRoute, private methodsService : MethodsService)
   {
   }
 
@@ -72,10 +74,18 @@ export class Shop implements OnInit {
     {
       let chantierList : Chantier[] = await this.storageService.get('Chantiers');
       if(chantierList?.find(a => a.chantierId === this.chantierId).factures?.find(b => b.factureId === this.invoiceId)?.cart != null)
+      {
         this.panierList = chantierList.find(a => a.chantierId === this.chantierId).factures.find(b => b.factureId === this.invoiceId).cart;
+        this.panierList.forEach(a => this.initialPanier.push(a));
+        this.panierEmpty = 'NO';
+      }
     }
     if(this.panierList == null)
-    this.panierList = new Array<ShoppingCart>();
+    {
+      this.panierList = new Array<ShoppingCart>();
+      this.initialPanier = new Array<ShoppingCart>();
+      this.panierEmpty = 'YES';
+    }
 
     if(this.catList!=null)
       this.catList = this.catList.filter(a => a.categoryParent == null);
@@ -207,6 +217,48 @@ export class Shop implements OnInit {
   }
   async GoBack()
   {
+    var result : string | undefined;
+    if(this.panierEmpty === 'YES')
+    {
+      let cpt = 0;
+      console.log(this.initialPanier,this.panierList);
+      if(this.initialPanier.length !== this.panierList.length)
+      {
+        cpt ++;
+      }
+      console.log(cpt);
+      if(cpt > 0)
+      {
+        result = await this.GoBackModal();
+      }
+    }else
+    {
+      let samePanier = true;
+      console.log(this.initialPanier,this.panierList);
+      this.panierList.forEach(a =>
+        {
+          if(!this.initialPanier.includes(a))
+          {
+            samePanier = false;
+            console.log(a,this.initialPanier);
+          }
+        });
+      if(!samePanier)
+      {
+        result = await this.GoBackModal();
+      }
+    }
+    console.log(result);
+    if(result !== null)
+      this.router.navigate(['invoice',
+    {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
+    ,factureName : this.invName, remise : this.invRemise,
+    tva : this.invTva, description : this.invDescription,
+    typePay : this.invTypePay}],
+    {replaceUrl:true});
+}
+  async GoBackModal() : Promise<string>
+  {
     let res : string =null;
     await this.modal.open('exitPage','')
     .then(result => result.result
@@ -216,14 +268,8 @@ export class Shop implements OnInit {
       res='DISMISS'; }
       ));
     if(res === 'DISMISS')
-        return;
-
-    this.router.navigate(['invoice',
-                        {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
-                        ,factureName : this.invName, remise : this.invRemise,
-                        tva : this.invTva, description : this.invDescription,
-                        typePay : this.invTypePay}],
-                        {replaceUrl:true});
+        return null;
+    return '';
   }
   async AddFastProduct()
   {

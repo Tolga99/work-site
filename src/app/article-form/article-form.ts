@@ -10,6 +10,7 @@ import { Product } from '../models/product';
 import { StorageService } from '../services/storage.service';
 import { PhotoService } from '../services/photo.service';
 import { Camera,CameraOptions  } from '@awesome-cordova-plugins/camera/ngx';
+import { MethodsService } from '../services/methods.service';
 
 @Component({
   selector: 'app-article-form',
@@ -41,7 +42,7 @@ export class ArticleForm implements OnInit, OnDestroy{
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router
     , private route: ActivatedRoute, public photoService : PhotoService
-    , private camera : Camera)
+    , private camera : Camera,private methodsService : MethodsService)
   {
   }
 
@@ -176,6 +177,39 @@ export class ArticleForm implements OnInit, OnDestroy{
   }
   async GoBack()
   {
+    var result : string | undefined;
+    console.log(this.modif);
+    if(this.modif === 'NO')
+    {
+      let cpt = 0;
+      Object.keys(this.formArt.controls).forEach(key => {
+        if(!this.methodsService.isNullOrEmpty(this.formArt.controls[key].value))
+        {
+          cpt ++;
+        }
+      });
+      console.log(cpt,this.formArt);
+      if(cpt > 0)
+      {
+        result = await this.GoBackModal();
+      }
+    }else
+    {
+      if(!this.methodsService.equals(this.modifArt.productName,this.formArt.get('productName').value) ||
+      !this.methodsService.equals(this.modifArt.description,this.formArt.get('description').value) ||
+      !this.methodsService.equals(this.modifArt.priceHtva.toString(),this.formArt.get('priceHtva').value) ||
+      !this.methodsService.equals(this.modifArt.categoryId,this.formArt.get('category').value) ||
+      !this.methodsService.equals(this.modifArt.imageProduct,this.images))
+      {
+        result = await this.GoBackModal();
+      }
+    }
+    console.log(result);
+    if(result !== null)
+      this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
+  }
+  async GoBackModal() : Promise<string>
+  {
     let res : string =null;
     await this.modal.open('exitPage','')
     .then(result => result.result
@@ -185,8 +219,8 @@ export class ArticleForm implements OnInit, OnDestroy{
       res='DISMISS'; }
       ));
     if(res === 'DISMISS')
-        return;
-    this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
+        return null;
+    return '';
   }
   addPhotoToGallery() {
     this.photoService.addNewToGallery();

@@ -3,11 +3,16 @@
       <ion-title class="ion-text-center">{{'home' | translate}}</ion-title>
       <dx-button style="background-color: orange;" icon="fas fa-id-badge" slot="start" (click)="GoProfile()">
       </dx-button>
-      <dx-drop-down-button #myButton
-      location="before"
+      <dx-drop-down-button
       icon="fas fa-gear"
-
-    ></dx-drop-down-button>
+      slot="end"
+      style="background-color: orange;"
+      [items]="settingsBt"
+      displayExpr="text"
+      keyExpr="value"
+      (onSelectionChanged)="settingsBtsClick($event)"
+    >
+    </dx-drop-down-button>
     </ion-toolbar>
   </ion-header>
   <ion-content [fullscreen]="true" style="overflow-y: auto; justify-content: start;" style="background-image: url('/assets/worksiteBackground.png');">
@@ -79,13 +84,27 @@
       <ng-container matColumnDef="...">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
         <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-          <dx-button mat-icon-button icon="fas fa-bars" [matMenuTriggerFor]="menu">
+          <!-- <dx-button mat-icon-button icon="fas fa-bars" [matMenuTriggerFor]="menu">
           </dx-button>
           <mat-menu #menu="matMenu">
             <dx-button icon="fas fa-file-pen" [text]="'edit' | translate">
             </dx-button>
             <dx-button icon="fas fa-trash" (click)="deleteWorksite(row)" [text]="'delete' | translate">
             </dx-button>
+          </mat-menu> -->
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>toc</mat-icon>
+
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>edit</mat-icon>
+              <span>{{'edit' | translate}}</span>
+            </button>
+            <button mat-menu-item (click)="deleteWorksite(row)">
+              <mat-icon>delete</mat-icon>
+              <span>{{'delete' | translate}}</span>
+            </button>
           </mat-menu>
         </td>
       </ng-container>
@@ -105,7 +124,7 @@
   </div>
 
   <div class="card-footer text-muted" style="text-align:center;">
-    <dx-button icon="fas fa-square-plus" type="button" class="btn btn-secondary" style="background-color:orange;" 
+    <dx-button icon="fas fa-plus" type="button" class="btn btn-secondary" style="background-color:orange;" 
     (click)="CreateWorksite()" [text]="'newWorksite' | translate">     
    </dx-button>
   </div>
@@ -141,17 +160,27 @@
       <ng-container matColumnDef="...">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
         <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-          <dx-button type="button" icon="fas fa-bars" mat-icon-button [matMenuTriggerFor]="menu">
-          </dx-button>
+          <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>toc</mat-icon>
+
+          </button>
           <mat-menu #menu="matMenu">
-            <dx-button icon="fas fa-file-pen" type="button" (click)="openInvoice(row)" [text]="'editInv' | translate">
-            </dx-button>
-            <dx-button icon="fas fa-link" type="button" (click)="assignInvoice(row)" [text]="'assign' | translate">
-            </dx-button>
-            <dx-button type="button" icon="fas fa-file-pdf" [text]="'genPDF' | translate">
-            </dx-button>
-            <dx-button icon="fas fa-trash" type="button" (click)="deleteInvoice(row)" [text]="'delete' | translate">
-            </dx-button>
+            <button mat-menu-item type="button" (click)="openInvoice(row)">
+              <mat-icon>edit</mat-icon>
+              <span>{{'editInv' | translate}}</span>
+            </button>
+            <button mat-menu-item type="button" (click)="assignInvoice(row)">
+              <mat-icon></mat-icon>
+              <span>{{'assign' | translate}}</span>
+            </button>
+            <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
+              <mat-icon>picture_as_pdf</mat-icon>
+              <span>{{'genPDF' | translate}}</span>
+            </button>
+            <button mat-menu-item type="button" (click)="deleteInvoice(row)">
+              <mat-icon>delete</mat-icon>
+              <span>{{'delete' | translate}}</span>
+            </button>
           </mat-menu>
         </td>
       </ng-container>

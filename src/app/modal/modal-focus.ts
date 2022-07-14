@@ -1,5 +1,6 @@
 import {Component, OnInit, Type} from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { Chantier } from '../models/chantier';
 import { StorageService } from '../services/storage.service';
 
@@ -26,7 +27,8 @@ import { StorageService } from '../services/storage.service';
   })
   export class NgbdModalDelInv {
       label = '';
-    constructor(public modal: NgbActiveModal) {
+   constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+
       this.label= NgbdModalFocus.label;
     }
   }
@@ -54,7 +56,8 @@ import { StorageService } from '../services/storage.service';
   })
   export class NgbdModalExitPage {
       label = '';
-    constructor(public modal: NgbActiveModal) {
+   constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+
       this.label= NgbdModalFocus.label;
     }
   }
@@ -82,7 +85,8 @@ import { StorageService } from '../services/storage.service';
   })
   export class NgbdModalDelDev {
     label = '';
-    constructor(public modal: NgbActiveModal) {
+   constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+
       this.label= NgbdModalFocus.label;
     }  }
 
@@ -108,20 +112,21 @@ import { StorageService } from '../services/storage.service';
     `
   })
   export class NgbdModalDelChantier {
-    constructor(public modal: NgbActiveModal) {}
+   constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+}
   }
 
   @Component({
     selector: 'ngbd-modal-end-chantier',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">{{"finishingWorksite | translate"}}</h4>
+      <h4 class="modal-title" id="modal-title">{{'finishingWorksite' | translate}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>{{"finishingWorksiteTxt1 | translate"}}</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p><strong>{{'finishingWorksiteTxt1' | translate}}</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
       <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       <!-- </p> -->
@@ -133,21 +138,22 @@ import { StorageService } from '../services/storage.service';
     `
   })
   export class NgbdModalEndChantier {
-    constructor(public modal: NgbActiveModal) {}
+   constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+}
   }
 
   @Component({
     selector: 'ngbd-modal-del-cli',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">{{"deletingClient | translate"}}</h4>
+      <h4 class="modal-title" id="modal-title">{{'deletingClient' | translate}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>{{"deletingClientTxt1 | translate"}}<span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
-      <p>{{"deletingClientTxt2 | translate"}}
+      <p><strong>{{'deletingClientTxt1' | translate}}<span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p>{{'deletingClientTxt2' | translate}}
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       </p>
     </div>
@@ -159,7 +165,8 @@ import { StorageService } from '../services/storage.service';
   })
   export class NgbdModalDelCli {
     label = '';
-    constructor(public modal: NgbActiveModal) {
+   constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+
       this.label= NgbdModalFocus.label;
     }  }
 
@@ -167,14 +174,14 @@ import { StorageService } from '../services/storage.service';
     selector: 'ngbd-modal-del-cat',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">{{"deletingCategory | translate"}}</h4>
+      <h4 class="modal-title" id="modal-title">{{'deletingCategory' | translate}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>{{"deletingCategoryTxt1 | translate"}}<span class="text-primary">{{label}}</span>   ?</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
-      <p>{{"deletingCategoryTxt2 | translate"}}
+      <p><strong>{{'deletingCategoryTxt1' | translate}}<span class="text-primary">{{label}}</span>   ?</strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p>{{'deletingCategoryTxt2' | translate}}
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       </p>
     </div>
@@ -186,7 +193,8 @@ import { StorageService } from '../services/storage.service';
   })
   export class NgbdModalDelCat {
     label = '';
-    constructor(public modal: NgbActiveModal) {
+   constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+
       this.label= NgbdModalFocus.label;
     }  }
 
@@ -194,13 +202,13 @@ import { StorageService } from '../services/storage.service';
     selector: 'ngbd-modal-del-art',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">{{"deletingProduct | translate"}}</h4>
+      <h4 class="modal-title" id="modal-title">{{'deletingProduct' | translate}}</h4>
       <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p><strong>{{"deletingProductTxt1 | translate"}}<span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
+      <p><strong>{{'deletingProductTxt1' | translate}}<span class="text-primary">{{label}}</span>  </strong></p> <!--<span class="text-primary">"John Doe"</span> -->
       <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
       <!-- <span class="text-danger">This operation can not be undone.</span> -->
       <!-- </p> -->
@@ -213,21 +221,20 @@ import { StorageService } from '../services/storage.service';
   })
   export class NgbdModalDelArt {
     label = '';
-    constructor(public modal: NgbActiveModal) {
+   constructor(public modal: NgbActiveModal, public translate : TranslateService) {
       this.label= NgbdModalFocus.label;
     }  }
-
     @Component({
         selector: 'ngbd-modal-incomplete',
         template: `
         <div class="modal-header">
-          <h4 class="modal-title" id="modal-title">{{"mandatoryFields | translate"}}</h4>
+          <h4 class="modal-title" id="modal-title">{{'mandatoryFields' | translate}}</h4>
           <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p><strong>{{"mandatoryFieldsTxt1 | translate"}} <span class="text-primary">{{label}}</span></strong></p>
+          <p><strong>{{'mandatoryFieldsTxt1' | translate}} <span class="text-primary">{{label}}</span></strong></p>
           <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
           <!-- <span class="text-danger">This operation can not be undone.</span> -->
           <!-- </p> -->
@@ -235,11 +242,10 @@ import { StorageService } from '../services/storage.service';
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
         </div>
-        `
-      })
+        `})
       export class NgbdModalField {
         label = '';
-        constructor(public modal: NgbActiveModal) {
+        constructor(public modal: NgbActiveModal, public translate : TranslateService) {
           this.label= NgbdModalFocus.label;
         }  }
         @Component({
@@ -248,7 +254,6 @@ import { StorageService } from '../services/storage.service';
           <div class="modal-header">
           <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
-
         <thead>
           <tr>
             <th *ngFor="let head of headElements" scope="col">{{head | translate}}</th>
@@ -274,7 +279,7 @@ import { StorageService } from '../services/storage.service';
           label = '';
           listChantier : Chantier[] = [];
           selectedChantier : Chantier;
-          constructor(public modal: NgbActiveModal,private storage : StorageService) {
+          constructor(public modal: NgbActiveModal,private storage : StorageService, public translate : TranslateService) {
           }
           async ngOnInit() {
             this.storage.init();
@@ -291,17 +296,17 @@ import { StorageService } from '../services/storage.service';
           selector: 'ngbd-modal-calendar',
           template: `
           <div class="modal-header">
-            <h4 class="modal-title" id="modal-title">{{"infos | translate"}}</h4>
+            <h4 class="modal-title" id="modal-title">{{'infos' | translate}}</h4>
             <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <p><strong>{{"title | translate"}} : <span class="text-primary">{{fields[0]}}</span></strong></p>
-            <p><strong>{{"client | translate"}} : <span class="text-primary">{{fields[1]}}</span></strong></p>
-            <p><strong>{{"description | translate"}} : <span class="text-primary">{{fields[2]}}</span></strong></p>
-            <p><strong>{{"startDate | translate"}} : <span class="text-primary">{{fields[3]}}</span></strong></p>
-            <p><strong>{{"endDate | translate"}} : <span class="text-primary">{{fields[4]}}</span></strong></p>
+            <p><strong>{{'title' | translate}} : <span class="text-primary">{{fields[0]}}</span></strong></p>
+            <p><strong>{{'client' | translate}} : <span class="text-primary">{{fields[1]}}</span></strong></p>
+            <p><strong>{{'description' | translate}} : <span class="text-primary">{{fields[2]}}</span></strong></p>
+            <p><strong>{{'startDate' | translate}} : <span class="text-primary">{{fields[3]}}</span></strong></p>
+            <p><strong>{{'endDate' | translate}} : <span class="text-primary">{{fields[4]}}</span></strong></p>
 
             <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
             <!-- <span class="text-danger">This operation can not be undone.</span> -->
@@ -315,26 +320,25 @@ import { StorageService } from '../services/storage.service';
         export class NgbdModalCalendar {
           label = '';
           fields = [];
-          constructor(public modal: NgbActiveModal) {
+         constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+
             this.label= NgbdModalFocus.label;
             this.fields=this.label.split('|',5);
             console.log(this.fields);
           }  }
-        
-    
           @Component({
             selector: 'ngbd-modal-incomplete',
             template: `
             <div class="modal-header">
-              <h4 class="modal-title" id="modal-title">{{"about | translate"}}</h4>
+              <h4 class="modal-title" id="modal-title">{{'about' | translate}}</h4>
               <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <p><strong>{{"developedBy | translate"}}  <span class="text-primary">Tolga Ov</span></strong></p>
-              <p><strong><span class="text-primary">JUNE 2022</span></strong></p>
-              <p><strong>WorkSite - <span class="text-primary">Version 0.1 - BETA</span></strong></p>
+              <p><strong>{{'developedBy' | translate}}  <span class="text-primary">Tolga Ov</span></strong></p>
+              <p><strong><span class="text-primary">JULY 2022</span></strong></p>
+              <p><strong>WorkSite - <span class="text-primary">Version 0.1.2 - BETA</span></strong></p>
               <p><strong><span class="text-primary">Copyright All Rights Reserved</span></strong></p>
               <p><strong>Contact : </strong></p> <A HREF="mailto:Ovalit19@gmail.com">Ovalit19@gmail.com</A>
               <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
@@ -348,10 +352,10 @@ import { StorageService } from '../services/storage.service';
           })
           export class NgbdModalAbout {
             label = '';
-            constructor(public modal: NgbActiveModal) {
+           constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+
               this.label= NgbdModalFocus.label;
             }  }
-    
 @Component({
   selector: 'ngbd-modal-confirm-autofocus',
   template: `
@@ -374,7 +378,8 @@ import { StorageService } from '../services/storage.service';
   `
 })
 export class NgbdModalConfirmAutofocus {
-  constructor(public modal: NgbActiveModal) {}
+ constructor(public modal: NgbActiveModal, public translate : TranslateService) {
+}
 }
 
 const MODALS: {[name: string]: Type<any>} = {

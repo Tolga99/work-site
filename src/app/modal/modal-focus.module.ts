@@ -15,7 +15,7 @@ import {
   NgbdModalConfirmAutofocus,
   NgbdModalFocus,
   NgbdModalAssign,
-  NgbdModalExitPage,
+  NgbdModalExitPage
 } from './modal-focus';
 
 @NgModule({

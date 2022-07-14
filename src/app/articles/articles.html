@@ -32,7 +32,7 @@
       
           <div class="card-footer text-muted" style="text-align: center;">
             <dx-button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;" icon="fas fa-angle-left" [text]="'back' | translate"></dx-button>
-            <dx-button type="button" class="btn btn-secondary" (click)="CreateCategory()" icon="fas fa-square-plus" style="background-color:orange;" [text]="'newCategory' | translate"></dx-button>
+            <dx-button type="button" class="btn btn-secondary" (click)="CreateCategory()" icon="fas fa-plus" style="background-color:orange;" [text]="'newCategory' | translate"></dx-button>
           </div>
         </div>
       </ion-item>
@@ -59,13 +59,19 @@
           <td>{{p.description}}</td>
           <td>{{p.priceHtva}}</td>
           <td (click)="$event.stopPropagation()">
-            <dx-button [matMenuTriggerFor]="menu" icon="fas fa-bars" type="button">
-            </dx-button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
+              <mat-icon>toc</mat-icon>
+
+            </button>
             <mat-menu #menu="matMenu">
-              <dx-button icon="fas pen-to-square" [text]="'edit' | translate" (click)="ModifyProduct(p)" type="button">
-              </dx-button>
-              <dx-button icon="fas fa-trash" [text]="'delete' | translate" (click)="DeleteProduct(p)" type="button">
-              </dx-button>
+              <button mat-menu-item (click)="ModifyProduct(p)" type="button">
+                <mat-icon>edit</mat-icon>
+                <span>{{'edit' | translate}}</span>
+              </button>
+              <button mat-menu-item (click)="DeleteProduct(p)" type="button">
+                <mat-icon>delete</mat-icon>
+                <span>{{'delete' | translate}}</span>
+              </button>
             </mat-menu>
           </td>
         </tr>

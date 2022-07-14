@@ -37,7 +37,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,ReactiveFormsModule,
     MatCardModule,
     MatIconModule,
-    MatMenuModule,TranslateModule,DxModule
+    MatMenuModule,TranslateModule,DxModule,
+    FontAwesomeModule
   ]
 })
 export class SharedModule { }

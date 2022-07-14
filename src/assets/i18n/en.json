@@ -186,7 +186,7 @@
 
     "exitPage" : "Exiting page",
     "exitPageTxt1" : "Etes-vous sur de quitter la page ?",
-    "exitPageTxt2²" : "Toutes les données non-sauvegardées seront définitivement supprimées.",
+    "exitPageTxt2" : "Toutes les données non-sauvegardées seront définitivement supprimées.",
    
     "noCategories" : "No Categories",
     "noData" : "No data to display"

@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
+import { MethodsService } from '../services/methods.service';
 import { StorageService } from '../services/storage.service';
 
 @Component({
@@ -34,7 +35,9 @@ export class CategoryForm implements OnInit,OnDestroy {
   selectedCat : string;
 
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)
+  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, 
+              private route: ActivatedRoute,
+              private methodsService : MethodsService)
   {
   }
   @HostListener('unloaded')
@@ -230,6 +233,40 @@ export class CategoryForm implements OnInit,OnDestroy {
   }
   async GoBack()
   {
+    var result : string | undefined;
+    console.log(this.modif);
+    if(this.modif === 'NO' || this.modif === undefined)
+    {
+      let cpt = 0;
+      Object.keys(this.formCat.controls).forEach(key => {
+        if(!this.methodsService.isNullOrEmpty(this.formCat.controls[key].value))
+        {
+          cpt ++;
+        }
+      });
+      console.log(cpt,this.formCat);
+      if(cpt > 0)
+      {
+        result = await this.GoBackModal();
+      }
+    }else
+    {
+      let parent = '';
+      if(this.modifCat.categoryParent !== null && this.modifCat.categoryParent !== undefined)
+        parent = this.modifCat.categoryParent.categoryId;
+      if(!this.methodsService.equals(this.modifCat.categoryName,this.formCat.get('categoryName').value) ||
+      !this.methodsService.equals(this.modifCat.description,this.formCat.get('description').value) ||
+      !this.methodsService.equals(parent,this.formCat.get('categoryPar').value))
+      {
+        result = await this.GoBackModal();
+      }
+    }
+    console.log(result);
+    if(result !== null)
+    this.router.navigate(['articles',{actualCat: this.ActualCat}],{replaceUrl:true});
+  }
+  async GoBackModal() : Promise<string>
+  {
     let res : string =null;
     await this.modal.open('exitPage','')
     .then(result => result.result
@@ -239,10 +276,9 @@ export class CategoryForm implements OnInit,OnDestroy {
       res='DISMISS'; }
       ));
     if(res === 'DISMISS')
-        return;
-    this.router.navigate(['articles',{actualCat: this.ActualCat}],{replaceUrl:true});
+        return null;
+    return '';
   }
-
   changePar(e) {
     this.formCat.get('categoryPar').setValue(e.target.value, {
       onlySelf: true

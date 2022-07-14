@@ -13,6 +13,7 @@ import { ShoppingCart } from '../models/shoppingCart';
 import { InvoiceSettings } from '../models/Settings/invoiceSettings';
 import { stringify } from 'querystring';
 import { throws } from 'assert';
+import { MethodsService } from '../services/methods.service';
 
 @Component({
   selector: 'app-invoice',
@@ -43,13 +44,14 @@ export class Invoice implements OnInit {
     factureName: new UntypedFormControl('',Validators.required),
     description: new UntypedFormControl(''),
     typePay: new UntypedFormControl('', [Validators.required]),
-    priceHtva: new UntypedFormControl({value:'0',disabled:true}),
-    tva: new UntypedFormControl('0',),
-    remise: new UntypedFormControl('0',),
-    totalPrice : new UntypedFormControl('0',),
+    priceHtva: new UntypedFormControl({value:null,disabled:true}),
+    tva: new UntypedFormControl(),
+    remise: new UntypedFormControl(),
+    totalPrice : new UntypedFormControl(),
   });
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, private route: ActivatedRoute)
+  constructor(private modalS :NgbModal,private storageService:StorageService,
+    private router: Router, private route: ActivatedRoute, private methodsService : MethodsService)
   {
   }
 
@@ -81,6 +83,15 @@ export class Invoice implements OnInit {
       this.formInv.get('typePay').setValue(typePay);
     if(remise !== null && remise !== '')
       this.formInv.get('remise').setValue(remise);
+    
+    let total = 0;
+    this.panierList.forEach(element => {
+      console.log('total value :' ,total);
+        total = total + (Number.parseFloat(element.product.priceHtva.toString()) * element.quantity);
+        total = Math.round(total * 100) / 100; // arrondi
+    });
+    this.formInv.get('totalPrice').setValue(total);
+
   }
   async ngOnInit() {
 
@@ -161,7 +172,7 @@ export class Invoice implements OnInit {
         console.log('total value :' ,total);
           total = total + (Number.parseFloat(element.product.priceHtva.toString()) * element.quantity);
           total = Math.round(total * 100) / 100; // arrondi
-      })
+      });
       console.log('total value :' ,total);
       this.formInv.get('priceHtva').setValue(total);
     }
@@ -413,6 +424,42 @@ export class Invoice implements OnInit {
   }
   async GoBack()
   {
+    var result : string | undefined;
+    console.log(this.indexFind,this.formInv.value);
+    if(this.indexFind === null || this.indexFind === undefined || this.indexFind<0)
+    {
+      let cpt = 0;
+      Object.keys(this.formInv.controls).forEach(key => {
+        if(!this.methodsService.isNullOrEmpty(this.formInv.controls[key].value))
+        {
+          cpt ++;
+        }
+      });
+      if(cpt > 0)
+      {
+        result = await this.GoBackModal();
+      }
+    }else
+    {
+      if(!this.methodsService.equals(this.invList[this.indexFind].factureName,this.formInv.get('factureName').value) ||
+      !this.methodsService.equals(this.invList[this.indexFind].description,this.formInv.get('description').value) ||
+      !this.methodsService.equals(this.invList[this.indexFind].typePay,this.formInv.get('typePay').value) ||
+      !this.methodsService.equals(this.invList[this.indexFind].priceHtva.toString(),this.formInv.get('priceHtva').value) ||
+      !this.methodsService.equals(this.invList[this.indexFind].remise.toString(),this.formInv.get('remise').value) ||
+      !this.methodsService.equals(this.invList[this.indexFind].tva.toString(),this.formInv.get('tva').value) ||
+      !this.methodsService.equals(this.invList[this.indexFind].totalPrice.toString(),this.formInv.get('totalPrice').value))
+      {
+        result = await this.GoBackModal();
+      }
+    }
+    console.log(result);
+    if(result !== null)
+      if(this.chantierId === 'null')
+        this.router.navigate(['/tb-home'],{replaceUrl:true});
+      else this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+  }
+  async GoBackModal() : Promise<string>
+  {
     let res : string =null;
     await this.modal.open('exitPage','')
     .then(result => result.result
@@ -422,10 +469,7 @@ export class Invoice implements OnInit {
       res='DISMISS'; }
       ));
     if(res === 'DISMISS')
-        return;
-      
-    if(this.chantierId === 'null')
-    this.router.navigate(['/tb-home'],{replaceUrl:true});
-    else this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+        return null;
+    return '';
   }
 }

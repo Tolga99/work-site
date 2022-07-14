@@ -7,6 +7,7 @@ import { UUID } from 'angular2-uuid';
 import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
+import { MethodsService } from '../services/methods.service';
 
 @Component({
   selector: 'app-tb-contacts-client',
@@ -36,7 +37,7 @@ export class TabContactsClient implements OnInit {
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,
               private router: Router,
-              private route: ActivatedRoute,)
+              private route: ActivatedRoute, private methodsService : MethodsService)
               {}
   async ngOnInit(): Promise<void> {
 
@@ -56,6 +57,7 @@ export class TabContactsClient implements OnInit {
       if(this.indexFind>=0)
       {
         this.clientId= this.contactsList[this.indexFind].userId;
+        this.client = this.contactsList[this.indexFind];
         this.formClient.setValue({
           firstName: this.contactsList[this.indexFind].firstName,
           lastName:  this.contactsList[this.indexFind].lastName,
@@ -137,6 +139,54 @@ export class TabContactsClient implements OnInit {
   }
   async GoBack()
   {
+    var result : string | undefined;
+    if(this.modif === null || this.modif === undefined)
+    {
+      console.log('empty form',this.formClient,this.modif);
+      let cpt = 0;
+      Object.keys(this.formClient.controls).forEach(key => {
+        if(!this.methodsService.isNullOrEmpty(this.formClient.controls[key].value))
+        {
+          cpt ++;
+        }
+      });
+      console.log(cpt,this.formClient);
+      if(cpt > 0)
+      {
+        result = await this.GoBackModal();
+      }
+    }else
+    {
+      console.log('exist form',this.formClient,this.client,this.modif);
+      if(this.client !== null && this.client !== undefined)
+      if(!this.methodsService.equals(this.client.firstName,this.formClient.get('firstName').value) ||
+      !this.methodsService.equals(this.client.lastName,this.formClient.get('lastName').value) ||
+      !this.methodsService.equals(this.client.address.toString(),this.formClient.get('address').value) ||
+      !this.methodsService.equals(this.client.mail.toString(),this.formClient.get('mail').value) ||
+      !this.methodsService.equals(this.client.tva.toString(),this.formClient.get('tva').value) ||
+      !this.methodsService.equals(this.client.iban.toString(),this.formClient.get('iban').value) ||
+      !this.methodsService.equals(this.client.bic.toString(),this.formClient.get('bic').value) ||
+      !this.methodsService.equals(this.client.phone,this.formClient.get('phone').value))
+      {
+        result = await this.GoBackModal();
+      }
+    }
+    console.log(result);
+    if(result !== null)
+      if(!this.tag)
+      {
+        this.router.navigate(['/tb-contacts'],{replaceUrl:true});
+      }
+      else if(this.tag.toLowerCase() === 'chantier')
+      {
+        this.router.navigate(['/createworksite'],{replaceUrl:true});
+      }else if(this.tag.toLowerCase() === 'profile')
+      {
+        this.router.navigate(['/client',{userId : this.modif}],{replaceUrl:true});
+      }
+  }
+  async GoBackModal() : Promise<string>
+  {
     let res : string =null;
     await this.modal.open('exitPage','')
     .then(result => result.result
@@ -146,18 +196,7 @@ export class TabContactsClient implements OnInit {
       res='DISMISS'; }
       ));
     if(res === 'DISMISS')
-        return;
-
-    if(!this.tag)
-    {
-      this.router.navigate(['/tb-contacts'],{replaceUrl:true});
-    }
-    else if(this.tag.toLowerCase() === 'chantier')
-    {
-      this.router.navigate(['/createworksite'],{replaceUrl:true});
-    }else if(this.tag.toLowerCase() === 'profile')
-    {
-      this.router.navigate(['/client',{userId : this.modif}],{replaceUrl:true});
-    }
+        return null;
+    return '';
   }
 }
