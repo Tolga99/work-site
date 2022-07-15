@@ -10,42 +10,42 @@
     <form [formGroup]="formClient" (ngSubmit)="onSubmit()">
 
       <ion-item class="form-group" required="required">
-        <ion-label position="floating">{{'fName' | translate}}</ion-label>
+        <ion-label position="stacked">{{'fName' | translate}}</ion-label>
         <ion-input type="text" id="firstName" placeholder="Your name.." formControlName="firstName" required="required" maxlength="50">
         </ion-input>
       </ion-item>
       <ion-item class="form-group" required="required">
-        <ion-label position="floating">{{'name' | translate}}</ion-label>
+        <ion-label position="stacked">{{'name' | translate}}</ion-label>
         <ion-input type="text" id="lastName" placeholder="Your last name.." formControlName="lastName" maxlength="50"
           required="required"></ion-input>
       </ion-item>
       <ion-item class="form-group" required="required">
-        <ion-label position="floating">{{'address' | translate}}</ion-label>
+        <ion-label position="stacked">{{'address' | translate}}</ion-label>
         <ion-input type="text" id="address" placeholder=".." formControlName="address" maxlength="50"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">{{'phone' | translate}}</ion-label>
+        <ion-label position="stacked">{{'phone' | translate}}</ion-label>
         <ion-input type="text" id="phone" placeholder="..." formControlName="phone" maxlength="20"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">{{'mail' | translate}}</ion-label>
+        <ion-label position="stacked">{{'mail' | translate}}</ion-label>
         <ion-input type="text" id="mail" placeholder="..." formControlName="mail" maxlength="50"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">{{'tva' | translate}}</ion-label>
+        <ion-label position="stacked">{{'tva' | translate}}</ion-label>
         <ion-input type="text" id="tva" placeholder="..." formControlName="tva" maxlength="50"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">{{'iban' | translate}}</ion-label>
+        <ion-label position="stacked">{{'iban' | translate}}</ion-label>
         <ion-input type="text" id="iban" placeholder="BE ..." formControlName="iban" maxlength="50"></ion-input>
       </ion-item>
 
       <ion-item class="form-group">
-        <ion-label position="floating">{{'bic' | translate}}</ion-label>
+        <ion-label position="stacked">{{'bic' | translate}}</ion-label>
         <ion-input type="text" id="bic" placeholder="..." formControlName="bic" maxlength="50"></ion-input>
       </ion-item>
 

@@ -26,15 +26,19 @@ export class Articles implements OnInit {
   }
 
   async ionViewDidEnter(){
-    this.catList = await this.storageService.get('Categories');
-    this.actualCat =this.catList.find(a => a.categoryId === this.route.snapshot.paramMap.get('actualCat'));
+    this.artList = await this.storageService.get('Articles');
 
-    this.EnterCategory(this.actualCat);
+    this.catList = await this.storageService.get('Categories');
+    if(this.catList!=null)
+    {
+      this.actualCat =this.catList.find(a => a.categoryId === this.route.snapshot.paramMap.get('actualCat'));
+      this.EnterCategory(this.actualCat);
+    }
   }
 
   async ngOnInit() {
     this.storageService.init();
-    this.artList = await this.storageService.get('Articles');
+    this.artList = [];
     this.catList = await this.storageService.get('Categories');
     if(this.catList!=null)
     {

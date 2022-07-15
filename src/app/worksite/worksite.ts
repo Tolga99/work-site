@@ -390,6 +390,10 @@ export class Worksite implements OnInit {
     // this.chantier.devis.splice(index,1); s'il faut supprimer
     this.chantierList[this.chantierList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.chantier;
     this.storageService.set('Chantiers',this.chantierList);
+
+    this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
+    this.dataSourceFacture.paginator = this.paginatorFacture;
+    this.dataSourceFacture.sort = this.sortFacture;
   }
   AddHour()
   {

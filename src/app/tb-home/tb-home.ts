@@ -114,8 +114,8 @@ export class TabHome implements OnInit, INestedOptionContainer{
     this.chantierList = await this.storageService.get('Chantiers');
     this.invList = await this.storageService.get('NAfactures');
     this.clientsList = await this.storageService.get('Contacts');
-
-    this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
+    if(this.chantierList !== null && this.chantierList !== undefined)
+      this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 

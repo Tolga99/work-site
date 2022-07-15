@@ -42,10 +42,10 @@
 <div class="card-header tabHeader">
     {{'myArticles' | translate}}
   </div>
-  <div [hidden]="artList.length>0">
+  <div [hidden]="artList?.length>0">
     {{'noData' | translate}}
   </div>
-  <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" [hidden]="artList.length==0">
+  <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" [hidden]="artList?.length==0">
     <table class="table table-bordered table-striped mb-0">
 
       <thead>

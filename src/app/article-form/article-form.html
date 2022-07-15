@@ -8,7 +8,7 @@
   <form [formGroup]="formArt" (ngSubmit)="onSubmit()">
 
     <ion-item class="form-group" required="required">
-      <ion-label position="floating">{{'nameProduct' | translate}}</ion-label>
+      <ion-label position="stacked">{{'nameProduct' | translate}}</ion-label>
       <ion-input type="text" id="productName" name="productName" formControlName="productName" placeholder="..."
       required="required" maxlength="50"></ion-input>
     </ion-item>
@@ -71,13 +71,13 @@
     <!-- </div> -->
 
     <ion-item class="form-group" required="required">
-      <ion-label position="floating">{{'htvaPrice' | translate}}</ion-label>
+      <ion-label position="stacked">{{'htvaPrice' | translate}}</ion-label>
       <ion-input type="text" id="priceHtva" name="priceHtva" formControlName="priceHtva" placeholder="..."
       required="required" maxlength="12"></ion-input>
     </ion-item>
     <hr>
     <ion-item>
-      <ion-label position="floating">{{'description' | translate}}</ion-label>
+      <ion-label position="stacked">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
         style="height:100px;" maxlength="50"></ion-textarea>
     </ion-item>

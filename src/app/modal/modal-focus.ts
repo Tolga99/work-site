@@ -1,8 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import {Component, OnInit, Type} from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../app.module';
 import { Chantier } from '../models/chantier';
 import { StorageService } from '../services/storage.service';
+import { SharedModule } from '../shared/shared.module';
 
 @Component({
     selector: 'ngbd-modal-del-inv',
@@ -226,6 +229,8 @@ import { StorageService } from '../services/storage.service';
     }  }
     @Component({
         selector: 'ngbd-modal-incomplete',
+        standalone: true,
+        imports : [SharedModule],
         template: `
         <div class="modal-header">
           <h4 class="modal-title" id="modal-title">{{'mandatoryFields' | translate}}</h4>
@@ -294,6 +299,8 @@ import { StorageService } from '../services/storage.service';
     }
         @Component({
           selector: 'ngbd-modal-calendar',
+          standalone: true,
+          imports : [SharedModule],
           template: `
           <div class="modal-header">
             <h4 class="modal-title" id="modal-title">{{'infos' | translate}}</h4>
@@ -328,6 +335,8 @@ import { StorageService } from '../services/storage.service';
           }  }
           @Component({
             selector: 'ngbd-modal-incomplete',
+            standalone: true,
+            imports : [SharedModule],
             template: `
             <div class="modal-header">
               <h4 class="modal-title" id="modal-title">{{'about' | translate}}</h4>

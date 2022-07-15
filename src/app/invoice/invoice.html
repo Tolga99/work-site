@@ -9,8 +9,8 @@
   <form [formGroup]="formInv" (ngSubmit)="onSubmit()">
 
     <ion-item class="form-group" required="required">
-      <ion-label position="floating" [hidden]="type=='devis'">{{'invoiceName' | translate}}</ion-label>
-      <ion-label position="floating" [hidden]="type=='facture'">{{'estimateName' | translate}}</ion-label>
+      <ion-label position="stacked" [hidden]="type=='devis'">{{'invoiceName' | translate}}</ion-label>
+      <ion-label position="stacked" [hidden]="type=='facture'">{{'estimateName' | translate}}</ion-label>
 
       <ion-input type="text" id="factureName" name="factureName" formControlName="factureName" placeholder="..."
         required="required" maxlength="50"></ion-input>
@@ -52,10 +52,10 @@
     </div>
 
     <ion-item [hidden]="type=='devis'">
-      <ion-label position="floating" [hidden]="!ScanMode">{{'invoicePicture' | translate}}</ion-label>
+      <ion-label position="stacked" [hidden]="!ScanMode">{{'invoicePicture' | translate}}</ion-label>
     </ion-item>
     <ion-item [hidden]="type=='facture'">
-      <ion-label position="floating" [hidden]="!ScanMode">{{'estimatePicture' | translate}}</ion-label>
+      <ion-label position="stacked" [hidden]="!ScanMode">{{'estimatePicture' | translate}}</ion-label>
     </ion-item>
     <!-- Select File -->
     <input [hidden]="!ScanMode" id="imgFactures" type="file" class="form-control" multiple=""
@@ -77,34 +77,28 @@
     </ion-item>
     <!-- articles -->
 
-    <ion-item class="form-group" required="required" [hidden]="ScanMode">
-      <ion-label position="floating">{{'htvaPrice' | translate}}</ion-label>
-      <ion-input type="text" [hidden]="ScanMode" id="htva" name="htva" formControlName="priceHtva" placeholder="124.5"
+    <ion-item class="form-group" required="required">
+      <ion-label position="stacked" [hidden]="ScanMode">{{'htvaPrice' | translate}}</ion-label>
+      <ion-label position="stacked" [hidden]="!ScanMode">{{'priceToPay' | translate}}</ion-label>
+      <ion-input type="text" id="htva" name="htva" formControlName="priceHtva" placeholder="124.5"
       required="required" maxlength="12"></ion-input>
     </ion-item>
 
     <ion-item class="form-group" required="required" [hidden]="ScanMode">
-      <ion-label position="floating">{{'tva' | translate}}</ion-label>
+      <ion-label position="stacked">{{'tva' | translate}}</ion-label>
       <ion-input type="text" [hidden]="ScanMode" id="tva" name="tva" formControlName="tva" placeholder="21.6"
       required="required" maxlength="4"></ion-input>
     </ion-item>
 
-
     <ion-item class="form-group" required="required" [hidden]="ScanMode">
-      <ion-label position="floating">{{'discount' | translate}}</ion-label>
+      <ion-label position="stacked">{{'discount' | translate}}</ion-label>
       <ion-input type="text" [hidden]="ScanMode" id="remise" name="remise" formControlName="remise" placeholder="10"
       required="required" maxlength="4"></ion-input>
     </ion-item>
 
-    <ion-item class="form-group" required="required" [hidden]="!ScanMode">
-      <ion-label position="floating">{{'priceToPay' | translate}}</ion-label>
-      <ion-input type="text" [hidden]="!ScanMode" id="totalPrice" name="totalPrice" formControlName="totalPrice"
-      required="required" placeholder="125.35" maxlength="12"></ion-input>
-    </ion-item>
-
     <hr>
     <ion-item>
-      <ion-label position="floating">{{'description' | translate}}</ion-label>
+      <ion-label position="stacked">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."
         style="height:100px;" maxlength="50"></ion-textarea>
     </ion-item>

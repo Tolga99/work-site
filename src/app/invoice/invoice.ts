@@ -44,7 +44,7 @@ export class Invoice implements OnInit {
     factureName: new UntypedFormControl('',Validators.required),
     description: new UntypedFormControl(''),
     typePay: new UntypedFormControl('', [Validators.required]),
-    priceHtva: new UntypedFormControl({value:null,disabled:true}),
+    priceHtva: new UntypedFormControl(),
     tva: new UntypedFormControl(),
     remise: new UntypedFormControl(),
     totalPrice : new UntypedFormControl(),
@@ -73,16 +73,25 @@ export class Invoice implements OnInit {
     const typePay : string=this.route.snapshot.paramMap.get('typePay');
     const remise : string=this.route.snapshot.paramMap.get('remise');
 
-    if(factureName !== null && factureName !== '')
+    if(!this.methodsService.isNullOrEmpty(factureName))
       this.formInv.get('factureName').setValue(factureName);
-    if(description !== null && description !== '')
+    else this.formInv.get('factureName').setValue('');
+
+    if(!this.methodsService.isNullOrEmpty(description))
       this.formInv.get('description').setValue(description);
-    if(tva !== null && tva !== '')
+    else this.formInv.get('description').setValue('');
+
+    if(!this.methodsService.isNullOrEmpty(tva))
       this.formInv.get('tva').setValue(tva);
-    if(typePay !== null && typePay !== '')
+    else this.formInv.get('tva').setValue('');
+
+    if(!this.methodsService.isNullOrEmpty(typePay))
       this.formInv.get('typePay').setValue(typePay);
-    if(remise !== null && remise !== '')
+    else this.formInv.get('typePay').setValue('');
+
+    if(!this.methodsService.isNullOrEmpty(remise))
       this.formInv.get('remise').setValue(remise);
+    else this.formInv.get('remise').setValue('');
     
     let total = 0;
     this.panierList.forEach(element => {
@@ -257,20 +266,20 @@ export class Invoice implements OnInit {
   }
   async onSubmit()
   {
-    if(this.mode==='creation')
-    {
-      this.formInv.get('priceHtva').setValidators([Validators.required]);
-      this.formInv.get('priceHtva').updateValueAndValidity();
+    this.formInv.get('priceHtva').setValidators([Validators.required]);
+    this.formInv.get('priceHtva').updateValueAndValidity();
 
-      this.formInv.get('tva').setValidators([Validators.required]);
-      this.formInv.get('tva').updateValueAndValidity();
+    this.formInv.get('tva').setValidators([Validators.required]);
+    this.formInv.get('tva').updateValueAndValidity();
 
-      this.formInv.get('remise').setValidators([Validators.required]);
-      this.formInv.get('remise').updateValueAndValidity();
-    }else
+    this.formInv.get('remise').setValidators([Validators.required]);
+    this.formInv.get('remise').updateValueAndValidity();
+
+    if(this.ScanMode)
     {
-      this.formInv.get('totalPrice').setValidators([Validators.required]);
-      this.formInv.get('totalPrice').updateValueAndValidity();
+      this.formInv.get('tva').setValue(0);
+
+      this.formInv.get('remise').setValue(0);
     }
     console.log('form status',this.formInv);
      const invalid = [];
@@ -278,6 +287,7 @@ export class Invoice implements OnInit {
     for (const name in controls) {
       if (controls[name].invalid) {
         let nom='';
+        if(this.ScanMode)
         if(name==='factureName')
           nom='Nom facture';
         if(name==='typePay')
