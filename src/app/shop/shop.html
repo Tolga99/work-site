@@ -155,7 +155,7 @@
     <button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;">{{'addProductToCart' | translate}}</button>
   </div> -->
   <div class="card-footer text-muted" style="text-align: center;">
-    <dx-button type="button" class="btn btn-danger" (click)="SavePanier()" style="background-color:orange;" [text]="'finalize' | translate"></dx-button>
+    <dx-button [useSubmitBehavior]="false" type="button" class="btn btn-danger" (click)="SavePanier()" style="background-color:orange;" [text]="'finalize' | translate"></dx-button>
   </div>
 </div>
 </ion-content>

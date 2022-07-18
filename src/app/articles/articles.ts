@@ -15,7 +15,7 @@ import { StorageService } from '../services/storage.service';
 })
 export class Articles implements OnInit {
 
-  headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
+  headElementsArt = ['Nom article', 'Description','Prix HTVA', ''];
   artList : Array<Product> = [];
   catList : Array<Category> = [];
   actualCat : Category = null;

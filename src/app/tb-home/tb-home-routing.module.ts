@@ -6,7 +6,15 @@ const routes: Routes = [
   {
     path: '',
     component: TabHome,
-  }
+  },
+  {
+    path: 'worksite',
+    loadChildren: () => import('../worksite/worksite.module').then(m => m.WorksiteModule)
+  },
+  {
+    path: 'createworksite',
+    loadChildren: () => import('../create-worksite/create-worksite.module').then(m => m.CreateWorksiteModule)
+  },
 ];
 
 

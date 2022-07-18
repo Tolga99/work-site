@@ -349,6 +349,7 @@ import { SharedModule } from '../shared/shared.module';
               <p><strong><span class="text-primary">JULY 2022</span></strong></p>
               <p><strong>WorkSite - <span class="text-primary">Version 0.1.2 - BETA</span></strong></p>
               <p><strong><span class="text-primary">Copyright All Rights Reserved</span></strong></p>
+              <p><strong><span class="text-primary">Icon : Designed by pch.vector / Freepik</span></strong></p>
               <p><strong>Contact : </strong></p> <A HREF="mailto:Ovalit19@gmail.com">Ovalit19@gmail.com</A>
               <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
               <!-- <span class="text-danger">This operation can not be undone.</span> -->

@@ -9,7 +9,6 @@ import { StorageService } from './services/storage.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public bgImage = '';
   constructor(translate: TranslateService) {
     // this language will be used as a fallback when a translation isn't found in the current language
     translate.setDefaultLang('fr');
@@ -18,6 +17,5 @@ export class AppComponent implements OnInit {
     translate.use('fr');
 }
   ngOnInit(): void {
-    this.bgImage = '/src/assets/worksiteBackground.png';
   }
 }

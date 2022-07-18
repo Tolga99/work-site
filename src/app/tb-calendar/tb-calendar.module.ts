@@ -2,7 +2,6 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { TabCalendar } from './tb-calendar';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -27,7 +26,6 @@ registerLocaleData(localeTr);
     IonicModule,
     CommonModule,
     SharedModule,
-    ExploreContainerComponentModule,
     TabCalendarRoutingModule,
     NgbModalModule,
     IonicSelectableModule,
