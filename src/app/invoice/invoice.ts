@@ -38,7 +38,9 @@ export class Invoice implements OnInit {
   receivedMoney: Array<{ price: number, date: string}>;
 
   // productsList : Array<Product>= [];
-  headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
+  //headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
+  headElementsArt = ['Nom article', 'Description','Prix Unitaire','Quantité','Prix total',''];
+
   panierList : Array<ShoppingCart> = [];
   formInv = new UntypedFormGroup({
     factureName: new UntypedFormControl('',Validators.required),
@@ -72,39 +74,71 @@ export class Invoice implements OnInit {
     const tva : string=this.route.snapshot.paramMap.get('tva');
     const typePay : string=this.route.snapshot.paramMap.get('typePay');
     const remise : string=this.route.snapshot.paramMap.get('remise');
+    if(this.methodsService.isNullOrEmpty(this.formInv.get('factureName').value))
+    {
+      if(!this.methodsService.isNullOrEmpty(factureName))
+        this.formInv.get('factureName').setValue(factureName);
+      else this.formInv.get('factureName').setValue('');
+    }
 
-    if(!this.methodsService.isNullOrEmpty(factureName))
-      this.formInv.get('factureName').setValue(factureName);
-    else this.formInv.get('factureName').setValue('');
+    if(this.methodsService.isNullOrEmpty(this.formInv.get('description').value))
+    {
+      if(!this.methodsService.isNullOrEmpty(description))
+        this.formInv.get('description').setValue(description);
+      else this.formInv.get('description').setValue('');
+    }
 
-    if(!this.methodsService.isNullOrEmpty(description))
-      this.formInv.get('description').setValue(description);
-    else this.formInv.get('description').setValue('');
+    if(this.methodsService.isNullOrEmpty(this.formInv.get('tva').value))
+    {
+      if(!this.methodsService.isNullOrEmpty(tva))
+        this.formInv.get('tva').setValue(tva);
+      else this.formInv.get('tva').setValue('');
+    }
 
-    if(!this.methodsService.isNullOrEmpty(tva))
-      this.formInv.get('tva').setValue(tva);
-    else this.formInv.get('tva').setValue('');
+    if(this.methodsService.isNullOrEmpty(this.formInv.get('typePay').value))
+    {
+      if(!this.methodsService.isNullOrEmpty(typePay))
+        this.formInv.get('typePay').setValue(typePay);
+      else this.formInv.get('typePay').setValue('');
+    }
 
-    if(!this.methodsService.isNullOrEmpty(typePay))
-      this.formInv.get('typePay').setValue(typePay);
-    else this.formInv.get('typePay').setValue('');
+    if(this.methodsService.isNullOrEmpty(this.formInv.get('remise').value))
+    {
+      if(!this.methodsService.isNullOrEmpty(remise))
+        this.formInv.get('remise').setValue(remise);
+      else this.formInv.get('remise').setValue('');
+    }
+    if(this.chantierId === 'null')
+    {
+      let shopInvoice : Array<Facture> = await this.storageService.get('NAfactures');
+      this.panierList = shopInvoice.find(a => a.factureId === this.invoiceId).cart;
+    }
+    else
+    {
+      let chantiers : Array<Chantier> = await this.storageService.get('Chantiers');
+      let chantier = chantiers.find(a => a.chantierId === this.chantierId);
+      console.log(this.type);
+      if(this.type.toUpperCase() === 'DEVIS')
+      {
+        this.panierList = chantier.devis.find(a => a.factureId === this.invoiceId).cart;
+      }else
+      {
+        this.panierList = chantier.factures.find(a => a.factureId === this.invoiceId).cart;
+      }
+    }
 
-    if(!this.methodsService.isNullOrEmpty(remise))
-      this.formInv.get('remise').setValue(remise);
-    else this.formInv.get('remise').setValue('');
-    
     let total = 0;
     this.panierList.forEach(element => {
       console.log('total value :' ,total);
         total = total + (Number.parseFloat(element.product.priceHtva.toString()) * element.quantity);
         total = Math.round(total * 100) / 100; // arrondi
     });
-    this.formInv.get('totalPrice').setValue(total);
+    this.formInv.get('priceHtva').setValue(total);
+    console.log('panier : ',this.panierList,this.chantierId);
+
 
   }
   async ngOnInit() {
-
-
     const nowDate = new Date();
     this.date = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
 
@@ -121,7 +155,8 @@ export class Invoice implements OnInit {
       if(this.type === 'facture')
         this.invList = chantierl.find(a => a.chantierId === this.chantierId).factures;
       else this.invList = chantierl.find(a => a.chantierId === this.chantierId).devis;
-    }
+    }else this.invList = await this.storageService.get('NAfactures');
+
     if(this.invList==null)
       this.invList = new Array<Facture>();
 
@@ -139,6 +174,7 @@ export class Invoice implements OnInit {
       console.log('modification',existId);
 
       this.indexFind =this.invList.findIndex(x => x.factureId === existId);
+      console.log('index :',this.indexFind,this.invList);
       if(this.indexFind>=0)
       {
         this.invoiceId= this.invList[this.indexFind].factureId;
@@ -227,15 +263,25 @@ export class Invoice implements OnInit {
       }
       this.formInv.get('factureName').setValue(generatedName);
     }
+    console.log('panier : ',this.panierList);
   }
 
   GoShopping()
   {
+    if(this.chantierId !== 'null')
+    {
+      this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId,
+        factureName : this.formInv.get('factureName').value, remise : this.formInv.get('remise').value,
+        tva : this.formInv.get('tva').value, description : this.formInv.get('description').value,
+        typePay : this.formInv.get('typePay').value}]);
+    }else
+    {
+      this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : 'null',
+        factureName : this.formInv.get('factureName').value, remise : this.formInv.get('remise').value,
+        tva : this.formInv.get('tva').value, description : this.formInv.get('description').value,
+        typePay : this.formInv.get('typePay').value}]);
+    }
     // this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
-    this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId,
-      factureName : this.formInv.get('factureName').value, remise : this.formInv.get('remise').value,
-      tva : this.formInv.get('tva').value, description : this.formInv.get('description').value,
-      typePay : this.formInv.get('typePay').value}]);
   }
   async CreateWorksite() {
 
@@ -411,7 +457,8 @@ export class Invoice implements OnInit {
       {
         invs = new Array<Facture>();
       }
-      invs.push(this.inv);
+      let existingInvoice = invs.findIndex(a => a.factureId === this.inv.factureId);
+      invs[existingInvoice] = this.inv;
       this.storageService.set('NAfactures',invs);
       this.router.navigate(['/tb-home'],{replaceUrl:true});
     }
@@ -464,9 +511,12 @@ export class Invoice implements OnInit {
     }
     console.log(result);
     if(result !== null)
+    {
+      this.cleanIncompleteInvoices();
       if(this.chantierId === 'null')
         this.router.navigate(['/tb-home'],{replaceUrl:true});
       else this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+    }
   }
   async GoBackModal() : Promise<string>
   {
@@ -481,5 +531,30 @@ export class Invoice implements OnInit {
     if(res === 'DISMISS')
         return null;
     return '';
+  }
+  async cleanIncompleteInvoices()
+  {
+    let indexToDelete : number = null;
+    let invoices : Array<Facture> = await this.storageService.get('NAfactures');
+    console.log(invoices)
+    invoices.forEach(invoice => {
+      console.log(invoice);
+      if(invoice.factureName == null || 
+         invoice.priceHtva == null || 
+         invoice.typePay == null ||
+         invoice.tva == null)
+         {
+          indexToDelete = invoices.findIndex(a => a === invoice);
+          console.log(indexToDelete,invoice);
+         }
+      if(indexToDelete !== null)
+      {
+        console.log('deleting',invoices,indexToDelete);
+        invoices.splice(indexToDelete,1);
+        indexToDelete = null;
+      }
+
+    });
+    this.storageService.set('NAfactures',invoices);
   }
 }

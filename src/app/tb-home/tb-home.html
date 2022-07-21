@@ -20,7 +20,7 @@
   <div class="card-header tabHeader">
     {{'myWorksites' | translate}}
 </div>
-      <ion-grid>
+      <!-- <ion-grid>
       <ion-row>
         <ion-col style="display: flex;
         justify-content: space-around;
@@ -42,85 +42,75 @@
             <ion-label>{{'finished' | translate}}</ion-label>
           </div>
        </ion-col>
-        <!-- <ion-col>
-          <div [hidden]="toggleChantier" style="color:green">
-            <ion-label>{{'inProgress' | translate}}</ion-label>
-          </div>
-          <div [hidden]="!toggleChantier" style="color:red">
-            <ion-label>{{'finished' | translate}}</ion-label>
-          </div>
-        </ion-col> -->
       </ion-row>
-      </ion-grid>
+      </ion-grid> -->
   <div class="mat-elevation-z8" style="background-color: white;">
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-      class="table table-striped">
-      <!-- ID Column -->
-      <ng-container matColumnDef="worksiteName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by worksiteName"> 
-          {{'nameWorksite' | translate}} </th>
-        <td mat-cell *matCellDef="let row"> {{row.worksiteName}} </td>
-      </ng-container>
+    <dx-data-grid
+  id="gridChantier"
+  [dataSource]="chantierList"
+  keyExpr="chantierId"
+  [showBorders]="true"
+  [title]="'myWorksites' | translate"
+  (onRowClick)="manageWorksite($event)"
+>
+<dxo-search-panel
+[visible]="true"
+[highlightCaseSensitive]="false"
+></dxo-search-panel>
+  <dxo-scrolling rowRenderingMode="virtual"> </dxo-scrolling>
+  <dxo-paging [pageSize]="10"> </dxo-paging>
+  <dxo-pager
+    [visible]="true"
+    [allowedPageSizes]="allowedPageSizes"
+    displayMode="full"
+    [showPageSizeSelector]="showPageSizeSelector"
+    [showInfo]="showInfo"
+    [showNavigationButtons]="showNavButtons"
+  >
+  </dxo-pager>
+  <dxi-column
+  dataField="worksiteName"
+  [caption]="'nameWorksite' | translate"
+  >
+  </dxi-column>
+  <dxi-column
+  dataField="clientFullName"
+  [caption]="'nameClient' | translate"
+  >
+  </dxi-column>
+  <dxi-column
+  dataField="dateStart"
+  [caption]="'startDate' | translate"
+  >
+  </dxi-column>
+  <dxi-column
+  dataField="address"
+  [caption]="'address' | translate"
+  >
+  </dxi-column>
+  <dxi-column
+  [caption]="'...'"
+  cellTemplate="buttonsTemplate"
+  >
 
-      <!-- Progress Column -->
-      <ng-container matColumnDef="client">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by client"> {{'nameClient' | translate}} </th>
-        <td mat-cell *matCellDef="let row"> {{GetName(row)}} </td>
-      </ng-container>
+  </dxi-column>
+  <div *dxTemplate="let el of 'buttonsTemplate'">
+    <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+      <mat-icon>toc</mat-icon>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="dateStart">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by dateStart"> {{'startDate' | translate}}
-        </th>
-        <td mat-cell *matCellDef="let row"> {{row.dateStart}} </td>
-      </ng-container>
-
-      <!-- Fruit Column -->
-      <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by address"> {{'address' | translate}} </th>
-        <td mat-cell *matCellDef="let row"> {{row.address}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="...">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
-        <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-          <!-- <dx-button mat-icon-button icon="fas fa-bars" [matMenuTriggerFor]="menu">
-          </dx-button>
-          <mat-menu #menu="matMenu">
-            <dx-button icon="fas fa-file-pen" [text]="'edit' | translate">
-            </dx-button>
-            <dx-button icon="fas fa-trash" (click)="deleteWorksite(row)" [text]="'delete' | translate">
-            </dx-button>
-          </mat-menu> -->
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>toc</mat-icon>
-
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-              <mat-icon>edit</mat-icon>
-              <span>{{'edit' | translate}}</span>
-            </button>
-            <button mat-menu-item (click)="deleteWorksite(row)">
-              <mat-icon>delete</mat-icon>
-              <span>{{'delete' | translate}}</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="headElements"></tr>
-      <tr mat-row *matRowDef="let row; columns: headElements;" (click)="ManageWorksite(row)"></tr>
-
-      <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">{{'noData' | translate}} "{{input.value}}"</td>
-      </tr>
-
-    </table>
-
-    <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of dataSource">
-    </mat-paginator>
+    </button>
+    <mat-menu #menu="matMenu">
+      <!-- <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        <span>{{'edit' | translate}}</span>
+      </button> -->
+      <button mat-menu-item (click)="deleteWorksite(el.data)">
+        <mat-icon>delete</mat-icon>
+        <span>{{'delete' | translate}}</span>
+      </button>
+    </mat-menu>
+  </div>
+</dx-data-grid>
   </div>
 
   <div class="card-footer text-muted" style="text-align:center;">
@@ -135,69 +125,91 @@
       {{'invoices' | translate}} & {{'estimate' | translate}}
     </div>
 
-  <mat-form-field appearance="standard">
+  <!-- <mat-form-field appearance="standard">
     <mat-label>{{'search' | translate}}</mat-label>
     <input matInput (keyup)="applyFilterFacture($event)" placeholder="Ex. Mia" #input>
-  </mat-form-field>
+  </mat-form-field> -->
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSourceF" matSort (matSortChange)="announceSortChangeFacture($event)">
-      <ng-container matColumnDef="factureName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> {{'invoiceName' | translate}}
-        </th>
-        <td mat-cell *matCellDef="let row"> {{row.factureName}} </td>
-      </ng-container>
+    <dx-data-grid
+    id="gridNAfacture"
+    [dataSource]="invList"
+    keyExpr="factureId"
+    [showBorders]="true"
+    [title]="'myWorksites' | translate"
+  >
+  <dxo-search-panel
+  [visible]="true"
+  [highlightCaseSensitive]="false"
+  ></dxo-search-panel>
+    <dxo-scrolling rowRenderingMode="virtual"> </dxo-scrolling>
+    <dxo-paging [pageSize]="10"> </dxo-paging>
+    <dxo-pager
+      [visible]="true"
+      [allowedPageSizes]="allowedPageSizes"
+      displayMode="full"
+      [showPageSizeSelector]="showPageSizeSelector"
+      [showInfo]="showInfo"
+      [showNavigationButtons]="showNavButtons"
+    >
+    </dxo-pager>
+    <dxi-column
+    dataField="factureName"
+    [caption]="'invoiceName' | translate"
+    >
+    </dxi-column>
+    <dxi-column
+    dataField="totalPrice"
+    [caption]="'total' | translate"
+    >
+    </dxi-column>
+    <dxi-column
+    dataField="date"
+    [caption]="'date' | translate"
+    >
+    </dxi-column>
+    <dxi-column
+    [caption]="'...'"
+    cellTemplate="buttonsTemplate"
+    >
+  
+    </dxi-column>
+    <div *dxTemplate="let el of 'buttonsTemplate'">
+      <button type="button" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+        <mat-icon>toc</mat-icon>
 
-      <ng-container matColumnDef="totalPrice">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by total"> {{'total' | translate}} </th>
-        <td mat-cell *matCellDef="let row"> {{row.totalPrice}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date"> {{'date' | translate}} </th>
-        <td mat-cell *matCellDef="let row"> {{row.date}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="...">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
-        <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-          <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>toc</mat-icon>
-
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item type="button" (click)="assignInvoice(el.data)">
+          <mat-icon></mat-icon>
+          <span>{{'assign' | translate}}</span>
+        </button>
+        <button mat-menu-item type="button" (click)="GeneratePDFInvoice(el.data)">
+          <mat-icon>picture_as_pdf</mat-icon>
+          <span>{{'genPDF' | translate}}</span>
+        </button>
+        <div [hidden]="el.data.type.toUpperCase() === 'DEVIS'">
+          <button mat-menu-item type="button" (click)="openInvoice(el.data)">
+            <mat-icon>edit</mat-icon>
+            <span>{{'editInv' | translate}}</span>
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item type="button" (click)="openInvoice(row)">
-              <mat-icon>edit</mat-icon>
-              <span>{{'editInv' | translate}}</span>
-            </button>
-            <button mat-menu-item type="button" (click)="assignInvoice(row)">
-              <mat-icon></mat-icon>
-              <span>{{'assign' | translate}}</span>
-            </button>
-            <button mat-menu-item type="button" (click)="GeneratePDFInvoice(row)">
-              <mat-icon>picture_as_pdf</mat-icon>
-              <span>{{'genPDF' | translate}}</span>
-            </button>
-            <button mat-menu-item type="button" (click)="deleteInvoice(row)">
-              <mat-icon>delete</mat-icon>
-              <span>{{'delete' | translate}}</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-
-
-      <tr mat-header-row *matHeaderRowDef="headElementsInv"></tr>
-      <tr mat-row *matRowDef="let row; columns: headElementsInv;"></tr>
-
-      <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">{{'noData' | translate}} "{{input.value}}"</td>
-      </tr>
-
-    </table>
-
-    <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons
-      aria-label="Select page of dataSourceFacture"></mat-paginator>
+          <button mat-menu-item type="button" (click)="deleteInvoice(el.data)">
+            <mat-icon>delete</mat-icon>
+            <span>{{'delete' | translate}}</span>
+          </button>
+        </div>
+        <div [hidden]="el.data.type.toUpperCase() !== 'DEVIS'">
+          <button mat-menu-item type="button" (click)="openDevis(el.data)">
+            <mat-icon>edit</mat-icon>
+            <span>{{'editEstimate' | translate}}</span>
+          </button>
+          <button mat-menu-item type="button" (click)="deleteDevis(el.data)">
+            <mat-icon>delete</mat-icon>
+            <span>{{'delete' | translate}}</span>
+          </button>
+        </div>
+      </mat-menu>
+    </div>
+  </dx-data-grid>
   </div>
   <div class="card-footer text-muted" style="text-align:center; display: flex;
   justify-content: space-evenly;
@@ -215,5 +227,4 @@
     <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()" icon="fas fa-file-invoice-dollar" [text]="'createEstimate' | translate"></dx-button>
   </div>
 </div>
-
 </ion-content>

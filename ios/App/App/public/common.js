@@ -1,39 +1,6 @@
 "use strict";
 (self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["common"],{
 
-/***/ 34780:
-/*!************************************!*\
-  !*** ./src/app/models/chantier.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Chantier": () => (/* binding */ Chantier)
-/* harmony export */ });
-class Chantier {
-    constructor(chantierId, worksiteName, 
-    //  public clientLastName:string,
-    clientId, description, address, dateStart, dateEnd, isFinished, imagesChantier, imagesTicket, factures, devis, hours) {
-        this.chantierId = chantierId;
-        this.worksiteName = worksiteName;
-        this.clientId = clientId;
-        this.description = description;
-        this.address = address;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.isFinished = isFinished;
-        this.imagesChantier = imagesChantier;
-        this.imagesTicket = imagesTicket;
-        this.factures = factures;
-        this.devis = devis;
-        this.hours = hours;
-    }
-}
-
-
-/***/ }),
-
 /***/ 49371:
 /*!***********************************!*\
   !*** ./src/app/models/facture.ts ***!
@@ -136,54 +103,6 @@ class User {
         return this.lastName.toUpperCase() + ' ' + this.firstName;
     }
 }
-
-
-/***/ }),
-
-/***/ 25812:
-/*!*********************************************!*\
-  !*** ./src/app/services/methods.service.ts ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MethodsService": () => (/* binding */ MethodsService)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 22560);
-
-
-let MethodsService = class MethodsService {
-    constructor() { }
-    isNullOrEmpty(text) {
-        if (text === '' || text === null || text === undefined)
-            return true;
-        else
-            return false;
-    }
-    equals(text1, text2) {
-        console.log(text1, text2);
-        if (text1 === '' || text1 === null || text1 === undefined) {
-            if (text2 === '' || text2 === null || text2 === undefined) {
-                return true;
-            }
-        }
-        else {
-            if (text1 === text2) {
-                return true;
-            }
-        }
-        return false;
-    }
-};
-MethodsService.ctorParameters = () => [];
-MethodsService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
-        providedIn: 'root'
-    })
-], MethodsService);
-
 
 
 /***/ }),
@@ -1525,54 +1444,6 @@ const openURL = /*#__PURE__*/function () {
 }();
 
 
-
-/***/ }),
-
-/***/ 23105:
-/*!*********************************************!*\
-  !*** ./node_modules/angular2-uuid/index.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-
-
-var UUID = function () {
-  function UUID() {// no-op
-  }
-
-  UUID.UUID = function () {
-    if (typeof window !== "undefined" && typeof window.crypto !== "undefined" && typeof window.crypto.getRandomValues !== "undefined") {
-      // If we have a cryptographically secure PRNG, use that
-      // http://stackoverflow.com/questions/6906916/collisions-when-generating-uuids-in-javascript
-      var buf = new Uint16Array(8);
-      window.crypto.getRandomValues(buf);
-      return this.pad4(buf[0]) + this.pad4(buf[1]) + "-" + this.pad4(buf[2]) + "-" + this.pad4(buf[3]) + "-" + this.pad4(buf[4]) + "-" + this.pad4(buf[5]) + this.pad4(buf[6]) + this.pad4(buf[7]);
-    } else {
-      // Otherwise, just use Math.random
-      // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-      // https://stackoverflow.com/questions/11605068/why-does-jshint-argue-against-bitwise-operators-how-should-i-express-this-code
-      return this.random4() + this.random4() + "-" + this.random4() + "-" + this.random4() + "-" + this.random4() + "-" + this.random4() + this.random4() + this.random4();
-    }
-  };
-
-  UUID.pad4 = function (num) {
-    var ret = num.toString(16);
-
-    while (ret.length < 4) {
-      ret = "0" + ret;
-    }
-
-    return ret;
-  };
-
-  UUID.random4 = function () {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  };
-
-  return UUID;
-}();
-
-exports.UUID = UUID;
 
 /***/ })
 

@@ -20,7 +20,62 @@ __webpack_require__.r(__webpack_exports__);
 const routes = [
     {
         path: '',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_tabs_tabs_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./tabs/tabs.module */ 15564)).then(m => m.TabsPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("src_app_tabs_tabs_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./tabs/tabs.module */ 15564)).then(m => m.TabsPageModule)
+    },
+    {
+        path: 'worksite',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("default-src_app_material_module_ts"), __webpack_require__.e("default-src_app_services_pdf_service_ts"), __webpack_require__.e("default-src_app_worksite_worksite_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./worksite/worksite.module */ 43045)).then(m => m.WorksiteModule)
+    },
+    {
+        path: 'createworksite',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("default-src_app_create-worksite_create-worksite_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./create-worksite/create-worksite.module */ 78927)).then(m => m.CreateWorksiteModule)
+    },
+    {
+        path: 'invoice',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("common"), __webpack_require__.e("src_app_invoice_invoice_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./invoice/invoice.module */ 63277)).then(m => m.InvoiceModule)
+    },
+    {
+        path: 'shop',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("common"), __webpack_require__.e("src_app_shop_shop_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./shop/shop.module */ 11788)).then(m => m.ShopModule)
+    },
+    {
+        path: 'hours',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("src_app_hours_hours_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./hours/hours.module */ 97293)).then(m => m.HoursModule)
+    },
+    {
+        path: 'payment',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("src_app_payment_payment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./payment/payment.module */ 24068)).then(m => m.PaymentModule)
+    },
+    // CALENDRIER
+    {
+        path: 'client',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("src_app_client_client_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./client/client.module */ 27808)).then(m => m.ClientModule)
+    },
+    {
+        path: 'new-contact',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("common"), __webpack_require__.e("src_app_tb-contacts-client_tb-contacts-client_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./tb-contacts-client/tb-contacts-client.module */ 54564)).then(m => m.TabContactsClientModule)
+    },
+    // REGLAGES
+    {
+        path: 'tb-settings',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("src_app_tb-settings_tb-settings_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./tb-settings/tb-settings.module */ 45262)).then(m => m.TabSettingsModule)
+    },
+    {
+        path: 'my-profile',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("common"), __webpack_require__.e("src_app_profile_profile_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./profile/profile.module */ 84523)).then(m => m.ProfileModule)
+    },
+    {
+        path: 'settings',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("src_app_settings_settings_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./settings/settings.module */ 27075)).then(m => m.SettingsModule)
+    },
+    // ARTICLES CATEGORIES
+    {
+        path: 'article-form',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("common"), __webpack_require__.e("src_app_article-form_article-form_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./article-form/article-form.module */ 79116)).then(m => m.ArticleFormModule)
+    },
+    {
+        path: 'category-form',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("src_app_category-form_category-form_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./category-form/category-form.module */ 67561)).then(m => m.CategoryFormModule)
     },
     // { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
     // { path: 'sign-in', component: SignInComponent },
@@ -72,14 +127,12 @@ __webpack_require__.r(__webpack_exports__);
 
 let AppComponent = class AppComponent {
     constructor(translate) {
-        this.bgImage = '';
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang('fr');
         // the lang to use, if the lang isn't available, it will use the current loader to get them
         translate.use('fr');
     }
     ngOnInit() {
-        this.bgImage = '/src/assets/worksiteBackground.png';
     }
 };
 AppComponent.ctorParameters = () => [

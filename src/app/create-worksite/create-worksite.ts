@@ -95,6 +95,7 @@ export class CreateWorksite implements OnInit {
       this.formWork.get('worksiteName').value,
       // this.client.lastName,
       this.client.userId,
+      this.client.lastName.toUpperCase() +' '+ this.client.firstName,
       this.formWork.get('description').value,
       this.formWork.get('address').value,
       this.date,

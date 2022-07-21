@@ -1,80 +1,6 @@
 "use strict";
 (self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_tb-settings_tb-settings_module_ts"],{
 
-/***/ 24762:
-/*!******************************************************************!*\
-  !*** ./src/app/explore-container/explore-container.component.ts ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ExploreContainerComponent": () => (/* binding */ ExploreContainerComponent)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _explore_container_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./explore-container.component.html?ngResource */ 50959);
-/* harmony import */ var _explore_container_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./explore-container.component.scss?ngResource */ 1509);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
-
-
-
-
-let ExploreContainerComponent = class ExploreContainerComponent {
-    constructor() { }
-    ngOnInit() { }
-};
-ExploreContainerComponent.ctorParameters = () => [];
-ExploreContainerComponent.propDecorators = {
-    name: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__.Input }]
-};
-ExploreContainerComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Component)({
-        selector: 'app-explore-container',
-        template: _explore_container_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
-        styles: [_explore_container_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
-    })
-], ExploreContainerComponent);
-
-
-
-/***/ }),
-
-/***/ 581:
-/*!***************************************************************!*\
-  !*** ./src/app/explore-container/explore-container.module.ts ***!
-  \***************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ExploreContainerComponentModule": () => (/* binding */ ExploreContainerComponentModule)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ 2508);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 93819);
-/* harmony import */ var _explore_container_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./explore-container.component */ 24762);
-
-
-
-
-
-
-let ExploreContainerComponentModule = class ExploreContainerComponentModule {
-};
-ExploreContainerComponentModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.NgModule)({
-        imports: [_angular_common__WEBPACK_IMPORTED_MODULE_3__.CommonModule, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormsModule, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicModule],
-        declarations: [_explore_container_component__WEBPACK_IMPORTED_MODULE_0__.ExploreContainerComponent],
-        exports: [_explore_container_component__WEBPACK_IMPORTED_MODULE_0__.ExploreContainerComponent]
-    })
-], ExploreContainerComponentModule);
-
-
-
-/***/ }),
-
 /***/ 80685:
 /*!***********************************************************!*\
   !*** ./src/app/tb-settings/tb-settings-routing.module.ts ***!
@@ -122,17 +48,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TabSettingsModule": () => (/* binding */ TabSettingsModule)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 93819);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ 60124);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 2508);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 93819);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ 94666);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _tb_settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tb-settings */ 68848);
-/* harmony import */ var _explore_container_explore_container_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../explore-container/explore-container.module */ 581);
-/* harmony import */ var _tb_settings_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tb-settings-routing.module */ 80685);
-/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/shared.module */ 44466);
-
+/* harmony import */ var _tb_settings_routing_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tb-settings-routing.module */ 80685);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/shared.module */ 44466);
 
 
 
@@ -144,15 +68,14 @@ __webpack_require__.r(__webpack_exports__);
 
 let TabSettingsModule = class TabSettingsModule {
 };
-TabSettingsModule = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.NgModule)({
+TabSettingsModule = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.NgModule)({
         imports: [
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonicModule,
-            _angular_common__WEBPACK_IMPORTED_MODULE_7__.CommonModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_8__.FormsModule, _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__.SharedModule,
-            _explore_container_explore_container_module__WEBPACK_IMPORTED_MODULE_1__.ExploreContainerComponentModule,
-            _angular_router__WEBPACK_IMPORTED_MODULE_9__.RouterModule.forChild([{ path: '', component: _tb_settings__WEBPACK_IMPORTED_MODULE_0__.TabSettings }]),
-            _tb_settings_routing_module__WEBPACK_IMPORTED_MODULE_2__.TabSettingsRoutingModule,
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicModule,
+            _angular_common__WEBPACK_IMPORTED_MODULE_6__.CommonModule,
+            _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormsModule, _shared_shared_module__WEBPACK_IMPORTED_MODULE_2__.SharedModule,
+            _angular_router__WEBPACK_IMPORTED_MODULE_8__.RouterModule.forChild([{ path: '', component: _tb_settings__WEBPACK_IMPORTED_MODULE_0__.TabSettings }]),
+            _tb_settings_routing_module__WEBPACK_IMPORTED_MODULE_1__.TabSettingsRoutingModule,
         ],
         declarations: [_tb_settings__WEBPACK_IMPORTED_MODULE_0__.TabSettings]
     })
@@ -219,16 +142,6 @@ TabSettings = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
 
 /***/ }),
 
-/***/ 1509:
-/*!*******************************************************************************!*\
-  !*** ./src/app/explore-container/explore-container.component.scss?ngResource ***!
-  \*******************************************************************************/
-/***/ ((module) => {
-
-module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  transform: translateY(-50%);\n}\n\n#container strong {\n  font-size: 20px;\n  line-height: 26px;\n}\n\n#container p {\n  font-size: 16px;\n  line-height: 22px;\n  color: #8c8c8c;\n  margin: 0;\n}\n\n#container a {\n  text-decoration: none;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4cGxvcmUtY29udGFpbmVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQUE7RUFFQSxrQkFBQTtFQUNBLE9BQUE7RUFDQSxRQUFBO0VBQ0EsUUFBQTtFQUNBLDJCQUFBO0FBQUY7O0FBR0E7RUFDRSxlQUFBO0VBQ0EsaUJBQUE7QUFBRjs7QUFHQTtFQUNFLGVBQUE7RUFDQSxpQkFBQTtFQUVBLGNBQUE7RUFFQSxTQUFBO0FBRkY7O0FBS0E7RUFDRSxxQkFBQTtBQUZGIiwiZmlsZSI6ImV4cGxvcmUtY29udGFpbmVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2NvbnRhaW5lciB7XHJcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG5cclxuICBwb3NpdGlvbjogYWJzb2x1dGU7XHJcbiAgbGVmdDogMDtcclxuICByaWdodDogMDtcclxuICB0b3A6IDUwJTtcclxuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoLTUwJSk7XHJcbn1cclxuXHJcbiNjb250YWluZXIgc3Ryb25nIHtcclxuICBmb250LXNpemU6IDIwcHg7XHJcbiAgbGluZS1oZWlnaHQ6IDI2cHg7XHJcbn1cclxuXHJcbiNjb250YWluZXIgcCB7XHJcbiAgZm9udC1zaXplOiAxNnB4O1xyXG4gIGxpbmUtaGVpZ2h0OiAyMnB4O1xyXG5cclxuICBjb2xvcjogIzhjOGM4YztcclxuXHJcbiAgbWFyZ2luOiAwO1xyXG59XHJcblxyXG4jY29udGFpbmVyIGEge1xyXG4gIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcclxufSJdfQ== */";
-
-/***/ }),
-
 /***/ 46245:
 /*!*********************************************************!*\
   !*** ./src/app/tb-settings/tb-settings.scss?ngResource ***!
@@ -236,16 +149,6 @@ module.exports = "#container {\n  text-align: center;\n  position: absolute;\n  
 /***/ ((module) => {
 
 module.exports = ".abs-center-x {\n  position: absolute;\n  left: 50%;\n  transform: translateX(-50%);\n}\n\n.my-custom-scrollbar {\n  position: relative;\n  height: 200px;\n  overflow: auto;\n}\n\n.table-wrapper-scroll-y {\n  display: block;\n}\n\n/* Add a background color and some padding around the form */\n\n/*.container {\n  border-radius: 5px;\n  background-color: #f2f2f2;\n  padding: 20px;\n} \n*/\n\n/* Style inputs with type=\"text\", select elements and textareas */\n\ninput[type=text], select, textarea {\n  width: 100%;\n  /* Full width */\n  padding: 12px;\n  /* Some padding */\n  border: 1px solid #ccc;\n  /* Gray border */\n  border-radius: 4px;\n  /* Rounded borders */\n  box-sizing: border-box;\n  /* Make sure that padding and width stays in place */\n  margin-top: 6px;\n  /* Add a top margin */\n  margin-bottom: 16px;\n  /* Bottom margin */\n  resize: vertical;\n}\n\n/* Style the submit button with a specific background color etc */\n\ninput[type=submit] {\n  background-color: #04AA6D;\n  color: white;\n  padding: 12px 20px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n}\n\n/* When moving the mouse over the submit button, add a darker green color */\n\ninput[type=submit]:hover {\n  background-color: #45a049;\n}\n\n.tabHeader {\n  background-color: orange;\n  color: white;\n  text-align: center;\n  border: 1px solid lightgray;\n  border-radius: 4px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRiLXNldHRpbmdzLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxrQkFBQTtFQUNBLFNBQUE7RUFDQSwyQkFBQTtBQUNKOztBQUNBO0VBQ0Esa0JBQUE7RUFDQSxhQUFBO0VBQ0EsY0FBQTtBQUVBOztBQUFBO0VBQ0EsY0FBQTtBQUdBOztBQUFBLDREQUFBOztBQUNBOzs7OztDQUFBOztBQU1DLGlFQUFBOztBQUNEO0VBQ0UsV0FBQTtFQUFhLGVBQUE7RUFDYixhQUFBO0VBQWUsaUJBQUE7RUFDZixzQkFBQTtFQUF3QixnQkFBQTtFQUN4QixrQkFBQTtFQUFvQixvQkFBQTtFQUNwQixzQkFBQTtFQUF3QixvREFBQTtFQUN4QixlQUFBO0VBQWlCLHFCQUFBO0VBQ2pCLG1CQUFBO0VBQXFCLGtCQUFBO0VBQ3JCLGdCQUFBO0FBVUY7O0FBUEEsaUVBQUE7O0FBQ0E7RUFDRSx5QkFBQTtFQUNBLFlBQUE7RUFDQSxrQkFBQTtFQUNBLFlBQUE7RUFDQSxrQkFBQTtFQUNBLGVBQUE7QUFVRjs7QUFQQSwyRUFBQTs7QUFDQTtFQUNFLHlCQUFBO0FBVUY7O0FBTkE7RUFFRSx3QkFBQTtFQUNBLFlBQUE7RUFDQSxrQkFBQTtFQUNBLDJCQUFBO0VBQ0Esa0JBQUE7QUFRRiIsImZpbGUiOiJ0Yi1zZXR0aW5ncy5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmFicy1jZW50ZXIteCB7XHJcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XHJcbiAgICBsZWZ0OiA1MCU7XHJcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoLTUwJSk7XHJcbn1cclxuLm15LWN1c3RvbS1zY3JvbGxiYXIge1xyXG5wb3NpdGlvbjogcmVsYXRpdmU7XHJcbmhlaWdodDogMjAwcHg7XHJcbm92ZXJmbG93OiBhdXRvO1xyXG59XHJcbi50YWJsZS13cmFwcGVyLXNjcm9sbC15IHtcclxuZGlzcGxheTogYmxvY2s7XHJcbn1cclxuXHJcbi8qIEFkZCBhIGJhY2tncm91bmQgY29sb3IgYW5kIHNvbWUgcGFkZGluZyBhcm91bmQgdGhlIGZvcm0gKi9cclxuLyouY29udGFpbmVyIHtcclxuICBib3JkZXItcmFkaXVzOiA1cHg7XHJcbiAgYmFja2dyb3VuZC1jb2xvcjogI2YyZjJmMjtcclxuICBwYWRkaW5nOiAyMHB4O1xyXG59IFxyXG4qL1xyXG4gLyogU3R5bGUgaW5wdXRzIHdpdGggdHlwZT1cInRleHRcIiwgc2VsZWN0IGVsZW1lbnRzIGFuZCB0ZXh0YXJlYXMgKi9cclxuaW5wdXRbdHlwZT10ZXh0XSwgc2VsZWN0LCB0ZXh0YXJlYSB7XHJcbiAgd2lkdGg6IDEwMCU7IC8qIEZ1bGwgd2lkdGggKi9cclxuICBwYWRkaW5nOiAxMnB4OyAvKiBTb21lIHBhZGRpbmcgKi8gXHJcbiAgYm9yZGVyOiAxcHggc29saWQgI2NjYzsgLyogR3JheSBib3JkZXIgKi9cclxuICBib3JkZXItcmFkaXVzOiA0cHg7IC8qIFJvdW5kZWQgYm9yZGVycyAqL1xyXG4gIGJveC1zaXppbmc6IGJvcmRlci1ib3g7IC8qIE1ha2Ugc3VyZSB0aGF0IHBhZGRpbmcgYW5kIHdpZHRoIHN0YXlzIGluIHBsYWNlICovXHJcbiAgbWFyZ2luLXRvcDogNnB4OyAvKiBBZGQgYSB0b3AgbWFyZ2luICovXHJcbiAgbWFyZ2luLWJvdHRvbTogMTZweDsgLyogQm90dG9tIG1hcmdpbiAqL1xyXG4gIHJlc2l6ZTogdmVydGljYWwgLyogQWxsb3cgdGhlIHVzZXIgdG8gdmVydGljYWxseSByZXNpemUgdGhlIHRleHRhcmVhIChub3QgaG9yaXpvbnRhbGx5KSAqL1xyXG59XHJcblxyXG4vKiBTdHlsZSB0aGUgc3VibWl0IGJ1dHRvbiB3aXRoIGEgc3BlY2lmaWMgYmFja2dyb3VuZCBjb2xvciBldGMgKi9cclxuaW5wdXRbdHlwZT1zdWJtaXRdIHtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDRBQTZEO1xyXG4gIGNvbG9yOiB3aGl0ZTtcclxuICBwYWRkaW5nOiAxMnB4IDIwcHg7XHJcbiAgYm9yZGVyOiBub25lO1xyXG4gIGJvcmRlci1yYWRpdXM6IDRweDtcclxuICBjdXJzb3I6IHBvaW50ZXI7XHJcbn1cclxuXHJcbi8qIFdoZW4gbW92aW5nIHRoZSBtb3VzZSBvdmVyIHRoZSBzdWJtaXQgYnV0dG9uLCBhZGQgYSBkYXJrZXIgZ3JlZW4gY29sb3IgKi9cclxuaW5wdXRbdHlwZT1zdWJtaXRdOmhvdmVyIHtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjNDVhMDQ5O1xyXG59XHJcblxyXG5cclxuLnRhYkhlYWRlclxyXG57XHJcbiAgYmFja2dyb3VuZC1jb2xvcjogb3JhbmdlO1xyXG4gIGNvbG9yOiB3aGl0ZTtcclxuICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgYm9yZGVyOiAxcHggc29saWQgbGlnaHRncmF5O1xyXG4gIGJvcmRlci1yYWRpdXM6IDRweDtcclxufSJdfQ== */";
-
-/***/ }),
-
-/***/ 50959:
-/*!*******************************************************************************!*\
-  !*** ./src/app/explore-container/explore-container.component.html?ngResource ***!
-  \*******************************************************************************/
-/***/ ((module) => {
-
-module.exports = "<div id=\"container\" style=\"background-color: white;\">\r\n  <strong>{{ name }}</strong>\r\n  <p>Explore <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://ionicframework.com/docs/components\">UI Components</a></p>\r\n</div>";
 
 /***/ }),
 

@@ -37,6 +37,8 @@
             <td>{{p.product.productName}}</td>
             <td>{{p.product.description}}</td>
             <td>{{p.product.priceHtva}}</td>
+            <td>{{p.quantity}}</td>
+            <td>{{p.product.priceHtva * p.quantity}}</td>
             <!-- <td>{{p.categoryId}}</td> -->
           </tr>
         </tbody>
@@ -81,7 +83,7 @@
       <ion-label position="stacked" [hidden]="ScanMode">{{'htvaPrice' | translate}}</ion-label>
       <ion-label position="stacked" [hidden]="!ScanMode">{{'priceToPay' | translate}}</ion-label>
       <ion-input type="text" id="htva" name="htva" formControlName="priceHtva" placeholder="124.5"
-      required="required" maxlength="12"></ion-input>
+      required="required" maxlength="12" [disabled]="!ScanMode"></ion-input>
     </ion-item>
 
     <ion-item class="form-group" required="required" [hidden]="ScanMode">

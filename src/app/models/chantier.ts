@@ -11,6 +11,7 @@ export interface IChantier
     worksiteName: string;
    // clientLastName: string;
     clientId:string;
+    clientFullName:string;
     description : string;
     address : string
     dateStart : string;
@@ -30,6 +31,7 @@ export class Chantier implements IChantier {
         public worksiteName:string,
       //  public clientLastName:string,
         public clientId:string,
+        public clientFullName: string,
         public description: string,
         public address: string,
         public dateStart : string,

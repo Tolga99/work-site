@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import list from 'devextreme/ui/list';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
 import { Chantier } from '../models/chantier';
@@ -61,6 +62,7 @@ export class Shop implements OnInit {
     this.catList = await this.storageService.get('Categories');
 
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
+    console.log(this.chantierId);
     this.invoiceId = this.route.snapshot.paramMap.get('invoiceId');
     this.type = this.route.snapshot.paramMap.get('type');
 
@@ -70,12 +72,22 @@ export class Shop implements OnInit {
     this.invRemise = this.route.snapshot.paramMap.get('remise');
     this.invDescription = this.route.snapshot.paramMap.get('description');
 
-    if(this.chantierId != null && this.invoiceId != null)
+    if(this.chantierId != null && this.chantierId != 'null' && this.invoiceId != null)
     {
       let chantierList : Chantier[] = await this.storageService.get('Chantiers');
       if(chantierList?.find(a => a.chantierId === this.chantierId).factures?.find(b => b.factureId === this.invoiceId)?.cart != null)
       {
         this.panierList = chantierList.find(a => a.chantierId === this.chantierId).factures.find(b => b.factureId === this.invoiceId).cart;
+        this.panierList.forEach(a => this.initialPanier.push(a));
+        this.panierEmpty = 'NO';
+      }
+    }else if(this.chantierId === 'null')
+    {
+      let invoicesList : Facture[] = await this.storageService.get('NAfactures');
+      if(invoicesList.find(a => a.factureId === this.invoiceId).cart != null)
+      {
+        this.panierList = invoicesList.find(a => a.factureId === this.invoiceId).cart;
+        console.log(this.panierList, invoicesList, this.invoiceId);
         this.panierList.forEach(a => this.initialPanier.push(a));
         this.panierEmpty = 'NO';
       }
@@ -146,14 +158,24 @@ export class Shop implements OnInit {
   }
   async SavePanier()
   {
-    const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
-    const chantier = chantierl.find(a => a.chantierId === this.chantierId);
-    const chantierIndex = chantierl.findIndex(a => a.chantierId === this.chantierId);
     let listInv : Array<Facture>;
-    if(this.type === 'facture')
-      listInv= chantier.factures;
-    else listInv = chantier.devis;
+    console.log('ID chantier : ',this.chantierId);
+    if(this.chantierId !== null && this.chantierId !== 'null')
+    {
+      const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
+      const chantier = chantierl.find(a => a.chantierId === this.chantierId);
+      const chantierIndex = chantierl.findIndex(a => a.chantierId === this.chantierId);
+      console.log('chantier :', chantier);
+      if(this.type === 'facture')
+        listInv= chantier.factures;
+      else listInv = chantier.devis;
+    }else
+    {
+      listInv = await this.storageService.get('NAfactures');
+    }
     // let listInv : Array<Facture> = await this.storageService.get("Invoices="+this.chantierId);
+    let newInv : Facture;
+    console.log('listInv :',listInv,this.invoiceId);
     if(listInv!=null)
     {
       const inv = listInv.find(a => a.factureId === this.invoiceId);
@@ -161,12 +183,15 @@ export class Shop implements OnInit {
       if(inv!=null)
       {
         invIndex= listInv.findIndex(a => a.factureId === this.invoiceId);
-
+        console.log('old panier : ',inv.cart);
+        console.log('new panier :', this.panierList);
         inv.cart= this.panierList;
+        newInv = inv;
         listInv[invIndex]= inv;
+        console.log('new ListInv',listInv,inv,invIndex);
       }else
       {
-        const newInv = new Facture(this.invoiceId,
+        newInv = new Facture(this.invoiceId,
                                   null,
                                   null,
                                   null,
@@ -186,7 +211,7 @@ export class Shop implements OnInit {
     else
     {
       listInv = new Array<Facture>();
-      const newInv = new Facture(this.invoiceId,
+      newInv = new Facture(this.invoiceId,
         null,
         null,
         null,
@@ -202,19 +227,42 @@ export class Shop implements OnInit {
         this.type);
       listInv.push(newInv);
     }
+    if(this.chantierId !== null && this.chantierId !== 'null')
+    {
+      const chantierl : Array<Chantier> = await this.storageService.get('Chantiers');
+      const chantier = chantierl.find(a => a.chantierId === this.chantierId);
+      const chantierIndex = chantierl.findIndex(a => a.chantierId === this.chantierId);
 
-    if(this.type === 'facture')
-      chantier.factures= listInv;
-    else chantier.devis= listInv;
-    chantierl[chantierIndex] = chantier;
-    this.storageService.set('Chantiers',chantierl);
-    this.router.navigate(['/invoice',
-                        {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
-                        ,factureName : this.invName, remise : this.invRemise,
-                        tva : this.invTva, description : this.invDescription,
-                        typePay : this.invTypePay}],
-                        {replaceUrl:true});
+      if(this.type === 'facture')
+        chantier.factures= listInv;
+      else chantier.devis= listInv;
+      chantierl[chantierIndex] = chantier;
+      console.log('saving panier for chantier :',chantier,listInv);
+      this.storageService.set('Chantiers',chantierl);
+      this.router.navigate(['/invoice',
+                          {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
+                          ,factureName : this.invName, remise : this.invRemise,
+                          tva : this.invTva, description : this.invDescription,
+                          typePay : this.invTypePay}],
+                          {replaceUrl:true});
+    }else
+    {
+      let invs : Array<Facture> = await this.storageService.get('NAfactures');
+      if(invs === null)
+      {
+        invs = new Array<Facture>();
+      }
+      invs = listInv;
+      console.log('saving new List :',listInv,invs);
+      this.storageService.set('NAfactures',invs);
+      this.router.navigate(['/invoice',
+                          {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
+                          ,factureName : this.invName, remise : this.invRemise,
+                          tva : this.invTva, description : this.invDescription,
+                          typePay : this.invTypePay}],
+                          {replaceUrl:true});    }
   }
+
   async GoBack()
   {
     var result : string | undefined;

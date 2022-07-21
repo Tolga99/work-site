@@ -23,7 +23,15 @@ const routes = [
     {
         path: '',
         component: _tb_home__WEBPACK_IMPORTED_MODULE_0__.TabHome,
-    }
+    },
+    {
+        path: 'worksite',
+        loadChildren: () => __webpack_require__.e(/*! import() */ "default-src_app_worksite_worksite_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ../worksite/worksite.module */ 43045)).then(m => m.WorksiteModule)
+    },
+    {
+        path: 'createworksite',
+        loadChildren: () => __webpack_require__.e(/*! import() */ "default-src_app_create-worksite_create-worksite_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ../create-worksite/create-worksite.module */ 78927)).then(m => m.CreateWorksiteModule)
+    },
 ];
 let TabHomeRoutingModule = class TabHomeRoutingModule {
 };
@@ -48,17 +56,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TabHomeModule": () => (/* binding */ TabHomeModule)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 93819);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 94666);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 93819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ 94666);
 /* harmony import */ var _tb_home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tb-home */ 24366);
-/* harmony import */ var _explore_container_explore_container_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../explore-container/explore-container.module */ 581);
-/* harmony import */ var _tb_home_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tb-home-routing.module */ 90588);
-/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/shared.module */ 44466);
-/* harmony import */ var _material_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../material.module */ 63806);
-/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/material/core */ 59121);
-
+/* harmony import */ var _tb_home_routing_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tb-home-routing.module */ 90588);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/shared.module */ 44466);
+/* harmony import */ var _material_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../material.module */ 63806);
+/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/material/core */ 59121);
 
 
 
@@ -71,15 +77,14 @@ __webpack_require__.r(__webpack_exports__);
 
 let TabHomeModule = class TabHomeModule {
 };
-TabHomeModule = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.NgModule)({
+TabHomeModule = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.NgModule)({
         imports: [
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonicModule,
-            _angular_common__WEBPACK_IMPORTED_MODULE_8__.CommonModule,
-            _explore_container_explore_container_module__WEBPACK_IMPORTED_MODULE_1__.ExploreContainerComponentModule,
-            _tb_home_routing_module__WEBPACK_IMPORTED_MODULE_2__.TabHomeRoutingModule,
-            _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__.SharedModule,
-            _angular_material_core__WEBPACK_IMPORTED_MODULE_9__.MatNativeDateModule, _material_module__WEBPACK_IMPORTED_MODULE_4__.MaterialModule
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonicModule,
+            _angular_common__WEBPACK_IMPORTED_MODULE_7__.CommonModule,
+            _tb_home_routing_module__WEBPACK_IMPORTED_MODULE_1__.TabHomeRoutingModule,
+            _shared_shared_module__WEBPACK_IMPORTED_MODULE_2__.SharedModule,
+            _angular_material_core__WEBPACK_IMPORTED_MODULE_8__.MatNativeDateModule, _material_module__WEBPACK_IMPORTED_MODULE_3__.MaterialModule
         ],
         declarations: [_tb_home__WEBPACK_IMPORTED_MODULE_0__.TabHome]
     })

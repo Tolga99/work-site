@@ -34,6 +34,13 @@ import { PdfService } from '../services/pdf.service';
 export class TabHome implements OnInit, INestedOptionContainer{
   deleteText = '';
   editText = '';
+
+  public allowedPageSizes = [5, 10, 15];
+  displayMode = 'full';
+  showPageSizeSelector = true;
+  showInfo = true;
+
+  showNavButtons = true;  TabView = 'enCours';
   settingsBt : any[]= [
     { value: 'settings', text: '', icon: 'fas fa-toolbox' },
     { value: 'about',text: '', icon: 'fas fa-info' },
@@ -42,11 +49,6 @@ export class TabHome implements OnInit, INestedOptionContainer{
     { value: 'edit', text: '', icon: 'fas fa-pencil-square-o' },
     { value: 'delete',text: '', icon: 'fas fa-trash' },
   ];
-  // <dx-button icon="" (click)="GoSettings()" [text]="">
-  // </dx-button>
-  // <dx-button icon="" (click)="About()" [text]="">
-  // </dx-button>
-  TabView = 'enCours';
   chantierList : Array<Chantier> = [];
   invList : Array<Facture> = [];
   searchList : Array<Chantier> = [];
@@ -72,15 +74,6 @@ export class TabHome implements OnInit, INestedOptionContainer{
   address = false;
   state = false;
   
-  dataSource: MatTableDataSource<Chantier>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  dataSourceF: MatTableDataSource<Facture>;
-  @ViewChild(MatPaginator) paginatorF: MatPaginator;
-  @ViewChild(MatSort) sortF: MatSort;
-  @ViewChild('myButton') myButton: DxiItemComponent;
-  @ContentChildren(DxiItemComponent) options: QueryList<DxiItemComponent>;
   constructor(private modalS : NgbModal,
               private storageService:StorageService,
               private router: Router,
@@ -113,65 +106,15 @@ export class TabHome implements OnInit, INestedOptionContainer{
     this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
     this.invList = await this.storageService.get('NAfactures');
+    console.log(this.invList);
     this.clientsList = await this.storageService.get('Contacts');
-    if(this.chantierList !== null && this.chantierList !== undefined)
-      this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-    this.dataSourceF = new MatTableDataSource(this.invList);
-    this.dataSourceF.paginator = this.paginatorF;
-    this.dataSourceF.sort = this.sortF;
-
-    this.dataSourceF._filterData(this.dataSourceF.data);
-    this.dataSourceF.paginator.nextPage();
-    console.log('current tab : ',this.TabView);
-    this.dataSourceF.paginator.firstPage();
-
-    Object.defineProperty(this.myButton, "options", {  writable: true  });
-    this.myButton.options = this.options;
-
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
   }
 
   async ngOnInit() {
-    // this.router.navigate(['login'],{replaceUrl:true});
     await this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
-    this.dataSource = new MatTableDataSource(this.chantierList);
-
     this.invList = await this.storageService.get('NAfactures');
-    this.dataSourceF = new MatTableDataSource(this.invList);
-
-    // this.searchList = this.chantierList;
     this.clientsList = await this.storageService.get('Contacts');
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-    this.dataSourceF.paginator = this.paginatorF;
-    this.dataSourceF.sort = this.sortF;
-   // var maliste = await this.storageService.get('listClient');
-
-   // console.log('here is maliste',maliste);
   }
   CreateWorksite()
   {
@@ -179,8 +122,9 @@ export class TabHome implements OnInit, INestedOptionContainer{
     this.router.navigate(['createworksite'],{replaceUrl:true});
   }
 
-  ManageWorksite(chantier: Chantier)
+  manageWorksite(e: any)
   {
+    var chantier : Chantier = e.data;
     this.router.navigate(['worksite',{chantierId: chantier.chantierId}],{replaceUrl:true});
     console.log('click',chantier.worksiteName);
   }
@@ -198,118 +142,10 @@ export class TabHome implements OnInit, INestedOptionContainer{
         return ;
     this.chantierList = this.chantierList.filter(a => a.chantierId !== chantier.chantierId);
     this.storageService.set('Chantiers', this.chantierList);
-    this.dataSource = new MatTableDataSource(this.chantierList);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  hideSearch()
-  {}
-  yourSearchFunction(event)
-  {
-    var val : string = event.target.value;
-    val = val.toLowerCase();
-    console.log('s :',val);
-    if(this.client === true)
-    {
-      const noms = this.clientsList.filter(a => a.lastName.toLowerCase().includes(val));
-      this.searchList = [];
-      noms.forEach(element => {
-        this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-      });
-
-      const prenoms = this.clientsList.filter(a => a.firstName.toLowerCase().includes(val));
-      prenoms.forEach(element => {
-        this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-      });
-    }else if(this.state === true)
-    {
-      this.searchList = this.chantierList.filter(a => a.isFinished.toLowerCase().includes(val));
-    }else if(this.name === true)
-    {
-      this.searchList = this.chantierList.filter(a => a.worksiteName.toLowerCase().includes(val));
-    }else if(this.address === true)
-    {
-      this.searchList = this.chantierList.filter(a => a.address.toLowerCase().includes(val));
-    }else if(this.date === true)
-    {
-      this.searchList = this.chantierList.filter(a => a.dateStart.toLowerCase().includes(val));
-    }
-  }
-  yourInputChangeFunction(event)
-  {
-    var val : string = event.target.value;
-    val = val.toLowerCase();
-    console.log(val);
-    if(val === '')
-    {
-      this.searchList = this.chantierList;
-      return;
-    }
-    if(this.client === true)
-    {
-      const noms = this.clientsList.filter(a => a.lastName.toLowerCase().includes(val));
-      this.searchList = [];
-      noms.forEach(element => {
-        this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-      });
-
-      const prenoms = this.clientsList.filter(a => a.firstName.toLowerCase().includes(val));
-      prenoms.forEach(element => {
-        this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-      });
-    }else if(this.state === true)
-    {
-      this.searchList = this.chantierList.filter(a => a.isFinished.toLowerCase().includes(val));
-    }else if(this.name === true)
-    {
-      this.searchList = this.chantierList.filter(a => a.worksiteName.toLowerCase().includes(val));
-    }else if(this.address === true)
-    {
-      this.searchList = this.chantierList.filter(a => a.address.toLowerCase().includes(val));
-    }else if(this.date === true)
-    {
-      this.searchList = this.chantierList.filter(a => a.dateStart.toLowerCase().includes(val));
-    }
   }
   GeneratePDFInvoice(f : Facture)
   {
     this.pdfService.GeneratePDFInvoice(null,f);
-  }
-  UpdateSearch(event)
-  {
-    console.log(event.target.name);
-    if(event.target.name === 'name')
-    {
-      this.state=false;
-      this.address = false;
-      this.date = false;
-      this.client =false;
-    }else if(event.target.name === 'client')
-    {
-      this.state=false;
-      this.address = false;
-      this.date = false;
-      this.name =false;
-    }else if(event.target.name === 'state')
-    {
-      this.name=false;
-      this.address = false;
-      this.date = false;
-      this.client =false;
-    }else if(event.target.name === 'date')
-    {
-      this.state=false;
-      this.address = false;
-      this.name = false;
-      this.client =false;
-    }else if(event.target.name === 'address')
-    {
-      this.state=false;
-      this.name = false;
-      this.date = false;
-      this.client =false;
-    }
   }
   GetName(el: Chantier)
   {
@@ -330,12 +166,10 @@ export class TabHome implements OnInit, INestedOptionContainer{
     {
       this.toggleChantier = true;
       console.log('Afficher chantiers terminées')
-      this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished !== 'En cours'));
     }else
     {
       this.toggleChantier = false;
       console.log('Afficher chantiers en cours')
-      this.dataSource = new MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
 
     }
   }
@@ -375,8 +209,6 @@ export class TabHome implements OnInit, INestedOptionContainer{
           this.storageService.set('Chantiers',this.chantierList);
 
           this.invList.splice(this.invList.findIndex(a => a.factureId === inv.factureId),1);
-          this.dataSourceF = new MatTableDataSource(this.invList);
-          //ASSIGN ENDED
           res='OK';
         }
       }, (reason) => {
@@ -388,39 +220,35 @@ export class TabHome implements OnInit, INestedOptionContainer{
   }
   openInvoice(inv : Facture)
   {
-  //   console.log('Bouton open facture',inv.factureId);
-  //   this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: this.chantierId}]);
+    console.log('Bouton open facture',inv.factureId);
+    this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: 'null'}]);
   }
   async deleteInvoice(inv:Facture) : Promise<void>{
-  //   let res : string =null;
-  //   await this.modal.open('delInv',inv.factureName)
-  //   .then(result => result.result
-  //     .then((data) => {
-  //       res='OK';
-  //     }, (reason) => {
-  //     res='DISMISS' }
-  //     ));
+    let res : string =null;
+    await this.modal.open('delInv',inv.factureName)
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS' }
+      ));
 
-  //   if(res==='DISMISS')
-  //       return ;
-  //   if(inv.receivedMoney!=null)
-  //   {
-  //     inv.receivedMoney.forEach(element => {
-  //       this.DeleteReceive(inv,element);
-  //     });
-  //   }
-  //   this.chantier.factures = this.chantier.factures.filter(a => a.factureId !== inv.factureId);
-  //   if(this.indexFind>=0)
-  //   {
-  //    // this.chantierList.splice(this.indexFind,1);
-  //     this.chantierList[this.indexFind] = this.chantier;
-  //   }else this.chantierList.push(this.chantier);
-  //   this.storageService.set('Chantiers',this.chantierList);
-
-  //   this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
+    if(res==='DISMISS')
+        return ;
+    // if(inv.receivedMoney!=null)
+    // {
+    //   inv.receivedMoney.forEach(element => {
+    //     this.DeleteReceive(inv,element);
+    //   });
+    // }
+    this.invList = this.invList.filter(a => a.factureId !== inv.factureId);
+    // if(this.indexFind>=0)
+    // {
+    //  // this.chantierList.splice(this.indexFind,1);
+    //   this.chantierList[this.indexFind] = this.chantier;
+    // }else this.chantierList.push(this.chantier);
+    this.storageService.set('NAfactures',this.invList);
   }
-
-
   createDevis()
   {
     console.log('Bouton nv facture (creation)');
@@ -433,60 +261,36 @@ export class TabHome implements OnInit, INestedOptionContainer{
   }
   openDevis(inv : Facture)
   {
-  //   console.log('Bouton open facture',inv.factureId);
-  //   this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: this.chantierId}]);
+    console.log('Bouton open facture',inv.factureId);
+    this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: 'null'}]);
   }
   async deleteDevis(inv:Facture){
-  //   let res : string =null;
-  //   await this.modal.open('delDev',inv.factureName)
-  //   .then(result => result.result
-  //     .then((data) => {
-  //       res='OK';
-  //     }, (reason) => {
-  //     res='DISMISS' }
-  //     ));
+    let res : string =null;
+    await this.modal.open('delDev',inv.factureName)
+    .then(result => result.result
+      .then((data) => {
+        res='OK';
+      }, (reason) => {
+      res='DISMISS' }
+      ));
 
-  //   if(res==='DISMISS')
-  //       return ;
-  //   this.chantier.devis = this.chantier.devis.filter(a => a.factureId !== inv.factureId);
-  //   if(this.indexFind>=0)
-  //   {
-  //    // this.chantierList.splice(this.indexFind,1);
-  //     this.chantierList[this.indexFind] = this.chantier;
-  //   }else this.chantierList.push(this.chantier);
-  //   this.storageService.set('Chantiers',this.chantierList);
-
-  //   this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
-
+    if(res==='DISMISS')
+        return ;
+    this.invList = this.invList.filter(a => a.factureId !== inv.factureId);
+    // if(indexFind>=0)
+    // {
+    //   this.invList.splice(indexFind,1);
+    // }
+    this.storageService.set('NAfactures',this.invList);
   }
 
   TransformToInvoice(d : Facture)
   {
-  //   const index=this.chantier.devis.findIndex(a => a.factureId === d.factureId);
-  //   this.generateUUID();
-  //   d.factureId= this.uuidValue;
-  //   this.chantier.factures.push(d);
-  //   // this.chantier.devis.splice(index,1); s'il faut supprimer
-  //   this.chantierList[this.chantierList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.chantier;
-  //   this.storageService.set('Chantiers',this.chantierList);
-  }
-  applyFilterFacture(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceF.filter = filterValue.trim().toLowerCase();
-    if (this.dataSourceF.paginator) {
-      this.dataSourceF.paginator.firstPage();
-    }
-  }
-  announceSortChangeFacture(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+    const index=this.invList.findIndex(a => a.factureId === d.factureId);
+    this.invList.push(d);
+    this.invList.splice(index,1);
+    // this.invList[this.invList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.invList;
+    this.storageService.set('Chantiers',this.chantierList);
   }
   GoProfile()
   {
