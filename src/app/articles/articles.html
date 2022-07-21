@@ -45,8 +45,68 @@
   <div [hidden]="artList?.length>0">
     {{'noData' | translate}}
   </div>
-  <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" [hidden]="artList?.length==0">
-    <table class="table table-bordered table-striped mb-0">
+  <div class="col-auto" [hidden]="artList?.length==0">
+    <dx-data-grid
+      id="gridClient"
+      [dataSource]="artList"
+      keyExpr="productId"
+      [showBorders]="true"
+      [title]="'myArticles' | translate"
+    >
+    <dxo-search-panel
+    [visible]="true"
+    [highlightCaseSensitive]="false"
+    ></dxo-search-panel>
+      <dxo-scrolling rowRenderingMode="virtual"> </dxo-scrolling>
+      <dxo-paging [pageSize]="10"> </dxo-paging>
+      <dxo-pager
+        [visible]="true"
+        [allowedPageSizes]="allowedPageSizes"
+        displayMode="full"
+        [showPageSizeSelector]="showPageSizeSelector"
+        [showInfo]="showInfo"
+        [showNavigationButtons]="showNavButtons"
+      >
+      </dxo-pager>
+      <dxi-column
+      dataField="productName"
+      [caption]="'productName' | translate"
+      >
+      </dxi-column>
+      <dxi-column
+      dataField="description"
+      [caption]="'description' | translate"
+      >
+      </dxi-column>
+      <dxi-column
+      dataField="priceHtva"
+      [caption]="'htvaPrice' | translate"
+      >
+      </dxi-column>
+      <dxi-column
+      [caption]="'...'"
+      cellTemplate="buttonsTemplate"
+      >
+    
+      </dxi-column>
+      <div *dxTemplate="let el of 'buttonsTemplate'">
+        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+          <mat-icon>toc</mat-icon>
+    
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="ModifyProduct(el.data)" type="button">
+            <mat-icon>edit</mat-icon>
+            <span>{{'edit' | translate}}</span>
+          </button>
+          <button mat-menu-item (click)="DeleteProduct(el.data)" type="button">
+            <mat-icon>delete</mat-icon>
+            <span>{{'delete' | translate}}</span>
+          </button>
+        </mat-menu>
+      </div>
+    </dx-data-grid>
+    <!-- <table class="table table-bordered table-striped mb-0">
 
       <thead>
         <tr>
@@ -76,7 +136,7 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
 
   </div>
   <div class="card-footer text-muted" style="text-align: center;">

@@ -6,73 +6,77 @@
 <ion-content [fullscreen]="true" style="overflow-y: auto;">
   <div class="jumbotron text-center" style="padding: 5px;
   margin: 10px;">
-    <mat-form-field appearance="standard">
-      <mat-label>{{'search' | translate}}</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-    </mat-form-field>
-
     <div class="mat-elevation-z8" style="background-color: white;">
-      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
-        <!-- ID Column -->
-        <ng-container matColumnDef="lastName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> {{'name' | translate}} </th>
-          <td mat-cell *matCellDef="let row"> {{row.lastName.toUpperCase()}} </td>
-        </ng-container>
-
-        <!-- Progress Column -->
-        <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by firstName"> {{'fName' | translate}} </th>
-          <td mat-cell *matCellDef="let row"> {{row.firstName}} </td>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by address"> {{'address' | translate}} </th>
-          <td mat-cell *matCellDef="let row"> {{row.address}} </td>
-        </ng-container>
-
-
-        <ng-container matColumnDef="...">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>
-          <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
-            <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
-              <mat-icon>toc</mat-icon>
-
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item type="button" (click)="NewWork(row)">
-                <mat-icon>add_location</mat-icon>
-                <span>{{'newWorksite' | translate}}</span>
-              </button>
-              <button mat-menu-item type="button" (click)="EditContact(row)">
-                <mat-icon>edit</mat-icon>
-                <span>{{'edit' | translate}}</span>
-              </button>
-              <button mat-menu-item (click)="deleteContact(row)" type="button">
-                <mat-icon>delete</mat-icon>
-                <span>{{'delete' | translate}}</span>
-              </button>
-            </mat-menu>
-          </td>
-        </ng-container>
-
-
-        <tr mat-header-row *matHeaderRowDef="headElements"></tr>
-        <tr mat-row *matRowDef="let row; columns: headElements;" (click)="OpenContact(row)"></tr>
-
-        <!-- Row shown when there is no matching data. -->
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">{{'noData' | translate}} "{{input.value}}"</td>
-        </tr>
-
-      </table>
-
-      <mat-paginator mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of dataSource">
-      </mat-paginator>
+      <dx-data-grid
+      id="gridClient"
+      [dataSource]="contactsList"
+      keyExpr="userId"
+      [showBorders]="true"
+      [title]="'myClients' | translate"
+      (onRowClick)="openContact($event)"
+    >
+    <dxo-search-panel
+    [visible]="true"
+    [highlightCaseSensitive]="false"
+    ></dxo-search-panel>
+      <dxo-scrolling rowRenderingMode="virtual"> </dxo-scrolling>
+      <dxo-paging [pageSize]="10"> </dxo-paging>
+      <dxo-pager
+        [visible]="true"
+        [allowedPageSizes]="allowedPageSizes"
+        displayMode="full"
+        [showPageSizeSelector]="showPageSizeSelector"
+        [showInfo]="showInfo"
+        [showNavigationButtons]="showNavButtons"
+      >
+      </dxo-pager>
+      <dxi-column
+      dataField="lastName"
+      [caption]="'name' | translate"
+      cellTemplate="lastNameTemplate"
+      >
+      </dxi-column>
+      <dxi-column
+      dataField="firstName"
+      [caption]="'fName' | translate"
+      >
+      </dxi-column>
+      <dxi-column
+      dataField="address"
+      [caption]="'address' | translate"
+      >
+      </dxi-column>
+      <dxi-column
+      [caption]="'...'"
+      cellTemplate="buttonsTemplate"
+      >
+    
+      </dxi-column>
+      <div *dxTemplate="let el of 'lastNameTemplate'">
+        {{el.data.lastName.toUpperCase()}}
+      </div>
+      <div *dxTemplate="let el of 'buttonsTemplate'">
+        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+          <mat-icon>toc</mat-icon>
+    
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item type="button" (click)="NewWork(el.data)">
+            <mat-icon>add_location</mat-icon>
+            <span>{{'newWorksite' | translate}}</span>
+          </button>
+          <button mat-menu-item type="button" (click)="EditContact(el.data)">
+            <mat-icon>edit</mat-icon>
+            <span>{{'edit' | translate}}</span>
+          </button>
+          <button mat-menu-item (click)="deleteContact(el.data)" type="button">
+            <mat-icon>delete</mat-icon>
+            <span>{{'delete' | translate}}</span>
+          </button>
+        </mat-menu>
+      </div>
+    </dx-data-grid>
     </div>
-
-
-
     <div class="card text-center">
       <div class="card-footer text-muted">
         <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" icon="fas fa-user-plus" 

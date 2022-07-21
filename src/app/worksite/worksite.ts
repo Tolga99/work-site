@@ -27,6 +27,12 @@ import { MethodsService } from '../services/methods.service';
 })
 export class Worksite implements OnInit {
 
+  public allowedPageSizes = [5, 10, 15];
+  displayMode = 'full';
+  showPageSizeSelector = true;
+  showInfo = true;
+  showNavButtons = true;
+
   TabView = 'general';
   uuidValue : string;
   chantierId: string;
@@ -47,70 +53,10 @@ export class Worksite implements OnInit {
    address : new UntypedFormControl(''),
  });
 
-  headElementsInv = ['factureName', 'totalPrice','date','IsPaid','...'];
-  headElementsDev = ['factureName', 'totalPrice','date','...'];
-
   headElementsHour = ['description', 'workTime','date','...'];
   headElementsRecv = ['Nom Facture','Argent reçu' , 'Total','Restant','Date reception'];
 
   public modal = new NgbdModalFocus(this.modalS);
-
-
-  dataSourceFacture: MatTableDataSource<Facture>;
-  @ViewChild(MatPaginator) paginatorFacture: MatPaginator;
-  @ViewChild(MatSort) sortFacture: MatSort;
-
-  dataSourceDevis: MatTableDataSource<Facture>;
-  @ViewChild(MatPaginator) paginatorDevis: MatPaginator;
-  @ViewChild(MatSort) sortDevis: MatSort;
-
-  dataSourceHeure: MatTableDataSource<Hour>;
-  @ViewChild(MatPaginator) paginatorHeure: MatPaginator;
-  @ViewChild(MatSort) sortHeure: MatSort;
-
-
-  applyFilterFacture(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceFacture.filter = filterValue.trim().toLowerCase();
-    if (this.dataSourceFacture.paginator) {
-      this.dataSourceFacture.paginator.firstPage();
-    }
-  }
-  applyFilterDevis(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceDevis.filter = filterValue.trim().toLowerCase();
-    if (this.dataSourceDevis.paginator) {
-      this.dataSourceDevis.paginator.firstPage();
-    }
-  }
-  applyFilterHeure(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceHeure.filter = filterValue.trim().toLowerCase();
-    if (this.dataSourceHeure.paginator) {
-      this.dataSourceHeure.paginator.firstPage();
-    }
-  }
-  announceSortChangeFacture(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-  announceSortChangeDevis(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-  announceSortChangeHeure(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
 
   constructor(private modalS :NgbModal,
               private storageService:StorageService, 
@@ -149,23 +95,7 @@ export class Worksite implements OnInit {
         this.chantier.devis = this.chantierList.find(a => a.chantierId === this.chantierId).devis;
       else this.chantier.devis = new Array<Facture>();
 
-      this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
-      this.dataSourceFacture.paginator = this.paginatorFacture;
-      this.dataSourceFacture.sort = this.sortFacture;
-
-      this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
-      this.dataSourceDevis.paginator = this.paginatorDevis;
-      this.dataSourceDevis.sort = this.sortDevis;
-
-      this.dataSourceHeure = new MatTableDataSource(this.chantier.hours);
-      this.dataSourceHeure.paginator = this.paginatorHeure;
-      this.dataSourceHeure.sort = this.sortHeure;
       this.CalculTotalHour();
-      
-      this.dataSourceFacture._filterData(this.dataSourceFacture.data);
-      this.dataSourceFacture.paginator.nextPage();
-      console.log('current tab : ',this.TabView);
-      this.dataSourceHeure.paginator.firstPage();
     }
   }
 
@@ -174,8 +104,6 @@ export class Worksite implements OnInit {
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
 
     this.storageService.init();
-    // this.hoursList =await this.storageService.get('Hours='+this.chantierId);
-    // this.invList =await this.storageService.get('Invoices='+this.chantierId);
     this.chantierList =await this.storageService.get('Chantiers');
     if(this.chantierList==null)
       this.chantierList = new Array<Chantier>();
@@ -186,7 +114,6 @@ export class Worksite implements OnInit {
       this.indexFind =this.chantierList.findIndex(x => x.chantierId === existId);
       if(this.indexFind>=0)
       {
-        // this.chantierId= this.chantierList[this.indexFind].chantierId;
         this.chantier = new Chantier(
           this.chantierList[this.indexFind].chantierId,
           this.chantierList[this.indexFind].worksiteName,
@@ -219,18 +146,6 @@ export class Worksite implements OnInit {
 
         if(!this.chantier.hours)
         this.chantier.hours = new Array<Hour>();
-
-        this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
-        this.dataSourceFacture.paginator = this.paginatorFacture;
-        this.dataSourceFacture.sort = this.sortFacture;
-  
-        this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
-        this.dataSourceDevis.paginator = this.paginatorDevis;
-        this.dataSourceDevis.sort = this.sortDevis;
-  
-        this.dataSourceHeure = new MatTableDataSource(this.chantier.hours);
-        this.dataSourceHeure.paginator = this.paginatorHeure;
-        this.dataSourceHeure.sort = this.sortHeure;
       }
     }else console.log('creation',existId);
     this.CalculTotalHour();
@@ -337,11 +252,7 @@ export class Worksite implements OnInit {
       this.chantierList[this.indexFind] = this.chantier;
     }else this.chantierList.push(this.chantier);
     this.storageService.set('Chantiers',this.chantierList);
-
-    this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
   }
-
-
   createDevis()
   {
     console.log('Bouton nv facture (creation)');
@@ -376,11 +287,7 @@ export class Worksite implements OnInit {
       this.chantierList[this.indexFind] = this.chantier;
     }else this.chantierList.push(this.chantier);
     this.storageService.set('Chantiers',this.chantierList);
-
-    this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
-
   }
-
   TransformToInvoice(d : Facture)
   {
     const index=this.chantier.devis.findIndex(a => a.factureId === d.factureId);
@@ -390,10 +297,6 @@ export class Worksite implements OnInit {
     // this.chantier.devis.splice(index,1); s'il faut supprimer
     this.chantierList[this.chantierList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.chantier;
     this.storageService.set('Chantiers',this.chantierList);
-
-    this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
-    this.dataSourceFacture.paginator = this.paginatorFacture;
-    this.dataSourceFacture.sort = this.sortFacture;
   }
   AddHour()
   {
@@ -417,9 +320,6 @@ export class Worksite implements OnInit {
       this.chantierList[this.indexFind] = this.chantier;
     }else this.chantierList.push(this.chantier);
     this.storageService.set('Chantiers',this.chantierList);
-
-    this.dataSourceHeure = new MatTableDataSource(this.chantier.hours);
-
   }
   AddPayment()
   {

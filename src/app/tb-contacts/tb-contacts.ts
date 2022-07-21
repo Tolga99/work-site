@@ -16,16 +16,15 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['tb-contacts.css']
 })
 export class TabContacts implements OnInit  {
-  // headElements = ['#', 'Prenom', 'Nom', 'Adresse'];
-  headElements = ['lastName', 'firstName', 'address','...'];
+  
+  public allowedPageSizes = [5, 10, 15];
+  displayMode = 'full';
+  showPageSizeSelector = true;
+  showInfo = true;
+  showNavButtons = true;
 
   contactsList: Array<User> = [];
   public modal = new NgbdModalFocus(this.modalS);
-
-
-  dataSource: MatTableDataSource<User>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private modalS : NgbModal,
               private storageService:StorageService,
@@ -34,40 +33,15 @@ export class TabContacts implements OnInit  {
               {
               }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
   async ionViewDidEnter(){
     console.log('view did enter');
     this.storageService.init();
     this.contactsList = await this.storageService.get('Contacts');
-    this.dataSource = new MatTableDataSource(this.contactsList);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   async ngOnInit(): Promise<void> {
     this.storageService.init();
     this.contactsList = await this.storageService.get('Contacts');
-    this.dataSource = new MatTableDataSource(this.contactsList);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   CreateClient(){
@@ -75,8 +49,9 @@ export class TabContacts implements OnInit  {
     this.router.navigate(['new-contact']);
     // this.router.navigate(['tb-new-contact']);
   }
-  OpenContact(user:User)
+  openContact(e:any)
   {
+    var user : User = e.data;
     this.router.navigate(['client',{userId: user.userId}]);
   }
 

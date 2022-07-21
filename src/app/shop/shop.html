@@ -44,44 +44,55 @@
   <div class="card-header tabHeader">
     {{'myArticles' | translate}}
   </div>
-  <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
-    <table class="table table-bordered table-striped mb-0">
-
-      <thead>
-        <tr>
-          <th *ngFor="let head of headElementsArt" scope="col">{{head}} </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr mdbTableCol *ngFor="let p of artList">
-          <!-- <th scope="row">{{el.id}}</th> -->
-          <td>{{p.productName}}</td>
-          <td>{{p.description}}</td>
-          <td>{{p.priceHtva}}</td>
-          <td>
-            <dx-button icon="fas fa-cart-plus" type="button" (click)="AddProduct(p)" [text]="'addProductToCart' | translate" style="background-color: orange;">
-            </dx-button>
-          </td>
-          <!-- <td>{{p.categoryId}}</td> -->
-          <!-- <td>
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-               <ion-icon name="list"></ion-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="ModifyProduct(p)">
-                <ion-icon name="create"></ion-icon>
-                <span>Modifier</span>
-              </button>
-              <button mat-menu-item (click)="DeleteProduct(p)">
-                <ion-icon name="trash"></ion-icon>
-                <span>Supprimer</span>
-              </button>
-            </mat-menu>
-          </td> -->
-        </tr>
-      </tbody>
-    </table>
-
+  <div class="col-auto">
+    <dx-data-grid
+      id="gridClient"
+      [dataSource]="artList"
+      keyExpr="productId"
+      [showBorders]="true"
+      [title]="'myArticles' | translate"
+    >
+    <dxo-search-panel
+    [visible]="true"
+    [highlightCaseSensitive]="false"
+    ></dxo-search-panel>
+      <dxo-scrolling rowRenderingMode="virtual"> </dxo-scrolling>
+      <dxo-paging [pageSize]="10"> </dxo-paging>
+      <dxo-pager
+        [visible]="true"
+        [allowedPageSizes]="allowedPageSizes"
+        displayMode="full"
+        [showPageSizeSelector]="showPageSizeSelector"
+        [showInfo]="showInfo"
+        [showNavigationButtons]="showNavButtons"
+      >
+      </dxo-pager>
+      <dxi-column
+      dataField="productName"
+      [caption]="'productName' | translate"
+      >
+      </dxi-column>
+      <dxi-column
+      dataField="description"
+      [caption]="'description' | translate"
+      >
+      </dxi-column>
+      <dxi-column
+      dataField="priceHtva"
+      [caption]="'htvaPrice' | translate"
+      >
+      </dxi-column>
+      <dxi-column
+      [caption]="'...'"
+      cellTemplate="buttonsTemplate"
+      >
+    
+      </dxi-column>
+      <div *dxTemplate="let el of 'buttonsTemplate'">
+        <dx-button [useSubmitBehavior]="false" icon="fas fa-cart-plus" type="button" (click)="AddProduct(el.data)" [text]="'addProductToCart' | translate" style="background-color: orange;">
+        </dx-button>
+      </div>
+    </dx-data-grid>
   </div>
   <hr>
 

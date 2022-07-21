@@ -23,29 +23,60 @@
     <div class="card-header" [hidden]="ScanMode">
       {{'cart' | translate}}
     </div>
-    <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar" [hidden]="ScanMode">
-      <table class="table table-bordered table-striped mb-0">
+    <div class="col-auto" [hidden]="ScanMode">
+      <dx-data-grid
+  id="gridChantier"
+  [dataSource]="panierList"
+  keyExpr="cartId"
+  [showBorders]="true"
+  [title]="'myWorksites' | translate"
+>
+<dxo-search-panel
+[visible]="true"
+[highlightCaseSensitive]="false"
+></dxo-search-panel>
+  <dxo-scrolling rowRenderingMode="virtual"> </dxo-scrolling>
+  <dxo-paging [pageSize]="6"> </dxo-paging>
+  <dxo-pager
+    [visible]="true"
+    [allowedPageSizes]="allowedPageSizes"
+    displayMode="full"
+    [showPageSizeSelector]="showPageSizeSelector"
+    [showInfo]="showInfo"
+    [showNavigationButtons]="showNavButtons"
+  >
+  </dxo-pager>
+  <dxi-column
+  dataField="product.productName"
+  [caption]="'productName' | translate"
+  >
+  </dxi-column>
+  <dxi-column
+  dataField="product.description"
+  [caption]="'description' | translate"
+  >
+  </dxi-column>
+  <dxi-column
+  dataField="product.priceHtva"
+  [caption]="'htvaPrice' | translate"
+  >
+  </dxi-column>
+  <dxi-column
+  dataField="quantity"
+  [caption]="'quantity' | translate"
+  >
+  </dxi-column>
+  <dxi-column
+  [caption]="'totalPrice' | translate"
+  cellTemplate="totalTemplate"
+  >
 
-        <thead>
-          <tr>
-            <th *ngFor="let head of headElementsArt" scope="col">{{head}} </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr mdbTableCol *ngFor="let p of panierList">
-            <!-- <th scope="row">{{el.id}}</th> -->
-            <td>{{p.product.productName}}</td>
-            <td>{{p.product.description}}</td>
-            <td>{{p.product.priceHtva}}</td>
-            <td>{{p.quantity}}</td>
-            <td>{{p.product.priceHtva * p.quantity}}</td>
-            <!-- <td>{{p.categoryId}}</td> -->
-          </tr>
-        </tbody>
-      </table>
-
+  </dxi-column>
+  <div *dxTemplate="let el of 'totalTemplate'">
+    {{el.data.product.priceHtva * el.data.quantity}}
+  </div>
+</dx-data-grid>
     </div>
-
     <div [hidden]="type=='devis'">
       <label for="imgFactures" [hidden]="!ScanMode">{{'invoicePicture' | translate}}</label>
     </div>

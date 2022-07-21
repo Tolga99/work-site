@@ -22,6 +22,12 @@ import { MethodsService } from '../services/methods.service';
 })
 export class Invoice implements OnInit {
 
+  public allowedPageSizes = [3, 6, 9];
+  displayMode = 'full';
+  showPageSizeSelector = true;
+  showInfo = true;
+  showNavButtons = true;
+
   uuidValue: string;
   images = [];
   chantierId: string;

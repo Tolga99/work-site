@@ -11,6 +11,7 @@ import { Product } from '../models/product';
 import { ShoppingCart } from '../models/shoppingCart';
 import { MethodsService } from '../services/methods.service';
 import { StorageService } from '../services/storage.service';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-shop',
@@ -18,6 +19,13 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['./shop.scss'],
 })
 export class Shop implements OnInit {
+  uuidValue: string;
+
+  public allowedPageSizes = [5, 10, 15];
+  displayMode = 'full';
+  showPageSizeSelector = true;
+  showInfo = true;
+  showNavButtons = true;
 
   headElementsArt = ['Nom article', 'Description','Prix Unitaire',''];
   headElementsArtCart = ['Nom article', 'Description','Prix Unitaire','Quantité','Prix total',''];
@@ -47,7 +55,11 @@ export class Shop implements OnInit {
     private router:Router,private route:ActivatedRoute, private methodsService : MethodsService)
   {
   }
-
+  generateUUID()
+  {
+      this.uuidValue=UUID.UUID();
+      return this.uuidValue;
+  }
   async ionViewDidEnter(){
     this.catList = await this.storageService.get('Categories');
     this.actualCat =this.catList.find(a => a.categoryId === this.route.snapshot.paramMap.get('actualCat'));
@@ -139,7 +151,7 @@ export class Shop implements OnInit {
     const indexExist = this.panierList.findIndex(a => a.product.productId === p.productId);
     if(indexExist === -1)
     {
-      this.panierList.push(new ShoppingCart(p,1));
+      this.panierList.push(new ShoppingCart(this.generateUUID(),p,1));
     }else
     {
       this.panierList[indexExist].quantity += 1;
@@ -362,7 +374,7 @@ export class Shop implements OnInit {
       null,
       null,
     );
-    this.panierList.push(new ShoppingCart(p,1));
+    this.panierList.push(new ShoppingCart(this.generateUUID(),p,1));
 
   }
 }

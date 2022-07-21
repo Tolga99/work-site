@@ -39,8 +39,9 @@ export class TabHome implements OnInit, INestedOptionContainer{
   displayMode = 'full';
   showPageSizeSelector = true;
   showInfo = true;
+  showNavButtons = true;
 
-  showNavButtons = true;  TabView = 'enCours';
+  TabView = 'enCours';
   settingsBt : any[]= [
     { value: 'settings', text: '', icon: 'fas fa-toolbox' },
     { value: 'about',text: '', icon: 'fas fa-info' },

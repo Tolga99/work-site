@@ -15,7 +15,12 @@ import { StorageService } from '../services/storage.service';
 })
 export class Articles implements OnInit {
 
-  headElementsArt = ['Nom article', 'Description','Prix HTVA', ''];
+  public allowedPageSizes = [5, 10, 15];
+  displayMode = 'full';
+  showPageSizeSelector = true;
+  showInfo = true;
+  showNavButtons = true;
+  
   artList : Array<Product> = [];
   catList : Array<Category> = [];
   actualCat : Category = null;
