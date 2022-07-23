@@ -8,9 +8,9 @@
 <div style="overflow-y: auto; background-color: white;">
  <!-- Basic -->
 <ion-accordion-group [value]="openCatAccordion">
-  <ion-accordion value="categories">
-    <ion-item slot="header" class="tabHeader" style="text-align: left;">
-      <ion-label>{{'Categories' | translate}}</ion-label>
+  <ion-accordion value="categories" style="background-color: orange;">
+    <ion-item slot="header" class="tabHeader" style="text-align: left;" style="border: 1px solid gray;">
+      <ion-label style="color:black;">{{'Categories' | translate}}</ion-label>
     </ion-item>
 
     <ion-list slot="content">
@@ -18,21 +18,35 @@
         <ion-label [hidden]="this.catList!=null">    {{'noCategories' | translate}}</ion-label>
         <div class="container" style="overflow-y: auto;">
           <div class="row">
+            <div [hidden]="catList?.length>0" style="text-align: center;">
+              {{'noCategories' | translate}}
+            </div>
             <mat-card class="example-card col-4" *ngFor="let el of catList">
-              <mat-card-title-group (click)="EnterCategory(el)">
+              <mat-card-title-group (click)="enterCategory(el)">
                 <mat-card-title>{{el.categoryName}}</mat-card-title>
                 <mat-card-subtitle>{{el.description}}</mat-card-subtitle>
-                <img class="img-fluid" mat-card-lg-image src="{{el.categoryImage}}" 
+                <!-- <img class="img-fluid" mat-card-lg-image src="{{el.categoryImage}}" 
                      style='max-width: 70px; max-height: 70px;' [border]="0" alt="Null"
-                     onerror="this.onerror=null; this.src='assets/icon/White-square.jpg'">
+                     onerror="this.onerror=null; this.src='assets/icon/White-square.jpg'"> -->
               </mat-card-title-group>
-              <dx-button type="button" (click)="ModifyCategory(el)" icon="fas fa-bars"></dx-button>
+              <dx-button type="button" icon="fas fa-bars" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">          
+              </dx-button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="modifyCategory(el)" type="button">
+                  <mat-icon>edit</mat-icon>
+                  <span>{{'edit' | translate}}</span>
+                </button>
+                <button mat-menu-item (click)="deleteCategory(el)" type="button">
+                  <mat-icon>delete</mat-icon>
+                  <span>{{'delete' | translate}}</span>
+                </button>
+              </mat-menu>
             </mat-card>
           </div>
       
           <div class="card-footer text-muted" style="text-align: center;">
-            <dx-button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="BackCategory()" style="background-color:orange;" icon="fas fa-angle-left" [text]="'back' | translate"></dx-button>
-            <dx-button type="button" class="btn btn-secondary" (click)="CreateCategory()" icon="fas fa-plus" style="background-color:orange;" [text]="'newCategory' | translate"></dx-button>
+            <dx-button [hidden]="this.actualCat==null" type="button" class="btn btn-secondary" (click)="backCategory()" style="background-color:orange;" icon="fas fa-angle-left" [text]="'back' | translate"></dx-button>
+            <dx-button type="button" class="btn btn-secondary" (click)="createCategory()" icon="fas fa-plus" style="background-color:orange;" [text]="'newCategory' | translate"></dx-button>
           </div>
         </div>
       </ion-item>
@@ -42,7 +56,7 @@
 <div class="card-header tabHeader">
     {{'myArticles' | translate}}
   </div>
-  <div [hidden]="artList?.length>0">
+  <div [hidden]="artList?.length>0" style="text-align: center;">
     {{'noData' | translate}}
   </div>
   <div class="col-auto" [hidden]="artList?.length==0">
@@ -81,6 +95,7 @@
       <dxi-column
       dataField="priceHtva"
       [caption]="'htvaPrice' | translate"
+      cellTemplate="priceTemplate"
       >
       </dxi-column>
       <dxi-column
@@ -95,15 +110,18 @@
     
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="ModifyProduct(el.data)" type="button">
+          <button mat-menu-item (click)="modifyProduct(el.data)" type="button">
             <mat-icon>edit</mat-icon>
             <span>{{'edit' | translate}}</span>
           </button>
-          <button mat-menu-item (click)="DeleteProduct(el.data)" type="button">
+          <button mat-menu-item (click)="deleteProduct(el.data)" type="button">
             <mat-icon>delete</mat-icon>
             <span>{{'delete' | translate}}</span>
           </button>
         </mat-menu>
+      </div>
+      <div *dxTemplate="let el of 'priceTemplate'">
+        {{el.data.priceHtva + this.devise}}
       </div>
     </dx-data-grid>
     <!-- <table class="table table-bordered table-striped mb-0">
@@ -140,7 +158,7 @@
 
   </div>
   <div class="card-footer text-muted" style="text-align: center;">
-    <dx-button type="button" class="btn btn-secondary" (click)="CreateProduct()" style="background-color:orange;" icon="fas fa-plus" [text]="'new product' | translate"></dx-button>
+    <dx-button type="button" class="btn btn-secondary" (click)="createProduct()" style="background-color:orange;" icon="fas fa-plus" [text]="'new product' | translate"></dx-button>
   </div>
 </div>
 </ion-content>

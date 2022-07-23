@@ -32,6 +32,7 @@ import { PdfService } from '../services/pdf.service';
   providers : [NestedOptionHost]
 })
 export class TabHome implements OnInit, INestedOptionContainer{
+  devise = '';
   deleteText = '';
   editText = '';
 
@@ -116,6 +117,7 @@ export class TabHome implements OnInit, INestedOptionContainer{
     this.chantierList = await this.storageService.get('Chantiers');
     this.invList = await this.storageService.get('NAfactures');
     this.clientsList = await this.storageService.get('Contacts');
+    this.devise = await this.storageService.get('devise');
   }
   CreateWorksite()
   {

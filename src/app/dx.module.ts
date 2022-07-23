@@ -6,7 +6,7 @@ import {
     DxTemplateModule,
     DxDropDownBoxModule,
     DxDropDownButtonModule,
-    DxiItemModule,
+    DxiItemModule,DxAccordionModule
   } from 'devextreme-angular';
 @NgModule({
   exports: [
@@ -17,6 +17,7 @@ import {
     DxDropDownBoxModule,
     DxDropDownButtonModule,
     DxiItemModule,
+    DxAccordionModule
   ]
 })
 export class DxModule {}

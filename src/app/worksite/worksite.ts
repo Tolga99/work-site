@@ -26,7 +26,7 @@ import { MethodsService } from '../services/methods.service';
   styleUrls: ['worksite.scss']
 })
 export class Worksite implements OnInit {
-
+  devise = '';
   public allowedPageSizes = [5, 10, 15];
   displayMode = 'full';
   showPageSizeSelector = true;
@@ -104,6 +104,7 @@ export class Worksite implements OnInit {
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
 
     this.storageService.init();
+    this.devise = await this.storageService.get('devise');
     this.chantierList =await this.storageService.get('Chantiers');
     if(this.chantierList==null)
       this.chantierList = new Array<Chantier>();
@@ -399,8 +400,8 @@ export class Worksite implements OnInit {
     if(this.chantier.hours!=null)
     {
       this.chantier.hours.forEach(element =>{
-        hours+=element.hour;
-        minutes+=element.minute;
+        hours+=element.date.getHours();
+        minutes+=element.date.getMinutes();
       });
       console.log('Heures : ',hours);
       console.log('Minutes : ',minutes);
@@ -409,7 +410,12 @@ export class Worksite implements OnInit {
         minutes-= 60;
         hours ++;
       }
-      this.totalHours = hours?.toString() +'h'+minutes?.toString() ;
+      var sMinutes ='';
+      if(minutes <10)
+      {
+        sMinutes = '0'+minutes.toString();
+      }else sMinutes = minutes.toString();
+      this.totalHours = hours?.toString() +'h'+sMinutes;
       console.log(this.totalHours);
     }
 

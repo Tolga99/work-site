@@ -9,6 +9,23 @@
   
   <ion-content [fullscreen]="true" style="background-color: white;">
     <div>
+      <form [formGroup]="formGeneral" (ngSubmit)="updateGeneralSettings()">
+        <div class="jumbotron text-center">
+          <div class="card-header">
+            {{'general' | translate}}
+          </div>
+          <ion-item class="form-group">
+            <ion-label position="stacked">{{'devise' | translate}}</ion-label>
+            <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="devise" 
+              (ionChange)="selectDevise($event)">
+              <ion-select-option></ion-select-option>
+              <ion-select-option *ngFor="let c of deviseList" [value]="c">
+                {{c}}  
+              </ion-select-option>
+            </ion-select>          </ion-item>
+            <dx-button [useSubmitBehavior]="true" class="btn btn-secondary" type="submit" style="background-color:orange;" [text]="'saveGenSettings' | translate"></dx-button>
+        </div>
+        </form>
       <form [formGroup]="formInvoice" (ngSubmit)="UpdateInvoiceSettings()">
         <div class="jumbotron text-center">
           <div class="card-header">

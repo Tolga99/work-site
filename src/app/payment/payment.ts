@@ -13,7 +13,7 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['./payment.scss'],
 })
 export class Payment implements OnInit {
-
+  devise = '';
   date : string;
   chantier : Chantier;
   chantierList : Array<Chantier>;
@@ -41,6 +41,7 @@ export class Payment implements OnInit {
     this.chantierId = this.route.snapshot.paramMap.get('chantierId');
 
     this.storageService.init();
+    this.devise = await this.storageService.get('devise');
     this.chantierList = await this.storageService.get('Chantiers');
     this.chantierIndex = this.chantierList.findIndex(a => a.chantierId === this.chantierId);
     this.chantier = this.chantierList.find(a => a.chantierId === this.chantierId);

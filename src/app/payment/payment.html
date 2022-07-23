@@ -12,8 +12,10 @@
       {{'selectInvoice' | translate}}
     </div>
     <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
-      <table class="table table-bordered table-striped mb-0">
-
+      <div style="color: red; text-align: center;" [hidden]="this.chantier?.factures.length > 0">
+        {{'noData' | translate}}  
+      </div>
+      <table class="table table-bordered table-striped mb-0" [hidden]="this.chantier?.factures === null || this.chantier?.factures.length === 0">
         <thead>
           <tr>
             <th *ngFor="let head of headElementsInv" scope="col">{{head}} </th>
@@ -24,8 +26,8 @@
             <!-- [ngClass]="{ 'selectedInv' : inv }"> -->
             <!-- <th scope="row">{{el.id}}</th> -->
             <td>{{inv.factureName}}</td>
-            <td>{{inv.totalPrice}}</td>
-            <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
+            <td>{{inv.totalPrice + this.devise}}</td>
+            <td>{{(inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2')  + this.devise}}</td>
             <td>{{inv.date}}</td>
         </tbody>
 

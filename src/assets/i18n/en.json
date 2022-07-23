@@ -189,5 +189,8 @@
     "exitPageTxt2" : "Toutes les données non-sauvegardées seront définitivement supprimées.",
    
     "noCategories" : "No Categories",
-    "noData" : "No data to display"
+    "noData" : "No data to display",
+    "saveGenSettings" : "Save general settings",
+    "devise" : "Currency",
+    "general" : "General"
 }

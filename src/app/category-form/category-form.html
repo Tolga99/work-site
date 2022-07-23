@@ -35,23 +35,12 @@
         (ionChange)="changePar($event)">
       </ionic-selectable>
     </ion-item>
-
-    <hr>
-
-    <label for="imgCat">{{'picCategory' | translate}}</label>
+    <!-- <label for="imgCat">{{'picCategory' | translate}}</label>
     <input id="imgCat" type="file" class="form-control" multiple="" (change)="onFileChange($event)">
-    <!-- <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
-
-    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> -->
-    <!-- <div *ngFor="let img of images"> -->
     <img class="original" [src]="images" height="150" width="200px" style="margin: 3px;" />
     <dx-button type="submit" icon="fas fa-trash" (click)="resetImages()" class="btn btn-danger">
     </dx-button>
-    <!-- </div> -->
-
-
-    <hr>
-
+ -->
     <ion-item>
       <ion-label position="stacked">{{'description' | translate}}</ion-label>
       <ion-textarea id="description" name="description" formControlName="description" placeholder="..."

@@ -160,6 +160,7 @@
     <dxi-column
     dataField="totalPrice"
     [caption]="'total' | translate"
+    cellTemplate="priceTemplate"
     >
     </dxi-column>
     <dxi-column
@@ -175,6 +176,9 @@
     >
   
     </dxi-column>
+    <div *dxTemplate="let el of 'priceTemplate'">
+      {{el.data.totalPrice + this.devise}}
+    </div>
     <div *dxTemplate="let el of 'buttonsTemplate'">
       <button type="button" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
         <mat-icon>toc</mat-icon>

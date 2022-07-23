@@ -98,6 +98,7 @@
             <dxi-column
             dataField="totalPrice"
             [caption]="'total' | translate"
+            cellTemplate="priceTemplate"
             >
             </dxi-column>
             <dxi-column
@@ -120,6 +121,9 @@
             </dxi-column>
             <div *dxTemplate="let el of 'stateTemplate'" style="color: red;">
               {{IsInvoicePaid(el.data)}}
+            </div>
+            <div *dxTemplate="let el of 'priceTemplate'">
+              {{el.data.priceHtva + this.devise}}
             </div>
             <div *dxTemplate="let el of 'buttonsTemplate'">
               <button type="button" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
@@ -193,6 +197,7 @@
           <dxi-column
           dataField="totalPrice"
           [caption]="'total' | translate"
+          cellTemplate="priceTemplate"
           >
           </dxi-column>
           <dxi-column
@@ -208,6 +213,9 @@
           >
         
           </dxi-column>
+          <div *dxTemplate="let el of 'priceTemplate'">
+            {{el.data.priceHtva + this.devise}}
+          </div>
           <div *dxTemplate="let el of 'buttonsTemplate'">
             <button type="button" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
               <mat-icon>toc</mat-icon>
@@ -257,9 +265,9 @@
             <tbody *ngFor="let inv of chantier?.factures">
               <tr mdbTableCol *ngFor="let p of inv.receivedMoney">
                 <td>{{inv.factureName}}</td>
-                <td>{{p.price}}</td>
-                <td>{{inv.totalPrice}}</td>
-                <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>
+                <td>{{p.price + this.devise}}</td>
+                <td>{{inv.totalPrice + this.devise}}</td>
+                <td>{{(inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2') + this.devise}}</td>
                 <td>{{p.date}}</td>
                 <td (click)="$event.stopPropagation()">
                   <button mat-icon-button [matMenuTriggerFor]="menu" type="button">
@@ -343,8 +351,10 @@
           >
           </dxi-column>
           <dxi-column
-          dataField="workTime"
+          dataField="date"
           [caption]="'hourWorked' | translate"
+          dataType="date"
+          format="HH:mm"
           >
           </dxi-column>
           <dxi-column

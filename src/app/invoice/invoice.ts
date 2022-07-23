@@ -43,8 +43,6 @@ export class Invoice implements OnInit {
   invList : Array<Facture> = [];
   receivedMoney: Array<{ price: number, date: string}>;
 
-  // productsList : Array<Product>= [];
-  //headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
   headElementsArt = ['Nom article', 'Description','Prix Unitaire','Quantité','Prix total',''];
 
   panierList : Array<ShoppingCart> = [];
@@ -413,7 +411,7 @@ export class Invoice implements OnInit {
 
 
       this.formInv.get('totalPrice').setValue(total);
-    }
+    }else this.formInv.get('totalPrice').setValue(this.formInv.get('priceHtva').value);
     this.inv = new Facture(
       this.invoiceId,
       this.formInv.get('factureName').value,

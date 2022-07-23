@@ -14,7 +14,7 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['./articles.scss'],
 })
 export class Articles implements OnInit {
-
+  devise = '';
   public allowedPageSizes = [5, 10, 15];
   displayMode = 'full';
   showPageSizeSelector = true;
@@ -34,11 +34,23 @@ export class Articles implements OnInit {
     this.artList = await this.storageService.get('Articles');
 
     this.catList = await this.storageService.get('Categories');
+    this.devise = await this.storageService.get('devise');
+
     if(this.catList!=null)
     {
       this.actualCat =this.catList.find(a => a.categoryId === this.route.snapshot.paramMap.get('actualCat'));
-      this.EnterCategory(this.actualCat);
+      this.enterCategory(this.actualCat);
     }
+    if(this.catList!=null)
+    {
+      this.catList = this.catList.filter(a => a.categoryParent == null);
+      this.openCatAccordion = 'categories';
+    }else this.openCatAccordion = '';
+    // this.catList.forEach(element => {
+    //   if(element.categoryImage==null)
+    //     element.categoryImage='..//resources//White-square.jpg';
+    // });
+    console.log(this.devise);
   }
 
   async ngOnInit() {
@@ -53,17 +65,18 @@ export class Articles implements OnInit {
     this.catList.forEach(element => {
       if(element.categoryImage==null)
         element.categoryImage='..//resources//White-square.jpg';
-      
     });
+    this.devise = await this.storageService.get('devise');
+    console.log(this.devise);
   }
-  CreateCategory()
+  createCategory()
   {
     console.log('Bouton nv cat');
     if(this.actualCat!=null)
       this.router.navigate(['category-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
     else this.router.navigate(['category-form']);
   }
-  ModifyCategory(c : Category)
+  modifyCategory(c : Category)
   {
     console.log(c);
     if(c!=null)
@@ -73,7 +86,7 @@ export class Articles implements OnInit {
     else this.router.navigate(['category-form',{modif: 'YES'}],{replaceUrl:true});
 
   }
-  async EnterCategory(c : Category)
+  async enterCategory(c : Category)
   {
     this.actualCat = c;
     this.artList = await this.storageService.get('Articles'); // Dans les 2 cas on a besoin de la liste complete et actualisée
@@ -90,27 +103,27 @@ export class Articles implements OnInit {
     }
     // + refresh la liste en dessous avec les articles filtrés AUSSI
   }
-  async BackCategory()
+  async backCategory()
   {
     if(this.actualCat==null)
-      this.EnterCategory(null);
-    else this.EnterCategory(this.actualCat.categoryParent);
+      this.enterCategory(null);
+    else this.enterCategory(this.actualCat.categoryParent);
     // REfresh articles
   }
-  CreateProduct()
+  createProduct()
   {
     if(this.actualCat!=null)
       this.router.navigate(['article-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
     else this.router.navigate(['article-form']);
   }
-  ModifyProduct(p : Product)
+  modifyProduct(p : Product)
   {
     console.log(p);
     if(p!=null)
       this.router.navigate(['article-form',{modifArt: p.productId, modif: 'YES'}],{replaceUrl:true});
     else this.router.navigate(['article-form',{modif: 'YES'}],{replaceUrl:true});
   }
-  async DeleteProduct(p : Product)
+  async deleteProduct(p : Product)
   {
     let res : string =null;
     await this.modal.open('delArt',p.productName)
@@ -123,9 +136,10 @@ export class Articles implements OnInit {
 
     if(res==='DISMISS')
         return ;
-
+    this.artList = this.artList.filter(a => a.productId !== p.productId);
+    this.storageService.set('Articles',this.artList);
   }
-  async DeleteCategory(c : Category)
+  async deleteCategory(c : Category)
   {
     let res : string =null;
     await this.modal.open('delCat',c.categoryName)
@@ -138,6 +152,7 @@ export class Articles implements OnInit {
 
     if(res==='DISMISS')
         return ;
-
+    this.catList = this.catList.filter(a => a.categoryId !== c.categoryId);
+    this.storageService.set('Categories',this.catList);
   }
 }

@@ -35,18 +35,10 @@
         (ionChange)="selectCategory($event)">
       </ionic-selectable>
     </ion-item>
-    <hr>
-    <!-- <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-      <ion-fab-button (click)="takePicture()">
-        <ion-icon name="camera"></ion-icon>
-      </ion-fab-button>
-    </ion-fab> -->
-    <label for="imgCat">{{'picProduct' | translate}}</label>
+    
+    <!-- <label for="imgCat">{{'picProduct' | translate}}</label>
     <input id="imgCat" type="file" class="form-control" multiple="" (change)="onFileChange($event)">
-    <!-- <button type="button" class="btn btn-danger btn-lg" (click)="resetImages()">Réinitialiser</button>
 
-    <img *ngFor='let url of images' [src]="url" height="150" width="200px" style="margin: 3px;"> <br /> -->
-    <!-- <div *ngFor="let img of images"> -->
     <img class="original" [src]="images" height="150" width="200px" style="margin: 3px;" />
     <ion-content>
       <ion-fab vertical="bottom" horizontal="center" slot="fixed">
@@ -64,11 +56,9 @@
         </ion-row>
       </ion-grid>
     
-      <!-- ion-fab markup  -->
     </ion-content>
     <dx-button icon="fas fa-trash" type="submit" (click)="resetImages()" class="btn btn-danger">
-    </dx-button>
-    <!-- </div> -->
+    </dx-button> -->
 
     <ion-item class="form-group" required="required">
       <ion-label position="stacked">{{'htvaPrice' | translate}}</ion-label>

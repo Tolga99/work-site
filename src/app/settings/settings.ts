@@ -13,8 +13,13 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['settings.scss']
 })
 export class Settings implements OnInit{
+  deviseList = ['€','$','£'];
+  devise='';
   ext = '';
   extTypes = ['Numéro (Ex: 34)', 'Date (Ex: JJ/MM/AAAA)','Numéro-Date','Date-Numero'];
+  formGeneral = new UntypedFormGroup({
+    devise: new UntypedFormControl('')
+  });
   formInvoice = new UntypedFormGroup({
     factureName: new UntypedFormControl('',Validators.required),
     exts: new UntypedFormControl('',Validators.required),
@@ -122,6 +127,7 @@ export class Settings implements OnInit{
       this.formInvoice.get('positionAvant').value,
       this.formInvoice.get('positionApres').value,
     ));
+    this.devise=this.formGeneral.get('devise').value;
     console.log('Parametres de facture actualisé, redirection...');
     this.router.navigate(['tb-home'],{replaceUrl:true});
 
@@ -129,6 +135,17 @@ export class Settings implements OnInit{
   selectExtType(event) {
     console.log('select', event);
     this.ext = (event.target as HTMLSelectElement).value;
+  }
+  selectDevise(event)
+  {
+    this.devise = (event.target as HTMLSelectElement).value;
+  }
+  updateGeneralSettings()
+  {
+    if(this.devise !== null)
+    {
+      this.storageService.set('devise',this.devise);
+    }
   }
   async GoBack()
   {

@@ -1,24 +1,17 @@
 export interface IHour
 {
     hourId:string;
-    date : string;
+    date : Date;
     description:string;
-    hour : number;
-    minute : number;
-    workTime: string;
 }
 
 export class Hour implements IHour {
-    public workTime : string;
     constructor(
         public hourId:string,
-        public date : string,
+        public date : Date,
         public description:string,
-        public hour : number,
-        public minute : number,
     ) 
     {
-        this.workTime = hour.toString() + 'h'+minute.toString();
     }
 
   }

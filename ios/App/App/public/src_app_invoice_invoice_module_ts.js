@@ -123,10 +123,16 @@ let Invoice = class Invoice {
     this.router = router;
     this.route = route;
     this.methodsService = methodsService;
+    this.allowedPageSizes = [3, 6, 9];
+    this.displayMode = 'full';
+    this.showPageSizeSelector = true;
+    this.showInfo = true;
+    this.showNavButtons = true;
     this.images = [];
     this.invList = []; // productsList : Array<Product>= [];
+    //headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
 
-    this.headElementsArt = ['Nom article', 'Description', 'Prix HTVA', 'Catégorie'];
+    this.headElementsArt = ['Nom article', 'Description', 'Prix Unitaire', 'Quantité', 'Prix total', ''];
     this.panierList = [];
     this.formInv = new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormGroup({
       factureName: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required),
@@ -167,11 +173,41 @@ let Invoice = class Invoice {
 
       const remise = _this.route.snapshot.paramMap.get('remise');
 
-      if (!_this.methodsService.isNullOrEmpty(factureName)) _this.formInv.get('factureName').setValue(factureName);else _this.formInv.get('factureName').setValue('');
-      if (!_this.methodsService.isNullOrEmpty(description)) _this.formInv.get('description').setValue(description);else _this.formInv.get('description').setValue('');
-      if (!_this.methodsService.isNullOrEmpty(tva)) _this.formInv.get('tva').setValue(tva);else _this.formInv.get('tva').setValue('');
-      if (!_this.methodsService.isNullOrEmpty(typePay)) _this.formInv.get('typePay').setValue(typePay);else _this.formInv.get('typePay').setValue('');
-      if (!_this.methodsService.isNullOrEmpty(remise)) _this.formInv.get('remise').setValue(remise);else _this.formInv.get('remise').setValue('');
+      if (_this.methodsService.isNullOrEmpty(_this.formInv.get('factureName').value)) {
+        if (!_this.methodsService.isNullOrEmpty(factureName)) _this.formInv.get('factureName').setValue(factureName);else _this.formInv.get('factureName').setValue('');
+      }
+
+      if (_this.methodsService.isNullOrEmpty(_this.formInv.get('description').value)) {
+        if (!_this.methodsService.isNullOrEmpty(description)) _this.formInv.get('description').setValue(description);else _this.formInv.get('description').setValue('');
+      }
+
+      if (_this.methodsService.isNullOrEmpty(_this.formInv.get('tva').value)) {
+        if (!_this.methodsService.isNullOrEmpty(tva)) _this.formInv.get('tva').setValue(tva);else _this.formInv.get('tva').setValue('');
+      }
+
+      if (_this.methodsService.isNullOrEmpty(_this.formInv.get('typePay').value)) {
+        if (!_this.methodsService.isNullOrEmpty(typePay)) _this.formInv.get('typePay').setValue(typePay);else _this.formInv.get('typePay').setValue('');
+      }
+
+      if (_this.methodsService.isNullOrEmpty(_this.formInv.get('remise').value)) {
+        if (!_this.methodsService.isNullOrEmpty(remise)) _this.formInv.get('remise').setValue(remise);else _this.formInv.get('remise').setValue('');
+      }
+
+      if (_this.chantierId === 'null') {
+        let shopInvoice = yield _this.storageService.get('NAfactures');
+        _this.panierList = shopInvoice.find(a => a.factureId === _this.invoiceId).cart;
+      } else {
+        let chantiers = yield _this.storageService.get('Chantiers');
+        let chantier = chantiers.find(a => a.chantierId === _this.chantierId);
+        console.log(_this.type);
+
+        if (_this.type.toUpperCase() === 'DEVIS') {
+          _this.panierList = chantier.devis.find(a => a.factureId === _this.invoiceId).cart;
+        } else {
+          _this.panierList = chantier.factures.find(a => a.factureId === _this.invoiceId).cart;
+        }
+      }
+
       let total = 0;
 
       _this.panierList.forEach(element => {
@@ -180,7 +216,9 @@ let Invoice = class Invoice {
         total = Math.round(total * 100) / 100; // arrondi
       });
 
-      _this.formInv.get('totalPrice').setValue(total);
+      _this.formInv.get('priceHtva').setValue(total);
+
+      console.log('panier : ', _this.panierList, _this.chantierId);
     })();
   }
 
@@ -205,7 +243,7 @@ let Invoice = class Invoice {
 
       if (_this2.chantierId != null && _this2.chantierId !== 'null') {
         if (_this2.type === 'facture') _this2.invList = chantierl.find(a => a.chantierId === _this2.chantierId).factures;else _this2.invList = chantierl.find(a => a.chantierId === _this2.chantierId).devis;
-      }
+      } else _this2.invList = yield _this2.storageService.get('NAfactures');
 
       if (_this2.invList == null) _this2.invList = new Array();
 
@@ -220,6 +258,7 @@ let Invoice = class Invoice {
       if (existId != null) {
         console.log('modification', existId);
         _this2.indexFind = _this2.invList.findIndex(x => x.factureId === existId);
+        console.log('index :', _this2.indexFind, _this2.invList);
 
         if (_this2.indexFind >= 0) {
           _this2.invoiceId = _this2.invList[_this2.indexFind].factureId;
@@ -306,21 +345,36 @@ let Invoice = class Invoice {
 
         _this2.formInv.get('factureName').setValue(generatedName);
       }
+
+      console.log('panier : ', _this2.panierList);
     })();
   }
 
   GoShopping() {
-    // this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
-    this.router.navigate(['shop', {
-      invoiceId: this.invoiceId,
-      type: this.type,
-      chantierId: this.chantierId,
-      factureName: this.formInv.get('factureName').value,
-      remise: this.formInv.get('remise').value,
-      tva: this.formInv.get('tva').value,
-      description: this.formInv.get('description').value,
-      typePay: this.formInv.get('typePay').value
-    }]);
+    if (this.chantierId !== 'null') {
+      this.router.navigate(['shop', {
+        invoiceId: this.invoiceId,
+        type: this.type,
+        chantierId: this.chantierId,
+        factureName: this.formInv.get('factureName').value,
+        remise: this.formInv.get('remise').value,
+        tva: this.formInv.get('tva').value,
+        description: this.formInv.get('description').value,
+        typePay: this.formInv.get('typePay').value
+      }]);
+    } else {
+      this.router.navigate(['shop', {
+        invoiceId: this.invoiceId,
+        type: this.type,
+        chantierId: 'null',
+        factureName: this.formInv.get('factureName').value,
+        remise: this.formInv.get('remise').value,
+        tva: this.formInv.get('tva').value,
+        description: this.formInv.get('description').value,
+        typePay: this.formInv.get('typePay').value
+      }]);
+    } // this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
+
   }
 
   CreateWorksite() {
@@ -485,7 +539,8 @@ let Invoice = class Invoice {
           invs = new Array();
         }
 
-        invs.push(_this3.inv);
+        let existingInvoice = invs.findIndex(a => a.factureId === _this3.inv.factureId);
+        invs[existingInvoice] = _this3.inv;
 
         _this3.storageService.set('NAfactures', invs);
 
@@ -536,13 +591,18 @@ let Invoice = class Invoice {
       }
 
       console.log(result);
-      if (result !== null) if (_this4.chantierId === 'null') _this4.router.navigate(['/tb-home'], {
-        replaceUrl: true
-      });else _this4.router.navigate(['worksite', {
-        chantierId: _this4.chantierId
-      }], {
-        replaceUrl: true
-      });
+
+      if (result !== null) {
+        _this4.cleanIncompleteInvoices();
+
+        if (_this4.chantierId === 'null') _this4.router.navigate(['/tb-home'], {
+          replaceUrl: true
+        });else _this4.router.navigate(['worksite', {
+          chantierId: _this4.chantierId
+        }], {
+          replaceUrl: true
+        });
+      }
     })();
   }
 
@@ -558,6 +618,32 @@ let Invoice = class Invoice {
       }));
       if (res === 'DISMISS') return null;
       return '';
+    })();
+  }
+
+  cleanIncompleteInvoices() {
+    var _this6 = this;
+
+    return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      let indexToDelete = null;
+      let invoices = yield _this6.storageService.get('NAfactures');
+      console.log(invoices);
+      invoices.forEach(invoice => {
+        console.log(invoice);
+
+        if (invoice.factureName == null || invoice.priceHtva == null || invoice.typePay == null || invoice.tva == null) {
+          indexToDelete = invoices.findIndex(a => a === invoice);
+          console.log(indexToDelete, invoice);
+        }
+
+        if (indexToDelete !== null) {
+          console.log('deleting', invoices, indexToDelete);
+          invoices.splice(indexToDelete, 1);
+          indexToDelete = null;
+        }
+      });
+
+      _this6.storageService.set('NAfactures', invoices);
     })();
   }
 
@@ -696,7 +782,7 @@ module.exports = ".abs-center-x {\n  position: absolute;\n  left: 50%;\n  transf
   \*************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\r\n  <ion-toolbar>\r\n    <ion-title class=\"ion-text-center\">{{'invoices' | translate}}</ion-title>\r\n    <dx-button slot=\"start\" (click)=\"GoBack()\" icon=\"fas fa-arrow-left\" style=\"background-color: orange;\">\r\n    </dx-button>\r\n  </ion-toolbar>\r\n</ion-header>\r\n<div class=\"container\" style=\"overflow-y: auto; background-color: white; height: 100%;\">\r\n  <form [formGroup]=\"formInv\" (ngSubmit)=\"onSubmit()\">\r\n\r\n    <ion-item class=\"form-group\" required=\"required\">\r\n      <ion-label position=\"stacked\" [hidden]=\"type=='devis'\">{{'invoiceName' | translate}}</ion-label>\r\n      <ion-label position=\"stacked\" [hidden]=\"type=='facture'\">{{'estimateName' | translate}}</ion-label>\r\n\r\n      <ion-input type=\"text\" id=\"factureName\" name=\"factureName\" formControlName=\"factureName\" placeholder=\"...\"\r\n        required=\"required\" maxlength=\"50\"></ion-input>\r\n    </ion-item>\r\n\r\n    <div class=\"form-group\" required=\"required\">\r\n      <dx-button for=\"art\" [hidden]=\"ScanMode\" icon=\"fas fa-cart-plus\" (click)=\"GoShopping()\" type=\"button\" \r\n      [text]=\"'addProduct' | translate\" style=\"background-color: orange;\"></dx-button>\r\n    </div>\r\n    <div class=\"card-header\" [hidden]=\"ScanMode\">\r\n      {{'cart' | translate}}\r\n    </div>\r\n    <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\" [hidden]=\"ScanMode\">\r\n      <table class=\"table table-bordered table-striped mb-0\">\r\n\r\n        <thead>\r\n          <tr>\r\n            <th *ngFor=\"let head of headElementsArt\" scope=\"col\">{{head}} </th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr mdbTableCol *ngFor=\"let p of panierList\">\r\n            <!-- <th scope=\"row\">{{el.id}}</th> -->\r\n            <td>{{p.product.productName}}</td>\r\n            <td>{{p.product.description}}</td>\r\n            <td>{{p.product.priceHtva}}</td>\r\n            <!-- <td>{{p.categoryId}}</td> -->\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n\r\n    </div>\r\n\r\n    <div [hidden]=\"type=='devis'\">\r\n      <label for=\"imgFactures\" [hidden]=\"!ScanMode\">{{'invoicePicture' | translate}}</label>\r\n    </div>\r\n    <div [hidden]=\"type=='facture'\">\r\n      <label for=\"imgFactures\" [hidden]=\"!ScanMode\">{{'estimatePicture' | translate}}</label>\r\n    </div>\r\n\r\n    <ion-item [hidden]=\"type=='devis'\">\r\n      <ion-label position=\"stacked\" [hidden]=\"!ScanMode\">{{'invoicePicture' | translate}}</ion-label>\r\n    </ion-item>\r\n    <ion-item [hidden]=\"type=='facture'\">\r\n      <ion-label position=\"stacked\" [hidden]=\"!ScanMode\">{{'estimatePicture' | translate}}</ion-label>\r\n    </ion-item>\r\n    <!-- Select File -->\r\n    <input [hidden]=\"!ScanMode\" id=\"imgFactures\" type=\"file\" class=\"form-control\" multiple=\"\"\r\n      (change)=\"onFileChange($event)\">\r\n\r\n    <div *ngFor=\"let img of images\">\r\n      <img [hidden]=\"!ScanMode\" class=\"original\" [alt]=\"img.Name\" [src]=\"img\" height=\"150\" width=\"200px\"\r\n        style=\"margin: 3px;\" />\r\n      <dx-button type=\"submit\" icon=\"fas fa-trash\"(click)=\"resetImages()\" class=\"btn btn-danger\">\r\n      </dx-button>\r\n    </div>\r\n\r\n    <ion-item>\r\n      <ion-label>{{'paymentType' | translate}}</ion-label>\r\n      <ion-select interface=\"alert\" okText=\"Ok\" cancelText=\"Annuler\" formControlName=\"typePay\" required=\"required\">\r\n        <ion-select-option value=\"cash\">{{'byCash' | translate}}</ion-select-option>\r\n        <ion-select-option value=\"bancaire\">{{'byBank' | translate}}</ion-select-option>\r\n      </ion-select>\r\n    </ion-item>\r\n    <!-- articles -->\r\n\r\n    <ion-item class=\"form-group\" required=\"required\">\r\n      <ion-label position=\"stacked\" [hidden]=\"ScanMode\">{{'htvaPrice' | translate}}</ion-label>\r\n      <ion-label position=\"stacked\" [hidden]=\"!ScanMode\">{{'priceToPay' | translate}}</ion-label>\r\n      <ion-input type=\"text\" id=\"htva\" name=\"htva\" formControlName=\"priceHtva\" placeholder=\"124.5\"\r\n      required=\"required\" maxlength=\"12\"></ion-input>\r\n    </ion-item>\r\n\r\n    <ion-item class=\"form-group\" required=\"required\" [hidden]=\"ScanMode\">\r\n      <ion-label position=\"stacked\">{{'tva' | translate}}</ion-label>\r\n      <ion-input type=\"text\" [hidden]=\"ScanMode\" id=\"tva\" name=\"tva\" formControlName=\"tva\" placeholder=\"21.6\"\r\n      required=\"required\" maxlength=\"4\"></ion-input>\r\n    </ion-item>\r\n\r\n    <ion-item class=\"form-group\" required=\"required\" [hidden]=\"ScanMode\">\r\n      <ion-label position=\"stacked\">{{'discount' | translate}}</ion-label>\r\n      <ion-input type=\"text\" [hidden]=\"ScanMode\" id=\"remise\" name=\"remise\" formControlName=\"remise\" placeholder=\"10\"\r\n      required=\"required\" maxlength=\"4\"></ion-input>\r\n    </ion-item>\r\n\r\n    <hr>\r\n    <ion-item>\r\n      <ion-label position=\"stacked\">{{'description' | translate}}</ion-label>\r\n      <ion-textarea id=\"description\" name=\"description\" formControlName=\"description\" placeholder=\"...\"\r\n        style=\"height:100px;\" maxlength=\"50\"></ion-textarea>\r\n    </ion-item>\r\n\r\n    <div [hidden]=\"type=='devis'\">\r\n      <dx-button [useSubmitBehavior]=\"true\" style=\"background-color:orange;\" type=\"submit\" [hidden]=\"!ScanMode\" [text]=\"'scanInvoice' | translate\" icon=\"fas fa-paste\"></dx-button>\r\n      <dx-button [useSubmitBehavior]=\"true\" style=\"background-color:orange;\" type=\"submit\" [hidden]=\"ScanMode==true\" [text]=\"'createInvoice' | translate\" icon=\"fas fa-file-invoice\"></dx-button>\r\n    </div>\r\n    <div [hidden]=\"type!='devis'\">\r\n      <dx-button [useSubmitBehavior]=\"true\" style=\"background-color:orange;\" type=\"submit\" [hidden]=\"!ScanMode\" [text]=\"'scanEstimate' | translate\"  icon=\"fas fa-paste\"></dx-button>\r\n      <dx-button [useSubmitBehavior]=\"true\" style=\"background-color:orange;\" type=\"submit\" [hidden]=\"ScanMode==true\" [text]=\"'createEstimate' | translate\" icon=\"fas fa-file-invoice-dollar\"></dx-button>\r\n    </div>\r\n  </form>\r\n</div>\r\n";
+module.exports = "<ion-header>\r\n  <ion-toolbar>\r\n    <ion-title class=\"ion-text-center\">{{'invoices' | translate}}</ion-title>\r\n    <dx-button slot=\"start\" (click)=\"GoBack()\" icon=\"fas fa-arrow-left\" style=\"background-color: orange;\">\r\n    </dx-button>\r\n  </ion-toolbar>\r\n</ion-header>\r\n<div class=\"container\" style=\"overflow-y: auto; background-color: white; height: 100%;\">\r\n  <form [formGroup]=\"formInv\" (ngSubmit)=\"onSubmit()\">\r\n\r\n    <ion-item class=\"form-group\" required=\"required\">\r\n      <ion-label position=\"stacked\" [hidden]=\"type=='devis'\">{{'invoiceName' | translate}}</ion-label>\r\n      <ion-label position=\"stacked\" [hidden]=\"type=='facture'\">{{'estimateName' | translate}}</ion-label>\r\n\r\n      <ion-input type=\"text\" id=\"factureName\" name=\"factureName\" formControlName=\"factureName\" placeholder=\"...\"\r\n        required=\"required\" maxlength=\"50\"></ion-input>\r\n    </ion-item>\r\n\r\n    <div class=\"form-group\" required=\"required\">\r\n      <dx-button for=\"art\" [hidden]=\"ScanMode\" icon=\"fas fa-cart-plus\" (click)=\"GoShopping()\" type=\"button\" \r\n      [text]=\"'addProduct' | translate\" style=\"background-color: orange;\"></dx-button>\r\n    </div>\r\n    <div class=\"card-header\" [hidden]=\"ScanMode\">\r\n      {{'cart' | translate}}\r\n    </div>\r\n    <div class=\"col-auto\" [hidden]=\"ScanMode\">\r\n      <dx-data-grid\r\n  id=\"gridChantier\"\r\n  [dataSource]=\"panierList\"\r\n  keyExpr=\"cartId\"\r\n  [showBorders]=\"true\"\r\n  [title]=\"'myWorksites' | translate\"\r\n>\r\n<dxo-search-panel\r\n[visible]=\"true\"\r\n[highlightCaseSensitive]=\"false\"\r\n></dxo-search-panel>\r\n  <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n  <dxo-paging [pageSize]=\"6\"> </dxo-paging>\r\n  <dxo-pager\r\n    [visible]=\"true\"\r\n    [allowedPageSizes]=\"allowedPageSizes\"\r\n    displayMode=\"full\"\r\n    [showPageSizeSelector]=\"showPageSizeSelector\"\r\n    [showInfo]=\"showInfo\"\r\n    [showNavigationButtons]=\"showNavButtons\"\r\n  >\r\n  </dxo-pager>\r\n  <dxi-column\r\n  dataField=\"product.productName\"\r\n  [caption]=\"'productName' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"product.description\"\r\n  [caption]=\"'description' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"product.priceHtva\"\r\n  [caption]=\"'htvaPrice' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"quantity\"\r\n  [caption]=\"'quantity' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  [caption]=\"'totalPrice' | translate\"\r\n  cellTemplate=\"totalTemplate\"\r\n  >\r\n\r\n  </dxi-column>\r\n  <div *dxTemplate=\"let el of 'totalTemplate'\">\r\n    {{el.data.product.priceHtva * el.data.quantity}}\r\n  </div>\r\n</dx-data-grid>\r\n    </div>\r\n    <div [hidden]=\"type=='devis'\">\r\n      <label for=\"imgFactures\" [hidden]=\"!ScanMode\">{{'invoicePicture' | translate}}</label>\r\n    </div>\r\n    <div [hidden]=\"type=='facture'\">\r\n      <label for=\"imgFactures\" [hidden]=\"!ScanMode\">{{'estimatePicture' | translate}}</label>\r\n    </div>\r\n\r\n    <ion-item [hidden]=\"type=='devis'\">\r\n      <ion-label position=\"stacked\" [hidden]=\"!ScanMode\">{{'invoicePicture' | translate}}</ion-label>\r\n    </ion-item>\r\n    <ion-item [hidden]=\"type=='facture'\">\r\n      <ion-label position=\"stacked\" [hidden]=\"!ScanMode\">{{'estimatePicture' | translate}}</ion-label>\r\n    </ion-item>\r\n    <!-- Select File -->\r\n    <input [hidden]=\"!ScanMode\" id=\"imgFactures\" type=\"file\" class=\"form-control\" multiple=\"\"\r\n      (change)=\"onFileChange($event)\">\r\n\r\n    <div *ngFor=\"let img of images\">\r\n      <img [hidden]=\"!ScanMode\" class=\"original\" [alt]=\"img.Name\" [src]=\"img\" height=\"150\" width=\"200px\"\r\n        style=\"margin: 3px;\" />\r\n      <dx-button type=\"submit\" icon=\"fas fa-trash\"(click)=\"resetImages()\" class=\"btn btn-danger\">\r\n      </dx-button>\r\n    </div>\r\n\r\n    <ion-item>\r\n      <ion-label>{{'paymentType' | translate}}</ion-label>\r\n      <ion-select interface=\"alert\" okText=\"Ok\" cancelText=\"Annuler\" formControlName=\"typePay\" required=\"required\">\r\n        <ion-select-option value=\"cash\">{{'byCash' | translate}}</ion-select-option>\r\n        <ion-select-option value=\"bancaire\">{{'byBank' | translate}}</ion-select-option>\r\n      </ion-select>\r\n    </ion-item>\r\n    <!-- articles -->\r\n\r\n    <ion-item class=\"form-group\" required=\"required\">\r\n      <ion-label position=\"stacked\" [hidden]=\"ScanMode\">{{'htvaPrice' | translate}}</ion-label>\r\n      <ion-label position=\"stacked\" [hidden]=\"!ScanMode\">{{'priceToPay' | translate}}</ion-label>\r\n      <ion-input type=\"text\" id=\"htva\" name=\"htva\" formControlName=\"priceHtva\" placeholder=\"124.5\"\r\n      required=\"required\" maxlength=\"12\" [disabled]=\"!ScanMode\"></ion-input>\r\n    </ion-item>\r\n\r\n    <ion-item class=\"form-group\" required=\"required\" [hidden]=\"ScanMode\">\r\n      <ion-label position=\"stacked\">{{'tva' | translate}}</ion-label>\r\n      <ion-input type=\"text\" [hidden]=\"ScanMode\" id=\"tva\" name=\"tva\" formControlName=\"tva\" placeholder=\"21.6\"\r\n      required=\"required\" maxlength=\"4\"></ion-input>\r\n    </ion-item>\r\n\r\n    <ion-item class=\"form-group\" required=\"required\" [hidden]=\"ScanMode\">\r\n      <ion-label position=\"stacked\">{{'discount' | translate}}</ion-label>\r\n      <ion-input type=\"text\" [hidden]=\"ScanMode\" id=\"remise\" name=\"remise\" formControlName=\"remise\" placeholder=\"10\"\r\n      required=\"required\" maxlength=\"4\"></ion-input>\r\n    </ion-item>\r\n\r\n    <hr>\r\n    <ion-item>\r\n      <ion-label position=\"stacked\">{{'description' | translate}}</ion-label>\r\n      <ion-textarea id=\"description\" name=\"description\" formControlName=\"description\" placeholder=\"...\"\r\n        style=\"height:100px;\" maxlength=\"50\"></ion-textarea>\r\n    </ion-item>\r\n\r\n    <div [hidden]=\"type=='devis'\">\r\n      <dx-button [useSubmitBehavior]=\"true\" style=\"background-color:orange;\" type=\"submit\" [hidden]=\"!ScanMode\" [text]=\"'scanInvoice' | translate\" icon=\"fas fa-paste\"></dx-button>\r\n      <dx-button [useSubmitBehavior]=\"true\" style=\"background-color:orange;\" type=\"submit\" [hidden]=\"ScanMode==true\" [text]=\"'createInvoice' | translate\" icon=\"fas fa-file-invoice\"></dx-button>\r\n    </div>\r\n    <div [hidden]=\"type!='devis'\">\r\n      <dx-button [useSubmitBehavior]=\"true\" style=\"background-color:orange;\" type=\"submit\" [hidden]=\"!ScanMode\" [text]=\"'scanEstimate' | translate\"  icon=\"fas fa-paste\"></dx-button>\r\n      <dx-button [useSubmitBehavior]=\"true\" style=\"background-color:orange;\" type=\"submit\" [hidden]=\"ScanMode==true\" [text]=\"'createEstimate' | translate\" icon=\"fas fa-file-invoice-dollar\"></dx-button>\r\n    </div>\r\n  </form>\r\n</div>\r\n";
 
 /***/ })
 

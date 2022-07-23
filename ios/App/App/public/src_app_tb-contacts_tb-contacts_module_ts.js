@@ -94,21 +94,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TabContacts": () => (/* binding */ TabContacts)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _tb_contacts_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tb-contacts.html?ngResource */ 92842);
 /* harmony import */ var _tb_contacts_css_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tb-contacts.css?ngResource */ 64753);
-/* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
+/* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_material_paginator__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/material/paginator */ 36060);
-/* harmony import */ var _angular_material_sort__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material/sort */ 92197);
-/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material/table */ 85288);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ 60124);
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/storage.service */ 71188);
-
-
-
 
 
 
@@ -124,32 +118,14 @@ let TabContacts = class TabContacts {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
-    this._liveAnnouncer = _liveAnnouncer; // headElements = ['#', 'Prenom', 'Nom', 'Adresse'];
-
-    this.headElements = ['lastName', 'firstName', 'address', '...'];
+    this._liveAnnouncer = _liveAnnouncer;
+    this.allowedPageSizes = [5, 10, 15];
+    this.displayMode = 'full';
+    this.showPageSizeSelector = true;
+    this.showInfo = true;
+    this.showNavButtons = true;
     this.contactsList = [];
     this.modal = new _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__.NgbdModalFocus(this.modalS);
-  }
-
-  applyFilter(event) {
-    const filterValue = event.target.value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  announceSortChange(sortState) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
   }
 
   ionViewDidEnter() {
@@ -161,9 +137,6 @@ let TabContacts = class TabContacts {
       _this.storageService.init();
 
       _this.contactsList = yield _this.storageService.get('Contacts');
-      _this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_5__.MatTableDataSource(_this.contactsList);
-      _this.dataSource.paginator = _this.paginator;
-      _this.dataSource.sort = _this.sort;
     })();
   }
 
@@ -174,9 +147,6 @@ let TabContacts = class TabContacts {
       _this2.storageService.init();
 
       _this2.contactsList = yield _this2.storageService.get('Contacts');
-      _this2.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_5__.MatTableDataSource(_this2.contactsList);
-      _this2.dataSource.paginator = _this2.paginator;
-      _this2.dataSource.sort = _this2.sort;
     })();
   }
 
@@ -185,7 +155,8 @@ let TabContacts = class TabContacts {
     this.router.navigate(['new-contact']); // this.router.navigate(['tb-new-contact']);
   }
 
-  OpenContact(user) {
+  openContact(e) {
+    var user = e.data;
     this.router.navigate(['client', {
       userId: user.userId
     }]);
@@ -226,26 +197,16 @@ let TabContacts = class TabContacts {
 };
 
 TabContacts.ctorParameters = () => [{
-  type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__.NgbModal
+  type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__.NgbModal
 }, {
   type: _services_storage_service__WEBPACK_IMPORTED_MODULE_4__.StorageService
 }, {
-  type: _angular_router__WEBPACK_IMPORTED_MODULE_7__.Router
+  type: _angular_router__WEBPACK_IMPORTED_MODULE_6__.Router
 }, {
-  type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_8__.LiveAnnouncer
+  type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_7__.LiveAnnouncer
 }];
 
-TabContacts.propDecorators = {
-  paginator: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_9__.ViewChild,
-    args: [_angular_material_paginator__WEBPACK_IMPORTED_MODULE_10__.MatPaginator]
-  }],
-  sort: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_9__.ViewChild,
-    args: [_angular_material_sort__WEBPACK_IMPORTED_MODULE_11__.MatSort]
-  }]
-};
-TabContacts = (0,tslib__WEBPACK_IMPORTED_MODULE_12__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Component)({
+TabContacts = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Component)({
   selector: 'app-tb-contacts',
   template: _tb_contacts_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_tb_contacts_css_ngResource__WEBPACK_IMPORTED_MODULE_2__]
@@ -270,7 +231,7 @@ module.exports = ".abs-center-x {\r\n    position: absolute;\r\n    left: 50%;\r
   \*********************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\r\n  <ion-toolbar>\r\n    <ion-title class=\"ion-text-center\">{{'myClients' | translate}}</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n<ion-content [fullscreen]=\"true\" style=\"overflow-y: auto;\">\r\n  <div class=\"jumbotron text-center\" style=\"padding: 5px;\r\n  margin: 10px;\">\r\n    <mat-form-field appearance=\"standard\">\r\n      <mat-label>{{'search' | translate}}</mat-label>\r\n      <input matInput (keyup)=\"applyFilter($event)\" placeholder=\"Ex. Mia\" #input>\r\n    </mat-form-field>\r\n\r\n    <div class=\"mat-elevation-z8\" style=\"background-color: white;\">\r\n      <table mat-table [dataSource]=\"dataSource\" matSort (matSortChange)=\"announceSortChange($event)\">\r\n        <!-- ID Column -->\r\n        <ng-container matColumnDef=\"lastName\">\r\n          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by name\"> {{'name' | translate}} </th>\r\n          <td mat-cell *matCellDef=\"let row\"> {{row.lastName.toUpperCase()}} </td>\r\n        </ng-container>\r\n\r\n        <!-- Progress Column -->\r\n        <ng-container matColumnDef=\"firstName\">\r\n          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by firstName\"> {{'fName' | translate}} </th>\r\n          <td mat-cell *matCellDef=\"let row\"> {{row.firstName}} </td>\r\n        </ng-container>\r\n\r\n        <!-- Name Column -->\r\n        <ng-container matColumnDef=\"address\">\r\n          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by address\"> {{'address' | translate}} </th>\r\n          <td mat-cell *matCellDef=\"let row\"> {{row.address}} </td>\r\n        </ng-container>\r\n\r\n\r\n        <ng-container matColumnDef=\"...\">\r\n          <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>\r\n          <td mat-cell *matCellDef=\"let row\" (click)=\"$event.stopPropagation()\">\r\n            <button mat-icon-button [matMenuTriggerFor]=\"menu\" type=\"button\">\r\n              <mat-icon>toc</mat-icon>\r\n\r\n            </button>\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item type=\"button\" (click)=\"NewWork(row)\">\r\n                <mat-icon>add_location</mat-icon>\r\n                <span>{{'newWorksite' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item type=\"button\" (click)=\"EditContact(row)\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'edit' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item (click)=\"deleteContact(row)\" type=\"button\">\r\n                <mat-icon>delete</mat-icon>\r\n                <span>{{'delete' | translate}}</span>\r\n              </button>\r\n            </mat-menu>\r\n          </td>\r\n        </ng-container>\r\n\r\n\r\n        <tr mat-header-row *matHeaderRowDef=\"headElements\"></tr>\r\n        <tr mat-row *matRowDef=\"let row; columns: headElements;\" (click)=\"OpenContact(row)\"></tr>\r\n\r\n        <!-- Row shown when there is no matching data. -->\r\n        <tr class=\"mat-row\" *matNoDataRow>\r\n          <td class=\"mat-cell\" colspan=\"4\">{{'noData' | translate}} \"{{input.value}}\"</td>\r\n        </tr>\r\n\r\n      </table>\r\n\r\n      <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" aria-label=\"Select page of dataSource\">\r\n      </mat-paginator>\r\n    </div>\r\n\r\n\r\n\r\n    <div class=\"card text-center\">\r\n      <div class=\"card-footer text-muted\">\r\n        <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" icon=\"fas fa-user-plus\" \r\n        (click)=\"CreateClient()\" [text]=\"'newClient' | translate\"></dx-button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</ion-content>";
+module.exports = "<ion-header>\r\n  <ion-toolbar>\r\n    <ion-title class=\"ion-text-center\">{{'myClients' | translate}}</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n<ion-content [fullscreen]=\"true\" style=\"overflow-y: auto;\">\r\n  <div class=\"jumbotron text-center\" style=\"padding: 5px;\r\n  margin: 10px;\">\r\n    <div class=\"mat-elevation-z8\" style=\"background-color: white;\">\r\n      <dx-data-grid\r\n      id=\"gridClient\"\r\n      [dataSource]=\"contactsList\"\r\n      keyExpr=\"userId\"\r\n      [showBorders]=\"true\"\r\n      [title]=\"'myClients' | translate\"\r\n      (onRowClick)=\"openContact($event)\"\r\n    >\r\n    <dxo-search-panel\r\n    [visible]=\"true\"\r\n    [highlightCaseSensitive]=\"false\"\r\n    ></dxo-search-panel>\r\n      <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n      <dxo-paging [pageSize]=\"10\"> </dxo-paging>\r\n      <dxo-pager\r\n        [visible]=\"true\"\r\n        [allowedPageSizes]=\"allowedPageSizes\"\r\n        displayMode=\"full\"\r\n        [showPageSizeSelector]=\"showPageSizeSelector\"\r\n        [showInfo]=\"showInfo\"\r\n        [showNavigationButtons]=\"showNavButtons\"\r\n      >\r\n      </dxo-pager>\r\n      <dxi-column\r\n      dataField=\"lastName\"\r\n      [caption]=\"'name' | translate\"\r\n      cellTemplate=\"lastNameTemplate\"\r\n      >\r\n      </dxi-column>\r\n      <dxi-column\r\n      dataField=\"firstName\"\r\n      [caption]=\"'fName' | translate\"\r\n      >\r\n      </dxi-column>\r\n      <dxi-column\r\n      dataField=\"address\"\r\n      [caption]=\"'address' | translate\"\r\n      >\r\n      </dxi-column>\r\n      <dxi-column\r\n      [caption]=\"'...'\"\r\n      cellTemplate=\"buttonsTemplate\"\r\n      >\r\n    \r\n      </dxi-column>\r\n      <div *dxTemplate=\"let el of 'lastNameTemplate'\">\r\n        {{el.data.lastName.toUpperCase()}}\r\n      </div>\r\n      <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n        <button mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n          <mat-icon>toc</mat-icon>\r\n    \r\n        </button>\r\n        <mat-menu #menu=\"matMenu\">\r\n          <button mat-menu-item type=\"button\" (click)=\"NewWork(el.data)\">\r\n            <mat-icon>add_location</mat-icon>\r\n            <span>{{'newWorksite' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item type=\"button\" (click)=\"EditContact(el.data)\">\r\n            <mat-icon>edit</mat-icon>\r\n            <span>{{'edit' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item (click)=\"deleteContact(el.data)\" type=\"button\">\r\n            <mat-icon>delete</mat-icon>\r\n            <span>{{'delete' | translate}}</span>\r\n          </button>\r\n        </mat-menu>\r\n      </div>\r\n    </dx-data-grid>\r\n    </div>\r\n    <div class=\"card text-center\">\r\n      <div class=\"card-footer text-muted\">\r\n        <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" icon=\"fas fa-user-plus\" \r\n        (click)=\"CreateClient()\" [text]=\"'newClient' | translate\"></dx-button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</ion-content>";
 
 /***/ })
 

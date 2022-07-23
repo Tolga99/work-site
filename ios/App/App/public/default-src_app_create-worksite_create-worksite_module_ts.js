@@ -209,7 +209,7 @@ let CreateWorksite = class CreateWorksite {
       _this3.storageService.init();
 
       _this3.newWorksite = new _models_chantier__WEBPACK_IMPORTED_MODULE_5__.Chantier(_this3.generateUUID(), _this3.formWork.get('worksiteName').value, // this.client.lastName,
-      _this3.client.userId, _this3.formWork.get('description').value, _this3.formWork.get('address').value, _this3.date, null, 'En cours', null, null, null, null, null);
+      _this3.client.userId, _this3.client.lastName.toUpperCase() + ' ' + _this3.client.firstName, _this3.formWork.get('description').value, _this3.formWork.get('address').value, _this3.date, null, 'En cours', null, null, null, null, null);
       _this3.chantierList = yield _this3.storageService.get('Chantiers');
       if (_this3.chantierList == null) _this3.chantierList = [];
 
@@ -319,10 +319,11 @@ __webpack_require__.r(__webpack_exports__);
 class Chantier {
     constructor(chantierId, worksiteName, 
     //  public clientLastName:string,
-    clientId, description, address, dateStart, dateEnd, isFinished, imagesChantier, imagesTicket, factures, devis, hours) {
+    clientId, clientFullName, description, address, dateStart, dateEnd, isFinished, imagesChantier, imagesTicket, factures, devis, hours) {
         this.chantierId = chantierId;
         this.worksiteName = worksiteName;
         this.clientId = clientId;
+        this.clientFullName = clientFullName;
         this.description = description;
         this.address = address;
         this.dateStart = dateStart;

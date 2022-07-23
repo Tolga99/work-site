@@ -105,31 +105,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TabHome": () => (/* binding */ TabHome)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _tb_home_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tb-home.html?ngResource */ 52684);
 /* harmony import */ var _tb_home_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tb-home.scss?ngResource */ 96266);
-/* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
+/* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/router */ 60124);
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/storage.service */ 71188);
-/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material/table */ 85288);
-/* harmony import */ var _angular_material_paginator__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/paginator */ 36060);
-/* harmony import */ var _angular_material_sort__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material/sort */ 92197);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ngx-translate/core */ 38699);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/common/http */ 58987);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ngx-translate/core */ 38699);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/common/http */ 58987);
 /* harmony import */ var _awesome_cordova_plugins_app_rate_ngx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @awesome-cordova-plugins/app-rate/ngx */ 82296);
 /* harmony import */ var _awesome_cordova_plugins_app_version_ngx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @awesome-cordova-plugins/app-version/ngx */ 34114);
-/* harmony import */ var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @fortawesome/angular-fontawesome */ 19200);
+/* harmony import */ var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @fortawesome/angular-fontawesome */ 19200);
 /* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ 9636);
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ 70655);
 /* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! devextreme-angular */ 83438);
 /* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _services_pdf_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/pdf.service */ 81735);
-
-
-
 
 
 
@@ -165,6 +159,12 @@ let TabHome = class TabHome {
     this.pdfService = pdfService;
     this.deleteText = '';
     this.editText = '';
+    this.allowedPageSizes = [5, 10, 15];
+    this.displayMode = 'full';
+    this.showPageSizeSelector = true;
+    this.showInfo = true;
+    this.showNavButtons = true;
+    this.TabView = 'enCours';
     this.settingsBt = [{
       value: 'settings',
       text: '',
@@ -182,12 +182,7 @@ let TabHome = class TabHome {
       value: 'delete',
       text: '',
       icon: 'fas fa-trash'
-    }]; // <dx-button icon="" (click)="GoSettings()" [text]="">
-    // </dx-button>
-    // <dx-button icon="" (click)="About()" [text]="">
-    // </dx-button>
-
-    this.TabView = 'enCours';
+    }];
     this.chantierList = [];
     this.invList = [];
     this.searchList = [];
@@ -229,67 +224,19 @@ let TabHome = class TabHome {
 
       _this.chantierList = yield _this.storageService.get('Chantiers');
       _this.invList = yield _this.storageService.get('NAfactures');
+      console.log(_this.invList);
       _this.clientsList = yield _this.storageService.get('Contacts');
-      if (_this.chantierList !== null && _this.chantierList !== undefined) _this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_11__.MatTableDataSource(_this.chantierList.filter(a => a.isFinished === 'En cours'));
-      _this.dataSource.paginator = _this.paginator;
-      _this.dataSource.sort = _this.sort;
-      _this.dataSourceF = new _angular_material_table__WEBPACK_IMPORTED_MODULE_11__.MatTableDataSource(_this.invList);
-      _this.dataSourceF.paginator = _this.paginatorF;
-      _this.dataSourceF.sort = _this.sortF;
-
-      _this.dataSourceF._filterData(_this.dataSourceF.data);
-
-      _this.dataSourceF.paginator.nextPage();
-
-      console.log('current tab : ', _this.TabView);
-
-      _this.dataSourceF.paginator.firstPage();
-
-      Object.defineProperty(_this.myButton, "options", {
-        writable: true
-      });
-      _this.myButton.options = _this.options;
     })();
-  }
-
-  applyFilter(event) {
-    const filterValue = event.target.value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  announceSortChange(sortState) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
   }
 
   ngOnInit() {
     var _this2 = this;
 
     return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      // this.router.navigate(['login'],{replaceUrl:true});
       yield _this2.storageService.init();
       _this2.chantierList = yield _this2.storageService.get('Chantiers');
-      _this2.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_11__.MatTableDataSource(_this2.chantierList);
       _this2.invList = yield _this2.storageService.get('NAfactures');
-      _this2.dataSourceF = new _angular_material_table__WEBPACK_IMPORTED_MODULE_11__.MatTableDataSource(_this2.invList); // this.searchList = this.chantierList;
-
       _this2.clientsList = yield _this2.storageService.get('Contacts');
-      _this2.dataSource.paginator = _this2.paginator;
-      _this2.dataSource.sort = _this2.sort;
-      _this2.dataSourceF.paginator = _this2.paginatorF;
-      _this2.dataSourceF.sort = _this2.sortF; // var maliste = await this.storageService.get('listClient');
-      // console.log('here is maliste',maliste);
     })();
   }
 
@@ -300,7 +247,8 @@ let TabHome = class TabHome {
     });
   }
 
-  ManageWorksite(chantier) {
+  manageWorksite(e) {
+    var chantier = e.data;
     this.router.navigate(['worksite', {
       chantierId: chantier.chantierId
     }], {
@@ -323,105 +271,11 @@ let TabHome = class TabHome {
       _this3.chantierList = _this3.chantierList.filter(a => a.chantierId !== chantier.chantierId);
 
       _this3.storageService.set('Chantiers', _this3.chantierList);
-
-      _this3.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_11__.MatTableDataSource(_this3.chantierList);
-      _this3.dataSource.paginator = _this3.paginator;
-      _this3.dataSource.sort = _this3.sort;
     })();
-  }
-
-  hideSearch() {}
-
-  yourSearchFunction(event) {
-    var val = event.target.value;
-    val = val.toLowerCase();
-    console.log('s :', val);
-
-    if (this.client === true) {
-      const noms = this.clientsList.filter(a => a.lastName.toLowerCase().includes(val));
-      this.searchList = [];
-      noms.forEach(element => {
-        this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-      });
-      const prenoms = this.clientsList.filter(a => a.firstName.toLowerCase().includes(val));
-      prenoms.forEach(element => {
-        this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-      });
-    } else if (this.state === true) {
-      this.searchList = this.chantierList.filter(a => a.isFinished.toLowerCase().includes(val));
-    } else if (this.name === true) {
-      this.searchList = this.chantierList.filter(a => a.worksiteName.toLowerCase().includes(val));
-    } else if (this.address === true) {
-      this.searchList = this.chantierList.filter(a => a.address.toLowerCase().includes(val));
-    } else if (this.date === true) {
-      this.searchList = this.chantierList.filter(a => a.dateStart.toLowerCase().includes(val));
-    }
-  }
-
-  yourInputChangeFunction(event) {
-    var val = event.target.value;
-    val = val.toLowerCase();
-    console.log(val);
-
-    if (val === '') {
-      this.searchList = this.chantierList;
-      return;
-    }
-
-    if (this.client === true) {
-      const noms = this.clientsList.filter(a => a.lastName.toLowerCase().includes(val));
-      this.searchList = [];
-      noms.forEach(element => {
-        this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-      });
-      const prenoms = this.clientsList.filter(a => a.firstName.toLowerCase().includes(val));
-      prenoms.forEach(element => {
-        this.searchList = this.chantierList.filter(a => a.clientId === element.userId);
-      });
-    } else if (this.state === true) {
-      this.searchList = this.chantierList.filter(a => a.isFinished.toLowerCase().includes(val));
-    } else if (this.name === true) {
-      this.searchList = this.chantierList.filter(a => a.worksiteName.toLowerCase().includes(val));
-    } else if (this.address === true) {
-      this.searchList = this.chantierList.filter(a => a.address.toLowerCase().includes(val));
-    } else if (this.date === true) {
-      this.searchList = this.chantierList.filter(a => a.dateStart.toLowerCase().includes(val));
-    }
   }
 
   GeneratePDFInvoice(f) {
     this.pdfService.GeneratePDFInvoice(null, f);
-  }
-
-  UpdateSearch(event) {
-    console.log(event.target.name);
-
-    if (event.target.name === 'name') {
-      this.state = false;
-      this.address = false;
-      this.date = false;
-      this.client = false;
-    } else if (event.target.name === 'client') {
-      this.state = false;
-      this.address = false;
-      this.date = false;
-      this.name = false;
-    } else if (event.target.name === 'state') {
-      this.name = false;
-      this.address = false;
-      this.date = false;
-      this.client = false;
-    } else if (event.target.name === 'date') {
-      this.state = false;
-      this.address = false;
-      this.name = false;
-      this.client = false;
-    } else if (event.target.name === 'address') {
-      this.state = false;
-      this.name = false;
-      this.date = false;
-      this.client = false;
-    }
   }
 
   GetName(el) {
@@ -441,11 +295,9 @@ let TabHome = class TabHome {
     if (event.detail.checked === true) {
       this.toggleChantier = true;
       console.log('Afficher chantiers terminées');
-      this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_11__.MatTableDataSource(this.chantierList.filter(a => a.isFinished !== 'En cours'));
     } else {
       this.toggleChantier = false;
       console.log('Afficher chantiers en cours');
-      this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_11__.MatTableDataSource(this.chantierList.filter(a => a.isFinished === 'En cours'));
     }
   }
 
@@ -494,8 +346,6 @@ let TabHome = class TabHome {
 
           _this4.invList.splice(_this4.invList.findIndex(a => a.factureId === inv.factureId), 1);
 
-          _this4.dataSourceF = new _angular_material_table__WEBPACK_IMPORTED_MODULE_11__.MatTableDataSource(_this4.invList); //ASSIGN ENDED
-
           res = 'OK';
         }
       }, reason => {
@@ -505,36 +355,40 @@ let TabHome = class TabHome {
     })();
   }
 
-  openInvoice(inv) {//   console.log('Bouton open facture',inv.factureId);
-    //   this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: this.chantierId}]);
+  openInvoice(inv) {
+    console.log('Bouton open facture', inv.factureId);
+    this.router.navigate(['invoice', {
+      factureId: inv.factureId,
+      type: 'facture',
+      chantierId: 'null'
+    }]);
   }
 
-  deleteInvoice(inv) {//   let res : string =null;
-    //   await this.modal.open('delInv',inv.factureName)
-    //   .then(result => result.result
-    //     .then((data) => {
-    //       res='OK';
-    //     }, (reason) => {
-    //     res='DISMISS' }
-    //     ));
-    //   if(res==='DISMISS')
-    //       return ;
-    //   if(inv.receivedMoney!=null)
-    //   {
-    //     inv.receivedMoney.forEach(element => {
-    //       this.DeleteReceive(inv,element);
-    //     });
-    //   }
-    //   this.chantier.factures = this.chantier.factures.filter(a => a.factureId !== inv.factureId);
-    //   if(this.indexFind>=0)
-    //   {
-    //    // this.chantierList.splice(this.indexFind,1);
-    //     this.chantierList[this.indexFind] = this.chantier;
-    //   }else this.chantierList.push(this.chantier);
-    //   this.storageService.set('Chantiers',this.chantierList);
-    //   this.dataSourceFacture = new MatTableDataSource(this.chantier.factures);
+  deleteInvoice(inv) {
+    var _this5 = this;
 
-    return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {})();
+    return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      let res = null;
+      yield _this5.modal.open('delInv', inv.factureName).then(result => result.result.then(data => {
+        res = 'OK';
+      }, reason => {
+        res = 'DISMISS';
+      }));
+      if (res === 'DISMISS') return; // if(inv.receivedMoney!=null)
+      // {
+      //   inv.receivedMoney.forEach(element => {
+      //     this.DeleteReceive(inv,element);
+      //   });
+      // }
+
+      _this5.invList = _this5.invList.filter(a => a.factureId !== inv.factureId); // if(this.indexFind>=0)
+      // {
+      //  // this.chantierList.splice(this.indexFind,1);
+      //   this.chantierList[this.indexFind] = this.chantier;
+      // }else this.chantierList.push(this.chantier);
+
+      _this5.storageService.set('NAfactures', _this5.invList);
+    })();
   }
 
   createDevis() {
@@ -555,60 +409,41 @@ let TabHome = class TabHome {
     }]);
   }
 
-  openDevis(inv) {//   console.log('Bouton open facture',inv.factureId);
-    //   this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: this.chantierId}]);
+  openDevis(inv) {
+    console.log('Bouton open facture', inv.factureId);
+    this.router.navigate(['invoice', {
+      factureId: inv.factureId,
+      type: 'devis',
+      chantierId: 'null'
+    }]);
   }
 
-  deleteDevis(inv) {//   let res : string =null;
-    //   await this.modal.open('delDev',inv.factureName)
-    //   .then(result => result.result
-    //     .then((data) => {
-    //       res='OK';
-    //     }, (reason) => {
-    //     res='DISMISS' }
-    //     ));
-    //   if(res==='DISMISS')
-    //       return ;
-    //   this.chantier.devis = this.chantier.devis.filter(a => a.factureId !== inv.factureId);
-    //   if(this.indexFind>=0)
-    //   {
-    //    // this.chantierList.splice(this.indexFind,1);
-    //     this.chantierList[this.indexFind] = this.chantier;
-    //   }else this.chantierList.push(this.chantier);
-    //   this.storageService.set('Chantiers',this.chantierList);
-    //   this.dataSourceDevis = new MatTableDataSource(this.chantier.devis);
+  deleteDevis(inv) {
+    var _this6 = this;
 
-    return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {})();
+    return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      let res = null;
+      yield _this6.modal.open('delDev', inv.factureName).then(result => result.result.then(data => {
+        res = 'OK';
+      }, reason => {
+        res = 'DISMISS';
+      }));
+      if (res === 'DISMISS') return;
+      _this6.invList = _this6.invList.filter(a => a.factureId !== inv.factureId); // if(indexFind>=0)
+      // {
+      //   this.invList.splice(indexFind,1);
+      // }
+
+      _this6.storageService.set('NAfactures', _this6.invList);
+    })();
   }
 
-  TransformToInvoice(d) {//   const index=this.chantier.devis.findIndex(a => a.factureId === d.factureId);
-    //   this.generateUUID();
-    //   d.factureId= this.uuidValue;
-    //   this.chantier.factures.push(d);
-    //   // this.chantier.devis.splice(index,1); s'il faut supprimer
-    //   this.chantierList[this.chantierList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.chantier;
-    //   this.storageService.set('Chantiers',this.chantierList);
-  }
+  TransformToInvoice(d) {
+    const index = this.invList.findIndex(a => a.factureId === d.factureId);
+    this.invList.push(d);
+    this.invList.splice(index, 1); // this.invList[this.invList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.invList;
 
-  applyFilterFacture(event) {
-    const filterValue = event.target.value;
-    this.dataSourceF.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceF.paginator) {
-      this.dataSourceF.paginator.firstPage();
-    }
-  }
-
-  announceSortChangeFacture(sortState) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+    this.storageService.set('Chantiers', this.chantierList);
   }
 
   GoProfile() {
@@ -622,23 +457,23 @@ let TabHome = class TabHome {
   }
 
   About() {
-    var _this5 = this;
+    var _this7 = this;
 
     return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this5.appVersion.getAppName();
+      _this7.appVersion.getAppName();
 
-      _this5.appVersion.getPackageName();
+      _this7.appVersion.getPackageName();
 
-      _this5.appVersion.getVersionCode();
+      _this7.appVersion.getVersionCode();
 
-      _this5.appVersion.getVersionNumber();
+      _this7.appVersion.getVersionNumber();
 
-      console.log(_this5.appVersion.getAppName());
-      console.log(_this5.appVersion.getPackageName());
-      console.log(_this5.appVersion.getVersionCode());
-      console.log(_this5.appVersion.getVersionNumber());
+      console.log(_this7.appVersion.getAppName());
+      console.log(_this7.appVersion.getPackageName());
+      console.log(_this7.appVersion.getVersionCode());
+      console.log(_this7.appVersion.getVersionNumber());
       let res = null;
-      yield _this5.modal.open('about', '').then(result => result.result.then(data => {
+      yield _this7.modal.open('about', '').then(result => result.result.then(data => {
         res = 'OK';
       }, reason => {
         res = 'DISMISS';
@@ -680,58 +515,32 @@ let TabHome = class TabHome {
 };
 
 TabHome.ctorParameters = () => [{
-  type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_12__.NgbModal
+  type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_11__.NgbModal
 }, {
   type: _services_storage_service__WEBPACK_IMPORTED_MODULE_4__.StorageService
 }, {
-  type: _angular_router__WEBPACK_IMPORTED_MODULE_13__.Router
+  type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.Router
 }, {
-  type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_14__.LiveAnnouncer
+  type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_13__.LiveAnnouncer
 }, {
-  type: _angular_common_http__WEBPACK_IMPORTED_MODULE_15__.HttpClient
+  type: _angular_common_http__WEBPACK_IMPORTED_MODULE_14__.HttpClient
 }, {
-  type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_16__.TranslateService
+  type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__.TranslateService
 }, {
   type: _awesome_cordova_plugins_app_version_ngx__WEBPACK_IMPORTED_MODULE_6__.AppVersion
 }, {
   type: _awesome_cordova_plugins_app_rate_ngx__WEBPACK_IMPORTED_MODULE_5__.AppRate
 }, {
-  type: _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_17__.FaIconLibrary
+  type: _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_16__.FaIconLibrary
 }, {
   type: devextreme_angular__WEBPACK_IMPORTED_MODULE_7__.NestedOptionHost
 }, {
-  type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_16__.TranslateService
+  type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__.TranslateService
 }, {
   type: _services_pdf_service__WEBPACK_IMPORTED_MODULE_8__.PdfService
 }];
 
-TabHome.propDecorators = {
-  paginator: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_18__.ViewChild,
-    args: [_angular_material_paginator__WEBPACK_IMPORTED_MODULE_19__.MatPaginator]
-  }],
-  sort: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_18__.ViewChild,
-    args: [_angular_material_sort__WEBPACK_IMPORTED_MODULE_20__.MatSort]
-  }],
-  paginatorF: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_18__.ViewChild,
-    args: [_angular_material_paginator__WEBPACK_IMPORTED_MODULE_19__.MatPaginator]
-  }],
-  sortF: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_18__.ViewChild,
-    args: [_angular_material_sort__WEBPACK_IMPORTED_MODULE_20__.MatSort]
-  }],
-  myButton: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_18__.ViewChild,
-    args: ['myButton']
-  }],
-  options: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_18__.ContentChildren,
-    args: [devextreme_angular__WEBPACK_IMPORTED_MODULE_7__.DxiItemComponent]
-  }]
-};
-TabHome = (0,tslib__WEBPACK_IMPORTED_MODULE_21__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_18__.Component)({
+TabHome = (0,tslib__WEBPACK_IMPORTED_MODULE_17__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_18__.Component)({
   selector: 'app-tb-home',
   template: _tb_home_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   providers: [devextreme_angular__WEBPACK_IMPORTED_MODULE_7__.NestedOptionHost],
@@ -13597,7 +13406,7 @@ module.exports = ".abs-center-x {\n  position: absolute;\n  left: 50%;\n  transf
   \*************************************************/
 /***/ ((module) => {
 
-module.exports = "  <ion-header>\r\n    <ion-toolbar>\r\n      <ion-title class=\"ion-text-center\">{{'home' | translate}}</ion-title>\r\n      <dx-button style=\"background-color: orange;\" icon=\"fas fa-id-badge\" slot=\"start\" (click)=\"GoProfile()\">\r\n      </dx-button>\r\n      <dx-drop-down-button\r\n      icon=\"fas fa-gear\"\r\n      slot=\"end\"\r\n      style=\"background-color: orange;\"\r\n      [items]=\"settingsBt\"\r\n      displayExpr=\"text\"\r\n      keyExpr=\"value\"\r\n      (onSelectionChanged)=\"settingsBtsClick($event)\"\r\n    >\r\n    </dx-drop-down-button>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  <ion-content [fullscreen]=\"true\" style=\"overflow-y: auto; justify-content: start;\" style=\"background-image: url('/assets/worksiteBackground.png');\">\r\n   <div class=\"jumbotron\" style=\"background-color: light; margin: 10px; padding: 10px;\">\r\n  <div class=\"card-header tabHeader\">\r\n    {{'myWorksites' | translate}}\r\n</div>\r\n      <ion-grid>\r\n      <ion-row>\r\n        <ion-col style=\"display: flex;\r\n        justify-content: space-around;\r\n        align-items: center;\">\r\n          <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input style=\"width: 75%;\" matInput (keyup)=\"applyFilter($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field>\r\n        </ion-col>\r\n        <ion-col style=\"display: flex;\r\n        justify-content: space-between;\r\n        align-items: center;\">\r\n          <ion-toggle name=\"chantierFilter\" (ionChange)=\"ToggleFilter($event)\">\r\n          </ion-toggle>\r\n          <div [hidden]=\"toggleChantier\" style=\"color:green\">\r\n            <ion-label>{{'inProgress' | translate}}</ion-label>\r\n          </div>\r\n          <div [hidden]=\"!toggleChantier\" style=\"color:red\">\r\n            <ion-label>{{'finished' | translate}}</ion-label>\r\n          </div>\r\n       </ion-col>\r\n        <!-- <ion-col>\r\n          <div [hidden]=\"toggleChantier\" style=\"color:green\">\r\n            <ion-label>{{'inProgress' | translate}}</ion-label>\r\n          </div>\r\n          <div [hidden]=\"!toggleChantier\" style=\"color:red\">\r\n            <ion-label>{{'finished' | translate}}</ion-label>\r\n          </div>\r\n        </ion-col> -->\r\n      </ion-row>\r\n      </ion-grid>\r\n  <div class=\"mat-elevation-z8\" style=\"background-color: white;\">\r\n    <table mat-table [dataSource]=\"dataSource\" matSort (matSortChange)=\"announceSortChange($event)\"\r\n      class=\"table table-striped\">\r\n      <!-- ID Column -->\r\n      <ng-container matColumnDef=\"worksiteName\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by worksiteName\"> \r\n          {{'nameWorksite' | translate}} </th>\r\n        <td mat-cell *matCellDef=\"let row\"> {{row.worksiteName}} </td>\r\n      </ng-container>\r\n\r\n      <!-- Progress Column -->\r\n      <ng-container matColumnDef=\"client\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by client\"> {{'nameClient' | translate}} </th>\r\n        <td mat-cell *matCellDef=\"let row\"> {{GetName(row)}} </td>\r\n      </ng-container>\r\n\r\n      <!-- Name Column -->\r\n      <ng-container matColumnDef=\"dateStart\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by dateStart\"> {{'startDate' | translate}}\r\n        </th>\r\n        <td mat-cell *matCellDef=\"let row\"> {{row.dateStart}} </td>\r\n      </ng-container>\r\n\r\n      <!-- Fruit Column -->\r\n      <ng-container matColumnDef=\"address\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by address\"> {{'address' | translate}} </th>\r\n        <td mat-cell *matCellDef=\"let row\"> {{row.address}} </td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"...\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>\r\n        <td mat-cell *matCellDef=\"let row\" (click)=\"$event.stopPropagation()\">\r\n          <!-- <dx-button mat-icon-button icon=\"fas fa-bars\" [matMenuTriggerFor]=\"menu\">\r\n          </dx-button>\r\n          <mat-menu #menu=\"matMenu\">\r\n            <dx-button icon=\"fas fa-file-pen\" [text]=\"'edit' | translate\">\r\n            </dx-button>\r\n            <dx-button icon=\"fas fa-trash\" (click)=\"deleteWorksite(row)\" [text]=\"'delete' | translate\">\r\n            </dx-button>\r\n          </mat-menu> -->\r\n          <button mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n            <mat-icon>toc</mat-icon>\r\n\r\n          </button>\r\n          <mat-menu #menu=\"matMenu\">\r\n            <button mat-menu-item>\r\n              <mat-icon>edit</mat-icon>\r\n              <span>{{'edit' | translate}}</span>\r\n            </button>\r\n            <button mat-menu-item (click)=\"deleteWorksite(row)\">\r\n              <mat-icon>delete</mat-icon>\r\n              <span>{{'delete' | translate}}</span>\r\n            </button>\r\n          </mat-menu>\r\n        </td>\r\n      </ng-container>\r\n\r\n      <tr mat-header-row *matHeaderRowDef=\"headElements\"></tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: headElements;\" (click)=\"ManageWorksite(row)\"></tr>\r\n\r\n      <!-- Row shown when there is no matching data. -->\r\n      <tr class=\"mat-row\" *matNoDataRow>\r\n        <td class=\"mat-cell\" colspan=\"4\">{{'noData' | translate}} \"{{input.value}}\"</td>\r\n      </tr>\r\n\r\n    </table>\r\n\r\n    <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" aria-label=\"Select page of dataSource\">\r\n    </mat-paginator>\r\n  </div>\r\n\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center;\">\r\n    <dx-button icon=\"fas fa-plus\" type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"CreateWorksite()\" [text]=\"'newWorksite' | translate\">     \r\n   </dx-button>\r\n  </div>\r\n</div>\r\n\r\n  <div class=\"jumbotron\" style=\"background-color: light; margin: 10px; padding: 10px;\">\r\n    <div class=\"card-header tabHeader\">\r\n      {{'invoices' | translate}} & {{'estimate' | translate}}\r\n    </div>\r\n\r\n  <mat-form-field appearance=\"standard\">\r\n    <mat-label>{{'search' | translate}}</mat-label>\r\n    <input matInput (keyup)=\"applyFilterFacture($event)\" placeholder=\"Ex. Mia\" #input>\r\n  </mat-form-field>\r\n  <div class=\"mat-elevation-z8\">\r\n    <table mat-table [dataSource]=\"dataSourceF\" matSort (matSortChange)=\"announceSortChangeFacture($event)\">\r\n      <ng-container matColumnDef=\"factureName\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by name\"> {{'invoiceName' | translate}}\r\n        </th>\r\n        <td mat-cell *matCellDef=\"let row\"> {{row.factureName}} </td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"totalPrice\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by total\"> {{'total' | translate}} </th>\r\n        <td mat-cell *matCellDef=\"let row\"> {{row.totalPrice}} </td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"date\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by date\"> {{'date' | translate}} </th>\r\n        <td mat-cell *matCellDef=\"let row\"> {{row.date}} </td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"...\">\r\n        <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>\r\n        <td mat-cell *matCellDef=\"let row\" (click)=\"$event.stopPropagation()\">\r\n          <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n            <mat-icon>toc</mat-icon>\r\n\r\n          </button>\r\n          <mat-menu #menu=\"matMenu\">\r\n            <button mat-menu-item type=\"button\" (click)=\"openInvoice(row)\">\r\n              <mat-icon>edit</mat-icon>\r\n              <span>{{'editInv' | translate}}</span>\r\n            </button>\r\n            <button mat-menu-item type=\"button\" (click)=\"assignInvoice(row)\">\r\n              <mat-icon></mat-icon>\r\n              <span>{{'assign' | translate}}</span>\r\n            </button>\r\n            <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(row)\">\r\n              <mat-icon>picture_as_pdf</mat-icon>\r\n              <span>{{'genPDF' | translate}}</span>\r\n            </button>\r\n            <button mat-menu-item type=\"button\" (click)=\"deleteInvoice(row)\">\r\n              <mat-icon>delete</mat-icon>\r\n              <span>{{'delete' | translate}}</span>\r\n            </button>\r\n          </mat-menu>\r\n        </td>\r\n      </ng-container>\r\n\r\n\r\n      <tr mat-header-row *matHeaderRowDef=\"headElementsInv\"></tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: headElementsInv;\"></tr>\r\n\r\n      <!-- Row shown when there is no matching data. -->\r\n      <tr class=\"mat-row\" *matNoDataRow>\r\n        <td class=\"mat-cell\" colspan=\"4\">{{'noData' | translate}} \"{{input.value}}\"</td>\r\n      </tr>\r\n\r\n    </table>\r\n\r\n    <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" showFirstLastButtons\r\n      aria-label=\"Select page of dataSourceFacture\"></mat-paginator>\r\n  </div>\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\">\r\n    <dx-button [text]=\"'scanInvoice' | translate\" type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"scanInvoice()\" icon=\"fas fa-paste\"></dx-button>\r\n    <dx-button type=\"button\" icon=\"fas fa-file-invoice\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"createInvoice()\" [text]=\"'createInvoice' | translate\">\r\n    </dx-button>\r\n  </div>\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\">\r\n    <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanDevis()\" icon=\"fas fa-paste\" [text]=\"'scanEstimate' | translate\"></dx-button>\r\n    <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createDevis()\" icon=\"fas fa-file-invoice-dollar\" [text]=\"'createEstimate' | translate\"></dx-button>\r\n  </div>\r\n</div>\r\n\r\n</ion-content>";
+module.exports = "  <ion-header>\r\n    <ion-toolbar>\r\n      <ion-title class=\"ion-text-center\">{{'home' | translate}}</ion-title>\r\n      <dx-button style=\"background-color: orange;\" icon=\"fas fa-id-badge\" slot=\"start\" (click)=\"GoProfile()\">\r\n      </dx-button>\r\n      <dx-drop-down-button\r\n      icon=\"fas fa-gear\"\r\n      slot=\"end\"\r\n      style=\"background-color: orange;\"\r\n      [items]=\"settingsBt\"\r\n      displayExpr=\"text\"\r\n      keyExpr=\"value\"\r\n      (onSelectionChanged)=\"settingsBtsClick($event)\"\r\n    >\r\n    </dx-drop-down-button>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  <ion-content [fullscreen]=\"true\" style=\"overflow-y: auto; justify-content: start;\" style=\"background-image: url('/assets/worksiteBackground.png');\">\r\n   <div class=\"jumbotron\" style=\"background-color: light; margin: 10px; padding: 10px;\">\r\n  <div class=\"card-header tabHeader\">\r\n    {{'myWorksites' | translate}}\r\n</div>\r\n      <!-- <ion-grid>\r\n      <ion-row>\r\n        <ion-col style=\"display: flex;\r\n        justify-content: space-around;\r\n        align-items: center;\">\r\n          <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input style=\"width: 75%;\" matInput (keyup)=\"applyFilter($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field>\r\n        </ion-col>\r\n        <ion-col style=\"display: flex;\r\n        justify-content: space-between;\r\n        align-items: center;\">\r\n          <ion-toggle name=\"chantierFilter\" (ionChange)=\"ToggleFilter($event)\">\r\n          </ion-toggle>\r\n          <div [hidden]=\"toggleChantier\" style=\"color:green\">\r\n            <ion-label>{{'inProgress' | translate}}</ion-label>\r\n          </div>\r\n          <div [hidden]=\"!toggleChantier\" style=\"color:red\">\r\n            <ion-label>{{'finished' | translate}}</ion-label>\r\n          </div>\r\n       </ion-col>\r\n      </ion-row>\r\n      </ion-grid> -->\r\n  <div class=\"mat-elevation-z8\" style=\"background-color: white;\">\r\n    <dx-data-grid\r\n  id=\"gridChantier\"\r\n  [dataSource]=\"chantierList\"\r\n  keyExpr=\"chantierId\"\r\n  [showBorders]=\"true\"\r\n  [title]=\"'myWorksites' | translate\"\r\n  (onRowClick)=\"manageWorksite($event)\"\r\n>\r\n<dxo-search-panel\r\n[visible]=\"true\"\r\n[highlightCaseSensitive]=\"false\"\r\n></dxo-search-panel>\r\n  <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n  <dxo-paging [pageSize]=\"10\"> </dxo-paging>\r\n  <dxo-pager\r\n    [visible]=\"true\"\r\n    [allowedPageSizes]=\"allowedPageSizes\"\r\n    displayMode=\"full\"\r\n    [showPageSizeSelector]=\"showPageSizeSelector\"\r\n    [showInfo]=\"showInfo\"\r\n    [showNavigationButtons]=\"showNavButtons\"\r\n  >\r\n  </dxo-pager>\r\n  <dxi-column\r\n  dataField=\"worksiteName\"\r\n  [caption]=\"'nameWorksite' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"clientFullName\"\r\n  [caption]=\"'nameClient' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"dateStart\"\r\n  [caption]=\"'startDate' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"address\"\r\n  [caption]=\"'address' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  [caption]=\"'...'\"\r\n  cellTemplate=\"buttonsTemplate\"\r\n  >\r\n\r\n  </dxi-column>\r\n  <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n    <button mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n      <mat-icon>toc</mat-icon>\r\n\r\n    </button>\r\n    <mat-menu #menu=\"matMenu\">\r\n      <!-- <button mat-menu-item>\r\n        <mat-icon>edit</mat-icon>\r\n        <span>{{'edit' | translate}}</span>\r\n      </button> -->\r\n      <button mat-menu-item (click)=\"deleteWorksite(el.data)\">\r\n        <mat-icon>delete</mat-icon>\r\n        <span>{{'delete' | translate}}</span>\r\n      </button>\r\n    </mat-menu>\r\n  </div>\r\n</dx-data-grid>\r\n  </div>\r\n\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center;\">\r\n    <dx-button icon=\"fas fa-plus\" type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"CreateWorksite()\" [text]=\"'newWorksite' | translate\">     \r\n   </dx-button>\r\n  </div>\r\n</div>\r\n\r\n  <div class=\"jumbotron\" style=\"background-color: light; margin: 10px; padding: 10px;\">\r\n    <div class=\"card-header tabHeader\">\r\n      {{'invoices' | translate}} & {{'estimate' | translate}}\r\n    </div>\r\n\r\n  <!-- <mat-form-field appearance=\"standard\">\r\n    <mat-label>{{'search' | translate}}</mat-label>\r\n    <input matInput (keyup)=\"applyFilterFacture($event)\" placeholder=\"Ex. Mia\" #input>\r\n  </mat-form-field> -->\r\n  <div class=\"mat-elevation-z8\">\r\n    <dx-data-grid\r\n    id=\"gridNAfacture\"\r\n    [dataSource]=\"invList\"\r\n    keyExpr=\"factureId\"\r\n    [showBorders]=\"true\"\r\n    [title]=\"'myWorksites' | translate\"\r\n  >\r\n  <dxo-search-panel\r\n  [visible]=\"true\"\r\n  [highlightCaseSensitive]=\"false\"\r\n  ></dxo-search-panel>\r\n    <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n    <dxo-paging [pageSize]=\"10\"> </dxo-paging>\r\n    <dxo-pager\r\n      [visible]=\"true\"\r\n      [allowedPageSizes]=\"allowedPageSizes\"\r\n      displayMode=\"full\"\r\n      [showPageSizeSelector]=\"showPageSizeSelector\"\r\n      [showInfo]=\"showInfo\"\r\n      [showNavigationButtons]=\"showNavButtons\"\r\n    >\r\n    </dxo-pager>\r\n    <dxi-column\r\n    dataField=\"factureName\"\r\n    [caption]=\"'invoiceName' | translate\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    dataField=\"totalPrice\"\r\n    [caption]=\"'total' | translate\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    dataField=\"date\"\r\n    [caption]=\"'date' | translate\"\r\n    dataType=\"date\"\r\n    format=\"dd/MM/yyyy\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    [caption]=\"'...'\"\r\n    cellTemplate=\"buttonsTemplate\"\r\n    >\r\n  \r\n    </dxi-column>\r\n    <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n      <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n        <mat-icon>toc</mat-icon>\r\n\r\n      </button>\r\n      <mat-menu #menu=\"matMenu\">\r\n        <button mat-menu-item type=\"button\" (click)=\"assignInvoice(el.data)\">\r\n          <mat-icon></mat-icon>\r\n          <span>{{'assign' | translate}}</span>\r\n        </button>\r\n        <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n          <mat-icon>picture_as_pdf</mat-icon>\r\n          <span>{{'genPDF' | translate}}</span>\r\n        </button>\r\n        <div [hidden]=\"el.data.type.toUpperCase() === 'DEVIS'\">\r\n          <button mat-menu-item type=\"button\" (click)=\"openInvoice(el.data)\">\r\n            <mat-icon>edit</mat-icon>\r\n            <span>{{'editInv' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item type=\"button\" (click)=\"deleteInvoice(el.data)\">\r\n            <mat-icon>delete</mat-icon>\r\n            <span>{{'delete' | translate}}</span>\r\n          </button>\r\n        </div>\r\n        <div [hidden]=\"el.data.type.toUpperCase() !== 'DEVIS'\">\r\n          <button mat-menu-item type=\"button\" (click)=\"openDevis(el.data)\">\r\n            <mat-icon>edit</mat-icon>\r\n            <span>{{'editEstimate' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item type=\"button\" (click)=\"deleteDevis(el.data)\">\r\n            <mat-icon>delete</mat-icon>\r\n            <span>{{'delete' | translate}}</span>\r\n          </button>\r\n        </div>\r\n      </mat-menu>\r\n    </div>\r\n  </dx-data-grid>\r\n  </div>\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\">\r\n    <dx-button [text]=\"'scanInvoice' | translate\" type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"scanInvoice()\" icon=\"fas fa-paste\"></dx-button>\r\n    <dx-button type=\"button\" icon=\"fas fa-file-invoice\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"createInvoice()\" [text]=\"'createInvoice' | translate\">\r\n    </dx-button>\r\n  </div>\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\">\r\n    <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanDevis()\" icon=\"fas fa-paste\" [text]=\"'scanEstimate' | translate\"></dx-button>\r\n    <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createDevis()\" icon=\"fas fa-file-invoice-dollar\" [text]=\"'createEstimate' | translate\"></dx-button>\r\n  </div>\r\n</div>\r\n</ion-content>";
 
 /***/ })
 

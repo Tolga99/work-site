@@ -60,10 +60,11 @@ __webpack_require__.r(__webpack_exports__);
 class Chantier {
     constructor(chantierId, worksiteName, 
     //  public clientLastName:string,
-    clientId, description, address, dateStart, dateEnd, isFinished, imagesChantier, imagesTicket, factures, devis, hours) {
+    clientId, clientFullName, description, address, dateStart, dateEnd, isFinished, imagesChantier, imagesTicket, factures, devis, hours) {
         this.chantierId = chantierId;
         this.worksiteName = worksiteName;
         this.clientId = clientId;
+        this.clientFullName = clientFullName;
         this.description = description;
         this.address = address;
         this.dateStart = dateStart;
@@ -230,29 +231,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Worksite": () => (/* binding */ Worksite)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _worksite_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./worksite.html?ngResource */ 72207);
 /* harmony import */ var _worksite_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./worksite.scss?ngResource */ 14111);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/forms */ 2508);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/router */ 60124);
 /* harmony import */ var angular2_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular2-uuid */ 23105);
 /* harmony import */ var _models_chantier__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/chantier */ 34780);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/storage.service */ 71188);
 /* harmony import */ var jspdf_autotable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! jspdf-autotable */ 43015);
 /* harmony import */ var jspdf_autotable__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(jspdf_autotable__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
-/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/material/table */ 85288);
-/* harmony import */ var _angular_material_paginator__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/paginator */ 36060);
-/* harmony import */ var _angular_material_sort__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/sort */ 92197);
-/* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
+/* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
 /* harmony import */ var _ionic_native_image_picker_ngx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic-native/image-picker/ngx */ 19107);
 /* harmony import */ var _services_pdf_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../services/pdf.service */ 81735);
 /* harmony import */ var _services_methods_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/methods.service */ 25812);
-
-
-
 
 
 
@@ -280,6 +275,11 @@ let Worksite = class Worksite {
     this.imgPicker = imgPicker;
     this.pdfService = pdfService;
     this.methodsService = methodsService;
+    this.allowedPageSizes = [5, 10, 15];
+    this.displayMode = 'full';
+    this.showPageSizeSelector = true;
+    this.showInfo = true;
+    this.showNavButtons = true;
     this.TabView = 'general';
     this.imagesC = [];
     this.imagesT = [];
@@ -290,62 +290,9 @@ let Worksite = class Worksite {
       description: new _angular_forms__WEBPACK_IMPORTED_MODULE_11__.UntypedFormControl(''),
       address: new _angular_forms__WEBPACK_IMPORTED_MODULE_11__.UntypedFormControl('')
     });
-    this.headElementsInv = ['factureName', 'totalPrice', 'date', 'IsPaid', '...'];
-    this.headElementsDev = ['factureName', 'totalPrice', 'date', '...'];
     this.headElementsHour = ['description', 'workTime', 'date', '...'];
     this.headElementsRecv = ['Nom Facture', 'Argent reçu', 'Total', 'Restant', 'Date reception'];
     this.modal = new _modal_modal_focus__WEBPACK_IMPORTED_MODULE_7__.NgbdModalFocus(this.modalS);
-  }
-
-  applyFilterFacture(event) {
-    const filterValue = event.target.value;
-    this.dataSourceFacture.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceFacture.paginator) {
-      this.dataSourceFacture.paginator.firstPage();
-    }
-  }
-
-  applyFilterDevis(event) {
-    const filterValue = event.target.value;
-    this.dataSourceDevis.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceDevis.paginator) {
-      this.dataSourceDevis.paginator.firstPage();
-    }
-  }
-
-  applyFilterHeure(event) {
-    const filterValue = event.target.value;
-    this.dataSourceHeure.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceHeure.paginator) {
-      this.dataSourceHeure.paginator.firstPage();
-    }
-  }
-
-  announceSortChangeFacture(sortState) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-  announceSortChangeDevis(sortState) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-  announceSortChangeHeure(sortState) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
   }
 
   generateUUID() {
@@ -371,25 +318,8 @@ let Worksite = class Worksite {
         if (_this.chantierList.find(a => a.chantierId === _this.chantierId).hours != null) _this.chantier.hours = _this.chantierList.find(a => a.chantierId === _this.chantierId).hours;else _this.chantier.hours = new Array();
         if (_this.chantierList.find(a => a.chantierId === _this.chantierId).factures != null) _this.chantier.factures = _this.chantierList.find(a => a.chantierId === _this.chantierId).factures;else _this.chantier.factures = new Array();
         if (_this.chantierList.find(a => a.chantierId === _this.chantierId).devis != null) _this.chantier.devis = _this.chantierList.find(a => a.chantierId === _this.chantierId).devis;else _this.chantier.devis = new Array();
-        _this.dataSourceFacture = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(_this.chantier.factures);
-        _this.dataSourceFacture.paginator = _this.paginatorFacture;
-        _this.dataSourceFacture.sort = _this.sortFacture;
-        _this.dataSourceDevis = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(_this.chantier.devis);
-        _this.dataSourceDevis.paginator = _this.paginatorDevis;
-        _this.dataSourceDevis.sort = _this.sortDevis;
-        _this.dataSourceHeure = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(_this.chantier.hours);
-        _this.dataSourceHeure.paginator = _this.paginatorHeure;
-        _this.dataSourceHeure.sort = _this.sortHeure;
 
         _this.CalculTotalHour();
-
-        _this.dataSourceFacture._filterData(_this.dataSourceFacture.data);
-
-        _this.dataSourceFacture.paginator.nextPage();
-
-        console.log('current tab : ', _this.TabView);
-
-        _this.dataSourceHeure.paginator.firstPage();
       }
     })();
   }
@@ -402,9 +332,7 @@ let Worksite = class Worksite {
 
       _this2.chantierId = _this2.route.snapshot.paramMap.get('chantierId');
 
-      _this2.storageService.init(); // this.hoursList =await this.storageService.get('Hours='+this.chantierId);
-      // this.invList =await this.storageService.get('Invoices='+this.chantierId);
-
+      _this2.storageService.init();
 
       _this2.chantierList = yield _this2.storageService.get('Chantiers');
       if (_this2.chantierList == null) _this2.chantierList = new Array();
@@ -414,9 +342,7 @@ let Worksite = class Worksite {
         _this2.indexFind = _this2.chantierList.findIndex(x => x.chantierId === existId);
 
         if (_this2.indexFind >= 0) {
-          // this.chantierId= this.chantierList[this.indexFind].chantierId;
-          _this2.chantier = new _models_chantier__WEBPACK_IMPORTED_MODULE_4__.Chantier(_this2.chantierList[_this2.indexFind].chantierId, _this2.chantierList[_this2.indexFind].worksiteName, //this.chantierList[this.indexFind].clientLastName,
-          _this2.chantierList[_this2.indexFind].clientId, _this2.chantierList[_this2.indexFind].description, _this2.chantierList[_this2.indexFind].address, _this2.chantierList[_this2.indexFind].dateStart, _this2.chantierList[_this2.indexFind].dateEnd, _this2.chantierList[_this2.indexFind].isFinished, _this2.chantierList[_this2.indexFind].imagesChantier, _this2.chantierList[_this2.indexFind].imagesTicket, _this2.chantierList[_this2.indexFind].factures, _this2.chantierList[_this2.indexFind].devis, _this2.chantierList[_this2.indexFind].hours);
+          _this2.chantier = new _models_chantier__WEBPACK_IMPORTED_MODULE_4__.Chantier(_this2.chantierList[_this2.indexFind].chantierId, _this2.chantierList[_this2.indexFind].worksiteName, _this2.chantierList[_this2.indexFind].clientId, _this2.chantierList[_this2.indexFind].clientFullName, _this2.chantierList[_this2.indexFind].description, _this2.chantierList[_this2.indexFind].address, _this2.chantierList[_this2.indexFind].dateStart, _this2.chantierList[_this2.indexFind].dateEnd, _this2.chantierList[_this2.indexFind].isFinished, _this2.chantierList[_this2.indexFind].imagesChantier, _this2.chantierList[_this2.indexFind].imagesTicket, _this2.chantierList[_this2.indexFind].factures, _this2.chantierList[_this2.indexFind].devis, _this2.chantierList[_this2.indexFind].hours);
 
           _this2.formChantier.setValue({
             chantierName: _this2.chantierList[_this2.indexFind].worksiteName,
@@ -429,15 +355,6 @@ let Worksite = class Worksite {
           if (!_this2.chantier.factures) _this2.chantier.factures = new Array();
           if (!_this2.chantier.devis) _this2.chantier.devis = new Array();
           if (!_this2.chantier.hours) _this2.chantier.hours = new Array();
-          _this2.dataSourceFacture = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(_this2.chantier.factures);
-          _this2.dataSourceFacture.paginator = _this2.paginatorFacture;
-          _this2.dataSourceFacture.sort = _this2.sortFacture;
-          _this2.dataSourceDevis = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(_this2.chantier.devis);
-          _this2.dataSourceDevis.paginator = _this2.paginatorDevis;
-          _this2.dataSourceDevis.sort = _this2.sortDevis;
-          _this2.dataSourceHeure = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(_this2.chantier.hours);
-          _this2.dataSourceHeure.paginator = _this2.paginatorHeure;
-          _this2.dataSourceHeure.sort = _this2.sortHeure;
         }
       } else console.log('creation', existId);
 
@@ -561,8 +478,6 @@ let Worksite = class Worksite {
       } else _this3.chantierList.push(_this3.chantier);
 
       _this3.storageService.set('Chantiers', _this3.chantierList);
-
-      _this3.dataSourceFacture = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(_this3.chantier.factures);
     })();
   }
 
@@ -612,8 +527,6 @@ let Worksite = class Worksite {
       } else _this4.chantierList.push(_this4.chantier);
 
       _this4.storageService.set('Chantiers', _this4.chantierList);
-
-      _this4.dataSourceDevis = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(_this4.chantier.devis);
     })();
   }
 
@@ -625,9 +538,6 @@ let Worksite = class Worksite {
 
     this.chantierList[this.chantierList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.chantier;
     this.storageService.set('Chantiers', this.chantierList);
-    this.dataSourceFacture = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(this.chantier.factures);
-    this.dataSourceFacture.paginator = this.paginatorFacture;
-    this.dataSourceFacture.sort = this.sortFacture;
   }
 
   AddHour() {
@@ -657,7 +567,6 @@ let Worksite = class Worksite {
     } else this.chantierList.push(this.chantier);
 
     this.storageService.set('Chantiers', this.chantierList);
-    this.dataSourceHeure = new _angular_material_table__WEBPACK_IMPORTED_MODULE_12__.MatTableDataSource(this.chantier.hours);
   }
 
   AddPayment() {
@@ -691,8 +600,7 @@ let Worksite = class Worksite {
         return;
       }
 
-      _this5.chantier = new _models_chantier__WEBPACK_IMPORTED_MODULE_4__.Chantier(_this5.chantier.chantierId, _this5.formChantier.get('chantierName').value, //this.chantier.clientLastName,
-      _this5.chantier.clientId, _this5.formChantier.get('description').value, _this5.formChantier.get('address').value, _this5.chantier.dateStart, null, _this5.chantier.isFinished, _this5.imagesC, _this5.imagesT, _this5.chantier.factures, _this5.chantier.devis, _this5.chantier.hours);
+      _this5.chantier = new _models_chantier__WEBPACK_IMPORTED_MODULE_4__.Chantier(_this5.chantier.chantierId, _this5.formChantier.get('chantierName').value, _this5.chantier.clientId, _this5.chantier.clientFullName, _this5.formChantier.get('description').value, _this5.formChantier.get('address').value, _this5.chantier.dateStart, null, _this5.chantier.isFinished, _this5.imagesC, _this5.imagesT, _this5.chantier.factures, _this5.chantier.devis, _this5.chantier.hours);
 
       if (_this5.indexFind >= 0) {
         _this5.chantierList.splice(_this5.indexFind, 1);
@@ -848,15 +756,15 @@ let Worksite = class Worksite {
 };
 
 Worksite.ctorParameters = () => [{
-  type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_13__.NgbModal
+  type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_12__.NgbModal
 }, {
   type: _services_storage_service__WEBPACK_IMPORTED_MODULE_5__.StorageService
 }, {
-  type: _angular_router__WEBPACK_IMPORTED_MODULE_14__.Router
+  type: _angular_router__WEBPACK_IMPORTED_MODULE_13__.Router
 }, {
-  type: _angular_router__WEBPACK_IMPORTED_MODULE_14__.ActivatedRoute
+  type: _angular_router__WEBPACK_IMPORTED_MODULE_13__.ActivatedRoute
 }, {
-  type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_15__.LiveAnnouncer
+  type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_14__.LiveAnnouncer
 }, {
   type: _ionic_native_image_picker_ngx__WEBPACK_IMPORTED_MODULE_8__.ImagePicker
 }, {
@@ -865,33 +773,7 @@ Worksite.ctorParameters = () => [{
   type: _services_methods_service__WEBPACK_IMPORTED_MODULE_10__.MethodsService
 }];
 
-Worksite.propDecorators = {
-  paginatorFacture: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_16__.ViewChild,
-    args: [_angular_material_paginator__WEBPACK_IMPORTED_MODULE_17__.MatPaginator]
-  }],
-  sortFacture: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_16__.ViewChild,
-    args: [_angular_material_sort__WEBPACK_IMPORTED_MODULE_18__.MatSort]
-  }],
-  paginatorDevis: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_16__.ViewChild,
-    args: [_angular_material_paginator__WEBPACK_IMPORTED_MODULE_17__.MatPaginator]
-  }],
-  sortDevis: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_16__.ViewChild,
-    args: [_angular_material_sort__WEBPACK_IMPORTED_MODULE_18__.MatSort]
-  }],
-  paginatorHeure: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_16__.ViewChild,
-    args: [_angular_material_paginator__WEBPACK_IMPORTED_MODULE_17__.MatPaginator]
-  }],
-  sortHeure: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_16__.ViewChild,
-    args: [_angular_material_sort__WEBPACK_IMPORTED_MODULE_18__.MatSort]
-  }]
-};
-Worksite = (0,tslib__WEBPACK_IMPORTED_MODULE_19__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.Component)({
+Worksite = (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.Component)({
   selector: 'app-worksite',
   template: _worksite_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_worksite_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
@@ -2409,7 +2291,7 @@ module.exports = ".abs-center-x {\n  position: absolute;\n  left: 50%;\n  transf
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<ion-content style=\"justify-content: start;\">\r\n<!-- <ion-header>\r\n  <ion-toolbar>\r\n    <ion-button (click)=\"GoBack()\">\r\n      <ion-icon name=\"arrow-left\"></ion-icon>\r\n    </ion-button>\r\n  </ion-toolbar>\r\n</ion-header> -->\r\n\r\n<ion-header>\r\n  <ion-toolbar>\r\n    <ion-tabs>\r\n      <ion-tab-bar slot=\"top\">\r\n        <dx-button icon=\"fas fa-arrow-left\" (click)=\"GoBack()\" style=\"background-color: orange;\">\r\n        </dx-button>\r\n        <ion-tab-button (click)=\"SetTabView('general')\">\r\n          <ion-icon name=\"information-circle\"></ion-icon>\r\n          <ion-label>{{'general' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('achats')\">\r\n          <ion-icon name=\"copy\"></ion-icon>\r\n          <ion-label>{{'achats' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('travail')\">\r\n          <ion-icon name=\"hammer\"></ion-icon>\r\n          <ion-label>{{'work' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('images')\">\r\n          <ion-icon name=\"images\"></ion-icon>\r\n          <ion-label>{{'pictures' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n      </ion-tab-bar>\r\n    </ion-tabs>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<div style=\"overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;\">\r\n  <form [formGroup]=\"formChantier\" (ngSubmit)=\"SaveChantier()\">\r\n    <div [hidden]=\"(TabView !== 'general')\" class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n      <div class=\"card-header tabHeader\">\r\n        {{'infos' | translate}}\r\n      </div>\r\n      <ion-item class=\"form-group\" required=\"required\">\r\n        <ion-label position=\"stacked\">{{'nameWorksite' | translate}}</ion-label>\r\n        <ion-input type=\"text\" id=\"name\" name=\"name\" formControlName=\"chantierName\" placeholder=\"...\"\r\n          required=\"required\" maxlength=\"50\"></ion-input>\r\n      </ion-item>\r\n\r\n      <ion-item class=\"form-group\" required=\"required\">\r\n        <ion-label position=\"stacked\">{{'worksiteAddress' | translate}}</ion-label>\r\n        <ion-input type=\"text\" id=\"address\" name=\"address\" formControlName=\"address\" placeholder=\"...\" maxlength=\"50\"></ion-input>\r\n      </ion-item>\r\n\r\n      <ion-item>\r\n        <ion-label position=\"stacked\">{{'description' | translate}}</ion-label>\r\n        <ion-textarea id=\"description\" name=\"description\" formControlName=\"description\" placeholder=\"...\" maxlength=\"50\"\r\n          style=\"height:100px;\"></ion-textarea>\r\n      </ion-item>\r\n      <hr>\r\n    </div>\r\n    <div [hidden]=\"(TabView !== 'achats')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'invoices' | translate}}\r\n        </div>\r\n\r\n\r\n        <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input matInput (keyup)=\"applyFilterFacture($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field>\r\n\r\n        <div class=\"mat-elevation-z8\">\r\n          <table mat-table [dataSource]=\"dataSourceFacture\" matSort (matSortChange)=\"announceSortChangeFacture($event)\">\r\n            <ng-container matColumnDef=\"factureName\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by name\"> {{'invoiceName' | translate}}\r\n              </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.factureName}} </td>\r\n            </ng-container>\r\n\r\n            <ng-container matColumnDef=\"totalPrice\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by total\"> {{'total' | translate}} </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.totalPrice}} </td>\r\n            </ng-container>\r\n\r\n            <ng-container matColumnDef=\"date\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by date\"> {{'date' | translate}} </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.date}} </td>\r\n            </ng-container>\r\n\r\n            <ng-container matColumnDef=\"IsPaid\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by paid\"> {{'state' | translate}} </th>\r\n              <td mat-cell *matCellDef=\"let row\" style=\"color: red;\"> {{IsInvoicePaid(row)}} </td>\r\n            </ng-container>\r\n\r\n\r\n            <ng-container matColumnDef=\"...\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>\r\n              <td mat-cell *matCellDef=\"let row\" (click)=\"$event.stopPropagation()\">\r\n                <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n                  <mat-icon>toc</mat-icon>\r\n\r\n                </button>\r\n                <mat-menu #menu=\"matMenu\">\r\n                  <button mat-menu-item type=\"button\" (click)=\"openInvoice(row)\">\r\n                    <mat-icon>edit</mat-icon>\r\n                    <span>{{'editInv' | translate}}</span>\r\n                  </button>\r\n                  <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(row)\">\r\n                    <mat-icon>picture_as_pdf</mat-icon>\r\n                    <span>{{'genPDF' | translate}}</span>\r\n                  </button>\r\n                  <button mat-menu-item type=\"button\" (click)=\"deleteInvoice(row)\">\r\n                    <mat-icon>delete</mat-icon>\r\n                    <span>{{'delete' | translate}}</span>\r\n                  </button>\r\n                </mat-menu>\r\n              </td>\r\n            </ng-container>\r\n\r\n\r\n            <tr mat-header-row *matHeaderRowDef=\"headElementsInv\"></tr>\r\n            <tr mat-row *matRowDef=\"let row; columns: headElementsInv;\"></tr>\r\n\r\n            <!-- Row shown when there is no matching data. -->\r\n            <tr class=\"mat-row\" *matNoDataRow>\r\n              <td class=\"mat-cell\" colspan=\"4\">{{'noData' | translate}} \"{{input.value}}\"</td>\r\n            </tr>\r\n\r\n          </table>\r\n\r\n          <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" showFirstLastButtons\r\n            aria-label=\"Select page of dataSourceFacture\"></mat-paginator>\r\n        </div>\r\n        <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n        justify-content: space-evenly;\r\n        align-items: center;\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanInvoice()\" icon=\"fas fa-paste\" [text]=\"'scanInvoice' | translate\"></dx-button>\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createInvoice()\" icon=\"fas fa-file-invoice\" [text]=\"'createInvoice' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n\r\n      <hr>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'estimate' | translate}}\r\n        </div>\r\n\r\n        <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input matInput (keyup)=\"applyFilterDevis($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field>\r\n\r\n        <div class=\"mat-elevation-z8\">\r\n          <table mat-table [dataSource]=\"dataSourceDevis\" matSort (matSortChange)=\"announceSortChangeDevis($event)\">\r\n            <ng-container matColumnDef=\"factureName\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by name\"> {{'estimateName' | translate}}\r\n              </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.factureName}} </td>\r\n            </ng-container>\r\n\r\n            <ng-container matColumnDef=\"totalPrice\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by total\"> {{'total' | translate}} </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.totalPrice}} </td>\r\n            </ng-container>\r\n\r\n            <ng-container matColumnDef=\"date\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by date\"> {{'date' | translate}} </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.date}} </td>\r\n            </ng-container>\r\n\r\n            <!-- <ng-container matColumnDef=\"IsPaid\">\r\n          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by paid\"> Etat </th>\r\n          <td mat-cell *matCellDef=\"let row\" style=\"color: red;\"> {{IsInvoicePaid(row)}} </td>\r\n        </ng-container> -->\r\n\r\n\r\n            <ng-container matColumnDef=\"...\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>\r\n              <td mat-cell *matCellDef=\"let row\" (click)=\"$event.stopPropagation()\">\r\n                <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n                  <mat-icon>toc</mat-icon>\r\n\r\n                </button>\r\n                <mat-menu #menu=\"matMenu\">\r\n                  <button mat-menu-item type=\"button\" (click)=\"openDevis(row)\">\r\n                    <mat-icon>edit</mat-icon>\r\n                    <span>{{'editEstimate' | translate}}</span>\r\n                  </button>\r\n                  <button mat-menu-item (click)=\"TransformToInvoice(row)\" type=\"button\">\r\n                    <mat-icon>edit</mat-icon>\r\n                    <span>{{'transformToInv' | translate}}</span>\r\n                  </button>\r\n                  <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(row)\">\r\n                    <mat-icon>picture_as_pdf</mat-icon>\r\n                    <span>{{'genPDF' | translate}}</span>\r\n                  </button>\r\n                  <button mat-menu-item type=\"button\" (click)=\"deleteDevis(row)\">\r\n                    <mat-icon>delete</mat-icon>\r\n                    <span>{{'delete' | translate}}</span>\r\n                  </button>\r\n                </mat-menu>\r\n              </td>\r\n            </ng-container>\r\n\r\n\r\n            <tr mat-header-row *matHeaderRowDef=\"headElementsDev\"></tr>\r\n            <tr mat-row *matRowDef=\"let row; columns: headElementsDev;\"></tr>\r\n\r\n            <!-- Row shown when there is no matching data. -->\r\n            <tr class=\"mat-row\" *matNoDataRow>\r\n              <td class=\"mat-cell\" colspan=\"4\">{{'noData' | translate}} \"{{input.value}}\"</td>\r\n            </tr>\r\n\r\n          </table>\r\n\r\n          <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" aria-label=\"Select page of dataSourceDevis\">\r\n          </mat-paginator>\r\n        </div>\r\n        <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n        justify-content: space-evenly;\r\n        align-items: center;\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanDevis()\" icon=\"fas fa-paste\" [text]=\"'scanEstimate' | translate\"></dx-button>\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createDevis()\" icon=\"fas fa-file-invoice-dollar\" [text]=\"'createEstimate' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'receivedMoney' | translate}}\r\n        </div>\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\" id=\"managerTable\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th *ngFor=\"let head of headElementsRecv\" scope=\"col\">{{head}} </th>\r\n              </tr>\r\n            </thead>\r\n            <tbody *ngFor=\"let inv of chantier?.factures\">\r\n              <tr mdbTableCol *ngFor=\"let p of inv.receivedMoney\">\r\n                <!-- <th scope=\"row\">{{h.id}}</th> -->\r\n                <td>{{inv.factureName}}</td>\r\n                <td>{{p.price}}</td>\r\n                <td>{{inv.totalPrice}}</td>\r\n                <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>\r\n                <td>{{p.date}}</td>\r\n                <td (click)=\"$event.stopPropagation()\">\r\n                  <button mat-icon-button [matMenuTriggerFor]=\"menu\" type=\"button\">\r\n                    <mat-icon>toc</mat-icon>\r\n\r\n                  </button>\r\n                  <mat-menu #menu=\"matMenu\">\r\n                    <button mat-menu-item type=\"button\">\r\n                      <mat-icon>edit</mat-icon>\r\n                      <span>{{'edit' | translate}}</span>\r\n                    </button>\r\n                    <button mat-menu-item type=\"button\" (click)=\"DeleteReceive(inv,p)\">\r\n                      <mat-icon>delete</mat-icon>\r\n                      <span>{{'delete' | translate}}</span>\r\n                    </button>\r\n                  </mat-menu>\r\n                </td> <!-- </tr> -->\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"AddPayment()\" \r\n          icon=\"fas fa-cart-plus\" [text]=\"'addPayment' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th>{{'tickets' | translate}}</th>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr mdbTableCol *ngFor='let url of imagesT'>\r\n                <td><img src=\"{{url}}\" alt=\"\" height=100 width=100 /></td>\r\n                <td> <dx-button type=\"button\" class=\"btn btn-danger\" style=\"background-color:orange;\" (click)=\"DeleteImage(url)\" icon=\"fas fa-trash\"></dx-button></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <input id=\"imgChantier\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChangeTicket($event)\">\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div [hidden]=\"(TabView !== 'travail')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'hoursWorked' | translate}}\r\n        </div>\r\n\r\n\r\n        <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input matInput (keyup)=\"applyFilterHeure($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field>\r\n\r\n        <div class=\"mat-elevation-z8\">\r\n          <table mat-table [dataSource]=\"dataSourceHeure\" matSort (matSortChange)=\"announceSortChangeHeure($event)\">\r\n            <ng-container matColumnDef=\"description\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by name\"> {{'description' | translate}}\r\n              </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.description}} </td>\r\n            </ng-container>\r\n\r\n            <ng-container matColumnDef=\"workTime\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by total\"> {{'hourWorked' | translate}}\r\n              </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.workTime}} </td>\r\n            </ng-container>\r\n\r\n            <ng-container matColumnDef=\"date\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription=\"Sort by date\"> {{'date' | translate}} </th>\r\n              <td mat-cell *matCellDef=\"let row\"> {{row.date}} </td>\r\n            </ng-container>\r\n\r\n\r\n            <ng-container matColumnDef=\"...\">\r\n              <th mat-header-cell *matHeaderCellDef mat-sort-header> ... </th>\r\n              <td mat-cell *matCellDef=\"let row\" (click)=\"$event.stopPropagation()\">\r\n                <button mat-icon-button [matMenuTriggerFor]=\"menu\" type=\"button\">\r\n                  <mat-icon>toc</mat-icon>\r\n\r\n                </button>\r\n                <mat-menu #menu=\"matMenu\" (click)=\"$event.stopPropagation()\">\r\n                  <button mat-menu-item type=\"button\" (click)=\"openHour(row)\">\r\n                    <mat-icon>edit</mat-icon>\r\n                    <span>{{'edit' | translate}}</span>\r\n                  </button>\r\n                  <button mat-menu-item (click)=\"deleteHour(row)\" type=\"button\">\r\n                    <mat-icon>delete</mat-icon>\r\n                    <span>{{'delete' | translate}}</span>\r\n                  </button>\r\n                </mat-menu>\r\n              </td>\r\n            </ng-container>\r\n\r\n\r\n            <tr mat-header-row *matHeaderRowDef=\"headElementsHour\"></tr>\r\n            <tr mat-row *matRowDef=\"let row; columns: headElementsHour;\"></tr>\r\n\r\n            <!-- Row shown when there is no matching data. -->\r\n            <tr class=\"mat-row\" *matNoDataRow>\r\n              <td class=\"mat-cell\" colspan=\"4\">{{'noData' | translate}} \"{{input.value}}\"</td>\r\n            </tr>\r\n\r\n          </table>\r\n\r\n          <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" aria-label=\"Select page of dataSourceHeure\">\r\n          </mat-paginator>\r\n        </div>\r\n\r\n        <div class=\"card-footer\">\r\n          {{'totalHours' | translate}} {{totalHours}}\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n          (click)=\"AddHour()\" icon=\"fas fa-clock\" [text]=\"'addWork' | translate\" ></dx-button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div [hidden]=\"(TabView !== 'images')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'worksitePictures' | translate}}\r\n        </div>\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th>{{'pictures' | translate}}</th>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr mdbTableCol *ngFor='let url of imagesC'>\r\n                <!-- <th scope=\"row\">{{el.id}}</th> -->\r\n                <td><img src=\"{{url}}\" alt=\"\" height=100 width=100 /></td>\r\n                <td> <dx-button type=\"button\" class=\"btn btn-danger\" style=\"background-color:orange;\" \r\n                  (click)=\"DeleteImageChantier(url)\" icon=\"fas fa-trash\"></dx-button></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <input id=\"imgChantier\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChangeChantier($event)\">\r\n        </div>\r\n      </div>\r\n    </div>\r\n  <div class=\"card-footer text-muted\">\r\n    <div style=\"padding: 10px; margin: 5px;\">\r\n    <dx-button [useSubmitBehavior]=\"true\" type=\"submit\" class=\"btn btn-success\" style=\"width:88%;\" [text]=\"'updateWorksite' | translate\"></dx-button>\r\n    <dx-button type=\"submit\" class=\"btn btn-danger\" (click)=\"FinishChantier()\" style=\"width: 88%;\" [text]=\"'finishWorksite' | translate\"></dx-button>\r\n    </div>\r\n  </div>\r\n  </form>\r\n</div>\r\n</ion-content>";
+module.exports = "<ion-content style=\"justify-content: start;\">\r\n<!-- <ion-header>\r\n  <ion-toolbar>\r\n    <ion-button (click)=\"GoBack()\">\r\n      <ion-icon name=\"arrow-left\"></ion-icon>\r\n    </ion-button>\r\n  </ion-toolbar>\r\n</ion-header> -->\r\n\r\n<ion-header>\r\n  <ion-toolbar>\r\n    <ion-tabs>\r\n      <ion-tab-bar slot=\"top\">\r\n        <dx-button icon=\"fas fa-arrow-left\" (click)=\"GoBack()\" style=\"background-color: orange;\">\r\n        </dx-button>\r\n        <ion-tab-button (click)=\"SetTabView('general')\">\r\n          <ion-icon name=\"information-circle\"></ion-icon>\r\n          <ion-label>{{'general' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('achats')\">\r\n          <ion-icon name=\"copy\"></ion-icon>\r\n          <ion-label>{{'achats' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('travail')\">\r\n          <ion-icon name=\"hammer\"></ion-icon>\r\n          <ion-label>{{'work' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('images')\">\r\n          <ion-icon name=\"images\"></ion-icon>\r\n          <ion-label>{{'pictures' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n      </ion-tab-bar>\r\n    </ion-tabs>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<div style=\"overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;\">\r\n  <form [formGroup]=\"formChantier\" (ngSubmit)=\"SaveChantier()\">\r\n    <div [hidden]=\"(TabView !== 'general')\" class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n      <div class=\"card-header tabHeader\">\r\n        {{'infos' | translate}}\r\n      </div>\r\n      <ion-item class=\"form-group\" required=\"required\">\r\n        <ion-label position=\"stacked\">{{'nameWorksite' | translate}}</ion-label>\r\n        <ion-input type=\"text\" id=\"name\" name=\"name\" formControlName=\"chantierName\" placeholder=\"...\"\r\n          required=\"required\" maxlength=\"50\"></ion-input>\r\n      </ion-item>\r\n\r\n      <ion-item class=\"form-group\" required=\"required\">\r\n        <ion-label position=\"stacked\">{{'worksiteAddress' | translate}}</ion-label>\r\n        <ion-input type=\"text\" id=\"address\" name=\"address\" formControlName=\"address\" placeholder=\"...\" maxlength=\"50\"></ion-input>\r\n      </ion-item>\r\n\r\n      <ion-item>\r\n        <ion-label position=\"stacked\">{{'description' | translate}}</ion-label>\r\n        <ion-textarea id=\"description\" name=\"description\" formControlName=\"description\" placeholder=\"...\" maxlength=\"50\"\r\n          style=\"height:100px;\"></ion-textarea>\r\n      </ion-item>\r\n      <hr>\r\n    </div>\r\n    <div [hidden]=\"(TabView !== 'achats')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'invoices' | translate}}\r\n        </div>\r\n        <div class=\"mat-elevation-z8\">\r\n            <dx-data-grid\r\n            id=\"gridFactures\"\r\n            [dataSource]=\"chantier?.factures\"\r\n            keyExpr=\"factureId\"\r\n            [showBorders]=\"true\"\r\n            [title]=\"'invoices' | translate\"\r\n          >\r\n          <dxo-search-panel\r\n          [visible]=\"true\"\r\n          [highlightCaseSensitive]=\"false\"\r\n          ></dxo-search-panel>\r\n            <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n            <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n            <dxo-pager\r\n              [visible]=\"true\"\r\n              [allowedPageSizes]=\"allowedPageSizes\"\r\n              displayMode=\"full\"\r\n              [showPageSizeSelector]=\"showPageSizeSelector\"\r\n              [showInfo]=\"showInfo\"\r\n              [showNavigationButtons]=\"showNavButtons\"\r\n            >\r\n            </dxo-pager>\r\n            <dxi-column\r\n            dataField=\"factureName\"\r\n            [caption]=\"'invoiceName' | translate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            dataField=\"totalPrice\"\r\n            [caption]=\"'total' | translate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            dataField=\"date\"\r\n            [caption]=\"'date' | translate\"\r\n            dataType=\"date\"\r\n            format=\"dd/MM/yyyy\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            [caption]=\"'state' | translate\"\r\n            cellTemplate=\"stateTemplate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            [caption]=\"'...'\"\r\n            cellTemplate=\"buttonsTemplate\"\r\n            >\r\n          \r\n            </dxi-column>\r\n            <div *dxTemplate=\"let el of 'stateTemplate'\" style=\"color: red;\">\r\n              {{IsInvoicePaid(el.data)}}\r\n            </div>\r\n            <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n              <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n                <mat-icon>toc</mat-icon>\r\n\r\n              </button>\r\n              <mat-menu #menu=\"matMenu\">\r\n                <button mat-menu-item type=\"button\" (click)=\"openInvoice(el.data)\">\r\n                  <mat-icon>edit</mat-icon>\r\n                  <span>{{'editInv' | translate}}</span>\r\n                </button>\r\n                <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n                  <mat-icon>picture_as_pdf</mat-icon>\r\n                  <span>{{'genPDF' | translate}}</span>\r\n                </button>\r\n                <button mat-menu-item type=\"button\" (click)=\"deleteInvoice(el.data)\">\r\n                  <mat-icon>delete</mat-icon>\r\n                  <span>{{'delete' | translate}}</span>\r\n                </button>\r\n              </mat-menu>\r\n            </div>\r\n          </dx-data-grid>\r\n        </div>\r\n        <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n        justify-content: space-evenly;\r\n        align-items: center;\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanInvoice()\" icon=\"fas fa-paste\" [text]=\"'scanInvoice' | translate\"></dx-button>\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createInvoice()\" icon=\"fas fa-file-invoice\" [text]=\"'createInvoice' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n\r\n      <hr>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'estimate' | translate}}\r\n        </div>\r\n\r\n        <!-- <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input matInput (keyup)=\"applyFilterDevis($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field> -->\r\n\r\n        <div class=\"mat-elevation-z8\">\r\n          <dx-data-grid\r\n          id=\"gridDevis\"\r\n          [dataSource]=\"chantier?.devis\"\r\n          keyExpr=\"factureId\"\r\n          [showBorders]=\"true\"\r\n          [title]=\"'estimates' | translate\"\r\n        >\r\n        <dxo-search-panel\r\n        [visible]=\"true\"\r\n        [highlightCaseSensitive]=\"false\"\r\n        ></dxo-search-panel>\r\n          <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n          <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n          <dxo-pager\r\n            [visible]=\"true\"\r\n            [allowedPageSizes]=\"allowedPageSizes\"\r\n            displayMode=\"full\"\r\n            [showPageSizeSelector]=\"showPageSizeSelector\"\r\n            [showInfo]=\"showInfo\"\r\n            [showNavigationButtons]=\"showNavButtons\"\r\n          >\r\n          </dxo-pager>\r\n          <dxi-column\r\n          dataField=\"factureName\"\r\n          [caption]=\"'estimateName' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"totalPrice\"\r\n          [caption]=\"'total' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"date\"\r\n          [caption]=\"'date' | translate\"\r\n          dataType=\"date\"\r\n          format=\"dd/MM/yyyy\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          [caption]=\"'...'\"\r\n          cellTemplate=\"buttonsTemplate\"\r\n          >\r\n        \r\n          </dxi-column>\r\n          <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n            <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n              <mat-icon>toc</mat-icon>\r\n\r\n            </button>\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item type=\"button\" (click)=\"openDevis(el.data)\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'editEstimate' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item (click)=\"TransformToInvoice(el.data)\" type=\"button\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'transformToInv' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n                <mat-icon>picture_as_pdf</mat-icon>\r\n                <span>{{'genPDF' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item type=\"button\" (click)=\"deleteDevis(el.data)\">\r\n                <mat-icon>delete</mat-icon>\r\n                <span>{{'delete' | translate}}</span>\r\n              </button>\r\n            </mat-menu>\r\n          </div>\r\n        </dx-data-grid>\r\n          <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" aria-label=\"Select page of dataSourceDevis\">\r\n          </mat-paginator>\r\n        </div>\r\n        <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n        justify-content: space-evenly;\r\n        align-items: center;\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanDevis()\" icon=\"fas fa-paste\" [text]=\"'scanEstimate' | translate\"></dx-button>\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createDevis()\" icon=\"fas fa-file-invoice-dollar\" [text]=\"'createEstimate' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'receivedMoney' | translate}}\r\n        </div>\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\" id=\"managerTable\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th *ngFor=\"let head of headElementsRecv\" scope=\"col\">{{head}} </th>\r\n              </tr>\r\n            </thead>\r\n            <tbody *ngFor=\"let inv of chantier?.factures\">\r\n              <tr mdbTableCol *ngFor=\"let p of inv.receivedMoney\">\r\n                <td>{{inv.factureName}}</td>\r\n                <td>{{p.price}}</td>\r\n                <td>{{inv.totalPrice}}</td>\r\n                <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>\r\n                <td>{{p.date}}</td>\r\n                <td (click)=\"$event.stopPropagation()\">\r\n                  <button mat-icon-button [matMenuTriggerFor]=\"menu\" type=\"button\">\r\n                    <mat-icon>toc</mat-icon>\r\n\r\n                  </button>\r\n                  <mat-menu #menu=\"matMenu\">\r\n                    <button mat-menu-item type=\"button\">\r\n                      <mat-icon>edit</mat-icon>\r\n                      <span>{{'edit' | translate}}</span>\r\n                    </button>\r\n                    <button mat-menu-item type=\"button\" (click)=\"DeleteReceive(inv,p)\">\r\n                      <mat-icon>delete</mat-icon>\r\n                      <span>{{'delete' | translate}}</span>\r\n                    </button>\r\n                  </mat-menu>\r\n                </td>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"AddPayment()\" \r\n          icon=\"fas fa-cart-plus\" [text]=\"'addPayment' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th>{{'tickets' | translate}}</th>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr mdbTableCol *ngFor='let url of imagesT'>\r\n                <td><img src=\"{{url}}\" alt=\"\" height=100 width=100 /></td>\r\n                <td> <dx-button type=\"button\" class=\"btn btn-danger\" style=\"background-color:orange;\" (click)=\"DeleteImage(url)\" icon=\"fas fa-trash\"></dx-button></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <input id=\"imgChantier\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChangeTicket($event)\">\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div [hidden]=\"(TabView !== 'travail')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'hoursWorked' | translate}}\r\n        </div>\r\n        <div class=\"mat-elevation-z8\">\r\n\r\n          <dx-data-grid\r\n          id=\"gridHour\"\r\n          [dataSource]=\"chantier?.hours\"\r\n          keyExpr=\"hourId\"\r\n          [showBorders]=\"true\"\r\n          [title]=\"'hoursWorked' | translate\"\r\n        >\r\n        <dxo-search-panel\r\n        [visible]=\"true\"\r\n        [highlightCaseSensitive]=\"false\"\r\n        ></dxo-search-panel>\r\n          <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n          <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n          <dxo-pager\r\n            [visible]=\"true\"\r\n            [allowedPageSizes]=\"allowedPageSizes\"\r\n            displayMode=\"full\"\r\n            [showPageSizeSelector]=\"showPageSizeSelector\"\r\n            [showInfo]=\"showInfo\"\r\n            [showNavigationButtons]=\"showNavButtons\"\r\n          >\r\n          </dxo-pager>\r\n          <dxi-column\r\n          dataField=\"description\"\r\n          [caption]=\"'description' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"workTime\"\r\n          [caption]=\"'hourWorked' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"date\"\r\n          [caption]=\"'date' | translate\"\r\n          dataType=\"date\"\r\n          format=\"dd/MM/yyyy\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          [caption]=\"'...'\"\r\n          cellTemplate=\"buttonsTemplate\"\r\n          >\r\n        \r\n          </dxi-column>\r\n          <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n            <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n              <mat-icon>toc</mat-icon>\r\n\r\n            </button>\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item type=\"button\" (click)=\"openHour(el.data)\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'edit' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item (click)=\"deleteHour(el.data)\" type=\"button\">\r\n                <mat-icon>delete</mat-icon>\r\n                <span>{{'delete' | translate}}</span>\r\n              </button>\r\n            </mat-menu>\r\n          </div>\r\n        </dx-data-grid>\r\n        </div>\r\n\r\n        <div class=\"card-footer\">\r\n          {{'totalHours' | translate}} {{totalHours}}\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n          (click)=\"AddHour()\" icon=\"fas fa-clock\" [text]=\"'addWork' | translate\" ></dx-button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div [hidden]=\"(TabView !== 'images')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'worksitePictures' | translate}}\r\n        </div>\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th>{{'pictures' | translate}}</th>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr mdbTableCol *ngFor='let url of imagesC'>\r\n                <!-- <th scope=\"row\">{{el.id}}</th> -->\r\n                <td><img src=\"{{url}}\" alt=\"\" height=100 width=100 /></td>\r\n                <td> <dx-button type=\"button\" class=\"btn btn-danger\" style=\"background-color:orange;\" \r\n                  (click)=\"DeleteImageChantier(url)\" icon=\"fas fa-trash\"></dx-button></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <input id=\"imgChantier\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChangeChantier($event)\">\r\n        </div>\r\n      </div>\r\n    </div>\r\n  <div class=\"card-footer text-muted\">\r\n    <div style=\"padding: 10px; margin: 5px;\">\r\n    <dx-button [useSubmitBehavior]=\"true\" type=\"submit\" class=\"btn btn-success\" style=\"width:88%;\" [text]=\"'updateWorksite' | translate\"></dx-button>\r\n    <dx-button type=\"submit\" class=\"btn btn-danger\" (click)=\"FinishChantier()\" style=\"width: 88%;\" [text]=\"'finishWorksite' | translate\"></dx-button>\r\n    </div>\r\n  </div>\r\n  </form>\r\n</div>\r\n</ion-content>";
 
 /***/ })
 
