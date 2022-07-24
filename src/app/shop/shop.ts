@@ -119,14 +119,14 @@ export class Shop implements OnInit {
   {
     this.actualCat = c;
     this.artList = await this.storageService.get('Articles'); // Dans les 2 cas on a besoin de la liste complete et actualisée
+    this.catList = await this.storageService.get('Categories');
     if(this.actualCat==null)
     {
-      this.catList = await this.storageService.get('Categories');
       if(this.catList!=null)
-        this.catList = this.catList.filter(a => a.categoryParent == null);
+        this.catList = this.catList.filter(a => a.catLevel === 0);
     }else
     {
-      this.catList = this.actualCat.subCategories;
+      this.catList = this.catList.filter(a => c.categoryParent === a.categoryParent && a.catLevel === c.catLevel + 1);
       if(this.artList!=null)
         this.artList = this.artList.filter(a => a.categoryId === this.actualCat.categoryId);
     }

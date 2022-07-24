@@ -24,6 +24,7 @@ export class Articles implements OnInit {
   artList : Array<Product> = [];
   catList : Array<Category> = [];
   actualCat : Category = null;
+  actualCatLevel = 0;
   openCatAccordion = null;
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS : NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute)
@@ -50,7 +51,6 @@ export class Articles implements OnInit {
     //   if(element.categoryImage==null)
     //     element.categoryImage='..//resources//White-square.jpg';
     // });
-    console.log(this.devise);
   }
 
   async ngOnInit() {
@@ -90,14 +90,23 @@ export class Articles implements OnInit {
   {
     this.actualCat = c;
     this.artList = await this.storageService.get('Articles'); // Dans les 2 cas on a besoin de la liste complete et actualisée
+    this.catList = await this.storageService.get('Categories');
     if(this.actualCat==null)
     {
-      this.catList = await this.storageService.get('Categories');
       if(this.catList!=null)
-        this.catList = this.catList.filter(a => a.categoryParent == null);
+        this.catList = this.catList.filter(a => a.catLevel === 0);
+      console.log('only 0 :',this.catList);
     }else
     {
-      this.catList = this.actualCat.subCategories;
+      if(this.actualCat.categoryParent === null) // c'est son ID le parent
+      {
+        console.log('no parent');
+        this.catList = this.catList.filter(a => (a.categoryParent?.categoryId ?? '') === c.categoryId && a.catLevel === c.catLevel + 1);
+      }else
+      {
+        console.log('with parent',this.catList,c);
+        this.catList = this.catList.filter(a => c.categoryParent.categoryId === (a.categoryParent?.categoryId ?? '') && a.catLevel === c.catLevel + 1);
+      }
       if(this.artList!=null)
         this.artList = this.artList.filter(a => a.categoryId === this.actualCat.categoryId);
     }
@@ -105,9 +114,28 @@ export class Articles implements OnInit {
   }
   async backCategory()
   {
-    if(this.actualCat==null)
+    console.log(this.actualCat);
+    if(this.actualCat==null || this.actualCat.catLevel === 0)
+    {
+      console.log('null actual cat');
       this.enterCategory(null);
-    else this.enterCategory(this.actualCat.categoryParent);
+    }
+    else
+    {
+      let cat = this.actualCat;
+      this.catList = await this.storageService.get('Categories');
+      console.log(this.catList);
+      this.actualCat = this.catList.find(a => (a.categoryParent?.categoryId ?? '') === (this.actualCat.categoryParent.categoryId ?? '') &&
+                                                a.catLevel === this.actualCat.catLevel -1);
+      this.catList = this.catList.filter(a => (a.categoryParent?.categoryId ?? '') === (cat.categoryParent.categoryId ?? '') &&
+                                                a.catLevel === cat.catLevel);
+      console.log('new actualCat :', this.actualCat,cat);
+      if(this.actualCat === undefined)
+      {
+       this.actualCat = cat.categoryParent;
+       console.log('renew cat : ',this.actualCat);
+      }
+    }
     // REfresh articles
   }
   createProduct()

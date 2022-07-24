@@ -5,6 +5,7 @@
     </dx-button>
   </ion-toolbar>
 </ion-header>
+<ion-content style="place-content: flex-start;">
 <div class="container" style="overflow-y: auto; background-color: white;">
   <form [formGroup]="formCat" (ngSubmit)="onSubmit()">
 
@@ -50,3 +51,4 @@
     <dx-button [useSubmitBehavior]="true" type="submit" [text]="'createCategory' | translate" style="background-color: orange;"></dx-button>
   </form>
 </div>
+</ion-content>

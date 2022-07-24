@@ -77,10 +77,12 @@ export class CategoryForm implements OnInit,OnDestroy {
       // }
     }else {
       this.modif= 'NO';
-      console.log('creation',this.modif);
+      console.log('creation',this.modif,this.ActualCat);
       this.catId= this.generateUUID();
       if(this.ActualCat!=null)
-        this.formCat.get('categoryPar').setValue(this.ActualCat);
+      {
+        this.formCat.get('categoryPar').setValue(this.catList.find(a => a.categoryId === this.ActualCat));
+      }
     }
   }
 
@@ -113,7 +115,6 @@ export class CategoryForm implements OnInit,OnDestroy {
   }
   async onSubmit()
   {
-    let parent = true;
     const invalid = [];
     const controls = this.formCat.controls;
     for (const name in controls) {
@@ -124,7 +125,6 @@ export class CategoryForm implements OnInit,OnDestroy {
           if(name === 'categoryPar')
           {
             console.log('Pas de categorie parent');
-            parent=false;
           }
           invalid.push(nom);
       }
@@ -141,80 +141,41 @@ export class CategoryForm implements OnInit,OnDestroy {
         ));
         return;
     }
-  if(parent === false)
-  {
-    this.parentCat = null;
-  }else
-  {
-    this.parentCat = this.catList.find(a => a.categoryId === this.formCat.get('categoryPar').value);
-  }
-  if(this.modif === 'YES')
-  {
-    // RETRAIT DE LA CATEGORIE PARENT si il y'en a
-    if (this.modifCat.categoryParent)
+    let catLevel = -1;
+    if(this.methodsService.isNullOrEmpty(this.formCat.get('categoryPar').value))
     {
-      const subCats=this.modifCat.categoryParent.subCategories;
-      subCats.splice(subCats.findIndex(a => a.categoryId === this.modifCat.categoryId),1);
-      this.catList[this.catList.findIndex(a => a.categoryId === this.modifCat.categoryParent.categoryId)].subCategories=subCats;
+      this.parentCat = null;
+      catLevel = 0;
+    }else
+    {
+      let tmpParentCat = this.catList.find(a => a === this.formCat.get('categoryPar').value);
+      if(tmpParentCat.catLevel === 0)
+        this.parentCat = tmpParentCat;
+      else this.parentCat = tmpParentCat.categoryParent;
+      catLevel = tmpParentCat.catLevel + 1;
     }
-
-    this.cat = new Category(
-      this.catId,
-      this.formCat.get('categoryName').value,
-      this.formCat.get('description').value,
-      this.parentCat,
-      this.catList.find(a => a.categoryId === this.modifCat.categoryId).subCategories,
-      this.images,
-    );
-  }else
-  {
+    if(this.modif === 'YES')
+    {
       this.cat = new Category(
-      this.catId,
-      this.formCat.get('categoryName').value,
-      this.formCat.get('description').value,
-      this.parentCat,
-      null,
-      this.images,
-    );
-  }
-
-    if(parent === true)
+        this.catId,
+        this.formCat.get('categoryName').value,
+        this.formCat.get('description').value,
+        this.parentCat,
+        this.images,
+        catLevel
+      );
+    }else
     {
-      // AJOUT DE LA CATEGORIE PARENT
-      if(this.parentCat!=null)
-      {
-        if(this.parentCat.subCategories==null)
-          this.parentCat.subCategories = new Array<Category>();
-        this.parentCat.subCategories.push(this.cat);
-        this.catList[this.catList.findIndex(a => a.categoryId === this.parentCat.categoryId)] = this.parentCat;
-
-      }
-
+        this.cat = new Category(
+        this.catId,
+        this.formCat.get('categoryName').value,
+        this.formCat.get('description').value,
+        this.parentCat,
+        this.images,
+        catLevel,
+      );
     }
-    if(this.modif==='YES')
-    {
-      const indexFind = this.catList.findIndex(x => x.categoryId === this.cat.categoryId);
-      // this.catList.splice(indexFind,1);
-      this.catList[indexFind] = this.cat;
-      this.catList.forEach(element => {
-        if(element.categoryParent!=null)
-        {
-          if(element.categoryParent.categoryId === this.cat.categoryId)
-          {
-            element.categoryParent= this.cat;
-          }
-        }
-        if(element.subCategories!=null)
-        {
-          element.subCategories.forEach(element => {
-            if(element.categoryId === this.cat.categoryId)
-            {
-              element = this.cat;
-            }
-          });
-        }
-      });
-    }else this.catList.push(this.cat);
+    this.catList.push(this.cat);
 
     this.storageService.set('Categories',this.catList);
 

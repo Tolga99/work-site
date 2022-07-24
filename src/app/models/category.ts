@@ -4,8 +4,8 @@ export interface ICategory
     categoryName: string;
     description: string;
     categoryParent: Category;
-    subCategories: Array<Category>;
     categoryImage: string;
+    catLevel : number;
 }
 
 export class Category implements ICategory {
@@ -14,8 +14,8 @@ export class Category implements ICategory {
         public categoryName:string,
         public description:string,
         public categoryParent:Category,
-        public subCategories: Array<Category>,
         public categoryImage: string,
+        public catLevel : number,
     ) {
     }
 
