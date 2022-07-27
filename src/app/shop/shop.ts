@@ -128,7 +128,7 @@ export class Shop implements OnInit {
     {
       this.catList = this.catList.filter(a => c.categoryParent === a.categoryParent && a.catLevel === c.catLevel + 1);
       if(this.artList!=null)
-        this.artList = this.artList.filter(a => a.categoryId === this.actualCat.categoryId);
+        this.artList = this.artList.filter(a => a.categoryParent.categoryId === this.actualCat.categoryId);
     }
     // + refresh la liste en dessous avec les articles filtrés AUSSI
   }
@@ -373,6 +373,7 @@ export class Shop implements OnInit {
       this.formArt.get('priceHtva').value,
       null,
       null,
+      0
     );
     this.panierList.push(new ShoppingCart(this.generateUUID(),p,1));
 

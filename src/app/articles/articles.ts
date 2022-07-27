@@ -91,6 +91,7 @@ export class Articles implements OnInit {
     this.actualCat = c;
     this.artList = await this.storageService.get('Articles'); // Dans les 2 cas on a besoin de la liste complete et actualisée
     this.catList = await this.storageService.get('Categories');
+    const completeList = this.catList;
     if(this.actualCat==null)
     {
       if(this.catList!=null)
@@ -107,14 +108,30 @@ export class Articles implements OnInit {
         console.log('with parent',this.catList,c);
         this.catList = this.catList.filter(a => c.categoryParent.categoryId === (a.categoryParent?.categoryId ?? '') && a.catLevel === c.catLevel + 1);
       }
-      if(this.artList!=null)
-        this.artList = this.artList.filter(a => a.categoryId === this.actualCat.categoryId);
+      // if(this.artList!=null)
+      //   this.artList = this.artList.filter(a => a.categoryId === this.actualCat.categoryId);
     }
+    if(this.artList !== null)
+    {
+        console.log('trying the art list',this.actualCat,this.artList);
+        if(this.actualCat !== null)
+        {
+          if(this.actualCat.categoryParent !== null)
+          {
+            this.artList = this.artList.filter(a => a.catLevel >= this.actualCat.catLevel && a.categoryParent.categoryId === this.actualCat.categoryParent.categoryId);
+          }else
+          {
+            this.artList = this.artList.filter(a => a.catLevel >= this.actualCat.catLevel && a.categoryParent.categoryId === this.actualCat.categoryId);
+          }
+        }
+    }
+
     // + refresh la liste en dessous avec les articles filtrés AUSSI
   }
   async backCategory()
   {
     console.log(this.actualCat);
+    this.artList = await this.storageService.get('Articles'); // Dans les 2 cas on a besoin de la liste complete et actualisée
     if(this.actualCat==null || this.actualCat.catLevel === 0)
     {
       console.log('null actual cat');
@@ -135,6 +152,20 @@ export class Articles implements OnInit {
        this.actualCat = cat.categoryParent;
        console.log('renew cat : ',this.actualCat);
       }
+    }
+    if(this.artList !== null)
+    {
+        console.log('trying the art list',this.actualCat,this.artList);
+        if(this.actualCat !== null)
+        {
+          if(this.actualCat.categoryParent !== null)
+          {
+            this.artList = this.artList.filter(a => a.catLevel >= this.actualCat.catLevel && a.categoryParent.categoryId === this.actualCat.categoryParent.categoryId);
+          }else
+          {
+            this.artList = this.artList.filter(a => a.catLevel >= this.actualCat.catLevel && a.categoryParent.categoryId === this.actualCat.categoryId);
+          }
+        }
     }
     // REfresh articles
   }

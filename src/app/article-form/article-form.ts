@@ -11,6 +11,7 @@ import { StorageService } from '../services/storage.service';
 import { PhotoService } from '../services/photo.service';
 import { Camera,CameraOptions  } from '@awesome-cordova-plugins/camera/ngx';
 import { MethodsService } from '../services/methods.service';
+import { CategoryFormRoutingModule } from '../category-form/category-form-routing.module';
 
 @Component({
   selector: 'app-article-form',
@@ -68,11 +69,21 @@ export class ArticleForm implements OnInit, OnDestroy{
       // if(this.indexFind>=0)
       // {
         this.artId= this.modifArt.productId;
-        this.actualCat= this.modifArt.categoryId;
+        let cat : Category;
+        if(this.modifArt.catLevel > 0)
+        {
+          cat = this.catList.find(a => a.categoryParent.categoryId === this.modifArt.categoryParent.categoryId 
+                && this.modifArt.catLevel === a.catLevel);
+        }else
+        {
+          cat = this.catList.find(a => a.categoryId === this.modifArt.categoryParent.categoryId 
+                && this.modifArt.catLevel === 0);
+        }
+        this.actualCat= cat.categoryId;
         this.formArt.setValue({
           productName : this.modifArt.productName,
           description:  this.modifArt.description,
-          category:  this.modifArt.categoryId,
+          category:  cat.categoryId,
           priceHtva:  this.modifArt.priceHtva,
         });
         if(this.modifArt.imageProduct!=null)
@@ -143,14 +154,36 @@ export class ArticleForm implements OnInit, OnDestroy{
         ));
         return;
     }
-      this.art = new Product(
-      this.artId,
-      this.formArt.get('productName').value,
-      this.formArt.get('description').value,
-      this.formArt.get('priceHtva').value,
-      this.formArt.get('category').value,
-      this.images,
-    );
+      if(!this.methodsService.isNullOrEmpty(this.formArt.get('category').value))
+      {
+        let category : Category;
+        console.log(this.formArt.get('category').value,this.catList);
+        let cat = this.catList.find(a => a === this.formArt.get('category').value);
+        if(cat?.categoryParent == null)
+          category = cat;
+        else category = cat.categoryParent;
+        console.log(cat,category);
+        this.art = new Product(
+          this.artId,
+          this.formArt.get('productName').value,
+          this.formArt.get('description').value,
+          this.formArt.get('priceHtva').value,
+          category,
+          this.images,
+          cat.catLevel,
+        );
+      }else
+      {
+        this.art = new Product(
+          this.artId,
+          this.formArt.get('productName').value,
+          this.formArt.get('description').value,
+          this.formArt.get('priceHtva').value,
+          null,
+          this.images,
+          0,
+        );
+      }
 
     if(this.modif==='YES')
     {
@@ -198,7 +231,7 @@ export class ArticleForm implements OnInit, OnDestroy{
       if(!this.methodsService.equals(this.modifArt.productName,this.formArt.get('productName').value) ||
       !this.methodsService.equals(this.modifArt.description,this.formArt.get('description').value) ||
       !this.methodsService.equals(this.modifArt.priceHtva.toString(),this.formArt.get('priceHtva').value) ||
-      !this.methodsService.equals(this.modifArt.categoryId,this.formArt.get('category').value) ||
+      !this.methodsService.equals(this.modifArt.categoryParent.categoryId,this.formArt.get('category').value) ||
       !this.methodsService.equals(this.modifArt.imageProduct,this.images))
       {
         result = await this.GoBackModal();

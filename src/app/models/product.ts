@@ -6,8 +6,9 @@ export interface IProduct
     productName: string;
     description: string;
     priceHtva: number;
-    categoryId: string;
+    categoryParent: Category;
     imageProduct: string;
+    catLevel: number;
 }
 
 export class Product implements IProduct {
@@ -16,8 +17,9 @@ export class Product implements IProduct {
         public productName: string,
         public description: string,
         public priceHtva: number,
-        public categoryId: string,
+        public categoryParent: Category,
         public imageProduct: string,
+        public catLevel : number,
     ) {
     }
 
