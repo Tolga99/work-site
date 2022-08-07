@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { Chantier } from '../models/chantier';
@@ -21,15 +22,17 @@ export class Payment implements OnInit {
   chantierId : string;
   public selectedInv : Facture;
   ReceivedMoney : number;
+  numericNumberReg= '^-?[0-9]\\d*(\\.\\d{1,2})?$';
   formPay = new UntypedFormGroup({
    chantierName: new UntypedFormControl(''),
-   payment: new UntypedFormControl('', [Validators.required]),
+   payment: new UntypedFormControl('',Validators.pattern(this.numericNumberReg)),
    address : new UntypedFormControl(''),
  });
 
   headElementsInv = ['Nom facture', 'Total','Reste à payer','Date'];
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private router: Router,private route:ActivatedRoute, private storageService :StorageService)
+  constructor(private modalS :NgbModal,private router: Router,private route:ActivatedRoute, private storageService :StorageService
+    , private navController : NavController)
   {
   }
 
@@ -42,6 +45,8 @@ export class Payment implements OnInit {
 
     this.storageService.init();
     this.devise = await this.storageService.get('devise');
+    if(this.devise == null)
+      this.devise = '';
     this.chantierList = await this.storageService.get('Chantiers');
     this.chantierIndex = this.chantierList.findIndex(a => a.chantierId === this.chantierId);
     this.chantier = this.chantierList.find(a => a.chantierId === this.chantierId);
@@ -78,7 +83,7 @@ export class Payment implements OnInit {
   }
   GoBack()
   {
-    this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+    this.navController.navigateBack(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
   }
   async SavePay()
   {
@@ -144,7 +149,7 @@ export class Payment implements OnInit {
   }
   Terminer()
   {
-    this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+    this.navController.navigateBack(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
 
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isThisSecond } from 'date-fns';
 import { NgbdModalFocus } from '../modal/modal-focus';
@@ -29,7 +30,8 @@ export class Settings implements OnInit{
     positionApres: new UntypedFormControl(''),
   });
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router) {
+  constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router
+    , private navController : NavController) {
     console.log('Module settings');
   }
 
@@ -129,7 +131,7 @@ export class Settings implements OnInit{
     ));
     this.devise=this.formGeneral.get('devise').value;
     console.log('Parametres de facture actualisé, redirection...');
-    this.router.navigate(['tb-home'],{replaceUrl:true});
+    this.navController.navigateBack(['tb-home'],{replaceUrl:true});
 
   }
   selectExtType(event) {
@@ -149,6 +151,6 @@ export class Settings implements OnInit{
   }
   async GoBack()
   {
-    this.router.navigate(['tb-home'],{replaceUrl:true});
+    this.navController.navigateBack(['tb-home'],{replaceUrl:true});
   }
 }

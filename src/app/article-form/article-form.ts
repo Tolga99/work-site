@@ -12,6 +12,7 @@ import { PhotoService } from '../services/photo.service';
 import { Camera,CameraOptions  } from '@awesome-cordova-plugins/camera/ngx';
 import { MethodsService } from '../services/methods.service';
 import { CategoryFormRoutingModule } from '../category-form/category-form-routing.module';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-article-form',
@@ -33,17 +34,17 @@ export class ArticleForm implements OnInit, OnDestroy{
   modifArt : Product;
   artList : Array<Product> = [];
   catList : Array<Category> = [];
-
+  numericNumberReg= '^-?[0-9]\\d*(\\.\\d{1,2})?$';
   formArt = new UntypedFormGroup({
     productName: new UntypedFormControl('',Validators.required),
     description: new UntypedFormControl(''),
     category: new UntypedFormControl(''),
-    priceHtva: new UntypedFormControl('', [Validators.required]),
+    priceHtva: new UntypedFormControl('',Validators.pattern(this.numericNumberReg)),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router
     , private route: ActivatedRoute, public photoService : PhotoService
-    , private camera : Camera,private methodsService : MethodsService)
+    , private camera : Camera,private methodsService : MethodsService, private navController : NavController)
   {
   }
 
@@ -193,7 +194,7 @@ export class ArticleForm implements OnInit, OnDestroy{
     }else this.artList.push(this.art);
     this.storageService.set('Articles',this.artList);
     console.log('invoice saved', this.artList);
-    this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
+    this.navController.navigateBack(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
   }
   generateUUID()
   {
@@ -239,7 +240,7 @@ export class ArticleForm implements OnInit, OnDestroy{
     }
     console.log(result);
     if(result !== null)
-      this.router.navigate(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
+      this.navController.navigateBack(['/articles',{actualCat: this.actualCat}],{replaceUrl:true});
   }
   async GoBackModal() : Promise<string>
   {

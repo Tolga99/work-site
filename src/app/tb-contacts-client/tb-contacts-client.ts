@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { MethodsService } from '../services/methods.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tb-contacts-client',
@@ -37,7 +38,7 @@ export class TabContactsClient implements OnInit {
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,
               private router: Router,
-              private route: ActivatedRoute, private methodsService : MethodsService)
+              private route: ActivatedRoute, private methodsService : MethodsService, private navController : NavController)
               {}
   async ngOnInit(): Promise<void> {
 
@@ -122,14 +123,14 @@ export class TabContactsClient implements OnInit {
     this.storageService.set('Contacts',this.contactsList);
     if(!this.tag)
     {
-      this.router.navigate(['/tb-contacts'],{replaceUrl:true});
+      this.navController.navigateBack(['/tb-contacts'],{replaceUrl:true});
     }
     else if(this.tag.toLowerCase() === 'chantier')
     {
-      this.router.navigate(['/createworksite'],{replaceUrl:true});
+      this.navController.navigateBack(['/createworksite'],{replaceUrl:true});
     }else if(this.tag.toLowerCase() === 'profile')
     {
-      this.router.navigate(['/client',{userId : this.modif}],{replaceUrl:true});
+      this.navController.navigateBack(['/client',{userId : this.modif}],{replaceUrl:true});
     }
   }
   generateUUID()
@@ -175,14 +176,14 @@ export class TabContactsClient implements OnInit {
     if(result !== null)
       if(!this.tag)
       {
-        this.router.navigate(['/tb-contacts'],{replaceUrl:true});
+        this.navController.navigateBack(['/tb-contacts'],{replaceUrl:true});
       }
       else if(this.tag.toLowerCase() === 'chantier')
       {
-        this.router.navigate(['/createworksite'],{replaceUrl:true});
+        this.navController.navigateBack(['/createworksite'],{replaceUrl:true});
       }else if(this.tag.toLowerCase() === 'profile')
       {
-        this.router.navigate(['/client',{userId : this.modif}],{replaceUrl:true});
+        this.navController.navigateBack(['/client',{userId : this.modif}],{replaceUrl:true});
       }
   }
   async GoBackModal() : Promise<string>

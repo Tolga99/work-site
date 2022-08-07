@@ -20,6 +20,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { PdfService } from '../services/pdf.service';
 import { MethodsService } from '../services/methods.service';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-worksite',
   templateUrl: 'worksite.html',
@@ -64,7 +65,7 @@ export class Worksite implements OnInit {
               private route: ActivatedRoute,
               private _liveAnnouncer: LiveAnnouncer,
               private imgPicker : ImagePicker,
-              private pdfService : PdfService, private methodsService : MethodsService)
+              private pdfService : PdfService, private methodsService : MethodsService, private navController : NavController)
   {
   }
 
@@ -105,6 +106,8 @@ export class Worksite implements OnInit {
 
     this.storageService.init();
     this.devise = await this.storageService.get('devise');
+    if(this.devise == null)
+      this.devise = '';
     this.chantierList =await this.storageService.get('Chantiers');
     if(this.chantierList==null)
       this.chantierList = new Array<Chantier>();
@@ -212,17 +215,17 @@ export class Worksite implements OnInit {
   createInvoice()
   {
     console.log('Bouton nv facture (creation)');
-    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'facture', mode:'false'}]);
+    this.navController.navigateBack(['invoice',{chantierId: this.chantierId, type: 'facture', mode:'false'}]);
   }
   scanInvoice()
   {
     console.log('Bouton nv facture (scan)');
-    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'facture', mode:'true'}]);
+    this.navController.navigateBack(['invoice',{chantierId: this.chantierId, type: 'facture', mode:'true'}]);
   }
   openInvoice(inv : Facture)
   {
     console.log('Bouton open facture',inv.factureId,this.chantierId);
-    this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: this.chantierId}]);
+    this.navController.navigateBack(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: this.chantierId}]);
   }
   GeneratePDFInvoice(f : Facture)
   {
@@ -257,17 +260,17 @@ export class Worksite implements OnInit {
   createDevis()
   {
     console.log('Bouton nv facture (creation)');
-    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'devis', mode:'false'}]);
+    this.navController.navigateBack(['invoice',{chantierId: this.chantierId, type: 'devis', mode:'false'}]);
   }
   scanDevis()
   {
     console.log('Bouton nv facture (scan)');
-    this.router.navigate(['invoice',{chantierId: this.chantierId, type: 'devis', mode:'true'}]);
+    this.navController.navigateBack(['invoice',{chantierId: this.chantierId, type: 'devis', mode:'true'}]);
   }
   openDevis(inv : Facture)
   {
     console.log('Bouton open facture',inv.factureId,this.chantierId);
-    this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: this.chantierId}]);
+    this.navController.navigateBack(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: this.chantierId}]);
   }
   async deleteDevis(inv:Facture){
     let res : string =null;
@@ -302,14 +305,14 @@ export class Worksite implements OnInit {
   AddHour()
   {
     console.log('Bouton nv heure');
-    this.router.navigate(['hours',{chantierId: this.chantierId}]);
+    this.navController.navigateBack(['hours',{chantierId: this.chantierId}]);
     this.CalculTotalHour();
 
   }
   openHour(h : Hour)
   {
     console.log('Bouton open hour',h.hourId,this.chantierId);
-    this.router.navigate(['hours',{hourId: h.hourId,chantierId: this.chantierId}]);
+    this.navController.navigateBack(['hours',{hourId: h.hourId,chantierId: this.chantierId}]);
   }
   deleteHour(hour:Hour){ // TESTER
     // this.hoursList = this.hoursList.filter(a => a.hourId != hour.hourId);
@@ -324,7 +327,7 @@ export class Worksite implements OnInit {
   }
   AddPayment()
   {
-    this.router.navigate(['payment',{chantierId: this.chantierId}]);
+    this.navController.navigateBack(['payment',{chantierId: this.chantierId}]);
   }
 
   async SaveChantier()
@@ -376,7 +379,7 @@ export class Worksite implements OnInit {
     this.storageService.set('Chantiers',this.chantierList);
 
     console.log('chantiers saved', this.chantierList);
-    this.router.navigate(['tb-home'],{replaceUrl:true});
+    this.navController.navigateBack(['tb-home'],{replaceUrl:true});
   }
   async FinishChantier()
   {
@@ -432,7 +435,7 @@ export class Worksite implements OnInit {
     }
     console.log(result);
     if(result !== null)
-      this.router.navigate(['tb-home'],{replaceUrl:true});
+      this.navController.navigateBack(['tb-home'],{replaceUrl:true});
   }
   async GoBackModal() : Promise<string>
   {

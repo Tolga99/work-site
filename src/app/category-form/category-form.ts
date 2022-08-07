@@ -1,6 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { NgbdModalFocus } from '../modal/modal-focus';
@@ -37,7 +38,7 @@ export class CategoryForm implements OnInit,OnDestroy {
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router, 
               private route: ActivatedRoute,
-              private methodsService : MethodsService)
+              private methodsService : MethodsService, private navController : NavController)
   {
   }
   @HostListener('unloaded')
@@ -180,7 +181,7 @@ export class CategoryForm implements OnInit,OnDestroy {
     this.storageService.set('Categories',this.catList);
 
     console.log('cat saved', this.catList);
-    this.router.navigate(['/articles',{actualCat: this.ActualCat}],{replaceUrl:true});
+    this.navController.navigateBack(['/articles',{actualCat: this.ActualCat}],{replaceUrl:true});
   }
   generateUUID()
   {
@@ -224,7 +225,7 @@ export class CategoryForm implements OnInit,OnDestroy {
     }
     console.log(result);
     if(result !== null)
-    this.router.navigate(['articles',{actualCat: this.ActualCat}],{replaceUrl:true});
+    this.navController.navigateBack(['articles',{actualCat: this.ActualCat}],{replaceUrl:true});
   }
   async GoBackModal() : Promise<string>
   {

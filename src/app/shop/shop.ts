@@ -12,6 +12,7 @@ import { ShoppingCart } from '../models/shoppingCart';
 import { MethodsService } from '../services/methods.service';
 import { StorageService } from '../services/storage.service';
 import { UUID } from 'angular2-uuid';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-shop',
@@ -44,15 +45,17 @@ export class Shop implements OnInit {
   invTva : string;
   invDescription : string;
   panierEmpty = 'YES';
+  numericNumberReg= '^-?[0-9]\\d*(\\.\\d{1,2})?$';
   formArt = new UntypedFormGroup({
     productName: new UntypedFormControl('',Validators.required),
     description: new UntypedFormControl(''),
-    priceHtva: new UntypedFormControl('', [Validators.required]),
+    priceHtva: new UntypedFormControl('',Validators.pattern(this.numericNumberReg)),
   });
   initialPanier :Array<ShoppingCart> = [];
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService,
-    private router:Router,private route:ActivatedRoute, private methodsService : MethodsService)
+    private router:Router,private route:ActivatedRoute, private methodsService : MethodsService
+    , private navController : NavController)
   {
   }
   generateUUID()
@@ -142,8 +145,8 @@ export class Shop implements OnInit {
   CreateProduct()
   {
     if(this.actualCat!=null)
-      this.router.navigate(['article-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
-    else this.router.navigate(['article-form']);
+      this.navController.navigateBack(['article-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
+    else this.navController.navigateBack(['article-form']);
   }
 
   AddProduct(p : Product)
@@ -251,7 +254,7 @@ export class Shop implements OnInit {
       chantierl[chantierIndex] = chantier;
       console.log('saving panier for chantier :',chantier,listInv);
       this.storageService.set('Chantiers',chantierl);
-      this.router.navigate(['/invoice',
+      this.navController.navigateBack(['/invoice',
                           {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
                           ,factureName : this.invName, remise : this.invRemise,
                           tva : this.invTva, description : this.invDescription,
@@ -267,7 +270,7 @@ export class Shop implements OnInit {
       invs = listInv;
       console.log('saving new List :',listInv,invs);
       this.storageService.set('NAfactures',invs);
-      this.router.navigate(['/invoice',
+      this.navController.navigateBack(['/invoice',
                           {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
                           ,factureName : this.invName, remise : this.invRemise,
                           tva : this.invTva, description : this.invDescription,
@@ -310,7 +313,7 @@ export class Shop implements OnInit {
     }
     console.log(result);
     if(result !== null)
-      this.router.navigate(['invoice',
+      this.navController.navigateBack(['invoice',
     {invoiceId: this.invoiceId,type: this.type, chantierId : this.chantierId, mode:'false', comeFromShop : 'true'
     ,factureName : this.invName, remise : this.invRemise,
     tva : this.invTva, description : this.invDescription,

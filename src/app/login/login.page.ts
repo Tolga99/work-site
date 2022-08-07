@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as crypto from 'crypto';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import * as crypto from 'crypto';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  constructor(private navController : NavController) { }
 
   ngOnInit() {
     const CryptoJS = require('crypto-js');

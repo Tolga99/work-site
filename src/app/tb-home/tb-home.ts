@@ -25,6 +25,9 @@ import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { DxiItemComponent, INestedOptionContainer, NestedOptionHost } from 'devextreme-angular';
 import { PdfService } from '../services/pdf.service';
+import { UUID } from 'angular2-uuid';
+import { NavController } from '@ionic/angular';
+
 @Component({
   selector: 'app-tb-home',
   templateUrl: 'tb-home.html',
@@ -35,6 +38,7 @@ export class TabHome implements OnInit, INestedOptionContainer{
   devise = '';
   deleteText = '';
   editText = '';
+  uuidValue : string;
 
   public allowedPageSizes = [5, 10, 15];
   displayMode = 'full';
@@ -76,6 +80,8 @@ export class TabHome implements OnInit, INestedOptionContainer{
   address = false;
   state = false;
   
+  dateToday = '';
+  
   constructor(private modalS : NgbModal,
               private storageService:StorageService,
               private router: Router,
@@ -85,7 +91,7 @@ export class TabHome implements OnInit, INestedOptionContainer{
               private appRate : AppRate,
               private library : FaIconLibrary,private optionHost: NestedOptionHost,
               private translateService : TranslateService,
-              private pdfService : PdfService)
+              private pdfService : PdfService, private navController : NavController)
               {
                 this.storageService.init();
                 _translate.setDefaultLang('fr');
@@ -113,22 +119,26 @@ export class TabHome implements OnInit, INestedOptionContainer{
   }
 
   async ngOnInit() {
+    const nowDate = new Date();
+    this.dateToday = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
     await this.storageService.init();
     this.chantierList = await this.storageService.get('Chantiers');
     this.invList = await this.storageService.get('NAfactures');
     this.clientsList = await this.storageService.get('Contacts');
     this.devise = await this.storageService.get('devise');
+    if(this.devise == null)
+      this.devise = '';
   }
   CreateWorksite()
   {
     console.log('Bouton nv chantier');
-    this.router.navigate(['createworksite'],{replaceUrl:true});
+    this.navController.navigateBack(['createworksite'],{replaceUrl:true});
   }
 
   manageWorksite(e: any)
   {
     var chantier : Chantier = e.data;
-    this.router.navigate(['worksite',{chantierId: chantier.chantierId}],{replaceUrl:true});
+    this.navController.navigateBack(['worksite',{chantierId: chantier.chantierId}],{replaceUrl:true});
     console.log('click',chantier.worksiteName);
   }
   async deleteWorksite(chantier:Chantier){
@@ -179,12 +189,12 @@ export class TabHome implements OnInit, INestedOptionContainer{
   createInvoice()
   {
     console.log('Bouton nv facture (creation)');
-    this.router.navigate(['invoice',{chantierId: 'null', type: 'facture', mode:'false'}]);
+    this.navController.navigateBack(['invoice',{chantierId: 'null', type: 'facture', mode:'false'}]);
   }
   scanInvoice()
   {
     console.log('Bouton nv facture (scan)');
-    this.router.navigate(['invoice',{chantierId: 'null', type: 'facture', mode:'true'}]);
+    this.navController.navigateBack(['invoice',{chantierId: 'null', type: 'facture', mode:'true'}]);
   }
   async assignInvoice(inv : Facture)
   {
@@ -224,7 +234,7 @@ export class TabHome implements OnInit, INestedOptionContainer{
   openInvoice(inv : Facture)
   {
     console.log('Bouton open facture',inv.factureId);
-    this.router.navigate(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: 'null'}]);
+    this.navController.navigateBack(['invoice',{factureId: inv.factureId, type: 'facture',chantierId: 'null'}]);
   }
   async deleteInvoice(inv:Facture) : Promise<void>{
     let res : string =null;
@@ -255,17 +265,17 @@ export class TabHome implements OnInit, INestedOptionContainer{
   createDevis()
   {
     console.log('Bouton nv facture (creation)');
-    this.router.navigate(['invoice',{chantierId: 'null', type: 'devis', mode:'false'}]);
+    this.navController.navigateBack(['invoice',{chantierId: 'null', type: 'devis', mode:'false'}]);
   }
   scanDevis()
   {
     console.log('Bouton nv facture (scan)');
-    this.router.navigate(['invoice',{chantierId: 'null', type: 'devis', mode:'true'}]);
+    this.navController.navigateBack(['invoice',{chantierId: 'null', type: 'devis', mode:'true'}]);
   }
   openDevis(inv : Facture)
   {
     console.log('Bouton open facture',inv.factureId);
-    this.router.navigate(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: 'null'}]);
+    this.navController.navigateBack(['invoice',{factureId: inv.factureId, type: 'devis',chantierId: 'null'}]);
   }
   async deleteDevis(inv:Facture){
     let res : string =null;
@@ -286,24 +296,44 @@ export class TabHome implements OnInit, INestedOptionContainer{
     // }
     this.storageService.set('NAfactures',this.invList);
   }
-
   TransformToInvoice(d : Facture)
   {
     const index=this.invList.findIndex(a => a.factureId === d.factureId);
-    this.invList.push(d);
-    this.invList.splice(index,1);
-    // this.invList[this.invList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.invList;
-    this.storageService.set('Chantiers',this.chantierList);
+    this.generateUUID();
+    let newFacture = new Facture(
+      this.uuidValue,
+      d.factureName,
+      d.description,
+      this.dateToday,
+      d.typePay,
+      d.remise,
+      d.priceHtva,
+      d.tva,
+      d.totalPrice,
+      d.images,
+      d.receivedMoney,
+      d.cart,
+      d.mode,
+      'Facture'
+    );
+    this.invList.push(newFacture);
+    // this.chantier.devis.splice(index,1); s'il faut supprimer
+    this.storageService.set('NAfactures',this.invList);
+  }
+  generateUUID()
+  {
+      this.uuidValue=UUID.UUID();
+      return this.uuidValue;
   }
   GoProfile()
   {
     console.log('show profile');
-    this.router.navigate(['my-profile']);
+    this.navController.navigateBack(['my-profile']);
   }
   GoSettings()
   {
     console.log('show settings');
-    this.router.navigate(['settings']);
+    this.navController.navigateBack(['settings']);
   }
 
   async About()

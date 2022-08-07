@@ -43,7 +43,7 @@ export class PdfService {
       doc.text(client.firstName+'\n'+client.lastName.toUpperCase()+'\n'+client.address+'\n'+client.phone, 150, 30);
     }else doc.text(''+'\n'+''+'\n'+'', 14, 15);
 
-    doc.text('N° facture :'+f.factureName, 15, 50);
+    doc.text('N° facture : '+f.factureName, 15, 50);
     doc.text('Date : '+f.date, 15, 55);
     y=60;
 
@@ -150,7 +150,13 @@ export class PdfService {
     {
       doc.text('Titulaire du compte : '+profile.firstName+' '+profile.lastName.toUpperCase(),80,y);
       y+=6;
-      doc.text('IBAN : ' + profile.iban.toString(),80,y);
+      if(profile.iban == null || profile.iban == null)
+      {
+        doc.text('IBAN : ' + '',80,y);
+      }else
+      {
+        doc.text('IBAN : ' + profile.iban.toString(),80,y);
+      }
     }else 
     {
       doc.text('Titulaire du compte : ',80,y);

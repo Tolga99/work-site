@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { Chantier } from '../models/chantier';
@@ -29,7 +30,7 @@ export class TabContacts implements OnInit  {
   constructor(private modalS : NgbModal,
               private storageService:StorageService,
               private router: Router,
-              private _liveAnnouncer: LiveAnnouncer)
+              private _liveAnnouncer: LiveAnnouncer , private navController : NavController)
               {
               }
 
@@ -46,18 +47,18 @@ export class TabContacts implements OnInit  {
 
   CreateClient(){
     console.log('create client');
-    this.router.navigate(['new-contact']);
-    // this.router.navigate(['tb-new-contact']);
+    this.navController.navigateBack(['new-contact']);
+    // this.navController.navigateBack(['tb-new-contact']);
   }
   openContact(e:any)
   {
     var user : User = e.data;
-    this.router.navigate(['client',{userId: user.userId}]);
+    this.navController.navigateBack(['client',{userId: user.userId}]);
   }
 
   EditContact(user:User)
   {
-    this.router.navigate(['new-contact',{userId: user.userId}]);
+    this.navController.navigateBack(['new-contact',{userId: user.userId}]);
     console.log('click',user.firstName);
   }
   async deleteContact(user:User){
@@ -77,7 +78,7 @@ export class TabContacts implements OnInit  {
   }
   NewWork(us : User)
   {
-    this.router.navigate(['createworksite',{userId : us.userId}],{replaceUrl:true});
+    this.navController.navigateBack(['createworksite',{userId : us.userId}],{replaceUrl:true});
   }
 }
 

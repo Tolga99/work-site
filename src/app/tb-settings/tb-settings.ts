@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tb-settings',
@@ -15,12 +16,12 @@ export class TabSettings implements OnInit {
 
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private router:Router,
-              private translateService : TranslateService,) {}
+              private translateService : TranslateService, private navController : NavController) {}
   ngOnInit(): void { 
   }
   MyProducts()
   {
     console.log('show articles');
-    this.router.navigate(['articles']);
+    this.navController.navigateBack(['articles']);
   }
 }

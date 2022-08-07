@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { User } from '../models/user';
@@ -28,7 +29,7 @@ export class Profile implements OnInit{
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,
-    private router: Router, private methodsService : MethodsService) {
+    private router: Router, private methodsService : MethodsService, private navController : NavController) {
     console.log('Module profil');
   }
 
@@ -111,7 +112,7 @@ export class Profile implements OnInit{
 
     this.storageService.setProfile(this.myAccount);
     console.log('Profil actualisé, redirection...');
-    this.router.navigate(['/tb-home']);
+    this.navController.navigateBack(['/tb-home']);
 
   }
   async GoBack()
@@ -147,7 +148,7 @@ export class Profile implements OnInit{
     }
     console.log(result);
     if(result !== null)
-      this.router.navigate(['tb-home'],{replaceUrl:true});
+      this.navController.navigateBack(['tb-home'],{replaceUrl:true});
   }
   async GoBackModal() : Promise<string>
   {

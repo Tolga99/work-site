@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { BehaviorSubject } from 'rxjs';
 import { MethodsService } from '../services/methods.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-createworksite',
@@ -33,7 +34,7 @@ export class CreateWorksite implements OnInit {
 
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService, private router: Router,
-    private route:ActivatedRoute, private methodsService : MethodsService)
+    private route:ActivatedRoute, private methodsService : MethodsService, private navController : NavController)
   {
   }
   async ionViewDidEnter(){
@@ -121,12 +122,12 @@ export class CreateWorksite implements OnInit {
     this.clientList[this.clientList.findIndex(a => a.userId == this.client.userId)] = this.client;
     this.storageService.set('Contacts', this.clientList);
     console.log('Chantier crée, redirection...');
-    this.router.navigate(['/tb-home'],{replaceUrl:true});
+    this.navController.navigateBack(['/tb-home'],{replaceUrl:true});
   }
   NewClient()
   {
     console.log('create client');
-    this.router.navigate(['new-contact',{tag: 'chantier'}]);
+    this.navController.navigateBack(['new-contact',{tag: 'chantier'}]);
   }
   generateUUID()
   {
@@ -149,7 +150,7 @@ export class CreateWorksite implements OnInit {
     }
     console.log(result);
     if(result !== null)
-      this.router.navigate(['tb-home'],{replaceUrl:true});
+      this.navController.navigateBack(['tb-home'],{replaceUrl:true});
   }
   async GoBackModal() : Promise<string>
   {

@@ -8,7 +8,7 @@ import { Product } from '../models/product';
 import { Chantier } from '../models/chantier';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalFocus } from '../modal/modal-focus';
-import { NumericValueAccessor } from '@ionic/angular';
+import { NavController, NumericValueAccessor } from '@ionic/angular';
 import { ShoppingCart } from '../models/shoppingCart';
 import { InvoiceSettings } from '../models/Settings/invoiceSettings';
 import { stringify } from 'querystring';
@@ -46,18 +46,20 @@ export class Invoice implements OnInit {
   headElementsArt = ['Nom article', 'Description','Prix Unitaire','Quantité','Prix total',''];
 
   panierList : Array<ShoppingCart> = [];
+  numericNumberReg= '^-?[0-9]\\d*(\\.\\d{1,2})?$';
+
   formInv = new UntypedFormGroup({
     factureName: new UntypedFormControl('',Validators.required),
     description: new UntypedFormControl(''),
     typePay: new UntypedFormControl('', [Validators.required]),
-    priceHtva: new UntypedFormControl(),
-    tva: new UntypedFormControl(),
-    remise: new UntypedFormControl(),
-    totalPrice : new UntypedFormControl(),
+    priceHtva: new UntypedFormControl('',Validators.pattern(this.numericNumberReg)),
+    tva: new UntypedFormControl('',Validators.pattern(this.numericNumberReg)),
+    remise: new UntypedFormControl('',Validators.pattern(this.numericNumberReg)),
+    totalPrice : new UntypedFormControl('',Validators.pattern(this.numericNumberReg)),
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService:StorageService,
-    private router: Router, private route: ActivatedRoute, private methodsService : MethodsService)
+    private router: Router, private route: ActivatedRoute, private methodsService : MethodsService, private navController : NavController)
   {
   }
 
@@ -274,18 +276,18 @@ export class Invoice implements OnInit {
   {
     if(this.chantierId !== 'null')
     {
-      this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId,
+      this.navController.navigateBack(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId,
         factureName : this.formInv.get('factureName').value, remise : this.formInv.get('remise').value,
         tva : this.formInv.get('tva').value, description : this.formInv.get('description').value,
         typePay : this.formInv.get('typePay').value}]);
     }else
     {
-      this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : 'null',
+      this.navController.navigateBack(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : 'null',
         factureName : this.formInv.get('factureName').value, remise : this.formInv.get('remise').value,
         tva : this.formInv.get('tva').value, description : this.formInv.get('description').value,
         typePay : this.formInv.get('typePay').value}]);
     }
-    // this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
+    // this.navController.navigateBack(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
   }
   async CreateWorksite() {
 
@@ -453,7 +455,7 @@ export class Invoice implements OnInit {
   
       chantierl[chantierIndex] = chantier;
       this.storageService.set('Chantiers',chantierl);
-      this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+      this.navController.navigateBack(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
     }else
     {
       let invs : Array<Facture> = await this.storageService.get('NAfactures');
@@ -464,7 +466,7 @@ export class Invoice implements OnInit {
       let existingInvoice = invs.findIndex(a => a.factureId === this.inv.factureId);
       invs[existingInvoice] = this.inv;
       this.storageService.set('NAfactures',invs);
-      this.router.navigate(['/tb-home'],{replaceUrl:true});
+      this.navController.navigateBack(['/tb-home'],{replaceUrl:true});
     }
     console.log('invoice saved', this.invList);
   }
@@ -518,8 +520,8 @@ export class Invoice implements OnInit {
     {
       this.cleanIncompleteInvoices();
       if(this.chantierId === 'null')
-        this.router.navigate(['/tb-home'],{replaceUrl:true});
-      else this.router.navigate(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+        this.navController.navigateBack(['/tb-home'],{replaceUrl:true});
+      else this.navController.navigateBack(['worksite',{chantierId: this.chantierId}],{replaceUrl:true});
     }
   }
   async GoBackModal() : Promise<string>

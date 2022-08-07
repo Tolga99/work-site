@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
@@ -34,7 +35,7 @@ export class Hours implements OnInit {
               public router:Router, 
               public storageService: StorageService,
               public route:ActivatedRoute,
-              private cd : ChangeDetectorRef)
+              private cd : ChangeDetectorRef, private navController : NavController)
   {
   }
   async ngOnInit(): Promise<void> {
@@ -144,7 +145,7 @@ export class Hours implements OnInit {
       chantierl[chantierIndex] = chantier;
       this.storageService.set('Chantiers',chantierl);
       // this.storageService.set('Hours='+this.chantierId,this.hoursList);
-      this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+      this.navController.navigateBack(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
     }
     generateUUID()
     {
@@ -153,6 +154,6 @@ export class Hours implements OnInit {
     }
     GoBack()
     {
-      this.router.navigate(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
+      this.navController.navigateBack(['/worksite',{chantierId: this.chantierId}],{replaceUrl:true});
     }
 }

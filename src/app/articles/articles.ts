@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isThursday } from 'date-fns';
 import { threadId } from 'worker_threads';
@@ -27,7 +28,8 @@ export class Articles implements OnInit {
   actualCatLevel = 0;
   openCatAccordion = null;
   public modal = new NgbdModalFocus(this.modalS);
-  constructor(private modalS : NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute)
+  constructor(private modalS : NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute
+    , private navController : NavController)
   {
   }
 
@@ -36,7 +38,8 @@ export class Articles implements OnInit {
 
     this.catList = await this.storageService.get('Categories');
     this.devise = await this.storageService.get('devise');
-
+    if(this.devise == null)
+      this.devise = '';
     if(this.catList!=null)
     {
       this.actualCat =this.catList.find(a => a.categoryId === this.route.snapshot.paramMap.get('actualCat'));
@@ -73,17 +76,17 @@ export class Articles implements OnInit {
   {
     console.log('Bouton nv cat');
     if(this.actualCat!=null)
-      this.router.navigate(['category-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
-    else this.router.navigate(['category-form']);
+      this.navController.navigateBack(['category-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
+    else this.navController.navigateBack(['category-form']);
   }
   modifyCategory(c : Category)
   {
     console.log(c);
     if(c!=null)
-      this.router.navigate(['category-form',
+      this.navController.navigateBack(['category-form',
                           {actualCat : this.actualCat?.categoryId,modifCat: c?.categoryId, modif: 'YES'}],
                           {replaceUrl:true});
-    else this.router.navigate(['category-form',{modif: 'YES'}],{replaceUrl:true});
+    else this.navController.navigateBack(['category-form',{modif: 'YES'}],{replaceUrl:true});
 
   }
   async enterCategory(c : Category)
@@ -172,15 +175,15 @@ export class Articles implements OnInit {
   createProduct()
   {
     if(this.actualCat!=null)
-      this.router.navigate(['article-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
-    else this.router.navigate(['article-form']);
+      this.navController.navigateBack(['article-form',{actualCat : this.actualCat.categoryId}],{replaceUrl:true});
+    else this.navController.navigateBack(['article-form']);
   }
   modifyProduct(p : Product)
   {
     console.log(p);
     if(p!=null)
-      this.router.navigate(['article-form',{modifArt: p.productId, modif: 'YES'}],{replaceUrl:true});
-    else this.router.navigate(['article-form',{modif: 'YES'}],{replaceUrl:true});
+      this.navController.navigateBack(['article-form',{modifArt: p.productId, modif: 'YES'}],{replaceUrl:true});
+    else this.navController.navigateBack(['article-form',{modif: 'YES'}],{replaceUrl:true});
   }
   async deleteProduct(p : Product)
   {

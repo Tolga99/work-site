@@ -171,13 +171,27 @@
     >
     </dxi-column>
     <dxi-column
+    dataField="type"
+    [caption]="'type' | translate"
+    cellTemplate="typeTemplate"
+    >
+    </dxi-column>
+    <dxi-column
     [caption]="'...'"
     cellTemplate="buttonsTemplate"
     >
   
     </dxi-column>
     <div *dxTemplate="let el of 'priceTemplate'">
-      {{el.data.totalPrice + this.devise}}
+      {{el.data.totalPrice + this.devise?.toString() ?? ""}}
+    </div>
+    <div *dxTemplate="let el of 'typeTemplate'">
+      <div [hidden]="el.data.type.toUpperCase() == 'DEVIS'">
+      {{'invoice' | translate}}
+      </div>
+      <div [hidden]="el.data.type.toUpperCase() == 'FACTURE'">
+      {{'estimate' | translate}}
+      </div>
     </div>
     <div *dxTemplate="let el of 'buttonsTemplate'">
       <button type="button" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
@@ -207,6 +221,10 @@
           <button mat-menu-item type="button" (click)="openDevis(el.data)">
             <mat-icon>edit</mat-icon>
             <span>{{'editEstimate' | translate}}</span>
+          </button>
+          <button mat-menu-item (click)="TransformToInvoice(el.data)" type="button">
+            <mat-icon>edit</mat-icon>
+            <span>{{'transformToInv' | translate}}</span>
           </button>
           <button mat-menu-item type="button" (click)="deleteDevis(el.data)">
             <mat-icon>delete</mat-icon>

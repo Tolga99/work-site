@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -45,7 +46,8 @@ export class Client implements OnInit{
   userId : string='';
   headElements = ['Nom chantier', 'Nom Client', 'Date début','Adresse','Etat'];
 
-  constructor(private storageService : StorageService, private router : Router, private route : ActivatedRoute) {
+  constructor(private storageService : StorageService, private router : Router, private route : ActivatedRoute
+    , private navController : NavController) {
     this.chartOptions = {
       series: [
         {
@@ -182,11 +184,11 @@ export class Client implements OnInit{
   }
   EditContact()
   {
-    this.router.navigate(['new-contact',{userId: this.client.userId,tag: 'profile'}]);
+    this.navController.navigateBack(['new-contact',{userId: this.client.userId,tag: 'profile'}]);
     console.log('click',this.client.firstName);
   }
   GoBack()
   {
-    this.router.navigate(['tb-contacts'],{replaceUrl:true});
+    this.navController.navigateBack(['tb-contacts'],{replaceUrl:true});
   }
 }

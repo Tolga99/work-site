@@ -35,6 +35,7 @@ import { User } from '../models/user';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { MatListItem } from '@angular/material/list';
 import { IonicSelectableComponent } from 'ionic-selectable';
+import { NavController } from '@ionic/angular';
 
 
 @Component({
@@ -117,7 +118,7 @@ export class TabCalendar implements OnInit {
                 private modal: NgbModal,
                 private router: Router,
                 private storageService: StorageService,
-                private cd : ChangeDetectorRef)
+                private cd : ChangeDetectorRef, private navController : NavController)
                 {
                 }
     async ngOnInit(): Promise<void> {
@@ -297,12 +298,12 @@ export class TabCalendar implements OnInit {
     NewClient()
     {
       console.log('create client');
-      this.router.navigate(['new-contact',{tag: 'chantier'}],{replaceUrl:true});
+      this.navController.navigateBack(['new-contact',{tag: 'chantier'}],{replaceUrl:true});
     }
     GoBack()
     {
       this.storageService.set('Events',this.events);
-      this.router.navigate(['tb-contacts'],{replaceUrl:true});
+      this.navController.navigateBack(['tb-contacts'],{replaceUrl:true});
     }
     clientChange(event: {
       component: IonicSelectableComponent,
