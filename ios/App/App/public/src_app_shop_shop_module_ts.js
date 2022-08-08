@@ -172,10 +172,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Shop": () => (/* binding */ Shop)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _shop_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shop.html?ngResource */ 29461);
 /* harmony import */ var _shop_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shop.scss?ngResource */ 43294);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 60124);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
@@ -186,6 +186,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_methods_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/methods.service */ 25812);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/storage.service */ 71188);
 /* harmony import */ var angular2_uuid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! angular2-uuid */ 23105);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
 
 
 
@@ -202,12 +204,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let Shop = class Shop {
-  constructor(modalS, storageService, router, route, methodsService) {
+  constructor(modalS, storageService, router, route, methodsService, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
     this.route = route;
     this.methodsService = methodsService;
+    this.navController = navController;
     this.allowedPageSizes = [5, 10, 15];
     this.displayMode = 'full';
     this.showPageSizeSelector = true;
@@ -221,10 +224,11 @@ let Shop = class Shop {
     this.actualCat = null;
     this.openCatAccordion = '';
     this.panierEmpty = 'YES';
+    this.numericNumberReg = '^-?[0-9]\\d*(\\.\\d{1,2})?$';
     this.formArt = new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormGroup({
       productName: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_10__.Validators.required),
       description: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl(''),
-      priceHtva: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_10__.Validators.required])
+      priceHtva: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_10__.Validators.pattern(this.numericNumberReg))
     });
     this.initialPanier = [];
     this.modal = new _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__.NgbdModalFocus(this.modalS);
@@ -305,12 +309,13 @@ let Shop = class Shop {
       _this3.actualCat = c;
       _this3.artList = yield _this3.storageService.get('Articles'); // Dans les 2 cas on a besoin de la liste complete et actualisée
 
+      _this3.catList = yield _this3.storageService.get('Categories');
+
       if (_this3.actualCat == null) {
-        _this3.catList = yield _this3.storageService.get('Categories');
-        if (_this3.catList != null) _this3.catList = _this3.catList.filter(a => a.categoryParent == null);
+        if (_this3.catList != null) _this3.catList = _this3.catList.filter(a => a.catLevel === 0);
       } else {
-        _this3.catList = _this3.actualCat.subCategories;
-        if (_this3.artList != null) _this3.artList = _this3.artList.filter(a => a.categoryId === _this3.actualCat.categoryId);
+        _this3.catList = _this3.catList.filter(a => c.categoryParent === a.categoryParent && a.catLevel === c.catLevel + 1);
+        if (_this3.artList != null) _this3.artList = _this3.artList.filter(a => a.categoryParent.categoryId === _this3.actualCat.categoryId);
       } // + refresh la liste en dessous avec les articles filtrés AUSSI
 
     })();
@@ -325,11 +330,11 @@ let Shop = class Shop {
   }
 
   CreateProduct() {
-    if (this.actualCat != null) this.router.navigate(['article-form', {
+    if (this.actualCat != null) this.navController.navigateBack(['article-form', {
       actualCat: this.actualCat.categoryId
     }], {
       replaceUrl: true
-    });else this.router.navigate(['article-form']);
+    });else this.navController.navigateBack(['article-form']);
   }
 
   AddProduct(p) {
@@ -405,7 +410,7 @@ let Shop = class Shop {
 
         _this5.storageService.set('Chantiers', chantierl);
 
-        _this5.router.navigate(['/invoice', {
+        _this5.navController.navigateBack(['/invoice', {
           invoiceId: _this5.invoiceId,
           type: _this5.type,
           chantierId: _this5.chantierId,
@@ -431,7 +436,7 @@ let Shop = class Shop {
 
         _this5.storageService.set('NAfactures', invs);
 
-        _this5.router.navigate(['/invoice', {
+        _this5.navController.navigateBack(['/invoice', {
           invoiceId: _this5.invoiceId,
           type: _this5.type,
           chantierId: _this5.chantierId,
@@ -485,7 +490,7 @@ let Shop = class Shop {
       }
 
       console.log(result);
-      if (result !== null) _this6.router.navigate(['invoice', {
+      if (result !== null) _this6.navController.navigateBack(['invoice', {
         invoiceId: _this6.invoiceId,
         type: _this6.type,
         chantierId: _this6.chantierId,
@@ -554,7 +559,7 @@ let Shop = class Shop {
         return;
       } else console.log(_this8.formArt.get('priceHtva').value);
 
-      let p = new _models_product__WEBPACK_IMPORTED_MODULE_5__.Product('-1', _this8.formArt.get('productName').value, _this8.formArt.get('description').value, _this8.formArt.get('priceHtva').value, null, null);
+      let p = new _models_product__WEBPACK_IMPORTED_MODULE_5__.Product('-1', _this8.formArt.get('productName').value, _this8.formArt.get('description').value, _this8.formArt.get('priceHtva').value, null, null, 0);
 
       _this8.panierList.push(new _models_shoppingCart__WEBPACK_IMPORTED_MODULE_6__.ShoppingCart(_this8.generateUUID(), p, 1));
     })();
@@ -572,9 +577,11 @@ Shop.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.ActivatedRoute
 }, {
   type: _services_methods_service__WEBPACK_IMPORTED_MODULE_7__.MethodsService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.NavController
 }];
 
-Shop = (0,tslib__WEBPACK_IMPORTED_MODULE_13__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_14__.Component)({
+Shop = (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_15__.Component)({
   selector: 'app-shop',
   template: _shop_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_shop_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]

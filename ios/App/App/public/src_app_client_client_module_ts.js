@@ -91,11 +91,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Client": () => (/* binding */ Client)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _client_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./client.html?ngResource */ 2298);
 /* harmony import */ var _client_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./client.scss?ngResource */ 25970);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/storage.service */ 71188);
 
 
@@ -104,11 +105,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let Client = class Client {
-  constructor(storageService, router, route) {
+  constructor(storageService, router, route, navController) {
     this.storageService = storageService;
     this.router = router;
     this.route = route;
+    this.navController = navController;
     this.userId = '';
     this.headElements = ['Nom chantier', 'Nom Client', 'Date début', 'Adresse', 'Etat'];
     this.chartOptions = {
@@ -252,7 +255,7 @@ let Client = class Client {
   }
 
   EditContact() {
-    this.router.navigate(['new-contact', {
+    this.navController.navigateBack(['new-contact', {
       userId: this.client.userId,
       tag: 'profile'
     }]);
@@ -260,7 +263,7 @@ let Client = class Client {
   }
 
   GoBack() {
-    this.router.navigate(['tb-contacts'], {
+    this.navController.navigateBack(['tb-contacts'], {
       replaceUrl: true
     });
   }
@@ -273,15 +276,17 @@ Client.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_4__.Router
 }, {
   type: _angular_router__WEBPACK_IMPORTED_MODULE_4__.ActivatedRoute
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.NavController
 }];
 
 Client.propDecorators = {
   chart: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.ViewChild,
+    type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ViewChild,
     args: ['chart']
   }]
 };
-Client = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+Client = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
   selector: 'app-client',
   template: _client_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_client_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]

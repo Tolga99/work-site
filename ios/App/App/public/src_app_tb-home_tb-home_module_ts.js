@@ -105,25 +105,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TabHome": () => (/* binding */ TabHome)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _tb_home_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tb-home.html?ngResource */ 52684);
 /* harmony import */ var _tb_home_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tb-home.scss?ngResource */ 96266);
-/* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 60124);
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
+/* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/storage.service */ 71188);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ngx-translate/core */ 38699);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/common/http */ 58987);
-/* harmony import */ var _awesome_cordova_plugins_app_rate_ngx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @awesome-cordova-plugins/app-rate/ngx */ 82296);
-/* harmony import */ var _awesome_cordova_plugins_app_version_ngx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @awesome-cordova-plugins/app-version/ngx */ 34114);
-/* harmony import */ var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @fortawesome/angular-fontawesome */ 19200);
-/* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ 9636);
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ 70655);
-/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! devextreme-angular */ 83438);
-/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _services_pdf_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/pdf.service */ 81735);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @ngx-translate/core */ 38699);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/common/http */ 58987);
+/* harmony import */ var _models_facture__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/facture */ 49371);
+/* harmony import */ var _awesome_cordova_plugins_app_rate_ngx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @awesome-cordova-plugins/app-rate/ngx */ 82296);
+/* harmony import */ var _awesome_cordova_plugins_app_version_ngx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @awesome-cordova-plugins/app-version/ngx */ 34114);
+/* harmony import */ var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @fortawesome/angular-fontawesome */ 19200);
+/* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ 9636);
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ 70655);
+/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! devextreme-angular */ 83438);
+/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _services_pdf_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../services/pdf.service */ 81735);
+/* harmony import */ var angular2_uuid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! angular2-uuid */ 23105);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
+
+
 
 
 
@@ -144,7 +150,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let TabHome = class TabHome {
-  constructor(modalS, storageService, router, _liveAnnouncer, http, _translate, appVersion, appRate, library, optionHost, translateService, pdfService) {
+  constructor(modalS, storageService, router, _liveAnnouncer, http, _translate, appVersion, appRate, library, optionHost, translateService, pdfService, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
@@ -157,6 +163,8 @@ let TabHome = class TabHome {
     this.optionHost = optionHost;
     this.translateService = translateService;
     this.pdfService = pdfService;
+    this.navController = navController;
+    this.devise = '';
     this.deleteText = '';
     this.editText = '';
     this.allowedPageSizes = [5, 10, 15];
@@ -196,6 +204,7 @@ let TabHome = class TabHome {
     this.date = false;
     this.address = false;
     this.state = false;
+    this.dateToday = '';
 
     this.settingsButtonChanged = e => {
       console.log(e);
@@ -210,7 +219,7 @@ let TabHome = class TabHome {
     translateService.addLangs(['en', 'fr']);
     translateService.use('fr').toPromise();
     translateService.setDefaultLang('fr');
-    library.addIcons(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__.faStar, _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_10__.faStar);
+    library.addIcons(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_11__.faStar, _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_12__.faStar);
     optionHost.setHost(this);
   }
 
@@ -233,23 +242,27 @@ let TabHome = class TabHome {
     var _this2 = this;
 
     return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const nowDate = new Date();
+      _this2.dateToday = nowDate.getDate() + '/' + (nowDate.getMonth() + 1) + '/' + nowDate.getFullYear();
       yield _this2.storageService.init();
       _this2.chantierList = yield _this2.storageService.get('Chantiers');
       _this2.invList = yield _this2.storageService.get('NAfactures');
       _this2.clientsList = yield _this2.storageService.get('Contacts');
+      _this2.devise = yield _this2.storageService.get('devise');
+      if (_this2.devise == null) _this2.devise = '';
     })();
   }
 
   CreateWorksite() {
     console.log('Bouton nv chantier');
-    this.router.navigate(['createworksite'], {
+    this.navController.navigateBack(['createworksite'], {
       replaceUrl: true
     });
   }
 
   manageWorksite(e) {
     var chantier = e.data;
-    this.router.navigate(['worksite', {
+    this.navController.navigateBack(['worksite', {
       chantierId: chantier.chantierId
     }], {
       replaceUrl: true
@@ -303,7 +316,7 @@ let TabHome = class TabHome {
 
   createInvoice() {
     console.log('Bouton nv facture (creation)');
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       chantierId: 'null',
       type: 'facture',
       mode: 'false'
@@ -312,7 +325,7 @@ let TabHome = class TabHome {
 
   scanInvoice() {
     console.log('Bouton nv facture (scan)');
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       chantierId: 'null',
       type: 'facture',
       mode: 'true'
@@ -357,7 +370,7 @@ let TabHome = class TabHome {
 
   openInvoice(inv) {
     console.log('Bouton open facture', inv.factureId);
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       factureId: inv.factureId,
       type: 'facture',
       chantierId: 'null'
@@ -393,7 +406,7 @@ let TabHome = class TabHome {
 
   createDevis() {
     console.log('Bouton nv facture (creation)');
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       chantierId: 'null',
       type: 'devis',
       mode: 'false'
@@ -402,7 +415,7 @@ let TabHome = class TabHome {
 
   scanDevis() {
     console.log('Bouton nv facture (scan)');
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       chantierId: 'null',
       type: 'devis',
       mode: 'true'
@@ -411,7 +424,7 @@ let TabHome = class TabHome {
 
   openDevis(inv) {
     console.log('Bouton open facture', inv.factureId);
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       factureId: inv.factureId,
       type: 'devis',
       chantierId: 'null'
@@ -440,20 +453,26 @@ let TabHome = class TabHome {
 
   TransformToInvoice(d) {
     const index = this.invList.findIndex(a => a.factureId === d.factureId);
-    this.invList.push(d);
-    this.invList.splice(index, 1); // this.invList[this.invList.findIndex(a => a.chantierId === this.chantier.chantierId)] = this.invList;
+    this.generateUUID();
+    let newFacture = new _models_facture__WEBPACK_IMPORTED_MODULE_5__.Facture(this.uuidValue, d.factureName, d.description, this.dateToday, d.typePay, d.remise, d.priceHtva, d.tva, d.totalPrice, d.images, d.receivedMoney, d.cart, d.mode, 'Facture');
+    this.invList.push(newFacture); // this.chantier.devis.splice(index,1); s'il faut supprimer
 
-    this.storageService.set('Chantiers', this.chantierList);
+    this.storageService.set('NAfactures', this.invList);
+  }
+
+  generateUUID() {
+    this.uuidValue = angular2_uuid__WEBPACK_IMPORTED_MODULE_10__.UUID.UUID();
+    return this.uuidValue;
   }
 
   GoProfile() {
     console.log('show profile');
-    this.router.navigate(['my-profile']);
+    this.navController.navigateBack(['my-profile']);
   }
 
   GoSettings() {
     console.log('show settings');
-    this.router.navigate(['settings']);
+    this.navController.navigateBack(['settings']);
   }
 
   About() {
@@ -515,35 +534,37 @@ let TabHome = class TabHome {
 };
 
 TabHome.ctorParameters = () => [{
-  type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_11__.NgbModal
+  type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_13__.NgbModal
 }, {
   type: _services_storage_service__WEBPACK_IMPORTED_MODULE_4__.StorageService
 }, {
-  type: _angular_router__WEBPACK_IMPORTED_MODULE_12__.Router
+  type: _angular_router__WEBPACK_IMPORTED_MODULE_14__.Router
 }, {
-  type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_13__.LiveAnnouncer
+  type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_15__.LiveAnnouncer
 }, {
-  type: _angular_common_http__WEBPACK_IMPORTED_MODULE_14__.HttpClient
+  type: _angular_common_http__WEBPACK_IMPORTED_MODULE_16__.HttpClient
 }, {
-  type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__.TranslateService
+  type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_17__.TranslateService
 }, {
-  type: _awesome_cordova_plugins_app_version_ngx__WEBPACK_IMPORTED_MODULE_6__.AppVersion
+  type: _awesome_cordova_plugins_app_version_ngx__WEBPACK_IMPORTED_MODULE_7__.AppVersion
 }, {
-  type: _awesome_cordova_plugins_app_rate_ngx__WEBPACK_IMPORTED_MODULE_5__.AppRate
+  type: _awesome_cordova_plugins_app_rate_ngx__WEBPACK_IMPORTED_MODULE_6__.AppRate
 }, {
-  type: _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_16__.FaIconLibrary
+  type: _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_18__.FaIconLibrary
 }, {
-  type: devextreme_angular__WEBPACK_IMPORTED_MODULE_7__.NestedOptionHost
+  type: devextreme_angular__WEBPACK_IMPORTED_MODULE_8__.NestedOptionHost
 }, {
-  type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__.TranslateService
+  type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_17__.TranslateService
 }, {
-  type: _services_pdf_service__WEBPACK_IMPORTED_MODULE_8__.PdfService
+  type: _services_pdf_service__WEBPACK_IMPORTED_MODULE_9__.PdfService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_19__.NavController
 }];
 
-TabHome = (0,tslib__WEBPACK_IMPORTED_MODULE_17__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_18__.Component)({
+TabHome = (0,tslib__WEBPACK_IMPORTED_MODULE_20__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_21__.Component)({
   selector: 'app-tb-home',
   template: _tb_home_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
-  providers: [devextreme_angular__WEBPACK_IMPORTED_MODULE_7__.NestedOptionHost],
+  providers: [devextreme_angular__WEBPACK_IMPORTED_MODULE_8__.NestedOptionHost],
   styles: [_tb_home_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
 })], TabHome);
 
@@ -13406,7 +13427,7 @@ module.exports = ".abs-center-x {\n  position: absolute;\n  left: 50%;\n  transf
   \*************************************************/
 /***/ ((module) => {
 
-module.exports = "  <ion-header>\r\n    <ion-toolbar>\r\n      <ion-title class=\"ion-text-center\">{{'home' | translate}}</ion-title>\r\n      <dx-button style=\"background-color: orange;\" icon=\"fas fa-id-badge\" slot=\"start\" (click)=\"GoProfile()\">\r\n      </dx-button>\r\n      <dx-drop-down-button\r\n      icon=\"fas fa-gear\"\r\n      slot=\"end\"\r\n      style=\"background-color: orange;\"\r\n      [items]=\"settingsBt\"\r\n      displayExpr=\"text\"\r\n      keyExpr=\"value\"\r\n      (onSelectionChanged)=\"settingsBtsClick($event)\"\r\n    >\r\n    </dx-drop-down-button>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  <ion-content [fullscreen]=\"true\" style=\"overflow-y: auto; justify-content: start;\" style=\"background-image: url('/assets/worksiteBackground.png');\">\r\n   <div class=\"jumbotron\" style=\"background-color: light; margin: 10px; padding: 10px;\">\r\n  <div class=\"card-header tabHeader\">\r\n    {{'myWorksites' | translate}}\r\n</div>\r\n      <!-- <ion-grid>\r\n      <ion-row>\r\n        <ion-col style=\"display: flex;\r\n        justify-content: space-around;\r\n        align-items: center;\">\r\n          <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input style=\"width: 75%;\" matInput (keyup)=\"applyFilter($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field>\r\n        </ion-col>\r\n        <ion-col style=\"display: flex;\r\n        justify-content: space-between;\r\n        align-items: center;\">\r\n          <ion-toggle name=\"chantierFilter\" (ionChange)=\"ToggleFilter($event)\">\r\n          </ion-toggle>\r\n          <div [hidden]=\"toggleChantier\" style=\"color:green\">\r\n            <ion-label>{{'inProgress' | translate}}</ion-label>\r\n          </div>\r\n          <div [hidden]=\"!toggleChantier\" style=\"color:red\">\r\n            <ion-label>{{'finished' | translate}}</ion-label>\r\n          </div>\r\n       </ion-col>\r\n      </ion-row>\r\n      </ion-grid> -->\r\n  <div class=\"mat-elevation-z8\" style=\"background-color: white;\">\r\n    <dx-data-grid\r\n  id=\"gridChantier\"\r\n  [dataSource]=\"chantierList\"\r\n  keyExpr=\"chantierId\"\r\n  [showBorders]=\"true\"\r\n  [title]=\"'myWorksites' | translate\"\r\n  (onRowClick)=\"manageWorksite($event)\"\r\n>\r\n<dxo-search-panel\r\n[visible]=\"true\"\r\n[highlightCaseSensitive]=\"false\"\r\n></dxo-search-panel>\r\n  <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n  <dxo-paging [pageSize]=\"10\"> </dxo-paging>\r\n  <dxo-pager\r\n    [visible]=\"true\"\r\n    [allowedPageSizes]=\"allowedPageSizes\"\r\n    displayMode=\"full\"\r\n    [showPageSizeSelector]=\"showPageSizeSelector\"\r\n    [showInfo]=\"showInfo\"\r\n    [showNavigationButtons]=\"showNavButtons\"\r\n  >\r\n  </dxo-pager>\r\n  <dxi-column\r\n  dataField=\"worksiteName\"\r\n  [caption]=\"'nameWorksite' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"clientFullName\"\r\n  [caption]=\"'nameClient' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"dateStart\"\r\n  [caption]=\"'startDate' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"address\"\r\n  [caption]=\"'address' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  [caption]=\"'...'\"\r\n  cellTemplate=\"buttonsTemplate\"\r\n  >\r\n\r\n  </dxi-column>\r\n  <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n    <button mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n      <mat-icon>toc</mat-icon>\r\n\r\n    </button>\r\n    <mat-menu #menu=\"matMenu\">\r\n      <!-- <button mat-menu-item>\r\n        <mat-icon>edit</mat-icon>\r\n        <span>{{'edit' | translate}}</span>\r\n      </button> -->\r\n      <button mat-menu-item (click)=\"deleteWorksite(el.data)\">\r\n        <mat-icon>delete</mat-icon>\r\n        <span>{{'delete' | translate}}</span>\r\n      </button>\r\n    </mat-menu>\r\n  </div>\r\n</dx-data-grid>\r\n  </div>\r\n\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center;\">\r\n    <dx-button icon=\"fas fa-plus\" type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"CreateWorksite()\" [text]=\"'newWorksite' | translate\">     \r\n   </dx-button>\r\n  </div>\r\n</div>\r\n\r\n  <div class=\"jumbotron\" style=\"background-color: light; margin: 10px; padding: 10px;\">\r\n    <div class=\"card-header tabHeader\">\r\n      {{'invoices' | translate}} & {{'estimate' | translate}}\r\n    </div>\r\n\r\n  <!-- <mat-form-field appearance=\"standard\">\r\n    <mat-label>{{'search' | translate}}</mat-label>\r\n    <input matInput (keyup)=\"applyFilterFacture($event)\" placeholder=\"Ex. Mia\" #input>\r\n  </mat-form-field> -->\r\n  <div class=\"mat-elevation-z8\">\r\n    <dx-data-grid\r\n    id=\"gridNAfacture\"\r\n    [dataSource]=\"invList\"\r\n    keyExpr=\"factureId\"\r\n    [showBorders]=\"true\"\r\n    [title]=\"'myWorksites' | translate\"\r\n  >\r\n  <dxo-search-panel\r\n  [visible]=\"true\"\r\n  [highlightCaseSensitive]=\"false\"\r\n  ></dxo-search-panel>\r\n    <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n    <dxo-paging [pageSize]=\"10\"> </dxo-paging>\r\n    <dxo-pager\r\n      [visible]=\"true\"\r\n      [allowedPageSizes]=\"allowedPageSizes\"\r\n      displayMode=\"full\"\r\n      [showPageSizeSelector]=\"showPageSizeSelector\"\r\n      [showInfo]=\"showInfo\"\r\n      [showNavigationButtons]=\"showNavButtons\"\r\n    >\r\n    </dxo-pager>\r\n    <dxi-column\r\n    dataField=\"factureName\"\r\n    [caption]=\"'invoiceName' | translate\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    dataField=\"totalPrice\"\r\n    [caption]=\"'total' | translate\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    dataField=\"date\"\r\n    [caption]=\"'date' | translate\"\r\n    dataType=\"date\"\r\n    format=\"dd/MM/yyyy\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    [caption]=\"'...'\"\r\n    cellTemplate=\"buttonsTemplate\"\r\n    >\r\n  \r\n    </dxi-column>\r\n    <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n      <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n        <mat-icon>toc</mat-icon>\r\n\r\n      </button>\r\n      <mat-menu #menu=\"matMenu\">\r\n        <button mat-menu-item type=\"button\" (click)=\"assignInvoice(el.data)\">\r\n          <mat-icon></mat-icon>\r\n          <span>{{'assign' | translate}}</span>\r\n        </button>\r\n        <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n          <mat-icon>picture_as_pdf</mat-icon>\r\n          <span>{{'genPDF' | translate}}</span>\r\n        </button>\r\n        <div [hidden]=\"el.data.type.toUpperCase() === 'DEVIS'\">\r\n          <button mat-menu-item type=\"button\" (click)=\"openInvoice(el.data)\">\r\n            <mat-icon>edit</mat-icon>\r\n            <span>{{'editInv' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item type=\"button\" (click)=\"deleteInvoice(el.data)\">\r\n            <mat-icon>delete</mat-icon>\r\n            <span>{{'delete' | translate}}</span>\r\n          </button>\r\n        </div>\r\n        <div [hidden]=\"el.data.type.toUpperCase() !== 'DEVIS'\">\r\n          <button mat-menu-item type=\"button\" (click)=\"openDevis(el.data)\">\r\n            <mat-icon>edit</mat-icon>\r\n            <span>{{'editEstimate' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item type=\"button\" (click)=\"deleteDevis(el.data)\">\r\n            <mat-icon>delete</mat-icon>\r\n            <span>{{'delete' | translate}}</span>\r\n          </button>\r\n        </div>\r\n      </mat-menu>\r\n    </div>\r\n  </dx-data-grid>\r\n  </div>\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\">\r\n    <dx-button [text]=\"'scanInvoice' | translate\" type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"scanInvoice()\" icon=\"fas fa-paste\"></dx-button>\r\n    <dx-button type=\"button\" icon=\"fas fa-file-invoice\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n    (click)=\"createInvoice()\" [text]=\"'createInvoice' | translate\">\r\n    </dx-button>\r\n  </div>\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\">\r\n    <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanDevis()\" icon=\"fas fa-paste\" [text]=\"'scanEstimate' | translate\"></dx-button>\r\n    <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createDevis()\" icon=\"fas fa-file-invoice-dollar\" [text]=\"'createEstimate' | translate\"></dx-button>\r\n  </div>\r\n</div>\r\n</ion-content>";
+module.exports = "  <ion-header>\r\n    <ion-toolbar>\r\n      <ion-title class=\"ion-text-center\">{{'home' | translate}}</ion-title>\r\n      <dx-button style=\"background-color: orange;\" icon=\"fas fa-id-badge\" slot=\"start\" (click)=\"GoProfile()\">\r\n      </dx-button>\r\n      <dx-drop-down-button\r\n      icon=\"fas fa-gear\"\r\n      slot=\"end\"\r\n      style=\"background-color: orange;\"\r\n      [items]=\"settingsBt\"\r\n      displayExpr=\"text\"\r\n      keyExpr=\"value\"\r\n      (onSelectionChanged)=\"settingsBtsClick($event)\"\r\n    >\r\n    </dx-drop-down-button>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  <ion-content [fullscreen]=\"true\" style=\"overflow-y: auto; justify-content: start;\" style=\"background-image: url('/assets/worksiteBackground.png');\">\r\n   <div class=\"jumbotron\" style=\"background-color: light; margin: 10px; padding: 10px;\">\r\n  <div class=\"card-header tabHeader\">\r\n    {{'myWorksites' | translate}}\r\n</div>\r\n      <!-- <ion-grid>\r\n      <ion-row>\r\n        <ion-col style=\"display: flex;\r\n        justify-content: space-around;\r\n        align-items: center;\">\r\n          <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input style=\"width: 75%;\" matInput (keyup)=\"applyFilter($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field>\r\n        </ion-col>\r\n        <ion-col style=\"display: flex;\r\n        justify-content: space-between;\r\n        align-items: center;\">\r\n          <ion-toggle name=\"chantierFilter\" (ionChange)=\"ToggleFilter($event)\">\r\n          </ion-toggle>\r\n          <div [hidden]=\"toggleChantier\" style=\"color:green\">\r\n            <ion-label>{{'inProgress' | translate}}</ion-label>\r\n          </div>\r\n          <div [hidden]=\"!toggleChantier\" style=\"color:red\">\r\n            <ion-label>{{'finished' | translate}}</ion-label>\r\n          </div>\r\n       </ion-col>\r\n      </ion-row>\r\n      </ion-grid> -->\r\n  <div class=\"mat-elevation-z8\" style=\"background-color: white;\">\r\n    <dx-data-grid\r\n  id=\"gridChantier\"\r\n  [dataSource]=\"chantierList\"\r\n  keyExpr=\"chantierId\"\r\n  [showBorders]=\"true\"\r\n  [title]=\"'myWorksites' | translate\"\r\n  (onRowClick)=\"manageWorksite($event)\"\r\n>\r\n<dxo-search-panel\r\n[visible]=\"true\"\r\n[highlightCaseSensitive]=\"false\"\r\n></dxo-search-panel>\r\n  <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n  <dxo-paging [pageSize]=\"10\"> </dxo-paging>\r\n  <dxo-pager\r\n    [visible]=\"true\"\r\n    [allowedPageSizes]=\"allowedPageSizes\"\r\n    displayMode=\"full\"\r\n    [showPageSizeSelector]=\"showPageSizeSelector\"\r\n    [showInfo]=\"showInfo\"\r\n    [showNavigationButtons]=\"showNavButtons\"\r\n  >\r\n  </dxo-pager>\r\n  <dxi-column\r\n  dataField=\"worksiteName\"\r\n  [caption]=\"'nameWorksite' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"clientFullName\"\r\n  [caption]=\"'nameClient' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"dateStart\"\r\n  [caption]=\"'startDate' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  dataField=\"address\"\r\n  [caption]=\"'address' | translate\"\r\n  >\r\n  </dxi-column>\r\n  <dxi-column\r\n  [caption]=\"'...'\"\r\n  cellTemplate=\"buttonsTemplate\"\r\n  >\r\n\r\n  </dxi-column>\r\n  <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n    <button mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n      <mat-icon>toc</mat-icon>\r\n\r\n    </button>\r\n    <mat-menu #menu=\"matMenu\">\r\n      <!-- <button mat-menu-item>\r\n        <mat-icon>edit</mat-icon>\r\n        <span>{{'edit' | translate}}</span>\r\n      </button> -->\r\n      <button mat-menu-item (click)=\"deleteWorksite(el.data)\">\r\n        <mat-icon>delete</mat-icon>\r\n        <span>{{'delete' | translate}}</span>\r\n      </button>\r\n    </mat-menu>\r\n  </div>\r\n</dx-data-grid>\r\n  </div>\r\n\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center;\">\r\n    <dx-button icon=\"fas fa-plus\" type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange; font-size: smaller;\" \r\n    (click)=\"CreateWorksite()\" [text]=\"'newWorksite' | translate\">     \r\n   </dx-button>\r\n  </div>\r\n</div>\r\n\r\n  <div class=\"jumbotron\" style=\"background-color: light; margin: 10px; padding: 10px;\">\r\n    <div class=\"card-header tabHeader\">\r\n      {{'invoices' | translate}} & {{'estimate' | translate}}\r\n    </div>\r\n\r\n  <!-- <mat-form-field appearance=\"standard\">\r\n    <mat-label>{{'search' | translate}}</mat-label>\r\n    <input matInput (keyup)=\"applyFilterFacture($event)\" placeholder=\"Ex. Mia\" #input>\r\n  </mat-form-field> -->\r\n  <div class=\"mat-elevation-z8\">\r\n    <dx-data-grid\r\n    id=\"gridNAfacture\"\r\n    [dataSource]=\"invList\"\r\n    keyExpr=\"factureId\"\r\n    [showBorders]=\"true\"\r\n    [title]=\"'myWorksites' | translate\"\r\n  >\r\n  <dxo-search-panel\r\n  [visible]=\"true\"\r\n  [highlightCaseSensitive]=\"false\"\r\n  ></dxo-search-panel>\r\n    <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n    <dxo-paging [pageSize]=\"10\"> </dxo-paging>\r\n    <dxo-pager\r\n      [visible]=\"true\"\r\n      [allowedPageSizes]=\"allowedPageSizes\"\r\n      displayMode=\"full\"\r\n      [showPageSizeSelector]=\"showPageSizeSelector\"\r\n      [showInfo]=\"showInfo\"\r\n      [showNavigationButtons]=\"showNavButtons\"\r\n    >\r\n    </dxo-pager>\r\n    <dxi-column\r\n    dataField=\"factureName\"\r\n    [caption]=\"'invoiceName' | translate\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    dataField=\"totalPrice\"\r\n    [caption]=\"'total' | translate\"\r\n    cellTemplate=\"priceTemplate\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    dataField=\"date\"\r\n    [caption]=\"'date' | translate\"\r\n    dataType=\"date\"\r\n    format=\"dd/MM/yyyy\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    dataField=\"type\"\r\n    [caption]=\"'type' | translate\"\r\n    cellTemplate=\"typeTemplate\"\r\n    >\r\n    </dxi-column>\r\n    <dxi-column\r\n    [caption]=\"'...'\"\r\n    cellTemplate=\"buttonsTemplate\"\r\n    >\r\n  \r\n    </dxi-column>\r\n    <div *dxTemplate=\"let el of 'priceTemplate'\">\r\n      {{el.data.totalPrice + this.devise?.toString() ?? \"\"}}\r\n    </div>\r\n    <div *dxTemplate=\"let el of 'typeTemplate'\">\r\n      <div [hidden]=\"el.data.type.toUpperCase() == 'DEVIS'\">\r\n      {{'invoice' | translate}}\r\n      </div>\r\n      <div [hidden]=\"el.data.type.toUpperCase() == 'FACTURE'\">\r\n      {{'estimate' | translate}}\r\n      </div>\r\n    </div>\r\n    <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n      <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n        <mat-icon>toc</mat-icon>\r\n\r\n      </button>\r\n      <mat-menu #menu=\"matMenu\">\r\n        <button mat-menu-item type=\"button\" (click)=\"assignInvoice(el.data)\">\r\n          <mat-icon></mat-icon>\r\n          <span>{{'assign' | translate}}</span>\r\n        </button>\r\n        <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n          <mat-icon>picture_as_pdf</mat-icon>\r\n          <span>{{'genPDF' | translate}}</span>\r\n        </button>\r\n        <div [hidden]=\"el.data.type.toUpperCase() === 'DEVIS'\">\r\n          <button mat-menu-item type=\"button\" (click)=\"openInvoice(el.data)\">\r\n            <mat-icon>edit</mat-icon>\r\n            <span>{{'editInv' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item type=\"button\" (click)=\"deleteInvoice(el.data)\">\r\n            <mat-icon>delete</mat-icon>\r\n            <span>{{'delete' | translate}}</span>\r\n          </button>\r\n        </div>\r\n        <div [hidden]=\"el.data.type.toUpperCase() !== 'DEVIS'\">\r\n          <button mat-menu-item type=\"button\" (click)=\"openDevis(el.data)\">\r\n            <mat-icon>edit</mat-icon>\r\n            <span>{{'editEstimate' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item (click)=\"TransformToInvoice(el.data)\" type=\"button\">\r\n            <mat-icon>edit</mat-icon>\r\n            <span>{{'transformToInv' | translate}}</span>\r\n          </button>\r\n          <button mat-menu-item type=\"button\" (click)=\"deleteDevis(el.data)\">\r\n            <mat-icon>delete</mat-icon>\r\n            <span>{{'delete' | translate}}</span>\r\n          </button>\r\n        </div>\r\n      </mat-menu>\r\n    </div>\r\n  </dx-data-grid>\r\n  </div>\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\r\n  margin: 0px 10px 0px 10px;\">\r\n    <dx-button [text]=\"'scanInvoice' | translate\" type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange; margin-right: 10px;\r\n    font-size: smaller;\" \r\n    (click)=\"scanInvoice()\" icon=\"fas fa-paste\"></dx-button>\r\n    <dx-button type=\"button\" icon=\"fas fa-file-invoice\" class=\"btn btn-secondary\" style=\"background-color:orange;font-size: smaller;\" \r\n    (click)=\"createInvoice()\" [text]=\"'createInvoice' | translate\">\r\n    </dx-button>\r\n  </div>\r\n  <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;  \r\n  margin: 0px 10px 0px 10px;\">\r\n    <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange; margin-right: 10px; font-size: smaller;\" (click)=\"scanDevis()\" icon=\"fas fa-paste\" [text]=\"'scanEstimate' | translate\"></dx-button>\r\n    <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange; font-size: smaller;\" (click)=\"createDevis()\" icon=\"fas fa-file-invoice-dollar\" [text]=\"'createEstimate' | translate\"></dx-button>\r\n  </div>\r\n</div>\r\n</ion-content>";
 
 /***/ })
 

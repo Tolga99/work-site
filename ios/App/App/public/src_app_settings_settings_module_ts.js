@@ -118,12 +118,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Settings": () => (/* binding */ Settings)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _settings_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./settings.html?ngResource */ 66900);
 /* harmony import */ var _settings_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./settings.scss?ngResource */ 67526);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _models_Settings_invoiceSettings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/Settings/invoiceSettings */ 97616);
@@ -139,13 +140,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let Settings = class Settings {
-  constructor(modalS, storageService, router) {
+  constructor(modalS, storageService, router, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
+    this.navController = navController;
+    this.deviseList = ['€', '$', '£'];
+    this.devise = '';
     this.ext = '';
     this.extTypes = ['Numéro (Ex: 34)', 'Date (Ex: JJ/MM/AAAA)', 'Numéro-Date', 'Date-Numero'];
+    this.formGeneral = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.UntypedFormGroup({
+      devise: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.UntypedFormControl('')
+    });
     this.formInvoice = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.UntypedFormGroup({
       factureName: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required),
       exts: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required),
@@ -244,9 +252,10 @@ let Settings = class Settings {
 
       _this2.storageService.set('MyInvoiceSettings', new _models_Settings_invoiceSettings__WEBPACK_IMPORTED_MODULE_4__.InvoiceSettings(_this2.formInvoice.get('factureName').value, selectedExt, _this2.formInvoice.get('extType').value, _this2.formInvoice.get('extNum').value, _this2.formInvoice.get('positionAvant').value, _this2.formInvoice.get('positionApres').value));
 
+      _this2.devise = _this2.formGeneral.get('devise').value;
       console.log('Parametres de facture actualisé, redirection...');
 
-      _this2.router.navigate(['tb-home'], {
+      _this2.navController.navigateBack(['tb-home'], {
         replaceUrl: true
       });
     })();
@@ -257,11 +266,21 @@ let Settings = class Settings {
     this.ext = event.target.value;
   }
 
+  selectDevise(event) {
+    this.devise = event.target.value;
+  }
+
+  updateGeneralSettings() {
+    if (this.devise !== null) {
+      this.storageService.set('devise', this.devise);
+    }
+  }
+
   GoBack() {
     var _this3 = this;
 
     return (0,C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this3.router.navigate(['tb-home'], {
+      _this3.navController.navigateBack(['tb-home'], {
         replaceUrl: true
       });
     })();
@@ -275,9 +294,11 @@ Settings.ctorParameters = () => [{
   type: _services_storage_service__WEBPACK_IMPORTED_MODULE_5__.StorageService
 }, {
   type: _angular_router__WEBPACK_IMPORTED_MODULE_8__.Router
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.NavController
 }];
 
-Settings = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_10__.Component)({
+Settings = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_11__.Component)({
   selector: 'app-settings',
   template: _settings_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_settings_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
@@ -302,7 +323,7 @@ module.exports = ".abs-center-x {\n  position: absolute;\n  left: 50%;\n  transf
   \***************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header [translucent]=\"true\">\r\n    <ion-toolbar>\r\n      <ion-title class=\"ion-text-center\">{{'settings' | translate}}</ion-title>\r\n      <dx-button slot=\"start\" (click)=\"GoBack()\" icon=\"fas fa-arrow-left\" style=\"background-color: orange;\">\r\n      </dx-button>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  \r\n  \r\n  <ion-content [fullscreen]=\"true\" style=\"background-color: white;\">\r\n    <div>\r\n      <form [formGroup]=\"formInvoice\" (ngSubmit)=\"UpdateInvoiceSettings()\">\r\n        <div class=\"jumbotron text-center\">\r\n          <div class=\"card-header\">\r\n            {{'invoices' | translate}}\r\n          </div>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\">{{'invoiceName' | translate}}</ion-label>\r\n            <ion-input type=\"text\" id=\"factureName\" placeholder=\"FactureVente\" formControlName=\"factureName\"></ion-input>\r\n          </ion-item>\r\n          <ion-item>\r\n            <ion-label position=\"stacked\">{{'extType' | translate}}</ion-label>\r\n            <ion-select interface=\"alert\" okText=\"Ok\" cancelText=\"Annuler\" formControlName=\"exts\" \r\n              (ionChange)=\"selectExtType($event)\">\r\n              <ion-select-option></ion-select-option>\r\n              <ion-select-option *ngFor=\"let c of extTypes\" [value]=\"c\">\r\n                {{c}}  \r\n              </ion-select-option>\r\n            </ion-select>\r\n          </ion-item>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\" style=\"font-size: medium;\">{{'extPos' | translate}}</ion-label>\r\n            <ion-item>\r\n              <ion-label position=\"fixed\" style=\"font-size: smaller;\">{{'beforeName' | translate}}</ion-label>\r\n              <ion-checkbox id=\"avant\" name=\"avant\" formControlName=\"positionAvant\"></ion-checkbox>\r\n            </ion-item>\r\n            <ion-item>\r\n              <ion-label position=\"fixed\" style=\"font-size: smaller;\">{{'afterName' | translate}}</ion-label>\r\n              <ion-checkbox name=\"apres\" id=\"apres\" formControlName=\"positionApres\"></ion-checkbox>\r\n            </ion-item>          \r\n          </ion-item>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\">{{'extSeparator' | translate}}</ion-label>\r\n            <ion-input type=\"text\" id=\"ext\" placeholder=\"- / ; _ #\" formControlName=\"extType\"></ion-input>\r\n          </ion-item>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\">{{'extVal' | translate}}</ion-label>\r\n            <ion-input type=\"text\" id=\"ext\" placeholder=\"1\" formControlName=\"extNum\"></ion-input>\r\n          </ion-item>\r\n          <ion-item class=\"form-group\"> \r\n            <ion-label position=\"fixed\" style=\"font-size: smaller;\">{{'OpenPdfAfterGenerate' | translate}}</ion-label>\r\n            <ion-checkbox id=\"openPdf\" name=\"openPdf\" formControlName=\"openPdf\"></ion-checkbox>\r\n          </ion-item>\r\n          <dx-button [useSubmitBehavior]=\"true\" class=\"btn btn-secondary\" type=\"submit\" style=\"background-color:orange;\" [text]=\"'saveInvSettings' | translate\"></dx-button>\r\n  </div>\r\n</form>\r\n  </div>\r\n  </ion-content>\r\n  \r\n      <!-- <form [formGroup]=\"formProfile\" (ngSubmit)=\"UpdateProfile()\">\r\n        <ion-item class=\"form-group\" required=\"required\">\r\n          <ion-label position=\"stacked\">Prénom</ion-label>\r\n          <ion-input type=\"text\" id=\"firstName\" placeholder=\"Your name..\" formControlName=\"firstName\" required=\"required\"></ion-input>\r\n        </ion-item>\r\n        <ion-item class=\"form-group\" required=\"required\">\r\n          <ion-label position=\"stacked\">Nom</ion-label>\r\n          <ion-input type=\"text\" id=\"lastName\" placeholder=\"Your last name..\" formControlName=\"lastName\" required=\"required\"></ion-input>\r\n        </ion-item>\r\n        <ion-item class=\"form-group\" required=\"required\">\r\n          <ion-label position=\"stacked\">Adresse</ion-label>\r\n          <ion-input type=\"text\" id=\"address\" placeholder=\"..\" formControlName=\"address\"></ion-input>\r\n        </ion-item>\r\n        \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">Phone</ion-label>\r\n          <ion-input type=\"text\" id=\"phone\" placeholder=\"...\" formControlName=\"phone\"></ion-input>\r\n        </ion-item>\r\n  \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">Mail</ion-label>\r\n          <ion-input type=\"text\" id=\"mail\" placeholder=\"...\" formControlName=\"mail\"></ion-input>\r\n        </ion-item>\r\n  \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">TVA</ion-label>\r\n          <ion-input type=\"text\" id=\"tva\" placeholder=\"...\" formControlName=\"tva\"></ion-input>\r\n        </ion-item>\r\n  \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">IBAN</ion-label>\r\n          <ion-input type=\"text\" id=\"iban\" placeholder=\"BE ...\" formControlName=\"iban\"></ion-input>\r\n        </ion-item>\r\n  \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">BIC</ion-label>\r\n          <ion-input type=\"text\" id=\"bic\" placeholder=\"...\" formControlName=\"bic\"></ion-input>\r\n        </ion-item>\r\n        \r\n        <button class=\"btn btn-secondary\" type=\"submit\">Actualiser profil</button>\r\n      </form> -->";
+module.exports = "<ion-header [translucent]=\"true\">\r\n    <ion-toolbar>\r\n      <ion-title class=\"ion-text-center\">{{'settings' | translate}}</ion-title>\r\n      <dx-button slot=\"start\" (click)=\"GoBack()\" icon=\"fas fa-arrow-left\" style=\"background-color: orange;\">\r\n      </dx-button>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  \r\n  \r\n  <ion-content [fullscreen]=\"true\" style=\"background-color: white;\">\r\n    <div>\r\n      <form [formGroup]=\"formGeneral\" (ngSubmit)=\"updateGeneralSettings()\">\r\n        <div class=\"jumbotron text-center\">\r\n          <div class=\"card-header\">\r\n            {{'general' | translate}}\r\n          </div>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\">{{'devise' | translate}}</ion-label>\r\n            <ion-select interface=\"alert\" okText=\"Ok\" cancelText=\"Annuler\" formControlName=\"devise\" \r\n              (ionChange)=\"selectDevise($event)\">\r\n              <ion-select-option></ion-select-option>\r\n              <ion-select-option *ngFor=\"let c of deviseList\" [value]=\"c\">\r\n                {{c}}  \r\n              </ion-select-option>\r\n            </ion-select>          </ion-item>\r\n            <dx-button [useSubmitBehavior]=\"true\" class=\"btn btn-secondary\" type=\"submit\" style=\"background-color:orange;\" [text]=\"'saveGenSettings' | translate\"></dx-button>\r\n        </div>\r\n        </form>\r\n      <form [formGroup]=\"formInvoice\" (ngSubmit)=\"UpdateInvoiceSettings()\">\r\n        <div class=\"jumbotron text-center\">\r\n          <div class=\"card-header\">\r\n            {{'invoices' | translate}}\r\n          </div>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\">{{'invoiceName' | translate}}</ion-label>\r\n            <ion-input type=\"text\" id=\"factureName\" placeholder=\"FactureVente\" formControlName=\"factureName\"></ion-input>\r\n          </ion-item>\r\n          <ion-item>\r\n            <ion-label position=\"stacked\">{{'extType' | translate}}</ion-label>\r\n            <ion-select interface=\"alert\" okText=\"Ok\" cancelText=\"Annuler\" formControlName=\"exts\" \r\n              (ionChange)=\"selectExtType($event)\">\r\n              <ion-select-option></ion-select-option>\r\n              <ion-select-option *ngFor=\"let c of extTypes\" [value]=\"c\">\r\n                {{c}}  \r\n              </ion-select-option>\r\n            </ion-select>\r\n          </ion-item>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\" style=\"font-size: medium;\">{{'extPos' | translate}}</ion-label>\r\n            <ion-item>\r\n              <ion-label position=\"fixed\" style=\"font-size: smaller;\">{{'beforeName' | translate}}</ion-label>\r\n              <ion-checkbox id=\"avant\" name=\"avant\" formControlName=\"positionAvant\"></ion-checkbox>\r\n            </ion-item>\r\n            <ion-item>\r\n              <ion-label position=\"fixed\" style=\"font-size: smaller;\">{{'afterName' | translate}}</ion-label>\r\n              <ion-checkbox name=\"apres\" id=\"apres\" formControlName=\"positionApres\"></ion-checkbox>\r\n            </ion-item>          \r\n          </ion-item>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\">{{'extSeparator' | translate}}</ion-label>\r\n            <ion-input type=\"text\" id=\"ext\" placeholder=\"- / ; _ #\" formControlName=\"extType\"></ion-input>\r\n          </ion-item>\r\n          <ion-item class=\"form-group\">\r\n            <ion-label position=\"stacked\">{{'extVal' | translate}}</ion-label>\r\n            <ion-input type=\"text\" id=\"ext\" placeholder=\"1\" formControlName=\"extNum\"></ion-input>\r\n          </ion-item>\r\n          <ion-item class=\"form-group\"> \r\n            <ion-label position=\"fixed\" style=\"font-size: smaller;\">{{'OpenPdfAfterGenerate' | translate}}</ion-label>\r\n            <ion-checkbox id=\"openPdf\" name=\"openPdf\" formControlName=\"openPdf\"></ion-checkbox>\r\n          </ion-item>\r\n          <dx-button [useSubmitBehavior]=\"true\" class=\"btn btn-secondary\" type=\"submit\" style=\"background-color:orange;\" [text]=\"'saveInvSettings' | translate\"></dx-button>\r\n  </div>\r\n</form>\r\n  </div>\r\n  </ion-content>\r\n  \r\n      <!-- <form [formGroup]=\"formProfile\" (ngSubmit)=\"UpdateProfile()\">\r\n        <ion-item class=\"form-group\" required=\"required\">\r\n          <ion-label position=\"stacked\">Prénom</ion-label>\r\n          <ion-input type=\"text\" id=\"firstName\" placeholder=\"Your name..\" formControlName=\"firstName\" required=\"required\"></ion-input>\r\n        </ion-item>\r\n        <ion-item class=\"form-group\" required=\"required\">\r\n          <ion-label position=\"stacked\">Nom</ion-label>\r\n          <ion-input type=\"text\" id=\"lastName\" placeholder=\"Your last name..\" formControlName=\"lastName\" required=\"required\"></ion-input>\r\n        </ion-item>\r\n        <ion-item class=\"form-group\" required=\"required\">\r\n          <ion-label position=\"stacked\">Adresse</ion-label>\r\n          <ion-input type=\"text\" id=\"address\" placeholder=\"..\" formControlName=\"address\"></ion-input>\r\n        </ion-item>\r\n        \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">Phone</ion-label>\r\n          <ion-input type=\"text\" id=\"phone\" placeholder=\"...\" formControlName=\"phone\"></ion-input>\r\n        </ion-item>\r\n  \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">Mail</ion-label>\r\n          <ion-input type=\"text\" id=\"mail\" placeholder=\"...\" formControlName=\"mail\"></ion-input>\r\n        </ion-item>\r\n  \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">TVA</ion-label>\r\n          <ion-input type=\"text\" id=\"tva\" placeholder=\"...\" formControlName=\"tva\"></ion-input>\r\n        </ion-item>\r\n  \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">IBAN</ion-label>\r\n          <ion-input type=\"text\" id=\"iban\" placeholder=\"BE ...\" formControlName=\"iban\"></ion-input>\r\n        </ion-item>\r\n  \r\n        <ion-item class=\"form-group\">\r\n          <ion-label position=\"stacked\">BIC</ion-label>\r\n          <ion-input type=\"text\" id=\"bic\" placeholder=\"...\" formControlName=\"bic\"></ion-input>\r\n        </ion-item>\r\n        \r\n        <button class=\"btn btn-secondary\" type=\"submit\">Actualiser profil</button>\r\n      </form> -->";
 
 /***/ })
 

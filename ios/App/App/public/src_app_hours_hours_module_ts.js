@@ -94,12 +94,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Hours": () => (/* binding */ Hours)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _hours_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hours.html?ngResource */ 97773);
 /* harmony import */ var _hours_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hours.scss?ngResource */ 12887);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var angular2_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular2-uuid */ 23105);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
@@ -117,13 +118,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let Hours = class Hours {
-  constructor(modalS, router, storageService, route, cd) {
+  constructor(modalS, router, storageService, route, cd, navController) {
     this.modalS = modalS;
     this.router = router;
     this.storageService = storageService;
     this.route = route;
     this.cd = cd;
+    this.navController = navController;
     this.formHour = new _angular_forms__WEBPACK_IMPORTED_MODULE_7__.UntypedFormGroup({
       date: new _angular_forms__WEBPACK_IMPORTED_MODULE_7__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required),
       description: new _angular_forms__WEBPACK_IMPORTED_MODULE_7__.UntypedFormControl('')
@@ -157,10 +160,8 @@ let Hours = class Hours {
 
         if (_this.indexFind >= 0) {
           _this.hourId = _this.hoursList[_this.indexFind].hourId;
-          _this.hour = new _models_hour__WEBPACK_IMPORTED_MODULE_5__.Hour(_this.hoursList[_this.indexFind].hourId, _this.hoursList[_this.indexFind].date, _this.hoursList[_this.indexFind].description, _this.hoursList[_this.indexFind].hour, _this.hoursList[_this.indexFind].minute);
+          _this.hour = new _models_hour__WEBPACK_IMPORTED_MODULE_5__.Hour(_this.hoursList[_this.indexFind].hourId, _this.hoursList[_this.indexFind].date, _this.hoursList[_this.indexFind].description);
           const d = new Date();
-          console.log(_this.hour.hour, 'et ', _this.hour.minute);
-          d.setUTCHours(_this.hour.hour, _this.hour.minute, 0, 0);
           console.log('dt', d.toISOString());
 
           _this.formHour.setValue({
@@ -217,7 +218,7 @@ let Hours = class Hours {
       console.log(_this2.generateUUID());
       console.log('form status', _this2.formHour);
       if (!_this2.formHour.valid) return;
-      _this2.hour = new _models_hour__WEBPACK_IMPORTED_MODULE_5__.Hour(_this2.hourId, _this2.date, _this2.formHour.get('description').value, dd.getHours(), dd.getMinutes());
+      _this2.hour = new _models_hour__WEBPACK_IMPORTED_MODULE_5__.Hour(_this2.hourId, dd, _this2.formHour.get('description').value);
 
       if (_this2.indexFind >= 0) {
         // this.hoursList.splice(this.indexFind,1);
@@ -233,7 +234,7 @@ let Hours = class Hours {
       _this2.storageService.set('Chantiers', chantierl); // this.storageService.set('Hours='+this.chantierId,this.hoursList);
 
 
-      _this2.router.navigate(['/worksite', {
+      _this2.navController.navigateBack(['/worksite', {
         chantierId: _this2.chantierId
       }], {
         replaceUrl: true
@@ -247,7 +248,7 @@ let Hours = class Hours {
   }
 
   GoBack() {
-    this.router.navigate(['/worksite', {
+    this.navController.navigateBack(['/worksite', {
       chantierId: this.chantierId
     }], {
       replaceUrl: true
@@ -266,9 +267,11 @@ Hours.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_9__.ActivatedRoute
 }, {
   type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.ChangeDetectorRef
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.NavController
 }];
 
-Hours = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_10__.Component)({
+Hours = (0,tslib__WEBPACK_IMPORTED_MODULE_12__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_10__.Component)({
   selector: 'app-hours',
   template: _hours_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_hours_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
@@ -288,13 +291,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Hour": () => (/* binding */ Hour)
 /* harmony export */ });
 class Hour {
-    constructor(hourId, date, description, hour, minute) {
+    constructor(hourId, date, description) {
         this.hourId = hourId;
         this.date = date;
         this.description = description;
-        this.hour = hour;
-        this.minute = minute;
-        this.workTime = hour.toString() + 'h' + minute.toString();
     }
 }
 

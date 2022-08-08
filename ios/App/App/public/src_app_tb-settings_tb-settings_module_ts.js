@@ -95,14 +95,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TabSettings": () => (/* binding */ TabSettings)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _tb_settings_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tb-settings.html?ngResource */ 80105);
 /* harmony import */ var _tb_settings_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tb-settings.scss?ngResource */ 46245);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 60124);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngx-translate/core */ 38699);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
 
 
 
@@ -112,26 +114,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let TabSettings = class TabSettings {
-    constructor(modalS, router, translateService) {
+    constructor(modalS, router, translateService, navController) {
         this.modalS = modalS;
         this.router = router;
         this.translateService = translateService;
+        this.navController = navController;
         this.modal = new _modal_modal_focus__WEBPACK_IMPORTED_MODULE_2__.NgbdModalFocus(this.modalS);
     }
     ngOnInit() {
     }
     MyProducts() {
         console.log('show articles');
-        this.router.navigate(['articles']);
+        this.navController.navigateBack(['articles']);
     }
 };
 TabSettings.ctorParameters = () => [
     { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__.NgbModal },
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__.Router },
-    { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__.TranslateService }
+    { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__.TranslateService },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.NavController }
 ];
-TabSettings = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
+TabSettings = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Component)({
         selector: 'app-tb-settings',
         template: _tb_settings_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_tb_settings_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]

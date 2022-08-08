@@ -140,10 +140,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TabContactsClient": () => (/* binding */ TabContactsClient)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _tb_contacts_client_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tb-contacts-client.html?ngResource */ 23827);
 /* harmony import */ var _tb_contacts_client_css_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tb-contacts-client.css?ngResource */ 54248);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/router */ 60124);
 /* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/user */ 65783);
@@ -152,6 +152,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _services_methods_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/methods.service */ 25812);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
 
 
 
@@ -166,12 +168,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let TabContactsClient = class TabContactsClient {
-  constructor(modalS, storageService, router, route, methodsService) {
+  constructor(modalS, storageService, router, route, methodsService, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
     this.route = route;
     this.methodsService = methodsService;
+    this.navController = navController;
     this.contactsList = [];
     this.indexFind = -5;
     this.formClient = new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormGroup({
@@ -263,15 +266,15 @@ let TabContactsClient = class TabContactsClient {
       _this2.storageService.set('Contacts', _this2.contactsList);
 
       if (!_this2.tag) {
-        _this2.router.navigate(['/tb-contacts'], {
+        _this2.navController.navigateBack(['/tb-contacts'], {
           replaceUrl: true
         });
       } else if (_this2.tag.toLowerCase() === 'chantier') {
-        _this2.router.navigate(['/createworksite'], {
+        _this2.navController.navigateBack(['/createworksite'], {
           replaceUrl: true
         });
       } else if (_this2.tag.toLowerCase() === 'profile') {
-        _this2.router.navigate(['/client', {
+        _this2.navController.navigateBack(['/client', {
           userId: _this2.modif
         }], {
           replaceUrl: true
@@ -313,15 +316,15 @@ let TabContactsClient = class TabContactsClient {
 
       console.log(result);
       if (result !== null) if (!_this3.tag) {
-        _this3.router.navigate(['/tb-contacts'], {
+        _this3.navController.navigateBack(['/tb-contacts'], {
           replaceUrl: true
         });
       } else if (_this3.tag.toLowerCase() === 'chantier') {
-        _this3.router.navigate(['/createworksite'], {
+        _this3.navController.navigateBack(['/createworksite'], {
           replaceUrl: true
         });
       } else if (_this3.tag.toLowerCase() === 'profile') {
-        _this3.router.navigate(['/client', {
+        _this3.navController.navigateBack(['/client', {
           userId: _this3.modif
         }], {
           replaceUrl: true
@@ -357,9 +360,11 @@ TabContactsClient.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.ActivatedRoute
 }, {
   type: _services_methods_service__WEBPACK_IMPORTED_MODULE_7__.MethodsService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.NavController
 }];
 
-TabContactsClient = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
+TabContactsClient = (0,tslib__WEBPACK_IMPORTED_MODULE_12__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.Component)({
   selector: 'app-tb-contacts-client',
   template: _tb_contacts_client_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_tb_contacts_client_css_ngResource__WEBPACK_IMPORTED_MODULE_2__]

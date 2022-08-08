@@ -94,10 +94,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "CreateWorksite": () => (/* binding */ CreateWorksite)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _create_worksite_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-worksite.html?ngResource */ 90812);
 /* harmony import */ var _create_worksite_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./create-worksite.scss?ngResource */ 42558);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/storage.service */ 71188);
 /* harmony import */ var angular2_uuid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! angular2-uuid */ 23105);
@@ -106,6 +106,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _services_methods_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/methods.service */ 25812);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
 
 
 
@@ -120,12 +122,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let CreateWorksite = class CreateWorksite {
-  constructor(modalS, storageService, router, route, methodsService) {
+  constructor(modalS, storageService, router, route, methodsService, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
     this.route = route;
     this.methodsService = methodsService;
+    this.navController = navController;
     this.chantierList = [];
     this.clientList = [];
     this.formWork = new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormGroup({
@@ -227,7 +230,7 @@ let CreateWorksite = class CreateWorksite {
 
       console.log('Chantier crée, redirection...');
 
-      _this3.router.navigate(['/tb-home'], {
+      _this3.navController.navigateBack(['/tb-home'], {
         replaceUrl: true
       });
     })();
@@ -235,7 +238,7 @@ let CreateWorksite = class CreateWorksite {
 
   NewClient() {
     console.log('create client');
-    this.router.navigate(['new-contact', {
+    this.navController.navigateBack(['new-contact', {
       tag: 'chantier'
     }]);
   }
@@ -262,7 +265,7 @@ let CreateWorksite = class CreateWorksite {
       }
 
       console.log(result);
-      if (result !== null) _this4.router.navigate(['tb-home'], {
+      if (result !== null) _this4.navController.navigateBack(['tb-home'], {
         replaceUrl: true
       });
     })();
@@ -295,9 +298,11 @@ CreateWorksite.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.ActivatedRoute
 }, {
   type: _services_methods_service__WEBPACK_IMPORTED_MODULE_7__.MethodsService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.NavController
 }];
 
-CreateWorksite = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
+CreateWorksite = (0,tslib__WEBPACK_IMPORTED_MODULE_12__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.Component)({
   selector: 'app-createworksite',
   template: _create_worksite_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_create_worksite_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
@@ -385,54 +390,6 @@ MethodsService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
 ], MethodsService);
 
 
-
-/***/ }),
-
-/***/ 23105:
-/*!*********************************************!*\
-  !*** ./node_modules/angular2-uuid/index.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-
-
-var UUID = function () {
-  function UUID() {// no-op
-  }
-
-  UUID.UUID = function () {
-    if (typeof window !== "undefined" && typeof window.crypto !== "undefined" && typeof window.crypto.getRandomValues !== "undefined") {
-      // If we have a cryptographically secure PRNG, use that
-      // http://stackoverflow.com/questions/6906916/collisions-when-generating-uuids-in-javascript
-      var buf = new Uint16Array(8);
-      window.crypto.getRandomValues(buf);
-      return this.pad4(buf[0]) + this.pad4(buf[1]) + "-" + this.pad4(buf[2]) + "-" + this.pad4(buf[3]) + "-" + this.pad4(buf[4]) + "-" + this.pad4(buf[5]) + this.pad4(buf[6]) + this.pad4(buf[7]);
-    } else {
-      // Otherwise, just use Math.random
-      // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-      // https://stackoverflow.com/questions/11605068/why-does-jshint-argue-against-bitwise-operators-how-should-i-express-this-code
-      return this.random4() + this.random4() + "-" + this.random4() + "-" + this.random4() + "-" + this.random4() + "-" + this.random4() + this.random4() + this.random4();
-    }
-  };
-
-  UUID.pad4 = function (num) {
-    var ret = num.toString(16);
-
-    while (ret.length < 4) {
-      ret = "0" + ret;
-    }
-
-    return ret;
-  };
-
-  UUID.random4 = function () {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  };
-
-  return UUID;
-}();
-
-exports.UUID = UUID;
 
 /***/ }),
 

@@ -10,9 +10,23 @@ ion-icon{
 ion-header {
   background-color: white!important;
 }
+*{
+  font-size:9px
+}
+@media(min-width: 380px) //if more than 400 px
+{
+  *{
+    font-size:10px
+  }
+}
+@media(min-width: 410px) //if more than 400 px
+{
+  *{
+    font-size:13px
+  }
+}
 /** Ionic CSS Variables **/
 :root {
-
   /** primary **/
   --ion-color-primary: #ffc409;
   --ion-color-primary-rgb: 255, 196, 9;

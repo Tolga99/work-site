@@ -61,13 +61,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Product": () => (/* binding */ Product)
 /* harmony export */ });
 class Product {
-    constructor(productId, productName, description, priceHtva, categoryId, imageProduct) {
+    constructor(productId, productName, description, priceHtva, categoryParent, imageProduct, catLevel) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
         this.priceHtva = priceHtva;
-        this.categoryId = categoryId;
+        this.categoryParent = categoryParent;
         this.imageProduct = imageProduct;
+        this.catLevel = catLevel;
     }
 }
 

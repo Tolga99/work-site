@@ -231,10 +231,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Worksite": () => (/* binding */ Worksite)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _worksite_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./worksite.html?ngResource */ 72207);
 /* harmony import */ var _worksite_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./worksite.scss?ngResource */ 14111);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/router */ 60124);
 /* harmony import */ var angular2_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular2-uuid */ 23105);
@@ -248,6 +248,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ionic_native_image_picker_ngx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic-native/image-picker/ngx */ 19107);
 /* harmony import */ var _services_pdf_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../services/pdf.service */ 81735);
 /* harmony import */ var _services_methods_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/methods.service */ 25812);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
 
 
 
@@ -266,7 +268,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let Worksite = class Worksite {
-  constructor(modalS, storageService, router, route, _liveAnnouncer, imgPicker, pdfService, methodsService) {
+  constructor(modalS, storageService, router, route, _liveAnnouncer, imgPicker, pdfService, methodsService, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
@@ -275,6 +277,8 @@ let Worksite = class Worksite {
     this.imgPicker = imgPicker;
     this.pdfService = pdfService;
     this.methodsService = methodsService;
+    this.navController = navController;
+    this.devise = '';
     this.allowedPageSizes = [5, 10, 15];
     this.displayMode = 'full';
     this.showPageSizeSelector = true;
@@ -334,6 +338,8 @@ let Worksite = class Worksite {
 
       _this2.storageService.init();
 
+      _this2.devise = yield _this2.storageService.get('devise');
+      if (_this2.devise == null) _this2.devise = '';
       _this2.chantierList = yield _this2.storageService.get('Chantiers');
       if (_this2.chantierList == null) _this2.chantierList = new Array();
 
@@ -423,7 +429,7 @@ let Worksite = class Worksite {
 
   createInvoice() {
     console.log('Bouton nv facture (creation)');
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       chantierId: this.chantierId,
       type: 'facture',
       mode: 'false'
@@ -432,7 +438,7 @@ let Worksite = class Worksite {
 
   scanInvoice() {
     console.log('Bouton nv facture (scan)');
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       chantierId: this.chantierId,
       type: 'facture',
       mode: 'true'
@@ -441,7 +447,7 @@ let Worksite = class Worksite {
 
   openInvoice(inv) {
     console.log('Bouton open facture', inv.factureId, this.chantierId);
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       factureId: inv.factureId,
       type: 'facture',
       chantierId: this.chantierId
@@ -483,7 +489,7 @@ let Worksite = class Worksite {
 
   createDevis() {
     console.log('Bouton nv facture (creation)');
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       chantierId: this.chantierId,
       type: 'devis',
       mode: 'false'
@@ -492,7 +498,7 @@ let Worksite = class Worksite {
 
   scanDevis() {
     console.log('Bouton nv facture (scan)');
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       chantierId: this.chantierId,
       type: 'devis',
       mode: 'true'
@@ -501,7 +507,7 @@ let Worksite = class Worksite {
 
   openDevis(inv) {
     console.log('Bouton open facture', inv.factureId, this.chantierId);
-    this.router.navigate(['invoice', {
+    this.navController.navigateBack(['invoice', {
       factureId: inv.factureId,
       type: 'devis',
       chantierId: this.chantierId
@@ -542,7 +548,7 @@ let Worksite = class Worksite {
 
   AddHour() {
     console.log('Bouton nv heure');
-    this.router.navigate(['hours', {
+    this.navController.navigateBack(['hours', {
       chantierId: this.chantierId
     }]);
     this.CalculTotalHour();
@@ -550,7 +556,7 @@ let Worksite = class Worksite {
 
   openHour(h) {
     console.log('Bouton open hour', h.hourId, this.chantierId);
-    this.router.navigate(['hours', {
+    this.navController.navigateBack(['hours', {
       hourId: h.hourId,
       chantierId: this.chantierId
     }]);
@@ -570,7 +576,7 @@ let Worksite = class Worksite {
   }
 
   AddPayment() {
-    this.router.navigate(['payment', {
+    this.navController.navigateBack(['payment', {
       chantierId: this.chantierId
     }]);
   }
@@ -612,7 +618,7 @@ let Worksite = class Worksite {
 
       console.log('chantiers saved', _this5.chantierList);
 
-      _this5.router.navigate(['tb-home'], {
+      _this5.navController.navigateBack(['tb-home'], {
         replaceUrl: true
       });
     })();
@@ -638,8 +644,8 @@ let Worksite = class Worksite {
 
     if (this.chantier.hours != null) {
       this.chantier.hours.forEach(element => {
-        hours += element.hour;
-        minutes += element.minute;
+        hours += element.date.getHours();
+        minutes += element.date.getMinutes();
       });
       console.log('Heures : ', hours);
       console.log('Minutes : ', minutes);
@@ -649,7 +655,13 @@ let Worksite = class Worksite {
         hours++;
       }
 
-      this.totalHours = hours?.toString() + 'h' + minutes?.toString();
+      var sMinutes = '';
+
+      if (minutes < 10) {
+        sMinutes = '0' + minutes.toString();
+      } else sMinutes = minutes.toString();
+
+      this.totalHours = hours?.toString() + 'h' + sMinutes;
       console.log(this.totalHours);
     }
   }
@@ -665,7 +677,7 @@ let Worksite = class Worksite {
       }
 
       console.log(result);
-      if (result !== null) _this7.router.navigate(['tb-home'], {
+      if (result !== null) _this7.navController.navigateBack(['tb-home'], {
         replaceUrl: true
       });
     })();
@@ -771,63 +783,16 @@ Worksite.ctorParameters = () => [{
   type: _services_pdf_service__WEBPACK_IMPORTED_MODULE_9__.PdfService
 }, {
   type: _services_methods_service__WEBPACK_IMPORTED_MODULE_10__.MethodsService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_15__.NavController
 }];
 
-Worksite = (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.Component)({
+Worksite = (0,tslib__WEBPACK_IMPORTED_MODULE_16__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_17__.Component)({
   selector: 'app-worksite',
   template: _worksite_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_worksite_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
 })], Worksite);
 
-
-/***/ }),
-
-/***/ 23105:
-/*!*********************************************!*\
-  !*** ./node_modules/angular2-uuid/index.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-
-var UUID = function () {
-  function UUID() {// no-op
-  }
-
-  UUID.UUID = function () {
-    if (typeof window !== "undefined" && typeof window.crypto !== "undefined" && typeof window.crypto.getRandomValues !== "undefined") {
-      // If we have a cryptographically secure PRNG, use that
-      // http://stackoverflow.com/questions/6906916/collisions-when-generating-uuids-in-javascript
-      var buf = new Uint16Array(8);
-      window.crypto.getRandomValues(buf);
-      return this.pad4(buf[0]) + this.pad4(buf[1]) + "-" + this.pad4(buf[2]) + "-" + this.pad4(buf[3]) + "-" + this.pad4(buf[4]) + "-" + this.pad4(buf[5]) + this.pad4(buf[6]) + this.pad4(buf[7]);
-    } else {
-      // Otherwise, just use Math.random
-      // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-      // https://stackoverflow.com/questions/11605068/why-does-jshint-argue-against-bitwise-operators-how-should-i-express-this-code
-      return this.random4() + this.random4() + "-" + this.random4() + "-" + this.random4() + "-" + this.random4() + "-" + this.random4() + this.random4() + this.random4();
-    }
-  };
-
-  UUID.pad4 = function (num) {
-    var ret = num.toString(16);
-
-    while (ret.length < 4) {
-      ret = "0" + ret;
-    }
-
-    return ret;
-  };
-
-  UUID.random4 = function () {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  };
-
-  return UUID;
-}();
-
-exports.UUID = UUID;
 
 /***/ }),
 
@@ -2291,7 +2256,7 @@ module.exports = ".abs-center-x {\n  position: absolute;\n  left: 50%;\n  transf
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<ion-content style=\"justify-content: start;\">\r\n<!-- <ion-header>\r\n  <ion-toolbar>\r\n    <ion-button (click)=\"GoBack()\">\r\n      <ion-icon name=\"arrow-left\"></ion-icon>\r\n    </ion-button>\r\n  </ion-toolbar>\r\n</ion-header> -->\r\n\r\n<ion-header>\r\n  <ion-toolbar>\r\n    <ion-tabs>\r\n      <ion-tab-bar slot=\"top\">\r\n        <dx-button icon=\"fas fa-arrow-left\" (click)=\"GoBack()\" style=\"background-color: orange;\">\r\n        </dx-button>\r\n        <ion-tab-button (click)=\"SetTabView('general')\">\r\n          <ion-icon name=\"information-circle\"></ion-icon>\r\n          <ion-label>{{'general' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('achats')\">\r\n          <ion-icon name=\"copy\"></ion-icon>\r\n          <ion-label>{{'achats' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('travail')\">\r\n          <ion-icon name=\"hammer\"></ion-icon>\r\n          <ion-label>{{'work' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('images')\">\r\n          <ion-icon name=\"images\"></ion-icon>\r\n          <ion-label>{{'pictures' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n      </ion-tab-bar>\r\n    </ion-tabs>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<div style=\"overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;\">\r\n  <form [formGroup]=\"formChantier\" (ngSubmit)=\"SaveChantier()\">\r\n    <div [hidden]=\"(TabView !== 'general')\" class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n      <div class=\"card-header tabHeader\">\r\n        {{'infos' | translate}}\r\n      </div>\r\n      <ion-item class=\"form-group\" required=\"required\">\r\n        <ion-label position=\"stacked\">{{'nameWorksite' | translate}}</ion-label>\r\n        <ion-input type=\"text\" id=\"name\" name=\"name\" formControlName=\"chantierName\" placeholder=\"...\"\r\n          required=\"required\" maxlength=\"50\"></ion-input>\r\n      </ion-item>\r\n\r\n      <ion-item class=\"form-group\" required=\"required\">\r\n        <ion-label position=\"stacked\">{{'worksiteAddress' | translate}}</ion-label>\r\n        <ion-input type=\"text\" id=\"address\" name=\"address\" formControlName=\"address\" placeholder=\"...\" maxlength=\"50\"></ion-input>\r\n      </ion-item>\r\n\r\n      <ion-item>\r\n        <ion-label position=\"stacked\">{{'description' | translate}}</ion-label>\r\n        <ion-textarea id=\"description\" name=\"description\" formControlName=\"description\" placeholder=\"...\" maxlength=\"50\"\r\n          style=\"height:100px;\"></ion-textarea>\r\n      </ion-item>\r\n      <hr>\r\n    </div>\r\n    <div [hidden]=\"(TabView !== 'achats')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'invoices' | translate}}\r\n        </div>\r\n        <div class=\"mat-elevation-z8\">\r\n            <dx-data-grid\r\n            id=\"gridFactures\"\r\n            [dataSource]=\"chantier?.factures\"\r\n            keyExpr=\"factureId\"\r\n            [showBorders]=\"true\"\r\n            [title]=\"'invoices' | translate\"\r\n          >\r\n          <dxo-search-panel\r\n          [visible]=\"true\"\r\n          [highlightCaseSensitive]=\"false\"\r\n          ></dxo-search-panel>\r\n            <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n            <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n            <dxo-pager\r\n              [visible]=\"true\"\r\n              [allowedPageSizes]=\"allowedPageSizes\"\r\n              displayMode=\"full\"\r\n              [showPageSizeSelector]=\"showPageSizeSelector\"\r\n              [showInfo]=\"showInfo\"\r\n              [showNavigationButtons]=\"showNavButtons\"\r\n            >\r\n            </dxo-pager>\r\n            <dxi-column\r\n            dataField=\"factureName\"\r\n            [caption]=\"'invoiceName' | translate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            dataField=\"totalPrice\"\r\n            [caption]=\"'total' | translate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            dataField=\"date\"\r\n            [caption]=\"'date' | translate\"\r\n            dataType=\"date\"\r\n            format=\"dd/MM/yyyy\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            [caption]=\"'state' | translate\"\r\n            cellTemplate=\"stateTemplate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            [caption]=\"'...'\"\r\n            cellTemplate=\"buttonsTemplate\"\r\n            >\r\n          \r\n            </dxi-column>\r\n            <div *dxTemplate=\"let el of 'stateTemplate'\" style=\"color: red;\">\r\n              {{IsInvoicePaid(el.data)}}\r\n            </div>\r\n            <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n              <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n                <mat-icon>toc</mat-icon>\r\n\r\n              </button>\r\n              <mat-menu #menu=\"matMenu\">\r\n                <button mat-menu-item type=\"button\" (click)=\"openInvoice(el.data)\">\r\n                  <mat-icon>edit</mat-icon>\r\n                  <span>{{'editInv' | translate}}</span>\r\n                </button>\r\n                <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n                  <mat-icon>picture_as_pdf</mat-icon>\r\n                  <span>{{'genPDF' | translate}}</span>\r\n                </button>\r\n                <button mat-menu-item type=\"button\" (click)=\"deleteInvoice(el.data)\">\r\n                  <mat-icon>delete</mat-icon>\r\n                  <span>{{'delete' | translate}}</span>\r\n                </button>\r\n              </mat-menu>\r\n            </div>\r\n          </dx-data-grid>\r\n        </div>\r\n        <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n        justify-content: space-evenly;\r\n        align-items: center;\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanInvoice()\" icon=\"fas fa-paste\" [text]=\"'scanInvoice' | translate\"></dx-button>\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createInvoice()\" icon=\"fas fa-file-invoice\" [text]=\"'createInvoice' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n\r\n      <hr>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'estimate' | translate}}\r\n        </div>\r\n\r\n        <!-- <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input matInput (keyup)=\"applyFilterDevis($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field> -->\r\n\r\n        <div class=\"mat-elevation-z8\">\r\n          <dx-data-grid\r\n          id=\"gridDevis\"\r\n          [dataSource]=\"chantier?.devis\"\r\n          keyExpr=\"factureId\"\r\n          [showBorders]=\"true\"\r\n          [title]=\"'estimates' | translate\"\r\n        >\r\n        <dxo-search-panel\r\n        [visible]=\"true\"\r\n        [highlightCaseSensitive]=\"false\"\r\n        ></dxo-search-panel>\r\n          <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n          <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n          <dxo-pager\r\n            [visible]=\"true\"\r\n            [allowedPageSizes]=\"allowedPageSizes\"\r\n            displayMode=\"full\"\r\n            [showPageSizeSelector]=\"showPageSizeSelector\"\r\n            [showInfo]=\"showInfo\"\r\n            [showNavigationButtons]=\"showNavButtons\"\r\n          >\r\n          </dxo-pager>\r\n          <dxi-column\r\n          dataField=\"factureName\"\r\n          [caption]=\"'estimateName' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"totalPrice\"\r\n          [caption]=\"'total' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"date\"\r\n          [caption]=\"'date' | translate\"\r\n          dataType=\"date\"\r\n          format=\"dd/MM/yyyy\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          [caption]=\"'...'\"\r\n          cellTemplate=\"buttonsTemplate\"\r\n          >\r\n        \r\n          </dxi-column>\r\n          <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n            <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n              <mat-icon>toc</mat-icon>\r\n\r\n            </button>\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item type=\"button\" (click)=\"openDevis(el.data)\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'editEstimate' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item (click)=\"TransformToInvoice(el.data)\" type=\"button\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'transformToInv' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n                <mat-icon>picture_as_pdf</mat-icon>\r\n                <span>{{'genPDF' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item type=\"button\" (click)=\"deleteDevis(el.data)\">\r\n                <mat-icon>delete</mat-icon>\r\n                <span>{{'delete' | translate}}</span>\r\n              </button>\r\n            </mat-menu>\r\n          </div>\r\n        </dx-data-grid>\r\n          <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" aria-label=\"Select page of dataSourceDevis\">\r\n          </mat-paginator>\r\n        </div>\r\n        <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n        justify-content: space-evenly;\r\n        align-items: center;\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanDevis()\" icon=\"fas fa-paste\" [text]=\"'scanEstimate' | translate\"></dx-button>\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createDevis()\" icon=\"fas fa-file-invoice-dollar\" [text]=\"'createEstimate' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'receivedMoney' | translate}}\r\n        </div>\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\" id=\"managerTable\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th *ngFor=\"let head of headElementsRecv\" scope=\"col\">{{head}} </th>\r\n              </tr>\r\n            </thead>\r\n            <tbody *ngFor=\"let inv of chantier?.factures\">\r\n              <tr mdbTableCol *ngFor=\"let p of inv.receivedMoney\">\r\n                <td>{{inv.factureName}}</td>\r\n                <td>{{p.price}}</td>\r\n                <td>{{inv.totalPrice}}</td>\r\n                <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>\r\n                <td>{{p.date}}</td>\r\n                <td (click)=\"$event.stopPropagation()\">\r\n                  <button mat-icon-button [matMenuTriggerFor]=\"menu\" type=\"button\">\r\n                    <mat-icon>toc</mat-icon>\r\n\r\n                  </button>\r\n                  <mat-menu #menu=\"matMenu\">\r\n                    <button mat-menu-item type=\"button\">\r\n                      <mat-icon>edit</mat-icon>\r\n                      <span>{{'edit' | translate}}</span>\r\n                    </button>\r\n                    <button mat-menu-item type=\"button\" (click)=\"DeleteReceive(inv,p)\">\r\n                      <mat-icon>delete</mat-icon>\r\n                      <span>{{'delete' | translate}}</span>\r\n                    </button>\r\n                  </mat-menu>\r\n                </td>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"AddPayment()\" \r\n          icon=\"fas fa-cart-plus\" [text]=\"'addPayment' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th>{{'tickets' | translate}}</th>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr mdbTableCol *ngFor='let url of imagesT'>\r\n                <td><img src=\"{{url}}\" alt=\"\" height=100 width=100 /></td>\r\n                <td> <dx-button type=\"button\" class=\"btn btn-danger\" style=\"background-color:orange;\" (click)=\"DeleteImage(url)\" icon=\"fas fa-trash\"></dx-button></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <input id=\"imgChantier\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChangeTicket($event)\">\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div [hidden]=\"(TabView !== 'travail')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'hoursWorked' | translate}}\r\n        </div>\r\n        <div class=\"mat-elevation-z8\">\r\n\r\n          <dx-data-grid\r\n          id=\"gridHour\"\r\n          [dataSource]=\"chantier?.hours\"\r\n          keyExpr=\"hourId\"\r\n          [showBorders]=\"true\"\r\n          [title]=\"'hoursWorked' | translate\"\r\n        >\r\n        <dxo-search-panel\r\n        [visible]=\"true\"\r\n        [highlightCaseSensitive]=\"false\"\r\n        ></dxo-search-panel>\r\n          <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n          <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n          <dxo-pager\r\n            [visible]=\"true\"\r\n            [allowedPageSizes]=\"allowedPageSizes\"\r\n            displayMode=\"full\"\r\n            [showPageSizeSelector]=\"showPageSizeSelector\"\r\n            [showInfo]=\"showInfo\"\r\n            [showNavigationButtons]=\"showNavButtons\"\r\n          >\r\n          </dxo-pager>\r\n          <dxi-column\r\n          dataField=\"description\"\r\n          [caption]=\"'description' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"workTime\"\r\n          [caption]=\"'hourWorked' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"date\"\r\n          [caption]=\"'date' | translate\"\r\n          dataType=\"date\"\r\n          format=\"dd/MM/yyyy\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          [caption]=\"'...'\"\r\n          cellTemplate=\"buttonsTemplate\"\r\n          >\r\n        \r\n          </dxi-column>\r\n          <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n            <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n              <mat-icon>toc</mat-icon>\r\n\r\n            </button>\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item type=\"button\" (click)=\"openHour(el.data)\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'edit' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item (click)=\"deleteHour(el.data)\" type=\"button\">\r\n                <mat-icon>delete</mat-icon>\r\n                <span>{{'delete' | translate}}</span>\r\n              </button>\r\n            </mat-menu>\r\n          </div>\r\n        </dx-data-grid>\r\n        </div>\r\n\r\n        <div class=\"card-footer\">\r\n          {{'totalHours' | translate}} {{totalHours}}\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n          (click)=\"AddHour()\" icon=\"fas fa-clock\" [text]=\"'addWork' | translate\" ></dx-button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div [hidden]=\"(TabView !== 'images')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'worksitePictures' | translate}}\r\n        </div>\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th>{{'pictures' | translate}}</th>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr mdbTableCol *ngFor='let url of imagesC'>\r\n                <!-- <th scope=\"row\">{{el.id}}</th> -->\r\n                <td><img src=\"{{url}}\" alt=\"\" height=100 width=100 /></td>\r\n                <td> <dx-button type=\"button\" class=\"btn btn-danger\" style=\"background-color:orange;\" \r\n                  (click)=\"DeleteImageChantier(url)\" icon=\"fas fa-trash\"></dx-button></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <input id=\"imgChantier\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChangeChantier($event)\">\r\n        </div>\r\n      </div>\r\n    </div>\r\n  <div class=\"card-footer text-muted\">\r\n    <div style=\"padding: 10px; margin: 5px;\">\r\n    <dx-button [useSubmitBehavior]=\"true\" type=\"submit\" class=\"btn btn-success\" style=\"width:88%;\" [text]=\"'updateWorksite' | translate\"></dx-button>\r\n    <dx-button type=\"submit\" class=\"btn btn-danger\" (click)=\"FinishChantier()\" style=\"width: 88%;\" [text]=\"'finishWorksite' | translate\"></dx-button>\r\n    </div>\r\n  </div>\r\n  </form>\r\n</div>\r\n</ion-content>";
+module.exports = "<ion-content style=\"justify-content: start;\">\r\n<!-- <ion-header>\r\n  <ion-toolbar>\r\n    <ion-button (click)=\"GoBack()\">\r\n      <ion-icon name=\"arrow-left\"></ion-icon>\r\n    </ion-button>\r\n  </ion-toolbar>\r\n</ion-header> -->\r\n\r\n<ion-header>\r\n  <ion-toolbar>\r\n    <ion-tabs>\r\n      <ion-tab-bar slot=\"top\">\r\n        <dx-button icon=\"fas fa-arrow-left\" (click)=\"GoBack()\" style=\"background-color: orange;\">\r\n        </dx-button>\r\n        <ion-tab-button (click)=\"SetTabView('general')\">\r\n          <ion-icon name=\"information-circle\"></ion-icon>\r\n          <ion-label>{{'general' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('achats')\">\r\n          <ion-icon name=\"copy\"></ion-icon>\r\n          <ion-label>{{'achats' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('travail')\">\r\n          <ion-icon name=\"hammer\"></ion-icon>\r\n          <ion-label>{{'work' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n        <ion-tab-button (click)=\"SetTabView('images')\">\r\n          <ion-icon name=\"images\"></ion-icon>\r\n          <ion-label>{{'pictures' | translate}}</ion-label>\r\n        </ion-tab-button>\r\n\r\n      </ion-tab-bar>\r\n    </ion-tabs>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<div style=\"overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;\">\r\n  <form [formGroup]=\"formChantier\" (ngSubmit)=\"SaveChantier()\">\r\n    <div [hidden]=\"(TabView !== 'general')\" class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n      <div class=\"card-header tabHeader\">\r\n        {{'infos' | translate}}\r\n      </div>\r\n      <ion-item class=\"form-group\" required=\"required\">\r\n        <ion-label position=\"stacked\">{{'nameWorksite' | translate}}</ion-label>\r\n        <ion-input type=\"text\" id=\"name\" name=\"name\" formControlName=\"chantierName\" placeholder=\"...\"\r\n          required=\"required\" maxlength=\"50\"></ion-input>\r\n      </ion-item>\r\n\r\n      <ion-item class=\"form-group\" required=\"required\">\r\n        <ion-label position=\"stacked\">{{'worksiteAddress' | translate}}</ion-label>\r\n        <ion-input type=\"text\" id=\"address\" name=\"address\" formControlName=\"address\" placeholder=\"...\" maxlength=\"50\"></ion-input>\r\n      </ion-item>\r\n\r\n      <ion-item>\r\n        <ion-label position=\"stacked\">{{'description' | translate}}</ion-label>\r\n        <ion-textarea id=\"description\" name=\"description\" formControlName=\"description\" placeholder=\"...\" maxlength=\"50\"\r\n          style=\"height:100px;\"></ion-textarea>\r\n      </ion-item>\r\n      <hr>\r\n    </div>\r\n    <div [hidden]=\"(TabView !== 'achats')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'invoices' | translate}}\r\n        </div>\r\n        <div class=\"mat-elevation-z8\">\r\n            <dx-data-grid\r\n            id=\"gridFactures\"\r\n            [dataSource]=\"chantier?.factures\"\r\n            keyExpr=\"factureId\"\r\n            [showBorders]=\"true\"\r\n            [title]=\"'invoices' | translate\"\r\n          >\r\n          <dxo-search-panel\r\n          [visible]=\"true\"\r\n          [highlightCaseSensitive]=\"false\"\r\n          ></dxo-search-panel>\r\n            <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n            <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n            <dxo-pager\r\n              [visible]=\"true\"\r\n              [allowedPageSizes]=\"allowedPageSizes\"\r\n              displayMode=\"full\"\r\n              [showPageSizeSelector]=\"showPageSizeSelector\"\r\n              [showInfo]=\"showInfo\"\r\n              [showNavigationButtons]=\"showNavButtons\"\r\n            >\r\n            </dxo-pager>\r\n            <dxi-column\r\n            dataField=\"factureName\"\r\n            [caption]=\"'invoiceName' | translate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            dataField=\"totalPrice\"\r\n            [caption]=\"'total' | translate\"\r\n            cellTemplate=\"priceTemplate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            dataField=\"date\"\r\n            [caption]=\"'date' | translate\"\r\n            dataType=\"date\"\r\n            format=\"dd/MM/yyyy\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            [caption]=\"'state' | translate\"\r\n            cellTemplate=\"stateTemplate\"\r\n            >\r\n            </dxi-column>\r\n            <dxi-column\r\n            [caption]=\"'...'\"\r\n            cellTemplate=\"buttonsTemplate\"\r\n            >\r\n          \r\n            </dxi-column>\r\n            <div *dxTemplate=\"let el of 'stateTemplate'\" style=\"color: red;\">\r\n              {{IsInvoicePaid(el.data)}}\r\n            </div>\r\n            <div *dxTemplate=\"let el of 'priceTemplate'\">\r\n              {{el.data.priceHtva + this.devise}}\r\n            </div>\r\n            <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n              <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n                <mat-icon>toc</mat-icon>\r\n\r\n              </button>\r\n              <mat-menu #menu=\"matMenu\">\r\n                <button mat-menu-item type=\"button\" (click)=\"openInvoice(el.data)\">\r\n                  <mat-icon>edit</mat-icon>\r\n                  <span>{{'editInv' | translate}}</span>\r\n                </button>\r\n                <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n                  <mat-icon>picture_as_pdf</mat-icon>\r\n                  <span>{{'genPDF' | translate}}</span>\r\n                </button>\r\n                <button mat-menu-item type=\"button\" (click)=\"deleteInvoice(el.data)\">\r\n                  <mat-icon>delete</mat-icon>\r\n                  <span>{{'delete' | translate}}</span>\r\n                </button>\r\n              </mat-menu>\r\n            </div>\r\n          </dx-data-grid>\r\n        </div>\r\n        <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n        justify-content: space-evenly;\r\n        align-items: center;\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanInvoice()\" icon=\"fas fa-paste\" [text]=\"'scanInvoice' | translate\"></dx-button>\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createInvoice()\" icon=\"fas fa-file-invoice\" [text]=\"'createInvoice' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n\r\n      <hr>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'estimate' | translate}}\r\n        </div>\r\n\r\n        <!-- <mat-form-field appearance=\"standard\">\r\n          <mat-label>{{'search' | translate}}</mat-label>\r\n          <input matInput (keyup)=\"applyFilterDevis($event)\" placeholder=\"Ex. Mia\" #input>\r\n        </mat-form-field> -->\r\n\r\n        <div class=\"mat-elevation-z8\">\r\n          <dx-data-grid\r\n          id=\"gridDevis\"\r\n          [dataSource]=\"chantier?.devis\"\r\n          keyExpr=\"factureId\"\r\n          [showBorders]=\"true\"\r\n          [title]=\"'estimates' | translate\"\r\n        >\r\n        <dxo-search-panel\r\n        [visible]=\"true\"\r\n        [highlightCaseSensitive]=\"false\"\r\n        ></dxo-search-panel>\r\n          <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n          <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n          <dxo-pager\r\n            [visible]=\"true\"\r\n            [allowedPageSizes]=\"allowedPageSizes\"\r\n            displayMode=\"full\"\r\n            [showPageSizeSelector]=\"showPageSizeSelector\"\r\n            [showInfo]=\"showInfo\"\r\n            [showNavigationButtons]=\"showNavButtons\"\r\n          >\r\n          </dxo-pager>\r\n          <dxi-column\r\n          dataField=\"factureName\"\r\n          [caption]=\"'estimateName' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"totalPrice\"\r\n          [caption]=\"'total' | translate\"\r\n          cellTemplate=\"priceTemplate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"date\"\r\n          [caption]=\"'date' | translate\"\r\n          dataType=\"date\"\r\n          format=\"dd/MM/yyyy\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          [caption]=\"'...'\"\r\n          cellTemplate=\"buttonsTemplate\"\r\n          >\r\n        \r\n          </dxi-column>\r\n          <div *dxTemplate=\"let el of 'priceTemplate'\">\r\n            {{el.data.priceHtva + this.devise}}\r\n          </div>\r\n          <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n            <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n              <mat-icon>toc</mat-icon>\r\n\r\n            </button>\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item type=\"button\" (click)=\"openDevis(el.data)\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'editEstimate' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item (click)=\"TransformToInvoice(el.data)\" type=\"button\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'transformToInv' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item type=\"button\" (click)=\"GeneratePDFInvoice(el.data)\">\r\n                <mat-icon>picture_as_pdf</mat-icon>\r\n                <span>{{'genPDF' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item type=\"button\" (click)=\"deleteDevis(el.data)\">\r\n                <mat-icon>delete</mat-icon>\r\n                <span>{{'delete' | translate}}</span>\r\n              </button>\r\n            </mat-menu>\r\n          </div>\r\n        </dx-data-grid>\r\n          <mat-paginator mat-paginator [pageSizeOptions]=\"[5, 10, 25, 100]\" aria-label=\"Select page of dataSourceDevis\">\r\n          </mat-paginator>\r\n        </div>\r\n        <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\r\n        justify-content: space-evenly;\r\n        align-items: center;\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"scanDevis()\" icon=\"fas fa-paste\" [text]=\"'scanEstimate' | translate\"></dx-button>\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"createDevis()\" icon=\"fas fa-file-invoice-dollar\" [text]=\"'createEstimate' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'receivedMoney' | translate}}\r\n        </div>\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\" id=\"managerTable\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th *ngFor=\"let head of headElementsRecv\" scope=\"col\">{{head}} </th>\r\n              </tr>\r\n            </thead>\r\n            <tbody *ngFor=\"let inv of chantier?.factures\">\r\n              <tr mdbTableCol *ngFor=\"let p of inv.receivedMoney\">\r\n                <td>{{inv.factureName}}</td>\r\n                <td>{{p.price + this.devise}}</td>\r\n                <td>{{inv.totalPrice + this.devise}}</td>\r\n                <td>{{(inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2') + this.devise}}</td>\r\n                <td>{{p.date}}</td>\r\n                <td (click)=\"$event.stopPropagation()\">\r\n                  <button mat-icon-button [matMenuTriggerFor]=\"menu\" type=\"button\">\r\n                    <mat-icon>toc</mat-icon>\r\n\r\n                  </button>\r\n                  <mat-menu #menu=\"matMenu\">\r\n                    <button mat-menu-item type=\"button\">\r\n                      <mat-icon>edit</mat-icon>\r\n                      <span>{{'edit' | translate}}</span>\r\n                    </button>\r\n                    <button mat-menu-item type=\"button\" (click)=\"DeleteReceive(inv,p)\">\r\n                      <mat-icon>delete</mat-icon>\r\n                      <span>{{'delete' | translate}}</span>\r\n                    </button>\r\n                  </mat-menu>\r\n                </td>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" (click)=\"AddPayment()\" \r\n          icon=\"fas fa-cart-plus\" [text]=\"'addPayment' | translate\"></dx-button>\r\n        </div>\r\n      </div>\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th>{{'tickets' | translate}}</th>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr mdbTableCol *ngFor='let url of imagesT'>\r\n                <td><img src=\"{{url}}\" alt=\"\" height=100 width=100 /></td>\r\n                <td> <dx-button type=\"button\" class=\"btn btn-danger\" style=\"background-color:orange;\" (click)=\"DeleteImage(url)\" icon=\"fas fa-trash\"></dx-button></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <input id=\"imgChantier\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChangeTicket($event)\">\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div [hidden]=\"(TabView !== 'travail')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'hoursWorked' | translate}}\r\n        </div>\r\n        <div class=\"mat-elevation-z8\">\r\n\r\n          <dx-data-grid\r\n          id=\"gridHour\"\r\n          [dataSource]=\"chantier?.hours\"\r\n          keyExpr=\"hourId\"\r\n          [showBorders]=\"true\"\r\n          [title]=\"'hoursWorked' | translate\"\r\n        >\r\n        <dxo-search-panel\r\n        [visible]=\"true\"\r\n        [highlightCaseSensitive]=\"false\"\r\n        ></dxo-search-panel>\r\n          <dxo-scrolling rowRenderingMode=\"virtual\"> </dxo-scrolling>\r\n          <dxo-paging [pageSize]=\"5\"> </dxo-paging>\r\n          <dxo-pager\r\n            [visible]=\"true\"\r\n            [allowedPageSizes]=\"allowedPageSizes\"\r\n            displayMode=\"full\"\r\n            [showPageSizeSelector]=\"showPageSizeSelector\"\r\n            [showInfo]=\"showInfo\"\r\n            [showNavigationButtons]=\"showNavButtons\"\r\n          >\r\n          </dxo-pager>\r\n          <dxi-column\r\n          dataField=\"description\"\r\n          [caption]=\"'description' | translate\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"date\"\r\n          [caption]=\"'hourWorked' | translate\"\r\n          dataType=\"date\"\r\n          format=\"HH:mm\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          dataField=\"date\"\r\n          [caption]=\"'date' | translate\"\r\n          dataType=\"date\"\r\n          format=\"dd/MM/yyyy\"\r\n          >\r\n          </dxi-column>\r\n          <dxi-column\r\n          [caption]=\"'...'\"\r\n          cellTemplate=\"buttonsTemplate\"\r\n          >\r\n        \r\n          </dxi-column>\r\n          <div *dxTemplate=\"let el of 'buttonsTemplate'\">\r\n            <button type=\"button\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\r\n              <mat-icon>toc</mat-icon>\r\n\r\n            </button>\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item type=\"button\" (click)=\"openHour(el.data)\">\r\n                <mat-icon>edit</mat-icon>\r\n                <span>{{'edit' | translate}}</span>\r\n              </button>\r\n              <button mat-menu-item (click)=\"deleteHour(el.data)\" type=\"button\">\r\n                <mat-icon>delete</mat-icon>\r\n                <span>{{'delete' | translate}}</span>\r\n              </button>\r\n            </mat-menu>\r\n          </div>\r\n        </dx-data-grid>\r\n        </div>\r\n\r\n        <div class=\"card-footer\">\r\n          {{'totalHours' | translate}} {{totalHours}}\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <dx-button type=\"button\" class=\"btn btn-secondary\" style=\"background-color:orange;\" \r\n          (click)=\"AddHour()\" icon=\"fas fa-clock\" [text]=\"'addWork' | translate\" ></dx-button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div [hidden]=\"(TabView !== 'images')\">\r\n      <div class=\"jumbotron text-center\" style=\"margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;\">\r\n        <div class=\"card-header tabHeader\">\r\n          {{'worksitePictures' | translate}}\r\n        </div>\r\n        <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\r\n          <table class=\"table table-bordered table-striped mb-0\">\r\n            <thead>\r\n              <tr>\r\n                <th>{{'pictures' | translate}}</th>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr mdbTableCol *ngFor='let url of imagesC'>\r\n                <!-- <th scope=\"row\">{{el.id}}</th> -->\r\n                <td><img src=\"{{url}}\" alt=\"\" height=100 width=100 /></td>\r\n                <td> <dx-button type=\"button\" class=\"btn btn-danger\" style=\"background-color:orange;\" \r\n                  (click)=\"DeleteImageChantier(url)\" icon=\"fas fa-trash\"></dx-button></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n\r\n        </div>\r\n        <div class=\"card-footer text-muted\">\r\n          <input id=\"imgChantier\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChangeChantier($event)\">\r\n        </div>\r\n      </div>\r\n    </div>\r\n  <div class=\"card-footer text-muted\">\r\n    <div style=\"padding: 10px; margin: 5px;\">\r\n    <dx-button [useSubmitBehavior]=\"true\" type=\"submit\" class=\"btn btn-success\" style=\"width:88%;\" [text]=\"'updateWorksite' | translate\"></dx-button>\r\n    <dx-button type=\"submit\" class=\"btn btn-danger\" (click)=\"FinishChantier()\" style=\"width: 88%;\" [text]=\"'finishWorksite' | translate\"></dx-button>\r\n    </div>\r\n  </div>\r\n  </form>\r\n</div>\r\n</ion-content>";
 
 /***/ })
 

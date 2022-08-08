@@ -114,7 +114,7 @@
   </div>
 
   <div class="card-footer text-muted" style="text-align:center;">
-    <dx-button icon="fas fa-plus" type="button" class="btn btn-secondary" style="background-color:orange;" 
+    <dx-button icon="fas fa-plus" type="button" class="btn btn-secondary" style="background-color:orange; font-size: smaller;" 
     (click)="CreateWorksite()" [text]="'newWorksite' | translate">     
    </dx-button>
   </div>
@@ -237,18 +237,21 @@
   </div>
   <div class="card-footer text-muted" style="text-align:center; display: flex;
   justify-content: space-evenly;
-  align-items: center;">
-    <dx-button [text]="'scanInvoice' | translate" type="button" class="btn btn-secondary" style="background-color:orange;" 
+  align-items: center;
+  margin: 0px 10px 0px 10px;">
+    <dx-button [text]="'scanInvoice' | translate" type="button" class="btn btn-secondary" style="background-color:orange; margin-right: 10px;
+    font-size: smaller;" 
     (click)="scanInvoice()" icon="fas fa-paste"></dx-button>
-    <dx-button type="button" icon="fas fa-file-invoice" class="btn btn-secondary" style="background-color:orange;" 
+    <dx-button type="button" icon="fas fa-file-invoice" class="btn btn-secondary" style="background-color:orange;font-size: smaller;" 
     (click)="createInvoice()" [text]="'createInvoice' | translate">
     </dx-button>
   </div>
   <div class="card-footer text-muted" style="text-align:center; display: flex;
   justify-content: space-evenly;
-  align-items: center;">
-    <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="scanDevis()" icon="fas fa-paste" [text]="'scanEstimate' | translate"></dx-button>
-    <dx-button type="button" class="btn btn-secondary" style="background-color:orange;" (click)="createDevis()" icon="fas fa-file-invoice-dollar" [text]="'createEstimate' | translate"></dx-button>
+  align-items: center;  
+  margin: 0px 10px 0px 10px;">
+    <dx-button type="button" class="btn btn-secondary" style="background-color:orange; margin-right: 10px; font-size: smaller;" (click)="scanDevis()" icon="fas fa-paste" [text]="'scanEstimate' | translate"></dx-button>
+    <dx-button type="button" class="btn btn-secondary" style="background-color:orange; font-size: smaller;" (click)="createDevis()" icon="fas fa-file-invoice-dollar" [text]="'createEstimate' | translate"></dx-button>
   </div>
 </div>
 </ion-content>

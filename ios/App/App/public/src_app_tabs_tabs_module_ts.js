@@ -31,7 +31,7 @@ const routes = [
             // CHANTIER
             {
                 path: 'tb-home',
-                loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_material_module_ts"), __webpack_require__.e("default-src_app_services_pdf_service_ts"), __webpack_require__.e("src_app_tb-home_tb-home_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ../tb-home/tb-home.module */ 33589)).then(m => m.TabHomeModule)
+                loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_material_module_ts"), __webpack_require__.e("default-src_app_services_pdf_service_ts-node_modules_angular2-uuid_index_js"), __webpack_require__.e("common"), __webpack_require__.e("src_app_tb-home_tb-home_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ../tb-home/tb-home.module */ 33589)).then(m => m.TabHomeModule)
             },
             {
                 path: 'articles',

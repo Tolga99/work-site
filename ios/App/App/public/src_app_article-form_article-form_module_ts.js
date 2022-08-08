@@ -97,10 +97,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ArticleForm": () => (/* binding */ ArticleForm)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _article_form_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./article-form.html?ngResource */ 53084);
 /* harmony import */ var _article_form_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./article-form.scss?ngResource */ 83758);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 60124);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
@@ -111,6 +111,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_photo_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/photo.service */ 61957);
 /* harmony import */ var _awesome_cordova_plugins_camera_ngx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @awesome-cordova-plugins/camera/ngx */ 64587);
 /* harmony import */ var _services_methods_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../services/methods.service */ 25812);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
 
 
 
@@ -127,7 +129,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let ArticleForm = class ArticleForm {
-  constructor(modalS, storageService, router, route, photoService, camera, methodsService) {
+  constructor(modalS, storageService, router, route, photoService, camera, methodsService, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
@@ -135,14 +137,16 @@ let ArticleForm = class ArticleForm {
     this.photoService = photoService;
     this.camera = camera;
     this.methodsService = methodsService;
+    this.navController = navController;
     this.images = '';
     this.artList = [];
     this.catList = [];
+    this.numericNumberReg = '^-?[0-9]\\d*(\\.\\d{1,2})?$';
     this.formArt = new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormGroup({
       productName: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_10__.Validators.required),
       description: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl(''),
       category: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl(''),
-      priceHtva: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_10__.Validators.required])
+      priceHtva: new _angular_forms__WEBPACK_IMPORTED_MODULE_10__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_10__.Validators.pattern(this.numericNumberReg))
     });
     this.modal = new _modal_modal_focus__WEBPACK_IMPORTED_MODULE_4__.NgbdModalFocus(this.modalS);
   }
@@ -168,12 +172,20 @@ let ArticleForm = class ArticleForm {
         // {
 
         _this.artId = _this.modifArt.productId;
-        _this.actualCat = _this.modifArt.categoryId;
+        let cat;
+
+        if (_this.modifArt.catLevel > 0) {
+          cat = _this.catList.find(a => a.categoryParent.categoryId === _this.modifArt.categoryParent.categoryId && _this.modifArt.catLevel === a.catLevel);
+        } else {
+          cat = _this.catList.find(a => a.categoryId === _this.modifArt.categoryParent.categoryId && _this.modifArt.catLevel === 0);
+        }
+
+        _this.actualCat = cat.categoryId;
 
         _this.formArt.setValue({
           productName: _this.modifArt.productName,
           description: _this.modifArt.description,
-          category: _this.modifArt.categoryId,
+          category: cat.categoryId,
           priceHtva: _this.modifArt.priceHtva
         });
 
@@ -245,7 +257,18 @@ let ArticleForm = class ArticleForm {
         return;
       }
 
-      _this2.art = new _models_product__WEBPACK_IMPORTED_MODULE_5__.Product(_this2.artId, _this2.formArt.get('productName').value, _this2.formArt.get('description').value, _this2.formArt.get('priceHtva').value, _this2.formArt.get('category').value, _this2.images);
+      if (!_this2.methodsService.isNullOrEmpty(_this2.formArt.get('category').value)) {
+        let category;
+        console.log(_this2.formArt.get('category').value, _this2.catList);
+
+        let cat = _this2.catList.find(a => a === _this2.formArt.get('category').value);
+
+        if (cat?.categoryParent == null) category = cat;else category = cat.categoryParent;
+        console.log(cat, category);
+        _this2.art = new _models_product__WEBPACK_IMPORTED_MODULE_5__.Product(_this2.artId, _this2.formArt.get('productName').value, _this2.formArt.get('description').value, _this2.formArt.get('priceHtva').value, category, _this2.images, cat.catLevel);
+      } else {
+        _this2.art = new _models_product__WEBPACK_IMPORTED_MODULE_5__.Product(_this2.artId, _this2.formArt.get('productName').value, _this2.formArt.get('description').value, _this2.formArt.get('priceHtva').value, null, _this2.images, 0);
+      }
 
       if (_this2.modif === 'YES') {
         const indexFind = _this2.artList.findIndex(x => x.productId === _this2.modifArt.productId);
@@ -259,7 +282,7 @@ let ArticleForm = class ArticleForm {
 
       console.log('invoice saved', _this2.artList);
 
-      _this2.router.navigate(['/articles', {
+      _this2.navController.navigateBack(['/articles', {
         actualCat: _this2.actualCat
       }], {
         replaceUrl: true
@@ -301,13 +324,13 @@ let ArticleForm = class ArticleForm {
           result = yield _this3.GoBackModal();
         }
       } else {
-        if (!_this3.methodsService.equals(_this3.modifArt.productName, _this3.formArt.get('productName').value) || !_this3.methodsService.equals(_this3.modifArt.description, _this3.formArt.get('description').value) || !_this3.methodsService.equals(_this3.modifArt.priceHtva.toString(), _this3.formArt.get('priceHtva').value) || !_this3.methodsService.equals(_this3.modifArt.categoryId, _this3.formArt.get('category').value) || !_this3.methodsService.equals(_this3.modifArt.imageProduct, _this3.images)) {
+        if (!_this3.methodsService.equals(_this3.modifArt.productName, _this3.formArt.get('productName').value) || !_this3.methodsService.equals(_this3.modifArt.description, _this3.formArt.get('description').value) || !_this3.methodsService.equals(_this3.modifArt.priceHtva.toString(), _this3.formArt.get('priceHtva').value) || !_this3.methodsService.equals(_this3.modifArt.categoryParent.categoryId, _this3.formArt.get('category').value) || !_this3.methodsService.equals(_this3.modifArt.imageProduct, _this3.images)) {
           result = yield _this3.GoBackModal();
         }
       }
 
       console.log(result);
-      if (result !== null) _this3.router.navigate(['/articles', {
+      if (result !== null) _this3.navController.navigateBack(['/articles', {
         actualCat: _this3.actualCat
       }], {
         replaceUrl: true
@@ -365,15 +388,17 @@ ArticleForm.ctorParameters = () => [{
   type: _awesome_cordova_plugins_camera_ngx__WEBPACK_IMPORTED_MODULE_8__.Camera
 }, {
   type: _services_methods_service__WEBPACK_IMPORTED_MODULE_9__.MethodsService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.NavController
 }];
 
 ArticleForm.propDecorators = {
   ngOnDestroy: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_13__.HostListener,
+    type: _angular_core__WEBPACK_IMPORTED_MODULE_14__.HostListener,
     args: ['unloaded']
   }]
 };
-ArticleForm = (0,tslib__WEBPACK_IMPORTED_MODULE_14__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.Component)({
+ArticleForm = (0,tslib__WEBPACK_IMPORTED_MODULE_15__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_14__.Component)({
   selector: 'app-article-form',
   template: _article_form_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_article_form_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
@@ -494,7 +519,7 @@ module.exports = ".form-group[required=required] input:not(.required) {\n  borde
   \***********************************************************/
 /***/ ((module) => {
 
-module.exports = "<div class=\"container\" style=\"overflow-y: auto; background-color: white;\">\n  <ion-header>\n    <ion-toolbar>\n      <dx-button slot=\"start\" (click)=\"GoBack()\" icon=\"fas fa-arrow-left\" style=\"background-color: orange;\">\n      </dx-button>\n    </ion-toolbar>\n  </ion-header>\n  <form [formGroup]=\"formArt\" (ngSubmit)=\"onSubmit()\">\n\n    <ion-item class=\"form-group\" required=\"required\">\n      <ion-label position=\"stacked\">{{'nameProduct' | translate}}</ion-label>\n      <ion-input type=\"text\" id=\"productName\" name=\"productName\" formControlName=\"productName\" placeholder=\"...\"\n      required=\"required\" maxlength=\"50\"></ion-input>\n    </ion-item>\n\n    <!-- <ion-item>\n      <ion-label>{{'category' | translate}}</ion-label>\n      <ion-select interface=\"alert\" okText=\"Ok\" cancelText=\"Annuler\" formControlName=\"category\"\n        (change)=\"selectCategory($event)\">\n        <ion-select-option></ion-select-option>\n        <ion-select-option *ngFor=\"let c of catList\" [value]=\"c.categoryId\" >\n          {{c.categoryName}}  </ion-select-option>\n      </ion-select>\n    </ion-item> -->\n\n    <ion-item>\n      <ion-label>{{'category' | translate}}</ion-label>\n      <ionic-selectable\n        [(ngModel)]=\"selectedCat\"\n        [items]=\"catList\"\n        itemValueField=\"categoryId\"\n        itemTextField=\"categoryName\"\n        [canSearch]=\"true\"\n        formControlName=\"category\"\n        (ionChange)=\"selectCategory($event)\">\n      </ionic-selectable>\n    </ion-item>\n    <hr>\n    <!-- <ion-fab vertical=\"bottom\" horizontal=\"center\" slot=\"fixed\">\n      <ion-fab-button (click)=\"takePicture()\">\n        <ion-icon name=\"camera\"></ion-icon>\n      </ion-fab-button>\n    </ion-fab> -->\n    <label for=\"imgCat\">{{'picProduct' | translate}}</label>\n    <input id=\"imgCat\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChange($event)\">\n    <!-- <button type=\"button\" class=\"btn btn-danger btn-lg\" (click)=\"resetImages()\">Réinitialiser</button>\n\n    <img *ngFor='let url of images' [src]=\"url\" height=\"150\" width=\"200px\" style=\"margin: 3px;\"> <br /> -->\n    <!-- <div *ngFor=\"let img of images\"> -->\n    <img class=\"original\" [src]=\"images\" height=\"150\" width=\"200px\" style=\"margin: 3px;\" />\n    <ion-content>\n      <ion-fab vertical=\"bottom\" horizontal=\"center\" slot=\"fixed\">\n        <ion-fab-button (click)=\"addPhotoToGallery()\">\n          <ion-icon name=\"camera\"></ion-icon>\n        </ion-fab-button>\n      </ion-fab>\n    </ion-content>\n    <ion-content>\n      <ion-grid>\n        <ion-row>\n          <ion-col size=\"6\" *ngFor=\"let photo of photoService.photos; index as position\">\n            <ion-img [src]=\"photo.webviewPath\"></ion-img>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    \n      <!-- ion-fab markup  -->\n    </ion-content>\n    <dx-button icon=\"fas fa-trash\" type=\"submit\" (click)=\"resetImages()\" class=\"btn btn-danger\">\n    </dx-button>\n    <!-- </div> -->\n\n    <ion-item class=\"form-group\" required=\"required\">\n      <ion-label position=\"stacked\">{{'htvaPrice' | translate}}</ion-label>\n      <ion-input type=\"text\" id=\"priceHtva\" name=\"priceHtva\" formControlName=\"priceHtva\" placeholder=\"...\"\n      required=\"required\" maxlength=\"12\"></ion-input>\n    </ion-item>\n    <hr>\n    <ion-item>\n      <ion-label position=\"stacked\">{{'description' | translate}}</ion-label>\n      <ion-textarea id=\"description\" name=\"description\" formControlName=\"description\" placeholder=\"...\"\n        style=\"height:100px;\" maxlength=\"50\"></ion-textarea>\n    </ion-item>\n\n    <dx-button [useSubmitBehavior]=\"true\" type=\"submit\" [text]=\"'addProduct' | translate\" icon=\"fas fa-cart-plus\" style=\"background-color: orange;\"></dx-button>\n  </form>\n</div>";
+module.exports = "<div class=\"container\" style=\"overflow-y: auto; background-color: white;\">\n  <ion-header>\n    <ion-toolbar>\n      <dx-button slot=\"start\" (click)=\"GoBack()\" icon=\"fas fa-arrow-left\" style=\"background-color: orange;\">\n      </dx-button>\n    </ion-toolbar>\n  </ion-header>\n  <form [formGroup]=\"formArt\" (ngSubmit)=\"onSubmit()\">\n\n    <ion-item class=\"form-group\" required=\"required\">\n      <ion-label position=\"stacked\">{{'nameProduct' | translate}}</ion-label>\n      <ion-input type=\"text\" id=\"productName\" name=\"productName\" formControlName=\"productName\" placeholder=\"...\"\n      required=\"required\" maxlength=\"50\"></ion-input>\n    </ion-item>\n\n    <!-- <ion-item>\n      <ion-label>{{'category' | translate}}</ion-label>\n      <ion-select interface=\"alert\" okText=\"Ok\" cancelText=\"Annuler\" formControlName=\"category\"\n        (change)=\"selectCategory($event)\">\n        <ion-select-option></ion-select-option>\n        <ion-select-option *ngFor=\"let c of catList\" [value]=\"c.categoryId\" >\n          {{c.categoryName}}  </ion-select-option>\n      </ion-select>\n    </ion-item> -->\n\n    <ion-item>\n      <ion-label>{{'category' | translate}}</ion-label>\n      <ionic-selectable\n        [(ngModel)]=\"selectedCat\"\n        [items]=\"catList\"\n        itemValueField=\"categoryId\"\n        itemTextField=\"categoryName\"\n        [canSearch]=\"true\"\n        formControlName=\"category\"\n        (ionChange)=\"selectCategory($event)\">\n      </ionic-selectable>\n    </ion-item>\n    \n    <!-- <label for=\"imgCat\">{{'picProduct' | translate}}</label>\n    <input id=\"imgCat\" type=\"file\" class=\"form-control\" multiple=\"\" (change)=\"onFileChange($event)\">\n\n    <img class=\"original\" [src]=\"images\" height=\"150\" width=\"200px\" style=\"margin: 3px;\" />\n    <ion-content>\n      <ion-fab vertical=\"bottom\" horizontal=\"center\" slot=\"fixed\">\n        <ion-fab-button (click)=\"addPhotoToGallery()\">\n          <ion-icon name=\"camera\"></ion-icon>\n        </ion-fab-button>\n      </ion-fab>\n    </ion-content>\n    <ion-content>\n      <ion-grid>\n        <ion-row>\n          <ion-col size=\"6\" *ngFor=\"let photo of photoService.photos; index as position\">\n            <ion-img [src]=\"photo.webviewPath\"></ion-img>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    \n    </ion-content>\n    <dx-button icon=\"fas fa-trash\" type=\"submit\" (click)=\"resetImages()\" class=\"btn btn-danger\">\n    </dx-button> -->\n\n    <ion-item class=\"form-group\" required=\"required\">\n      <ion-label position=\"stacked\">{{'htvaPrice' | translate}}</ion-label>\n      <ion-input type=\"text\" id=\"priceHtva\" name=\"priceHtva\" formControlName=\"priceHtva\" placeholder=\"...\"\n      required=\"required\" maxlength=\"12\"></ion-input>\n    </ion-item>\n    <hr>\n    <ion-item>\n      <ion-label position=\"stacked\">{{'description' | translate}}</ion-label>\n      <ion-textarea id=\"description\" name=\"description\" formControlName=\"description\" placeholder=\"...\"\n        style=\"height:100px;\" maxlength=\"50\"></ion-textarea>\n    </ion-item>\n\n    <dx-button [useSubmitBehavior]=\"true\" type=\"submit\" [text]=\"'addProduct' | translate\" icon=\"fas fa-cart-plus\" style=\"background-color: orange;\"></dx-button>\n  </form>\n</div>";
 
 /***/ })
 

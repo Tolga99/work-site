@@ -24,11 +24,11 @@ const routes = [
     },
     {
         path: 'worksite',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("default-src_app_material_module_ts"), __webpack_require__.e("default-src_app_services_pdf_service_ts"), __webpack_require__.e("default-src_app_worksite_worksite_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./worksite/worksite.module */ 43045)).then(m => m.WorksiteModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("default-src_app_material_module_ts"), __webpack_require__.e("default-src_app_services_pdf_service_ts-node_modules_angular2-uuid_index_js"), __webpack_require__.e("default-src_app_worksite_worksite_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./worksite/worksite.module */ 43045)).then(m => m.WorksiteModule)
     },
     {
         path: 'createworksite',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("default-src_app_create-worksite_create-worksite_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./create-worksite/create-worksite.module */ 78927)).then(m => m.CreateWorksiteModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_modal_modal-focus_ts"), __webpack_require__.e("default-src_app_shared_shared_module_ts"), __webpack_require__.e("default-src_app_create-worksite_create-worksite_module_ts"), __webpack_require__.e("node_modules_angular2-uuid_index_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./create-worksite/create-worksite.module */ 78927)).then(m => m.CreateWorksiteModule)
     },
     {
         path: 'invoice',
@@ -410,12 +410,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AuthService": () => (/* binding */ AuthService)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/auth */ 23628);
 /* harmony import */ var _angular_fire_compat_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/fire/compat/auth */ 5873);
 /* harmony import */ var _angular_fire_compat_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/fire/compat/firestore */ 92393);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
 
 
 
@@ -425,12 +427,13 @@ __webpack_require__.r(__webpack_exports__);
 let AuthService = class AuthService {
     constructor(afs, // Inject Firestore service
     afAuth, // Inject Firebase auth service
-    router, ngZone // NgZone service to remove outside scope warning
+    router, ngZone, navController // NgZone service to remove outside scope warning
     ) {
         this.afs = afs;
         this.afAuth = afAuth;
         this.router = router;
         this.ngZone = ngZone;
+        this.navController = navController;
         /* Saving user data in localstorage when
         logged in and setting up null when logged out */
         this.afAuth.authState.subscribe((user) => {
@@ -451,7 +454,7 @@ let AuthService = class AuthService {
             .signInWithEmailAndPassword(email, password)
             .then((result) => {
             this.ngZone.run(() => {
-                this.router.navigate(['dashboard']);
+                this.navController.navigateBack(['dashboard']);
             });
             this.SetUserData(result.user);
         })
@@ -478,7 +481,7 @@ let AuthService = class AuthService {
         return this.afAuth.currentUser
             .then((u) => u.sendEmailVerification())
             .then(() => {
-            this.router.navigate(['verify-email-address']);
+            this.navController.navigateBack(['verify-email-address']);
         });
     }
     // Reset Forggot password
@@ -501,7 +504,7 @@ let AuthService = class AuthService {
     GoogleAuth() {
         return this.AuthLogin(new firebase_auth__WEBPACK_IMPORTED_MODULE_0__.GoogleAuthProvider()).then((res) => {
             if (res) {
-                this.router.navigate(['dashboard']);
+                this.navController.navigateBack(['dashboard']);
             }
         });
     }
@@ -511,7 +514,7 @@ let AuthService = class AuthService {
             .signInWithPopup(provider)
             .then((result) => {
             this.ngZone.run(() => {
-                this.router.navigate(['dashboard']);
+                this.navController.navigateBack(['dashboard']);
             });
             this.SetUserData(result.user);
         })
@@ -539,7 +542,7 @@ let AuthService = class AuthService {
     SignOut() {
         return this.afAuth.signOut().then(() => {
             localStorage.removeItem('user');
-            this.router.navigate(['sign-in']);
+            this.navController.navigateBack(['sign-in']);
         });
     }
 };
@@ -547,9 +550,10 @@ AuthService.ctorParameters = () => [
     { type: _angular_fire_compat_firestore__WEBPACK_IMPORTED_MODULE_1__.AngularFirestore },
     { type: _angular_fire_compat_auth__WEBPACK_IMPORTED_MODULE_2__.AngularFireAuth },
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__.Router },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.NgZone }
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.NgZone },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.NavController }
 ];
-AuthService = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+AuthService = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
         providedIn: 'root',
     })

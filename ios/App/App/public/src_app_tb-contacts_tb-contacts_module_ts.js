@@ -94,12 +94,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TabContacts": () => (/* binding */ TabContacts)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _tb_contacts_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tb-contacts.html?ngResource */ 92842);
 /* harmony import */ var _tb_contacts_css_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tb-contacts.css?ngResource */ 64753);
 /* harmony import */ var _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/cdk/a11y */ 24218);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/storage.service */ 71188);
@@ -113,12 +114,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let TabContacts = class TabContacts {
-  constructor(modalS, storageService, router, _liveAnnouncer) {
+  constructor(modalS, storageService, router, _liveAnnouncer, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
     this._liveAnnouncer = _liveAnnouncer;
+    this.navController = navController;
     this.allowedPageSizes = [5, 10, 15];
     this.displayMode = 'full';
     this.showPageSizeSelector = true;
@@ -152,18 +155,18 @@ let TabContacts = class TabContacts {
 
   CreateClient() {
     console.log('create client');
-    this.router.navigate(['new-contact']); // this.router.navigate(['tb-new-contact']);
+    this.navController.navigateBack(['new-contact']); // this.navController.navigateBack(['tb-new-contact']);
   }
 
   openContact(e) {
     var user = e.data;
-    this.router.navigate(['client', {
+    this.navController.navigateBack(['client', {
       userId: user.userId
     }]);
   }
 
   EditContact(user) {
-    this.router.navigate(['new-contact', {
+    this.navController.navigateBack(['new-contact', {
       userId: user.userId
     }]);
     console.log('click', user.firstName);
@@ -187,7 +190,7 @@ let TabContacts = class TabContacts {
   }
 
   NewWork(us) {
-    this.router.navigate(['createworksite', {
+    this.navController.navigateBack(['createworksite', {
       userId: us.userId
     }], {
       replaceUrl: true
@@ -204,9 +207,11 @@ TabContacts.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_6__.Router
 }, {
   type: _angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_7__.LiveAnnouncer
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_8__.NavController
 }];
 
-TabContacts = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Component)({
+TabContacts = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_10__.Component)({
   selector: 'app-tb-contacts',
   template: _tb_contacts_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_tb_contacts_css_ngResource__WEBPACK_IMPORTED_MODULE_2__]

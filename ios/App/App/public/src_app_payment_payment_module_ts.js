@@ -94,12 +94,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Payment": () => (/* binding */ Payment)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _payment_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./payment.html?ngResource */ 67375);
 /* harmony import */ var _payment_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./payment.scss?ngResource */ 18014);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/storage.service */ 71188);
@@ -113,15 +114,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let Payment = class Payment {
-  constructor(modalS, router, route, storageService) {
+  constructor(modalS, router, route, storageService, navController) {
     this.modalS = modalS;
     this.router = router;
     this.route = route;
     this.storageService = storageService;
+    this.navController = navController;
+    this.devise = '';
+    this.numericNumberReg = '^-?[0-9]\\d*(\\.\\d{1,2})?$';
     this.formPay = new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.UntypedFormGroup({
       chantierName: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.UntypedFormControl(''),
-      payment: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.UntypedFormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_5__.Validators.required]),
+      payment: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_5__.Validators.pattern(this.numericNumberReg)),
       address: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__.UntypedFormControl('')
     });
     this.headElementsInv = ['Nom facture', 'Total', 'Reste à payer', 'Date'];
@@ -138,6 +143,8 @@ let Payment = class Payment {
 
       _this.storageService.init();
 
+      _this.devise = yield _this.storageService.get('devise');
+      if (_this.devise == null) _this.devise = '';
       _this.chantierList = yield _this.storageService.get('Chantiers');
       _this.chantierIndex = _this.chantierList.findIndex(a => a.chantierId === _this.chantierId);
       _this.chantier = _this.chantierList.find(a => a.chantierId === _this.chantierId); // console.log(this.invList);
@@ -170,7 +177,7 @@ let Payment = class Payment {
   }
 
   GoBack() {
-    this.router.navigate(['worksite', {
+    this.navController.navigateBack(['worksite', {
       chantierId: this.chantierId
     }], {
       replaceUrl: true
@@ -241,7 +248,7 @@ let Payment = class Payment {
   }
 
   Terminer() {
-    this.router.navigate(['/worksite', {
+    this.navController.navigateBack(['/worksite', {
       chantierId: this.chantierId
     }], {
       replaceUrl: true
@@ -258,9 +265,11 @@ Payment.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_7__.ActivatedRoute
 }, {
   type: _services_storage_service__WEBPACK_IMPORTED_MODULE_4__.StorageService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_8__.NavController
 }];
 
-Payment = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Component)({
+Payment = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_10__.Component)({
   selector: 'app-payment',
   template: _payment_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_payment_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
@@ -285,7 +294,7 @@ module.exports = ".class_name {\n  background-color: yellow !important;\n}\n\n.f
   \*************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title class=\"ion-text-center\">{{'payment' | translate}}</ion-title>\n    <dx-button slot=\"start\" (click)=\"GoBack()\" icon=\"fas fa-arrow-left\" style=\"background-color: orange;\">\n    </dx-button>\n  </ion-toolbar>\n</ion-header>\n<div class=\"container\" style=\"overflow-y: auto; background-color: white; height: 100%; width: 100%;\">\n\n  <form [formGroup]=\"formPay\" (ngSubmit)=\"SavePay()\">\n    <div class=\"card-header tabHeader\">\n      {{'selectInvoice' | translate}}\n    </div>\n    <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\n      <table class=\"table table-bordered table-striped mb-0\">\n\n        <thead>\n          <tr>\n            <th *ngFor=\"let head of headElementsInv\" scope=\"col\">{{head}} </th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr mdbTableCol *ngFor=\"let inv of this.chantier?.factures\" (click)=\"SelectInvoice(inv)\" [ngClass]=\"{'class_name': inv === selectedInv}\" >\n            <!-- [ngClass]=\"{ 'selectedInv' : inv }\"> -->\n            <!-- <th scope=\"row\">{{el.id}}</th> -->\n            <td>{{inv.factureName}}</td>\n            <td>{{inv.totalPrice}}</td>\n            <td>{{inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2'}}</td>\n            <td>{{inv.date}}</td>\n        </tbody>\n\n      </table>\n\n    </div>\n    <!-- <div>\n      <label for=\"\">Reste à payer : {{selectedInv?.totalPrice - ReceivedMoney }}</label>\n    </div> -->\n    <ion-item class=\"form-group\" style=\"margin-top: 10px\" required=\"required\">\n      <ion-label>{{'payment' | translate}}</ion-label>\n      <ion-input type=\"number\" id=\"payment\" name=\"payment\" formControlName=\"payment\" placeholder=\"123,45\" required=\"required\"\n      maxlength=\"12\"></ion-input>\n    </ion-item>\n    <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\n  justify-content: space-evenly;\n  align-items: center;\">\n    <dx-button [useSubmitBehavior]=\"true\" icon=\"fas fa-cash-register\" class=\"btn btn-danger\" style=\"background-color:orange;\" [text]=\"'addPay' | translate\"></dx-button>\n    <!-- <dx-button [useSubmitBehavior]=\"false\" class=\"btn btn-danger\" (click)=\"Terminer()\" [text]=\"'savePay' | translate\" style=\"background-color: orange;\"></dx-button> -->\n  </div>\n  </form>\n\n</div>";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title class=\"ion-text-center\">{{'payment' | translate}}</ion-title>\n    <dx-button slot=\"start\" (click)=\"GoBack()\" icon=\"fas fa-arrow-left\" style=\"background-color: orange;\">\n    </dx-button>\n  </ion-toolbar>\n</ion-header>\n<div class=\"container\" style=\"overflow-y: auto; background-color: white; height: 100%; width: 100%;\">\n\n  <form [formGroup]=\"formPay\" (ngSubmit)=\"SavePay()\">\n    <div class=\"card-header tabHeader\">\n      {{'selectInvoice' | translate}}\n    </div>\n    <div class=\"col-auto table-wrapper-scroll-y my-custom-scrollbar\">\n      <div style=\"color: red; text-align: center;\" [hidden]=\"this.chantier?.factures.length > 0\">\n        {{'noData' | translate}}  \n      </div>\n      <table class=\"table table-bordered table-striped mb-0\" [hidden]=\"this.chantier?.factures === null || this.chantier?.factures.length === 0\">\n        <thead>\n          <tr>\n            <th *ngFor=\"let head of headElementsInv\" scope=\"col\">{{head}} </th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr mdbTableCol *ngFor=\"let inv of this.chantier?.factures\" (click)=\"SelectInvoice(inv)\" [ngClass]=\"{'class_name': inv === selectedInv}\" >\n            <!-- [ngClass]=\"{ 'selectedInv' : inv }\"> -->\n            <!-- <th scope=\"row\">{{el.id}}</th> -->\n            <td>{{inv.factureName}}</td>\n            <td>{{inv.totalPrice + this.devise}}</td>\n            <td>{{(inv?.totalPrice - GetAllReceivedMoney(inv) | number : '1.2')  + this.devise}}</td>\n            <td>{{inv.date}}</td>\n        </tbody>\n\n      </table>\n\n    </div>\n    <!-- <div>\n      <label for=\"\">Reste à payer : {{selectedInv?.totalPrice - ReceivedMoney }}</label>\n    </div> -->\n    <ion-item class=\"form-group\" style=\"margin-top: 10px\" required=\"required\">\n      <ion-label>{{'payment' | translate}}</ion-label>\n      <ion-input type=\"number\" id=\"payment\" name=\"payment\" formControlName=\"payment\" placeholder=\"123,45\" required=\"required\"\n      maxlength=\"12\"></ion-input>\n    </ion-item>\n    <div class=\"card-footer text-muted\" style=\"text-align:center; display: flex;\n  justify-content: space-evenly;\n  align-items: center;\">\n    <dx-button [useSubmitBehavior]=\"true\" icon=\"fas fa-cash-register\" class=\"btn btn-danger\" style=\"background-color:orange;\" [text]=\"'addPay' | translate\"></dx-button>\n    <!-- <dx-button [useSubmitBehavior]=\"false\" class=\"btn btn-danger\" (click)=\"Terminer()\" [text]=\"'savePay' | translate\" style=\"background-color: orange;\"></dx-button> -->\n  </div>\n  </form>\n\n</div>";
 
 /***/ })
 

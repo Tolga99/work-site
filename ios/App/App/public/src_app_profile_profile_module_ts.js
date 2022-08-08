@@ -91,12 +91,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Profile": () => (/* binding */ Profile)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _profile_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./profile.html?ngResource */ 73050);
 /* harmony import */ var _profile_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./profile.scss?ngResource */ 34184);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
 /* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/user */ 65783);
@@ -114,12 +115,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let Profile = class Profile {
-  constructor(modalS, storageService, router, methodsService) {
+  constructor(modalS, storageService, router, methodsService, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
     this.methodsService = methodsService;
+    this.navController = navController;
     this.profileExist = 'NO';
     this.bgImage = '/src/assets/worksiteBackground.png';
     this.formProfile = new _angular_forms__WEBPACK_IMPORTED_MODULE_7__.UntypedFormGroup({
@@ -211,7 +214,7 @@ let Profile = class Profile {
 
       console.log('Profil actualisé, redirection...');
 
-      _this2.router.navigate(['/tb-home']);
+      _this2.navController.navigateBack(['/tb-home']);
     })();
   }
 
@@ -240,7 +243,7 @@ let Profile = class Profile {
       }
 
       console.log(result);
-      if (result !== null) _this3.router.navigate(['tb-home'], {
+      if (result !== null) _this3.navController.navigateBack(['tb-home'], {
         replaceUrl: true
       });
     })();
@@ -271,9 +274,11 @@ Profile.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_9__.Router
 }, {
   type: _services_methods_service__WEBPACK_IMPORTED_MODULE_5__.MethodsService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_10__.NavController
 }];
 
-Profile = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_11__.Component)({
+Profile = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
   selector: 'app-profile',
   template: _profile_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_profile_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]

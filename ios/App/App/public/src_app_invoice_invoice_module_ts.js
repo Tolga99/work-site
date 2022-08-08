@@ -91,10 +91,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Invoice": () => (/* binding */ Invoice)
 /* harmony export */ });
 /* harmony import */ var C_Users_t_olg_Desktop_Tolga_Ov_Projets_DevisApp_work_site_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _invoice_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./invoice.html?ngResource */ 34555);
 /* harmony import */ var _invoice_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./invoice.scss?ngResource */ 50703);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _services_storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/storage.service */ 71188);
 /* harmony import */ var angular2_uuid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! angular2-uuid */ 23105);
@@ -102,6 +102,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_facture__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/facture */ 49371);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _modal_modal_focus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modal-focus */ 18857);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _services_methods_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/methods.service */ 25812);
 
 
@@ -116,32 +117,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let Invoice = class Invoice {
-  constructor(modalS, storageService, router, route, methodsService) {
+  constructor(modalS, storageService, router, route, methodsService, navController) {
     this.modalS = modalS;
     this.storageService = storageService;
     this.router = router;
     this.route = route;
     this.methodsService = methodsService;
+    this.navController = navController;
     this.allowedPageSizes = [3, 6, 9];
     this.displayMode = 'full';
     this.showPageSizeSelector = true;
     this.showInfo = true;
     this.showNavButtons = true;
     this.images = [];
-    this.invList = []; // productsList : Array<Product>= [];
-    //headElementsArt = ['Nom article', 'Description','Prix HTVA', 'Catégorie'];
-
+    this.invList = [];
     this.headElementsArt = ['Nom article', 'Description', 'Prix Unitaire', 'Quantité', 'Prix total', ''];
     this.panierList = [];
+    this.numericNumberReg = '^-?[0-9]\\d*(\\.\\d{1,2})?$';
     this.formInv = new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormGroup({
       factureName: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required),
       description: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl(''),
       typePay: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required]),
-      priceHtva: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl(),
-      tva: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl(),
-      remise: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl(),
-      totalPrice: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl()
+      priceHtva: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.pattern(this.numericNumberReg)),
+      tva: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.pattern(this.numericNumberReg)),
+      remise: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.pattern(this.numericNumberReg)),
+      totalPrice: new _angular_forms__WEBPACK_IMPORTED_MODULE_8__.UntypedFormControl('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.pattern(this.numericNumberReg))
     });
     this.modal = new _modal_modal_focus__WEBPACK_IMPORTED_MODULE_6__.NgbdModalFocus(this.modalS);
   }
@@ -352,7 +354,7 @@ let Invoice = class Invoice {
 
   GoShopping() {
     if (this.chantierId !== 'null') {
-      this.router.navigate(['shop', {
+      this.navController.navigateBack(['shop', {
         invoiceId: this.invoiceId,
         type: this.type,
         chantierId: this.chantierId,
@@ -363,7 +365,7 @@ let Invoice = class Invoice {
         typePay: this.formInv.get('typePay').value
       }]);
     } else {
-      this.router.navigate(['shop', {
+      this.navController.navigateBack(['shop', {
         invoiceId: this.invoiceId,
         type: this.type,
         chantierId: 'null',
@@ -373,7 +375,7 @@ let Invoice = class Invoice {
         description: this.formInv.get('description').value,
         typePay: this.formInv.get('typePay').value
       }]);
-    } // this.router.navigate(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
+    } // this.navController.navigateBack(['shop',{invoiceId : this.invoiceId,type : this.type,chantierId : this.chantierId}],{replaceUrl:true});
 
   }
 
@@ -500,7 +502,7 @@ let Invoice = class Invoice {
         console.log('htva : ', htva);
 
         _this3.formInv.get('totalPrice').setValue(total);
-      }
+      } else _this3.formInv.get('totalPrice').setValue(_this3.formInv.get('priceHtva').value);
 
       _this3.inv = new _models_facture__WEBPACK_IMPORTED_MODULE_5__.Facture(_this3.invoiceId, _this3.formInv.get('factureName').value, _this3.formInv.get('description').value, _this3.date, _this3.formInv.get('typePay').value, _this3.formInv.get('remise').value, _this3.formInv.get('priceHtva').value, _this3.formInv.get('tva').value, _this3.formInv.get('totalPrice').value, _this3.images, _this3.receivedMoney, _this3.panierList, _this3.mode, _this3.type);
       console.log('list avant : ', _this3.invList);
@@ -527,7 +529,7 @@ let Invoice = class Invoice {
 
         _this3.storageService.set('Chantiers', chantierl);
 
-        _this3.router.navigate(['/worksite', {
+        _this3.navController.navigateBack(['/worksite', {
           chantierId: _this3.chantierId
         }], {
           replaceUrl: true
@@ -544,7 +546,7 @@ let Invoice = class Invoice {
 
         _this3.storageService.set('NAfactures', invs);
 
-        _this3.router.navigate(['/tb-home'], {
+        _this3.navController.navigateBack(['/tb-home'], {
           replaceUrl: true
         });
       }
@@ -595,9 +597,9 @@ let Invoice = class Invoice {
       if (result !== null) {
         _this4.cleanIncompleteInvoices();
 
-        if (_this4.chantierId === 'null') _this4.router.navigate(['/tb-home'], {
+        if (_this4.chantierId === 'null') _this4.navController.navigateBack(['/tb-home'], {
           replaceUrl: true
-        });else _this4.router.navigate(['worksite', {
+        });else _this4.navController.navigateBack(['worksite', {
           chantierId: _this4.chantierId
         }], {
           replaceUrl: true
@@ -659,9 +661,11 @@ Invoice.ctorParameters = () => [{
   type: _angular_router__WEBPACK_IMPORTED_MODULE_10__.ActivatedRoute
 }, {
   type: _services_methods_service__WEBPACK_IMPORTED_MODULE_7__.MethodsService
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.NavController
 }];
 
-Invoice = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
+Invoice = (0,tslib__WEBPACK_IMPORTED_MODULE_12__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.Component)({
   selector: 'app-invoice',
   template: _invoice_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_invoice_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
