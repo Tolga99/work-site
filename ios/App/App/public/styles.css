@@ -20745,6 +20745,22 @@ ion-header {
   background-color: white !important;
 }
 
+* {
+  font-size: 9px;
+}
+
+@media (min-width: 380px) {
+  * {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 410px) {
+  * {
+    font-size: 13px;
+  }
+}
+
 /** Ionic CSS Variables **/
 
 :root {
