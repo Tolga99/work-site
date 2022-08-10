@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1659993165515,
+  "timestamp": 1659904933793,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -242,7 +242,7 @@
     "/src_app_tb-contacts_tb-contacts_module_ts.js": "0ba8f6dd649a6d2d998fbcf0fa66c21b71177384",
     "/src_app_tb-home_tb-home_module_ts.js": "b386c587140fe71aadc1eea64d1730eb34a429f3",
     "/src_app_tb-settings_tb-settings_module_ts.js": "ebc8e7f99c1fe33d0cc7d2520cfecf901793a1fd",
-    "/styles.css": "c722757f15d744c5b0be6b9b6f6ea62020702897",
+    "/styles.css": "169c68b4e48edaf43a1326ae826348f891d16a6d",
     "/vendor.js": "cde12af268319326d566311d02af48fcb6db0aa2"
   },
   "navigationUrls": [
