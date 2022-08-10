@@ -29,8 +29,8 @@ npm-debug.log*
 /dist
 /node_modules
 /platforms
-/plugins
 /www
+/plugins
 
 # Ignore Gradle project-specific cache directory
 .gradle
