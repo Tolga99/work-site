@@ -10,6 +10,9 @@ ion-icon{
 ion-header {
   background-color: white!important;
 }
+.toolbar-ios {
+  padding-top: env(safe-area-inset-top);
+}
 *{
   font-size:9px
 }
@@ -17,6 +20,12 @@ ion-header {
 {
   *{
     font-size:10px
+  }
+}
+@media(min-width: 390) //if more than 400 px
+{
+  *{
+    font-size:12px
   }
 }
 @media(min-width: 410px) //if more than 400 px

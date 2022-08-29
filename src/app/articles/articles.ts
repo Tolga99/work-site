@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { isThursday } from 'date-fns';
-import { threadId } from 'worker_threads';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
@@ -97,6 +95,7 @@ export class Articles implements OnInit {
     const completeList = this.catList;
     if(this.actualCat==null)
     {
+      console.log(this.catList);
       if(this.catList!=null)
         this.catList = this.catList.filter(a => a.catLevel === 0);
       console.log('only 0 :',this.catList);
@@ -117,16 +116,17 @@ export class Articles implements OnInit {
     if(this.artList !== null)
     {
         console.log('trying the art list',this.actualCat,this.artList);
-        if(this.actualCat !== null)
+        if(this.actualCat !== null && this.actualCat !== undefined)
         {
-          if(this.actualCat.categoryParent !== null)
+          console.log('actual cat not null');
+          if(this.actualCat.categoryParent !== null && this.actualCat.categoryParent !== undefined)
           {
             this.artList = this.artList.filter(a => a.catLevel >= this.actualCat.catLevel && a.categoryParent.categoryId === this.actualCat.categoryParent.categoryId);
           }else
           {
             this.artList = this.artList.filter(a => a.catLevel >= this.actualCat.catLevel && a.categoryParent.categoryId === this.actualCat.categoryId);
           }
-        }
+        }else this.artList = await this.storageService.get('Articles');
     }
 
     // + refresh la liste en dessous avec les articles filtrés AUSSI
