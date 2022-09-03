@@ -170,7 +170,12 @@ export class PdfService {
     doc.text('Signature de l\'acheteur', 140, y);
     y+=6;
     var blob = doc.output('blob');
-
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.target = '_blank';
+    var fileNamet = f.factureName + '.pdf';
+    link.download = fileNamet;
+    link.click();
 
 
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
