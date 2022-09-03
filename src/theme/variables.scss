@@ -1,14 +1,10 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
-ion-tab-bar.md{
-  position: absolute;
-  border-radius: 10px;
-  width: 95%;
-  margin: 5px 2.5%;
-  bottom: 0px;
+@media(orientation: portrait) {
+  ion-content {
+   padding-top: constant(safe-area-inset-top); //ios 11.2
+   padding-top: env(safe-area-inset-top); //ios 11.1
 }
-.ios ion-content{
-  --padding-top: env(safe-area-inset-top);
 }
 ion-content{
   --ion-background-color: white; // Or whatever color you want
