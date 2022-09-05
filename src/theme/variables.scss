@@ -1,5 +1,8 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
+app-hours{
+  display: initial!important;
+}
 @media(orientation: paysage) {
   ion-content {
    padding-top: constant(safe-area-inset-top); //ios 11.2
@@ -22,22 +25,34 @@ ion-header {
 *{
   font-size:9px
 }
-@media(min-width: 380px) //if more than 400 px
+@media(min-width: 350px) //if more than 400 px
 {
   *{
     font-size:10px
   }
 }
-@media(min-width: 390) //if more than 400 px
+@media(min-width: 360) //if more than 400 px
 {
   *{
     font-size:12px
   }
 }
-@media(min-width: 410px) //if more than 400 px
+@media(min-width: 380px) //if more than 400 px
 {
   *{
     font-size:13px
+  }
+}
+@media(min-width: 410px) //if more than 400 px
+{
+  *{
+    font-size:14px
+  }
+}
+@media(min-width: 450px) //if more than 400 px
+{
+  *{
+    font-size:16px
   }
 }
 /** Ionic CSS Variables **/

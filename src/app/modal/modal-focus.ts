@@ -346,11 +346,10 @@ import { SharedModule } from '../shared/shared.module';
             </div>
             <div class="modal-body">
               <p><strong>{{'developedBy' | translate}}  <span class="text-primary">Tolga Ov</span></strong></p>
-              <p><strong><span class="text-primary">JULY 2022</span></strong></p>
+              <p><strong><span class="text-primary">September 2022</span></strong></p>
               <p><strong>WorkSite - <span class="text-primary">Version 0.1.2 - BETA</span></strong></p>
               <p><strong><span class="text-primary">Copyright All Rights Reserved</span></strong></p>
-              <p><strong><span class="text-primary">Icon : Designed by pch.vector / Freepik</span></strong></p>
-              <p><strong>Contact : </strong></p> <A HREF="mailto:Ovalit19@gmail.com">Ovalit19@gmail.com</A>
+              <p><strong>Contact : </strong></p> <A HREF="mailto:svarecords.o@gmail.com">Support</A>
               <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
               <!-- <span class="text-danger">This operation can not be undone.</span> -->
               <!-- </p> -->
@@ -358,7 +357,9 @@ import { SharedModule } from '../shared/shared.module';
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
             </div>
-            `
+            `,
+              styleUrls: ['./modal-focus.scss'],
+
           })
           export class NgbdModalAbout {
             label = '';

@@ -194,5 +194,10 @@
     "noData" : "No data to display",
     "saveGenSettings" : "Save general settings",
     "devise" : "Doviz",
-    "general" : "Genel"
+    "general" : "Genel",
+    "noPayment" : "No payment",
+    "incompletePayment" : "Incomplete payment",
+    "paid" : "Paid",
+    "paymentAdded" : "Paiement ajouté pour ",
+    "fileGenerated" : " is generated"
     }

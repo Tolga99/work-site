@@ -117,7 +117,9 @@ export class Invoice implements OnInit {
     if(this.chantierId === 'null')
     {
       let shopInvoice : Array<Facture> = await this.storageService.get('NAfactures');
-      this.panierList = shopInvoice.find(a => a.factureId === this.invoiceId).cart;
+      let cart : ShoppingCart[] | undefined | null = shopInvoice.find(a => a.factureId === this.invoiceId)?.cart;
+      if(cart != null && cart != undefined)
+        this.panierList = cart;
     }
     else
     {
@@ -540,6 +542,7 @@ export class Invoice implements OnInit {
   }
   async cleanIncompleteInvoices()
   {
+    console.log('invoices cleaner called');
     let indexToDelete : number = null;
     let invoices : Array<Facture> = await this.storageService.get('NAfactures');
     console.log(invoices)

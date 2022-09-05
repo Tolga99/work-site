@@ -484,7 +484,7 @@ export class Worksite implements OnInit {
 
   }
 
-  IsInvoicePaid(f : Facture) :string
+  isInvoicePaid(f : Facture) :string
   {
     const total = f.totalPrice;
     let paid=0;
@@ -493,10 +493,10 @@ export class Worksite implements OnInit {
       f.receivedMoney.forEach(element => {
         paid += element.price;
       });
-    }else return 'PAS DE PAIEMENT';
+    }else return 'noPayment';
     if(total>paid)
-      return 'PAIEMENT INCOMPLET';
-    else return 'PAYE';
+      return 'incompletePayment';
+    else return 'paid';
   }
   SetTabView(newView : string)
   {

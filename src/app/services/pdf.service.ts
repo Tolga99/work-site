@@ -7,6 +7,7 @@ import { User } from '../models/user';
 import { StorageService } from './storage.service';
 import { ToastController} from '@ionic/angular';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 export class PdfService {
 
   constructor(private storageService : StorageService, private toastController: ToastController,
-    private localNotifications : LocalNotifications,) { }
+    private localNotifications : LocalNotifications, private translateService : TranslateService) { }
   async GeneratePDFInvoice(chantier : Chantier | undefined, f : Facture)
   {
     const profile : User =await this.storageService.get('MyProfile');
@@ -170,12 +171,7 @@ export class PdfService {
     doc.text('Signature de l\'acheteur', 140, y);
     y+=6;
     var blob = doc.output('blob');
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.target = '_blank';
-    var fileNamet = f.factureName + '.pdf';
-    link.download = fileNamet;
-    link.click();
+    var fileNameText = f.factureName + '.pdf ' + this.translateService.instant('fileGenerated');
 
 
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
@@ -187,10 +183,10 @@ export class PdfService {
           directory: Directory.Documents
         });
         doc.output('datauri');
-        this.presentToast(f.factureName+'.pdf a été généré');
+        this.presentToast(fileNameText);
         this.localNotifications.schedule({
           id: 1,
-          text: f.factureName+'.pdf a été généré',
+          text: fileNameText,
           // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
           data: { secret: 'a' }
         });
@@ -203,10 +199,10 @@ export class PdfService {
       console.log('PC');
       doc.save(f.factureName+'.pdf');
       doc.output('dataurlnewwindow');     //opens the data uri in new window
-      this.presentToast(f.factureName+'.pdf a été généré');
+      this.presentToast(fileNameText);
       this.localNotifications.schedule({
         id: 1,
-        text: f.factureName+'.pdf a été généré',
+        text: fileNameText,
         // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
         data: { secret: 'a' }
       });

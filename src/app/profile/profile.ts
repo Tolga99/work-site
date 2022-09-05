@@ -112,7 +112,7 @@ export class Profile implements OnInit{
 
     this.storageService.setProfile(this.myAccount);
     console.log('Profil actualisé, redirection...');
-    this.navController.navigateBack(['/tb-home']);
+    this.navController.navigateBack(['profile-info']);
 
   }
   async GoBack()
@@ -148,7 +148,7 @@ export class Profile implements OnInit{
     }
     console.log(result);
     if(result !== null)
-      this.navController.navigateBack(['tb-home'],{replaceUrl:true});
+      this.navController.navigateBack(['profile-info'],{replaceUrl:true});
   }
   async GoBackModal() : Promise<string>
   {

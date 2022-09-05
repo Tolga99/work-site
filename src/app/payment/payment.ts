@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
@@ -32,7 +33,7 @@ export class Payment implements OnInit {
   headElementsInv = ['Nom facture', 'Total','Reste à payer','Date'];
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private router: Router,private route:ActivatedRoute, private storageService :StorageService
-    , private navController : NavController)
+    , private navController : NavController, private toastController : ToastController, private translateService : TranslateService)
   {
   }
 
@@ -144,8 +145,14 @@ export class Payment implements OnInit {
     this.chantierList[this.chantierIndex] = this.chantier;
 
     this.storageService.set('Chantiers', this.chantierList);
-
-
+    this.presentToast(this.translateService.instant('paymentAdded') +this.selectedInv.factureName);
+  }
+  async presentToast(text : string) {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 2000
+    });
+    toast.present();
   }
   Terminer()
   {

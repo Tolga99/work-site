@@ -328,7 +328,7 @@ export class TabHome implements OnInit, INestedOptionContainer{
   GoProfile()
   {
     console.log('show profile');
-    this.navController.navigateBack(['my-profile']);
+    this.navController.navigateBack(['profile-info']);
   }
   GoSettings()
   {

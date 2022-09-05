@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">{{'profile' | translate}}</ion-title>
+    <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
+    </dx-button>
+    <dx-button slot="end" (click)="EditProfile()" style="background-color: orange;" icon="fas fa-pen">
+    </dx-button>
+    <ion-title slot="" style="font-size:smaller; text-align: center;">{{GetName()}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" style="background-color: white;">
+  <div class="tab">
+  <div class="card-header tabHeader">
+    {{'profile' | translate}}
+  </div>
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'fName' | translate}} : </ion-label>
+    <ion-label style="font-weight: bolder;">{{myAccount?.firstName}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'name' | translate}} : </ion-label>
+    <ion-label style="font-weight: bolder;">{{myAccount?.lastName.toUpperCase()}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'address' | translate}} : </ion-label>
+    <ion-label style="font-weight: bolder;">{{myAccount?.address}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'phone' | translate}} : </ion-label>
+    <ion-label style="font-weight: bolder;">{{myAccount?.phone}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'mail' | translate}} : </ion-label>
+    <ion-label style="font-weight: bolder;">{{myAccount?.mail}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'tva' | translate}} : </ion-label>
+    <ion-label style="font-weight: bolder;">{{myAccount?.tva}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'iban' | translate}} : </ion-label>
+    <ion-label style="font-weight: bolder;">{{myAccount?.iban}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="fixed" style="font-weight: lighter;">{{'bic' | translate}} : </ion-label>
+    <ion-label style="font-weight: bolder;">{{myAccount?.bic}}</ion-label>
+  </ion-item>
+</div>
+<div class="tab">
+  <div class="card-header tabHeader">
+    {{'history' | translate}}
+  </div>
+  <!-- <div class="col-auto table-wrapper-scroll-y my-custom-scrollbar">
+    <div [hidden]="chantiers != null && chantiers.length > 0">
+      <ion-label style="color: gray;">
+        {{'noData' | translate}}</ion-label>
+    </div>
+    <table mat-table class="table table-bordered table-striped mb-0">
+      <thead>
+        <tr>
+          <th *ngFor="let head of headElements" scope="col">{{head}} </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr mdbTableCol *ngFor="let el of chantiers">
+          <td>{{el.worksiteName}}</td>
+          <td>{{GetName()}}</td>
+          <td>{{el.dateStart}}</td>
+          <td>{{el.address}}</td>
+          <td>{{el.isFinished}}</td>
+
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+  </div>
+ <div class="tab">
+  <!--  <div class="card-header tabHeader">
+    {{'achats' | translate}}
+  </div>
+  <div id="chart">
+    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions" [yaxis]="chartOptions.yaxis" [legend]="chartOptions.legend"
+      [fill]="chartOptions.fill" [stroke]="chartOptions.stroke" [tooltip]="chartOptions.tooltip"
+      [xaxis]="chartOptions.xaxis"></apx-chart>
+  </div> -->
+</div>
+</ion-content>

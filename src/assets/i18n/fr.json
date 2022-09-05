@@ -196,5 +196,10 @@
     "noData" : "Aucune donnée",
     "saveGenSettings" : "Sauvegarder réglages géneral",
     "devise" : "Devise",
-    "general" : "Géneral"
+    "general" : "Géneral",
+    "noPayment" : "Pas de paiement",
+    "incompletePayment" : "Paiement incomplet",
+    "paid" : "Payé",
+    "paymentAdded" : "Paiement ajouté pour ",
+    "fileGenerated" : " a été généré"
     }

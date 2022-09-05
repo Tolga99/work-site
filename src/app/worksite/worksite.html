@@ -22,7 +22,7 @@
           <ion-label>{{'achats' | translate}}</ion-label>
         </ion-tab-button>
 
-        <!-- <ion-tab-button (click)="SetTabView('travail')">
+        <ion-tab-button (click)="SetTabView('travail')">
           <ion-icon name="hammer"></ion-icon>
           <ion-label>{{'work' | translate}}</ion-label>
         </ion-tab-button>
@@ -30,7 +30,7 @@
         <ion-tab-button (click)="SetTabView('images')">
           <ion-icon name="images"></ion-icon>
           <ion-label>{{'pictures' | translate}}</ion-label>
-        </ion-tab-button> -->
+        </ion-tab-button>
 
       </ion-tab-bar>
     </ion-tabs>
@@ -59,6 +59,11 @@
           style="height:100px;"></ion-textarea>
       </ion-item>
       <hr>
+      <div class="card-footer text-muted">
+        <div style="padding: 10px; margin: 5px;">
+        <dx-button [useSubmitBehavior]="true" type="submit" class="btn btn-success" style="width:88%;" [text]="'updateWorksite' | translate"></dx-button>
+        </div>
+      </div>
     </div>
     <div [hidden]="(TabView !== 'achats')">
       <div class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
@@ -118,8 +123,16 @@
             >
           
             </dxi-column>
-            <div *dxTemplate="let el of 'stateTemplate'" style="color: red;">
-              {{IsInvoicePaid(el.data)}}
+            <div *dxTemplate="let el of 'stateTemplate'">
+              <div *ngIf="isInvoicePaid(el.data) == 'noPayment'" style="color: red;">
+                {{ isInvoicePaid(el.data) | translate}}
+              </div>
+              <div *ngIf="isInvoicePaid(el.data) == 'incompletePayment'" style="color: orange;">
+                {{ isInvoicePaid(el.data) | translate}}
+              </div>
+              <div *ngIf="isInvoicePaid(el.data) == 'paid'" style="color: green;">
+                {{ isInvoicePaid(el.data) | translate}}
+              </div>
             </div>
             <div *dxTemplate="let el of 'priceTemplate'">
               {{el.data.priceHtva + this.devise}}
@@ -430,7 +443,6 @@
     </div>
   <div class="card-footer text-muted">
     <div style="padding: 10px; margin: 5px;">
-    <dx-button [useSubmitBehavior]="true" type="submit" class="btn btn-success" style="width:88%;" [text]="'updateWorksite' | translate"></dx-button>
     <dx-button type="submit" class="btn btn-danger" (click)="FinishChantier()" style="width: 88%;" [text]="'finishWorksite' | translate"></dx-button>
     </div>
   </div>
