@@ -466,7 +466,9 @@ export class Invoice implements OnInit {
         invs = new Array<Facture>();
       }
       let existingInvoice = invs.findIndex(a => a.factureId === this.inv.factureId);
-      invs[existingInvoice] = this.inv;
+      if(existingInvoice == -1)
+        invs.push(this.inv);
+      else invs[existingInvoice] = this.inv;
       this.storageService.set('NAfactures',invs);
       this.navController.navigateBack(['/tb-home'],{replaceUrl:true});
     }

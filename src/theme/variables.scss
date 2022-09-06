@@ -1,5 +1,12 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
+.modal-content{
+  transform: translateY(25%);
+}
+.toolbar-ios
+{
+  margin-top: 20px;
+}
 app-hours{
   display: initial!important;
 }
