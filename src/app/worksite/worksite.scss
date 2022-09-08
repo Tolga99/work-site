@@ -126,3 +126,9 @@ td, th {
   border: 1px solid lightgray;
   border-radius: 4px;
 }
+#header {
+  position: fixed;
+  top: 1.25rem; // iOs 10 or lower
+  top: constant(safe-area-inset-top); // iOs 11
+  top: env(safe-area-inset-top); // iOs 11+ (feature)
+}
