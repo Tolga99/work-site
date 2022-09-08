@@ -1,41 +1,32 @@
-<ion-content style="justify-content: start;" id="header">
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-button (click)="GoBack()">
-      <ion-icon name="arrow-left"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-header> -->
-
-  <ion-toolbar>
-    <ion-tabs>
-      <ion-tab-bar slot="top">
-        <dx-button icon="fas fa-arrow-left" (click)="GoBack()" style="background-color: orange;">
-        </dx-button>
-        <ion-tab-button (click)="SetTabView('general')">
-          <ion-icon name="information-circle"></ion-icon>
-          <ion-label>{{'general' | translate}}</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button (click)="SetTabView('achats')">
-          <ion-icon name="copy"></ion-icon>
-          <ion-label>{{'achats' | translate}}</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button (click)="SetTabView('travail')">
-          <ion-icon name="hammer"></ion-icon>
-          <ion-label>{{'work' | translate}}</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button (click)="SetTabView('images')">
-          <ion-icon name="images"></ion-icon>
-          <ion-label>{{'pictures' | translate}}</ion-label>
-        </ion-tab-button>
-
-      </ion-tab-bar>
-    </ion-tabs>
-  </ion-toolbar>
-
+<ion-toolbar mode="ios">
+  <ion-tabs>
+    <ion-tab-bar slot="top">
+      <dx-button icon="fas fa-arrow-left" (click)="GoBack()" style="background-color: orange;">
+      </dx-button>
+      <ion-tab-button (click)="SetTabView('general')">
+        <ion-icon name="information-circle"></ion-icon>
+        <ion-label>{{'general' | translate}}</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button (click)="SetTabView('achats')">
+        <ion-icon name="copy"></ion-icon>
+        <ion-label>{{'achats' | translate}}</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button (click)="SetTabView('travail')">
+        <ion-icon name="hammer"></ion-icon>
+        <ion-label>{{'work' | translate}}</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button (click)="SetTabView('images')">
+        <ion-icon name="images"></ion-icon>
+        <ion-label>{{'pictures' | translate}}</ion-label>
+      </ion-tab-button>
+  
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-toolbar>
+<ion-content style="justify-content: start;">
 <div style="overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
     <div [hidden]="(TabView !== 'general')" class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
