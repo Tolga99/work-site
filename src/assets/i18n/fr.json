@@ -201,5 +201,6 @@
     "incompletePayment" : "Paiement incomplet",
     "paid" : "Payé",
     "paymentAdded" : "Paiement ajouté pour ",
-    "fileGenerated" : " a été généré"
+    "fileGenerated" : " a été généré",
+    "saved" : "sauvegardé"
     }

@@ -198,6 +198,7 @@
     "incompletePayment" : "Incomplete payment",
     "paid" : "Paid",
     "paymentAdded" : "Payment added for ",
-    "fileGenerated" : " is generated"
+    "fileGenerated" : " is generated",
+    "saved" : "saved"
 
 }

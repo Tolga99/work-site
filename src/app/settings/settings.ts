@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { isThisSecond } from 'date-fns';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { InvoiceSettings } from '../models/Settings/invoiceSettings';
@@ -31,7 +32,7 @@ export class Settings implements OnInit{
   });
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router
-    , private navController : NavController) {
+    , private navController : NavController, private toastController : ToastController, private translateService : TranslateService) {
     console.log('Module settings');
   }
 
@@ -131,6 +132,11 @@ export class Settings implements OnInit{
     ));
     this.devise=this.formGeneral.get('devise').value;
     console.log('Parametres de facture actualisé, redirection...');
+    const toast = await this.toastController.create({
+      message: this.translateService.instant('settings') + ' ' + this.translateService.instant('saved'),
+      duration: 2000
+    });
+    toast.present();
     this.navController.navigateBack(['tb-home'],{replaceUrl:true});
 
   }
@@ -142,11 +148,16 @@ export class Settings implements OnInit{
   {
     this.devise = (event.target as HTMLSelectElement).value;
   }
-  updateGeneralSettings()
+  async updateGeneralSettings()
   {
     if(this.devise !== null)
     {
       this.storageService.set('devise',this.devise);
+      const toast = await this.toastController.create({
+        message: this.translateService.instant('devise') + ' ' + this.translateService.instant('saved'),
+        duration: 2000
+      });
+      toast.present();
     }
   }
   async GoBack()

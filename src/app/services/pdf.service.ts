@@ -174,7 +174,8 @@ export class PdfService {
     var blob = doc.output('blob');
     var fileNameText = f.factureName + '.pdf ' + this.translateService.instant('fileGenerated');
 
-    this.download(blob,f.factureName + '.pdf ');
+    //this.download(blob,f.factureName + '.pdf ');
+    this.downloadPDF(blob,f.factureName+'.pdf');
     // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
     // {
     //   try {
@@ -263,8 +264,8 @@ export class PdfService {
                             try {
                                 const directory =
                                     Capacitor.getPlatform() === 'ios'
-                                        ? FilesystemDirectory.Documents
-                                        : FilesystemDirectory.ExternalStorage;
+                                        ? Directory.Documents
+                                        : Directory.ExternalStorage;
                                 await Filesystem.requestPermissions();
                                 await Filesystem.appendFile({
                                     path: `Download/${fileName}`,
@@ -326,6 +327,12 @@ export class PdfService {
             this.presentToast(
                 'File has been downloaded to the Downloads folder.'
             );
+        }
+      downloadPDF(blob,fileName : string) { 
+              var link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+              link.download = fileName;
+              link.click();
         }
 }
 

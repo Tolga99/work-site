@@ -1,8 +1,5 @@
-<ion-header>
-<ion-toolbar style="width: 100%;
-position: initial;
-display: flex;">
-  <ion-tabs>
+<ion-header style="height: 57px;"  >
+  <ion-tabs style="height: 57px;">
     <ion-tab-bar slot="top">
       <dx-button icon="fas fa-arrow-left" (click)="GoBack()" style="background-color: orange;">
       </dx-button>
@@ -28,9 +25,8 @@ display: flex;">
   
     </ion-tab-bar>
   </ion-tabs>
-</ion-toolbar>
 </ion-header>
-<ion-content style="justify-content: start;">
+<ion-content style="justify-content: start; margin-top: 57px;">
 <div style="overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
     <div [hidden]="(TabView !== 'general')" class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">

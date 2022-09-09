@@ -8,8 +8,8 @@
 <div style="overflow-y: auto; background-color: white;">
  <!-- Basic -->
 <ion-accordion-group [value]="openCatAccordion">
-  <ion-accordion value="categories" style="background-color: orange;">
-    <ion-item slot="header" class="tabHeader" style="text-align: left;" style="border: 1px solid gray;">
+  <ion-accordion value="categories">
+    <ion-item slot="header" class="tabHeader" style="background-color: orange; text-align: left;" style="border: 1px solid gray;">
       <ion-label style="color:black;">{{'Categories' | translate}} 
         <a [hidden]="this.actualCat == null">: {{this.actualCat?.categoryName}}</a></ion-label>
     </ion-item>

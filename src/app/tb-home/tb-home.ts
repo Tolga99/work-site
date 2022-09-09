@@ -127,7 +127,10 @@ export class TabHome implements OnInit, INestedOptionContainer{
     this.clientsList = await this.storageService.get('Contacts');
     this.devise = await this.storageService.get('devise');
     if(this.devise == null)
-      this.devise = '';
+    {
+      this.devise = '€';
+      this.storageService.set('devise',this.devise);
+    }
   }
   CreateWorksite()
   {

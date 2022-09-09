@@ -8,7 +8,7 @@
 <div class="container" style="background-color: white;">
   <form [formGroup]="formHour" (ngSubmit)="CreateHour()">
     <ion-item class="form-group">
-      <ion-label style="font-size: 15px; margin: 10px;" position="stacked">{{'description' | translate}}</ion-label>
+      <!-- <ion-label style="font-size: 15px; margin: 10px;" position="stacked">{{'description' | translate}}</ion-label> -->
     <ion-datetime formControlName="date" presentation="time" [(ngModel)]="dateHour"></ion-datetime>
 </ion-item>
     <hr>
