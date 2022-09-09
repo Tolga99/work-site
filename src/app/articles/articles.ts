@@ -24,7 +24,7 @@ export class Articles implements OnInit {
   catList : Array<Category> = [];
   actualCat : Category = null;
   actualCatLevel = 0;
-  openCatAccordion = null;
+  openCatAccordion = '';
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS : NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute
     , private navController : NavController)

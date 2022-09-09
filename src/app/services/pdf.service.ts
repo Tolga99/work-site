@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Directory, Filesystem, FilesystemDirectory } from '@capacitor/filesystem';
 import jsPDF from 'jspdf';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
@@ -8,6 +8,7 @@ import { StorageService } from './storage.service';
 import { ToastController} from '@ionic/angular';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { TranslateService } from '@ngx-translate/core';
+import { Capacitor } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
@@ -173,40 +174,40 @@ export class PdfService {
     var blob = doc.output('blob');
     var fileNameText = f.factureName + '.pdf ' + this.translateService.instant('fileGenerated');
 
-
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-    {
-      try {
-        Filesystem.writeFile({
-          path: f.factureName+'.pdf',
-          data: doc.output('datauristring'),
-          directory: Directory.Documents
-        });
-        doc.output('datauri');
-        this.presentToast(fileNameText);
-        this.localNotifications.schedule({
-          id: 1,
-          text: fileNameText,
-          // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
-          data: { secret: 'a' }
-        });
-      } catch (e) {
-        console.error("Unable to write file", e);
-      }    
-    }
-    else
-    {
-      console.log('PC');
-      doc.save(f.factureName+'.pdf');
-      doc.output('dataurlnewwindow');     //opens the data uri in new window
-      this.presentToast(fileNameText);
-      this.localNotifications.schedule({
-        id: 1,
-        text: fileNameText,
-        // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
-        data: { secret: 'a' }
-      });
-    }
+    this.download(blob,f.factureName + '.pdf ');
+    // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+    // {
+    //   try {
+    //     Filesystem.writeFile({
+    //       path: f.factureName+'.pdf',
+    //       data: doc.output('datauristring'),
+    //       directory: Directory.Documents
+    //     });
+    //     doc.output('datauri');
+    //     this.presentToast(fileNameText);
+    //     this.localNotifications.schedule({
+    //       id: 1,
+    //       text: fileNameText,
+    //       // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
+    //       data: { secret: 'a' }
+    //     });
+    //   } catch (e) {
+    //     console.error("Unable to write file", e);
+    //   }    
+    // }
+    // else
+    // {
+    //   console.log('PC');
+    //   doc.save(f.factureName+'.pdf');
+    //   doc.output('dataurlnewwindow');     //opens the data uri in new window
+    //   this.presentToast(fileNameText);
+    //   this.localNotifications.schedule({
+    //     id: 1,
+    //     text: fileNameText,
+    //     // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
+    //     data: { secret: 'a' }
+    //   });
+    // }
 //     window.open(URL.createObjectURL(blob));
 
 // function writeFile(fileEntry, dataObj) {
@@ -255,5 +256,76 @@ export class PdfService {
     });
     toast.present();
   }
+  async download(data: any, fileName: string) {
+    // get necessary file for download
+                    if (Capacitor.getPlatform() !== 'web') {
+                        let dataForDownload: any;
+                            try {
+                                const directory =
+                                    Capacitor.getPlatform() === 'ios'
+                                        ? FilesystemDirectory.Documents
+                                        : FilesystemDirectory.ExternalStorage;
+                                await Filesystem.requestPermissions();
+                                await Filesystem.appendFile({
+                                    path: `Download/${fileName}`,
+                                    data: dataForDownload,
+                                    directory: directory
+                                });
+                                const finalPhotoUri = await Filesystem.getUri({
+                                    directory: directory,
+                                    path: `Download/${fileName}`
+                                });
+    
+                                // if (Capacitor.getPlatform() === 'ios') {
+                                //     Share.share({
+                                //         title: fileName,
+                                //         url: finalPhotoUri.uri
+                                //     })
+                                //         .then(() => {
+                                //             this.presentToast(
+                                //                 'File has been downloaded'
+                                //             );
+                                //         })
+                                //         .catch(e => {
+                                //             this.presentToast(
+                                //                 'An error occurred during the download'
+                                //             );
+                                //         });
+                                // } else {
+                                //     if (finalPhotoUri.uri !== '') {
+                                //         this.presentToast(
+                                //             'File has been downloaded to the Download folder'
+                                //         );
+                                //     }
+                               // }
+                            } catch (e) {
+                                this.presentToast(
+                                    'An error occurred during the download'
+                                );
+                            }
+                    } else {
+                        this.downloadFromBrowser(data, fileName);
+                    }
+                  }
+    
+        downloadFromBrowser(blob: Blob, filename: string) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+    
+            a.href = url;
+            a.download = filename || 'download';
+            const clickHandler = () => {
+                setTimeout(() => {
+                    URL.revokeObjectURL(url);
+                    removeEventListener('click', clickHandler);
+                }, 150);
+            };
+            a.addEventListener('click', clickHandler, false);
+            a.click();
+    
+            this.presentToast(
+                'File has been downloaded to the Downloads folder.'
+            );
+        }
 }
 

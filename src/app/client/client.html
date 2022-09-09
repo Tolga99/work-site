@@ -1,11 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="ion-text-center">{{'client' | translate}}</ion-title>
+    <ion-title class="ion-text-center">{{'client' | translate}} - {{GetName()}}</ion-title>
     <dx-button slot="start" (click)="GoBack()" icon="fas fa-arrow-left" style="background-color: orange;">
     </dx-button>
     <dx-button slot="end" (click)="EditContact()" style="background-color: orange;" icon="fas fa-pen">
     </dx-button>
-    <ion-title slot="" style="font-size:smaller; text-align: center;">{{GetName()}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" style="background-color: white;">

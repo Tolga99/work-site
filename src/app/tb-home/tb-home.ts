@@ -94,11 +94,11 @@ export class TabHome implements OnInit, INestedOptionContainer{
               private pdfService : PdfService, private navController : NavController)
               {
                 this.storageService.init();
-                _translate.setDefaultLang('fr');
-                _translate.use('fr').toPromise();
-                translateService.addLangs(['en', 'fr']);
-                translateService.use('fr').toPromise();
-                translateService.setDefaultLang('fr');
+                // _translate.setDefaultLang('fr');
+                // _translate.use('fr').toPromise();
+                // translateService.addLangs(['en', 'fr']);
+                // translateService.use('fr').toPromise();
+                // translateService.setDefaultLang('fr');
                 library.addIcons(fasStar, farStar);
                 optionHost.setHost(this);
 
