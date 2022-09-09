@@ -26,8 +26,8 @@
     </ion-tab-bar>
   </ion-tabs>
 </ion-header>
-<ion-content style="justify-content: start; margin-top: 57px;">
-<div style="overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;">
+<ion-content style="justify-content: start;">
+<div style="overflow-y: auto; justify-content: start; background-color: white; overflow-x: hidden;  margin-top: 57px;">
   <form [formGroup]="formChantier" (ngSubmit)="SaveChantier()">
     <div [hidden]="(TabView !== 'general')" class="jumbotron text-center" style="margin-bottom: 0; padding-bottom: 1px; padding-top: 1px;">
       <div class="card-header tabHeader">

@@ -173,9 +173,11 @@ export class PdfService {
     y+=6;
     var blob = doc.output('blob');
     var fileNameText = f.factureName + '.pdf ' + this.translateService.instant('fileGenerated');
+    var reader = new FileReader();
+    var out = new Blob([blob], {type: 'application/pdf'});
 
-    //this.download(blob,f.factureName + '.pdf ');
-    this.downloadPDF(blob,f.factureName+'.pdf');
+    this.download(out,f.factureName + '.pdf ');
+    //this.downloadPDF(blob,f.factureName+'.pdf');
     // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
     // {
     //   try {
