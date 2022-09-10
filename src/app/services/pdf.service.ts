@@ -9,11 +9,13 @@ import { ToastController} from '@ionic/angular';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
-
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import * as saveAs from 'file-saver';
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
+  readonly isApp = Capacitor.getPlatform() !== 'web';
 
   constructor(private storageService : StorageService, private toastController: ToastController,
     private localNotifications : LocalNotifications, private translateService : TranslateService) { }
@@ -175,8 +177,10 @@ export class PdfService {
     var fileNameText = f.factureName + '.pdf ' + this.translateService.instant('fileGenerated');
     var reader = new FileReader();
     var out = new Blob([blob], {type: 'application/pdf'});
-
-    this.download(out,f.factureName + '.pdf ');
+    if (this.isApp)
+      this.writeAndOpenFile(out,f.factureName + '.pdf ');
+    else
+      saveAs(out, f.factureName + '.pdf ');
     //this.downloadPDF(blob,f.factureName+'.pdf');
     // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
     // {
@@ -259,82 +263,28 @@ export class PdfService {
     });
     toast.present();
   }
-  async download(data: any, fileName: string) {
-    // get necessary file for download
-                    if (Capacitor.getPlatform() !== 'web') {
-                        let dataForDownload: any;
-                            try {
-                                const directory =
-                                    Capacitor.getPlatform() === 'ios'
-                                        ? Directory.Documents
-                                        : Directory.ExternalStorage;
-                                await Filesystem.requestPermissions();
-                                await Filesystem.appendFile({
-                                    path: `Download/${fileName}`,
-                                    data: dataForDownload,
-                                    directory: directory
-                                });
-                                const finalPhotoUri = await Filesystem.getUri({
-                                    directory: directory,
-                                    path: `Download/${fileName}`
-                                });
-    
-                                // if (Capacitor.getPlatform() === 'ios') {
-                                //     Share.share({
-                                //         title: fileName,
-                                //         url: finalPhotoUri.uri
-                                //     })
-                                //         .then(() => {
-                                //             this.presentToast(
-                                //                 'File has been downloaded'
-                                //             );
-                                //         })
-                                //         .catch(e => {
-                                //             this.presentToast(
-                                //                 'An error occurred during the download'
-                                //             );
-                                //         });
-                                // } else {
-                                //     if (finalPhotoUri.uri !== '') {
-                                //         this.presentToast(
-                                //             'File has been downloaded to the Download folder'
-                                //         );
-                                //     }
-                               // }
-                            } catch (e) {
-                                this.presentToast(
-                                    'An error occurred during the download'
-                                );
-                            }
-                    } else {
-                        this.downloadFromBrowser(data, fileName);
-                    }
-                  }
-    
-        downloadFromBrowser(blob: Blob, filename: string) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-    
-            a.href = url;
-            a.download = filename || 'download';
-            const clickHandler = () => {
-                setTimeout(() => {
-                    URL.revokeObjectURL(url);
-                    removeEventListener('click', clickHandler);
-                }, 150);
-            };
-            a.addEventListener('click', clickHandler, false);
-            a.click();
-    
-            this.presentToast(
-                'File has been downloaded to the Downloads folder.'
-            );
+  async writeAndOpenFile(data: Blob, fileName: string) {
+    var reader = new FileReader();
+    reader.readAsDataURL(data);
+    reader.onloadend = async function () {
+        var base64data = reader.result;
+        try {
+            const result = await Filesystem.writeFile({
+                path: fileName,
+                data: <string>base64data,
+                directory: Directory.Data,
+                recursive: true
+            });
+            let fileOpener: FileOpener = new FileOpener();
+            fileOpener.open(result.uri, data.type)
+                .then(() => console.log('File is opened'))
+                .catch(e => console.log('Error opening file', e));
+
+            console.log('Wrote file', result.uri);
+        } catch (e) {
+            console.error('Unable to write file', e);
         }
-      downloadPDF(blob,fileName : string) { 
-              var link = document.createElement('a');
-              link.href = window.URL.createObjectURL(blob);
-              link.download = fileName;
-              link.click();
-        }
+    }
+}
 }
 

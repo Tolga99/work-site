@@ -349,7 +349,7 @@ import { SharedModule } from '../shared/shared.module';
               <p><strong><span class="text-primary">September 2022</span></strong></p>
               <p><strong>WorkSite - <span class="text-primary">Version 0.1.2 - BETA</span></strong></p>
               <p><strong><span class="text-primary">Copyright All Rights Reserved</span></strong></p>
-              <p><strong>Contact : </strong></p> <A HREF="mailto:svarecords.o@gmail.com">Support</A>
+              <p><strong>Contact : </strong></p> <A HREF="mailto:sva.records.o@gmail.com">Support</A>
               <!-- <p>Toutes les informations liées a cette facture seront définitivement supprimés. -->
               <!-- <span class="text-danger">This operation can not be undone.</span> -->
               <!-- </p> -->
