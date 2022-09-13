@@ -13,7 +13,7 @@
     "startDate" : "Début",
     "address" : "Adresse",
     "state" : "Etat",
-    "edit" : "Edit",
+    "edit" : "Modifier",
 
 
     "myProfile" : "Mon profil",
@@ -186,10 +186,10 @@
     "mandatoryFields" : "Champs obligatoires",
     "mandatoryFieldsTxt1" : "Les champs suivant ne sont pas corrects : ",
 
-    "developedBy" : "Developed by",
+    "developedBy" : "Développé par",
 
     "exitPage" : "Quitter la page",
-    "exitPageTxt1" : "Etes-vous sur de quitter la page ?",
+    "exitPageTxt1" : "Etes-vous sûr de quitter la page ?",
     "exitPageTxt2" : "Toutes les données non-sauvegardées seront définitivement supprimées.",
 
     "noCategories" : "Aucune catégorie",

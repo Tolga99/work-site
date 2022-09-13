@@ -11,6 +11,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import * as saveAs from 'file-saver';
+import * as fs from "file-system";
+import * as FileSaver from 'file-saver';
 @Injectable({
   providedIn: 'root'
 })
@@ -177,10 +179,14 @@ export class PdfService {
     var fileNameText = f.factureName + '.pdf ' + this.translateService.instant('fileGenerated');
     var reader = new FileReader();
     var out = new Blob([blob], {type: 'application/pdf'});
-    if (this.isApp)
-      this.writeAndOpenFile(out,f.factureName + '.pdf ');
-    else
-      saveAs(out, f.factureName + '.pdf ');
+    FileSaver.saveAs(out,f.factureName + '.pdf ');
+    console.log('is App : ',this.isApp);
+    // if (this.isApp)
+    //   this.writeAndOpenFile(out,f.factureName + '.pdf ');
+    // else
+    //   saveAs(out, f.factureName + '.pdf ');
+
+    // this.downloadAndOpenPDF(f.factureName + '.pdf ');
     //this.downloadPDF(blob,f.factureName+'.pdf');
     // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
     // {

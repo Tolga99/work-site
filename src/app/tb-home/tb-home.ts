@@ -23,7 +23,7 @@ import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
-import { DxiItemComponent, INestedOptionContainer, NestedOptionHost } from 'devextreme-angular';
+import { INestedOptionContainer, NestedOptionHost } from 'devextreme-angular';
 import { PdfService } from '../services/pdf.service';
 import { UUID } from 'angular2-uuid';
 import { NavController } from '@ionic/angular';
@@ -39,7 +39,6 @@ export class TabHome implements OnInit, INestedOptionContainer{
   deleteText = '';
   editText = '';
   uuidValue : string;
-
   public allowedPageSizes = [5, 10, 15];
   displayMode = 'full';
   showPageSizeSelector = true;
