@@ -178,7 +178,9 @@ export class PdfService {
     var blob = doc.output('blob');
     var fileNameText = f.factureName + '.pdf ' + this.translateService.instant('fileGenerated');
     var reader = new FileReader();
-    var out = new Blob([blob], {type: 'application/pdf'});
+    // var out = new Blob([blob], {type: 'application/pdf'});
+    var out = new Blob([blob], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+    
     FileSaver.saveAs(out,f.factureName + '.pdf ');
     console.log('is App : ',this.isApp);
     // if (this.isApp)
