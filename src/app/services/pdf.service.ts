@@ -188,7 +188,7 @@ export class PdfService {
     const options: DocumentViewerOptions = {
       title: f.factureName + '.pdf '
     }
-    this.downloadPdf(doc.output(),f.factureName + '.pdf ');
+    this.downloadPdf(out,f.factureName + '.pdf ');
     // this.documentViewer.viewDocument(doc.output(),'application/vnd.openxmlformats-officedocument.wordprocessingml.document',options);
     // Filesystem.getUri({
     //   directory : FilesystemDirectory.Data,
@@ -289,11 +289,11 @@ export class PdfService {
     });
     toast.present();
   }
-downloadPdf(output : string, fileName : string)
+downloadPdf(output : Blob, fileName : string)
 {
   if (this.isApp === false) {
     const url = window.URL.createObjectURL(
-      new Blob([output])
+      output
     );
     const link = window.document.createElement("a");
     link.href = url;
@@ -305,7 +305,7 @@ downloadPdf(output : string, fileName : string)
     return File.writeFile(
       File.externalRootDirectory + "/Download",
       fileName,
-      new Blob([output]),
+      output,
       {
         replace: true,
       }
