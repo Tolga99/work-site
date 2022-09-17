@@ -311,7 +311,7 @@ downloadPdf(output : Blob, fileName : string)
       }
     );
   }
-  return FileOpener.open(File.externalRootDirectory + "/Download/" + fileName,"application/pdf");
+  return FileOpener.open('file:///'+File.externalRootDirectory + "/Download/" + fileName,"application/pdf");
 }
 
 }
