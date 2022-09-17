@@ -13,6 +13,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import * as saveAs from 'file-saver';
 import * as fs from "file-system";
 import * as FileSaver from 'file-saver';
+import { DocumentViewer,DocumentViewerOptions } from '@awesome-cordova-plugins/document-viewer/ngx';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +21,10 @@ export class PdfService {
   readonly isApp = Capacitor.getPlatform() !== 'web';
 
   constructor(private storageService : StorageService, private toastController: ToastController,
-    private localNotifications : LocalNotifications, private translateService : TranslateService) { }
+    private localNotifications : LocalNotifications, private translateService : TranslateService,
+    private documentViewer : DocumentViewer) { 
+      this.documentViewer = new DocumentViewer();
+    }
   async GeneratePDFInvoice(chantier : Chantier | undefined, f : Facture)
   {
     const profile : User =await this.storageService.get('MyProfile');
@@ -180,9 +184,21 @@ export class PdfService {
     var reader = new FileReader();
     // var out = new Blob([blob], {type: 'application/pdf'});
     var out = new Blob([blob], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
-    
-    FileSaver.saveAs(out,f.factureName + '.pdf ');
+    const options: DocumentViewerOptions = {
+      title: f.factureName + '.pdf '
+    }
+    this.documentViewer.viewDocument(doc.output(),'application/vnd.openxmlformats-officedocument.wordprocessingml.document',options);
+    // Filesystem.getUri({
+    //   directory : FilesystemDirectory.Data,
+    //   path: path
+    // }).then((getUriResult) => {
+    //   const path = getUriResult.uri;
+    //   this.fileOpener.open(path,'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    // }, (error) => { console.log(error);
+    // });
     console.log('is App : ',this.isApp);
+    if(this.isApp === false)
+      FileSaver.saveAs(out,f.factureName + '.pdf ');
     // if (this.isApp)
     //   this.writeAndOpenFile(out,f.factureName + '.pdf ');
     // else

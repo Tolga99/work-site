@@ -9,9 +9,6 @@ import {MaterialModule} from '../material.module';
 // import {TableOverviewExample} from './table-overview-example';
 import {MatNativeDateModule} from '@angular/material/core';
 
-
-
-
 @NgModule({
   imports: [
     IonicModule,

@@ -34,7 +34,9 @@ import { IonicSelectableModule } from 'ionic-selectable';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
+
 @NgModule({
     declarations: [AppComponent],
     imports: [BrowserModule,
@@ -66,7 +68,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
             // or after 30 seconds (whichever comes first).
             registrationStrategy: 'registerWhenStable:30000'
         })],
-    providers: [ImagePicker, Camera, AppRate, AppVersion, HttpClientModule,
+    providers: [ImagePicker, Camera, AppRate,DocumentViewer, AppVersion, HttpClientModule,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService, File, LocalNotifications, PhotoService, AuthService],
     bootstrap: [AppComponent]
 })
