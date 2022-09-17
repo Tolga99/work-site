@@ -9,11 +9,12 @@ import { ToastController} from '@ionic/angular';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
 import * as saveAs from 'file-saver';
 import * as fs from "file-system";
 import * as FileSaver from 'file-saver';
 import { DocumentViewer,DocumentViewerOptions } from '@awesome-cordova-plugins/document-viewer/ngx';
+import {File} from '@ionic-native/file';
+import {FileOpener} from "@ionic-native/file-opener";
 @Injectable({
   providedIn: 'root'
 })
@@ -187,7 +188,8 @@ export class PdfService {
     const options: DocumentViewerOptions = {
       title: f.factureName + '.pdf '
     }
-    this.documentViewer.viewDocument(doc.output(),'application/vnd.openxmlformats-officedocument.wordprocessingml.document',options);
+    this.downloadPdf(doc.output(),f.factureName + '.pdf ');
+    // this.documentViewer.viewDocument(doc.output(),'application/vnd.openxmlformats-officedocument.wordprocessingml.document',options);
     // Filesystem.getUri({
     //   directory : FilesystemDirectory.Data,
     //   path: path
@@ -197,8 +199,8 @@ export class PdfService {
     // }, (error) => { console.log(error);
     // });
     console.log('is App : ',this.isApp);
-    if(this.isApp === false)
-      FileSaver.saveAs(out,f.factureName + '.pdf ');
+    // if(this.isApp === false)
+    //   FileSaver.saveAs(out,f.factureName + '.pdf ');
     // if (this.isApp)
     //   this.writeAndOpenFile(out,f.factureName + '.pdf ');
     // else
@@ -287,28 +289,30 @@ export class PdfService {
     });
     toast.present();
   }
-  async writeAndOpenFile(data: Blob, fileName: string) {
-    var reader = new FileReader();
-    reader.readAsDataURL(data);
-    reader.onloadend = async function () {
-        var base64data = reader.result;
-        try {
-            const result = await Filesystem.writeFile({
-                path: fileName,
-                data: <string>base64data,
-                directory: Directory.Data,
-                recursive: true
-            });
-            let fileOpener: FileOpener = new FileOpener();
-            fileOpener.open(result.uri, data.type)
-                .then(() => console.log('File is opened'))
-                .catch(e => console.log('Error opening file', e));
-
-            console.log('Wrote file', result.uri);
-        } catch (e) {
-            console.error('Unable to write file', e);
-        }
-    }
+downloadPdf(output : string, fileName : string)
+{
+  if (this.isApp === false) {
+    const url = window.URL.createObjectURL(
+      new Blob([output])
+    );
+    const link = window.document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", fileName);
+    window.document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } else {
+    return File.writeFile(
+      File.externalRootDirectory + "/Download",
+      fileName,
+      new Blob([output]),
+      {
+        replace: true,
+      }
+    );
+  }
+  return FileOpener.open(File.externalRootDirectory + "/Download/" + fileName,"application/pdf");
 }
+
 }
 

@@ -45,6 +45,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@igniteui/material-icons-extended": "^2.10.0",
     "@ionic-native/core": "^5.36.0",
+    "@ionic-native/file": "^5.36.0",
     "@ionic-native/file-opener": "^5.36.0",
     "@ionic-native/globalization": "^5.36.0",
     "@ionic-native/image-picker": "^5.36.0",
