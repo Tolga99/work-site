@@ -341,7 +341,7 @@ savePdf(out : Blob, filename : string)
         .writeFile(path + directory, filename, out, options)
            .then(res => {
      this.fileOpener
-        .open(`${path}${directory}/${filename}` , 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        .open(`$file:///${path}${directory}/${filename}` , 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         .then(() => console.log('opened'))
           });
 });
