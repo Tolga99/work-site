@@ -11,7 +11,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { StorageService } from './services/storage.service';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { File } from '@awesome-cordova-plugins/file/ngx';
+//import { File } from '@awesome-cordova-plugins/file/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -36,6 +36,9 @@ import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { File } from '@ionic-native/file/ngx';
+
 
 @NgModule({
     declarations: [AppComponent],
@@ -68,7 +71,7 @@ import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
             // or after 30 seconds (whichever comes first).
             registrationStrategy: 'registerWhenStable:30000'
         })],
-    providers: [ImagePicker, Camera, AppRate,DocumentViewer, AppVersion, HttpClientModule,
+    providers: [ImagePicker, Camera, AppRate,FileOpener,File, AppVersion, HttpClientModule,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StorageService, File, LocalNotifications, PhotoService, AuthService],
     bootstrap: [AppComponent]
 })

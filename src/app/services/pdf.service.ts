@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Directory, Filesystem, FilesystemDirectory } from '@capacitor/filesystem';
 import jsPDF from 'jspdf';
 import { Chantier } from '../models/chantier';
 import { Facture } from '../models/facture';
 import { User } from '../models/user';
 import { StorageService } from './storage.service';
-import { ToastController} from '@ionic/angular';
+import { getPlatforms, Platform, ToastController} from '@ionic/angular';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
@@ -13,19 +13,17 @@ import * as saveAs from 'file-saver';
 import * as fs from "file-system";
 import * as FileSaver from 'file-saver';
 import { DocumentViewer,DocumentViewerOptions } from '@awesome-cordova-plugins/document-viewer/ngx';
-import {File} from '@ionic-native/file';
-import {FileOpener} from "@ionic-native/file-opener";
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { throws } from 'assert';
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
   readonly isApp = Capacitor.getPlatform() !== 'web';
-
   constructor(private storageService : StorageService, private toastController: ToastController,
     private localNotifications : LocalNotifications, private translateService : TranslateService,
-    private documentViewer : DocumentViewer) { 
-      this.documentViewer = new DocumentViewer();
-    }
+    private fileOpener: FileOpener, private file: File) { }
   async GeneratePDFInvoice(chantier : Chantier | undefined, f : Facture)
   {
     const profile : User =await this.storageService.get('MyProfile');
@@ -181,14 +179,17 @@ export class PdfService {
     doc.text('Signature de l\'acheteur', 140, y);
     y+=6;
     var blob = doc.output('blob');
+    doc.output()
     var fileNameText = f.factureName + '.pdf ' + this.translateService.instant('fileGenerated');
     var reader = new FileReader();
     // var out = new Blob([blob], {type: 'application/pdf'});
     var out = new Blob([blob], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
-    const options: DocumentViewerOptions = {
-      title: f.factureName + '.pdf '
-    }
-    this.downloadPdf(out,f.factureName + '.pdf ');
+
+    //var base64out = this.blobToBase64(out);
+    this.openPDF(out,f.factureName + '.pdf ');
+    if(!this.isApp)
+     saveAs(out, f.factureName + '.pdf ');
+    // this.downloadFile(out,f.factureName + '.pdf ');
     // this.documentViewer.viewDocument(doc.output(),'application/vnd.openxmlformats-officedocument.wordprocessingml.document',options);
     // Filesystem.getUri({
     //   directory : FilesystemDirectory.Data,
@@ -198,6 +199,7 @@ export class PdfService {
     //   this.fileOpener.open(path,'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     // }, (error) => { console.log(error);
     // });
+
     console.log('is App : ',this.isApp);
     // if(this.isApp === false)
     //   FileSaver.saveAs(out,f.factureName + '.pdf ');
@@ -282,6 +284,13 @@ export class PdfService {
     // // var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"});
     // FileSaver.saveAs(blob, 'Ordini.pdf');
   }
+  async blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
   async presentToast(text : string) {
     const toast = await this.toastController.create({
       message: text,
@@ -289,30 +298,34 @@ export class PdfService {
     });
     toast.present();
   }
-downloadPdf(output : Blob, fileName : string)
-{
-  if (this.isApp === false) {
-    const url = window.URL.createObjectURL(
-      output
-    );
-    const link = window.document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", fileName);
-    window.document.body.appendChild(link);
-    link.click();
-    link.remove();
-  } else {
-    return File.writeFile(
-      File.externalRootDirectory + "/Download",
-      fileName,
-      output,
-      {
-        replace: true,
-      }
-    );
-  }
-  return FileOpener.open('file:///'+File.externalRootDirectory + "/Download/" + fileName,"application/pdf");
-}
 
+openPDF (blob : Blob,filename : string) {
+  // fetch('data:application/pdf;base64,' + stringBase64PDF, {
+  //     method: "GET"
+  // })
+  // .then(res => res.blob()).then(blob => {
+    console.log("created blob",this.file.dataDirectory);
+    this.file.createFile(this.file.dataDirectory, filename, true).then(() => {
+      console.log("file created");
+      this.file.writeFile(this.file.dataDirectory, filename, blob, { replace: true })
+      .then(res => {
+        console.log("file writed");
+        this.fileOpener.open(res.toInternalURL(), 'application/pdf')
+        .then((res) => {
+          console.log('file opened')
+        }).catch(err => {
+          console.log('open error')
+        });
+      }).catch(err => {
+        console.log('write error')     
+      });
+    }).catch(() => {
+      console.log("create error");
+    });
+    
+  // }).catch(err => {
+  //   console.log('blob error')
+  // });
+}
 }
 
