@@ -333,7 +333,7 @@ savePdf(out : Blob, filename : string)
     replace: true
   };
   const path = this.file.documentsDirectory;
-  const directory = 'Attendance Log';
+  const directory = 'Invoices';
   this.file
      .checkDir(path, directory)
         .then(res => {
