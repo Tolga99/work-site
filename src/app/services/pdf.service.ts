@@ -186,7 +186,7 @@ export class PdfService {
     var out = new Blob([blob], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
 
     //var base64out = this.blobToBase64(out);
-    this.openPDF(out,f.factureName + '.pdf ');
+    this.savePdf(out,f.factureName + '.pdf ');
     if(!this.isApp)
      saveAs(out, f.factureName + '.pdf ');
     // this.downloadFile(out,f.factureName + '.pdf ');
@@ -327,5 +327,25 @@ openPDF (blob : Blob,filename : string) {
   //   console.log('blob error')
   // });
 }
+savePdf(out : Blob, filename : string)
+{
+  const options = {
+    replace: true
+  };
+  const path = this.file.documentsDirectory;
+  const directory = 'Attendance Log';
+  this.file
+     .checkDir(path, directory)
+        .then(res => {
+     this.file
+        .writeFile(path + directory, filename, out, options)
+           .then(res => {
+     this.fileOpener
+        .open(`${path}${directory}/${filename}` , 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        .then(() => console.log('opened'))
+          });
+});
 }
+}
+
 
