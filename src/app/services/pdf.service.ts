@@ -14,7 +14,7 @@ import * as fs from "file-system";
 import * as FileSaver from 'file-saver';
 import { DocumentViewer,DocumentViewerOptions } from '@awesome-cordova-plugins/document-viewer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { File } from '@ionic-native/file/ngx';
+import { File, IWriteOptions } from '@ionic-native/file/ngx';
 import { throws } from 'assert';
 @Injectable({
   providedIn: 'root'
@@ -186,8 +186,8 @@ export class PdfService {
     var out = new Blob([blob], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
 
     //var base64out = this.blobToBase64(out);
-    this.savePdf(out,f.factureName + '.pdf ');
-    if(!this.isApp)
+    //this.savePdf(out,f.factureName + '.pdf ');
+     this.createPdf(doc.output(),f.factureName + '.pdf ');
      saveAs(out, f.factureName + '.pdf ');
     // this.downloadFile(out,f.factureName + '.pdf ');
     // this.documentViewer.viewDocument(doc.output(),'application/vnd.openxmlformats-officedocument.wordprocessingml.document',options);
@@ -327,24 +327,41 @@ openPDF (blob : Blob,filename : string) {
   //   console.log('blob error')
   // });
 }
-savePdf(out : Blob, filename : string)
-{
-  const options = {
-    replace: true
-  };
-  const path = this.file.documentsDirectory;
-  const directory = 'Invoices';
-  this.file
-     .checkDir(path, directory)
-        .then(res => {
-     this.file
-        .writeFile(path + directory, filename, out, options)
-           .then(res => {
-     this.fileOpener
-        .open(`$file:///${path}${directory}/${filename}` , 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        .then(() => console.log('opened'))
-          });
-});
+createPdf(docRes : string, fileName : string) {
+  const pdfBlock = document.getElementById("print-wrapper");
+
+  let buffer = new ArrayBuffer(docRes.length);
+  let array = new Uint8Array(buffer);
+  for (var i = 0; i < docRes.length; i++) {
+      array[i] = docRes.charCodeAt(i);
+  }
+
+    const directory = this.file.dataDirectory;
+    let options: IWriteOptions = { 
+      replace: true 
+    };
+
+    this.file.checkFile(directory, fileName).then((res)=> {
+      this.file.writeFile(directory, fileName,buffer, options)
+      .then((res)=> {
+        console.log("File generated" + JSON.stringify(res));
+        this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
+          .then(() => console.log('File is exported'))
+          .catch(e => console.log(e));
+      }).catch((error)=> {
+        console.log(JSON.stringify(error));
+      });
+    }).catch((error)=> {
+      this.file.writeFile(directory,fileName,buffer).then((res)=> {
+        console.log("File generated" + JSON.stringify(res));
+        this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
+          .then(() => console.log('File exported'))
+          .catch(e => console.log(e));
+      })
+      .catch((error)=> {
+        console.log(JSON.stringify(error));
+      });
+    });
 }
 }
 
