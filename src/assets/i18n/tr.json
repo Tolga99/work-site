@@ -200,5 +200,6 @@
     "paid" : "Paid",
     "paymentAdded" : "Paiement ajouté pour ",
     "fileGenerated" : " is generated",
-    "saved" : "saved"
+    "saved" : "saved",
+    "categoryHasSubCat" : "Can't delete : This category has sub categories"
     }

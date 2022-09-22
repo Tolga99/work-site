@@ -202,5 +202,6 @@
     "paid" : "Payé",
     "paymentAdded" : "Paiement ajouté pour ",
     "fileGenerated" : " a été généré",
-    "saved" : "sauvegardé"
+    "saved" : "sauvegardé",
+    "categoryHasSubCat" : "Suppression impossible : Cette catégorie possède des sous-catégories"
     }

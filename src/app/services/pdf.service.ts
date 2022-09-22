@@ -26,6 +26,9 @@ export class PdfService {
     private fileOpener: FileOpener, private file: File) { }
   async GeneratePDFInvoice(chantier : Chantier | undefined, f : Facture)
   {
+    let devise : string = await this.storageService.get('devise');
+    if(devise == undefined || devise == null)
+      devise = '€';
     const profile : User =await this.storageService.get('MyProfile');
     const clientlist : Array<User> = await this.storageService.get('Contacts');
     var client : User | undefined;
@@ -65,7 +68,7 @@ export class PdfService {
       articleRows = [[,,,,,]];
       articleRows.splice(0,1);
       f.cart.forEach(element => {
-        articleRows.push([element.product.productName,element.product.description,1,element.product.priceHtva,element.product.priceHtva]);
+        articleRows.push([element.product.productName,element.product.description,element.quantity,element.product.priceHtva +devise,(element.product.priceHtva * element.quantity)+devise]);
         y+=10;
       });
     }else
@@ -117,26 +120,26 @@ export class PdfService {
       doc.setFillColor('A0A0A0');
       doc.rect(150,y-5,55,5.5,'F');
       doc.setTextColor('FFFFFF');
-      doc.text('TOTAL HTVA : '+Math.round((f.priceHtva) * 100) / 100+'€', 150, y);
+      doc.text('Total HTVA : '+Math.round((f.priceHtva) * 100) / 100+devise, 150, y);
       y+=6;
 
       doc.setFillColor('A0A0A0');
       doc.rect(150,y-5,55,5.5,'F');
       doc.setTextColor('FFFFFF');
-      doc.text('Remise '+f.remise+'% : '+ Math.round((f.priceHtva-htva) * 100) / 100+'€', 150, y);
+      doc.text('Remise '+f.remise+'% : '+ Math.round((f.priceHtva-htva) * 100) / 100+devise, 150, y);
       y+=6;
 
       doc.setFillColor('A0A0A0');
       doc.rect(150,y-5,55,5.5,'F');
       doc.setTextColor('FFFFFF');
-      doc.text('TVA '+f.tva+'% : '+totalTva+'€', 150, y);
+      doc.text('TVA '+f.tva+'% : '+totalTva+devise, 150, y);
       y+=6;
     }
 
     doc.setFillColor('3333FF');
     doc.rect(150,y-5,55,5.5,'F');
     doc.setTextColor('FFFFFF');
-    doc.text('Total TTC : '+f.totalPrice+'€', 150, y);
+    doc.text('Total TTC : '+f.totalPrice+devise, 150, y);
     y+=6;
 
     doc.setTextColor('000000');
@@ -184,105 +187,10 @@ export class PdfService {
     var reader = new FileReader();
     // var out = new Blob([blob], {type: 'application/pdf'});
     var out = new Blob([blob], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
-
-    //var base64out = this.blobToBase64(out);
-    //this.savePdf(out,f.factureName + '.pdf ');
-     this.createPdf(doc.output(),f.factureName + '.pdf ');
-     saveAs(out, f.factureName + '.pdf ');
-    // this.downloadFile(out,f.factureName + '.pdf ');
-    // this.documentViewer.viewDocument(doc.output(),'application/vnd.openxmlformats-officedocument.wordprocessingml.document',options);
-    // Filesystem.getUri({
-    //   directory : FilesystemDirectory.Data,
-    //   path: path
-    // }).then((getUriResult) => {
-    //   const path = getUriResult.uri;
-    //   this.fileOpener.open(path,'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-    // }, (error) => { console.log(error);
-    // });
-
-    console.log('is App : ',this.isApp);
-    // if(this.isApp === false)
-    //   FileSaver.saveAs(out,f.factureName + '.pdf ');
-    // if (this.isApp)
-    //   this.writeAndOpenFile(out,f.factureName + '.pdf ');
-    // else
-    //   saveAs(out, f.factureName + '.pdf ');
-
-    // this.downloadAndOpenPDF(f.factureName + '.pdf ');
-    //this.downloadPDF(blob,f.factureName+'.pdf');
-    // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-    // {
-    //   try {
-    //     Filesystem.writeFile({
-    //       path: f.factureName+'.pdf',
-    //       data: doc.output('datauristring'),
-    //       directory: Directory.Documents
-    //     });
-    //     doc.output('datauri');
-    //     this.presentToast(fileNameText);
-    //     this.localNotifications.schedule({
-    //       id: 1,
-    //       text: fileNameText,
-    //       // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
-    //       data: { secret: 'a' }
-    //     });
-    //   } catch (e) {
-    //     console.error("Unable to write file", e);
-    //   }    
-    // }
-    // else
-    // {
-    //   console.log('PC');
-    //   doc.save(f.factureName+'.pdf');
-    //   doc.output('dataurlnewwindow');     //opens the data uri in new window
-    //   this.presentToast(fileNameText);
-    //   this.localNotifications.schedule({
-    //     id: 1,
-    //     text: fileNameText,
-    //     // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
-    //     data: { secret: 'a' }
-    //   });
-    // }
-//     window.open(URL.createObjectURL(blob));
-
-// function writeFile(fileEntry, dataObj) {
-//   return $q(function (resolve, reject) {
-//       fileEntry.createWriter(function (fileWriter) {
-//           fileWriter.onwriteend = function () {
-//               resolve();
-//           };
-//           fileWriter.onerror = function (e) {
-//               reject(e);
-//           };
-//           fileWriter.write(dataObj);
-//       });
-//   });
-// }
-
-// window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs)
-// {
-
-
-   // doc.save('exempleFacture.pdf');
-  
-    // var rawdata = doc.output();
-
-    // var len = rawdata.length,
-    // ab = new ArrayBuffer(len),
-    // u8 = new Uint8Array(ab);
-
-    // while(len--) u8[len] = rawdata.charCodeAt(len);
-
-    // var blob = new Blob([ab], { type : "application/pdf" });
-
-
-    // // var iframe = document.getElementById('outputPDFnormale');
-    // // iframe.style.width = '60%';
-    // // iframe.style.height = '650px';
-    // // //iframe.src = URL.createObjectURL(blob)
-
-    // // var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"});
-    // FileSaver.saveAs(blob, 'Ordini.pdf');
+    console.log(this.isApp);
+    if(this.isApp)
+      this.createPdf(doc.output(),f.factureName + '.pdf ');
+    else saveAs(doc.output('blob'), f.factureName + '.pdf ');
   }
   async blobToBase64(blob) {
     return new Promise((resolve, _) => {
@@ -299,34 +207,6 @@ export class PdfService {
     toast.present();
   }
 
-openPDF (blob : Blob,filename : string) {
-  // fetch('data:application/pdf;base64,' + stringBase64PDF, {
-  //     method: "GET"
-  // })
-  // .then(res => res.blob()).then(blob => {
-    console.log("created blob",this.file.dataDirectory);
-    this.file.createFile(this.file.dataDirectory, filename, true).then(() => {
-      console.log("file created");
-      this.file.writeFile(this.file.dataDirectory, filename, blob, { replace: true })
-      .then(res => {
-        console.log("file writed");
-        this.fileOpener.open(res.toInternalURL(), 'application/pdf')
-        .then((res) => {
-          console.log('file opened')
-        }).catch(err => {
-          console.log('open error')
-        });
-      }).catch(err => {
-        console.log('write error')     
-      });
-    }).catch(() => {
-      console.log("create error");
-    });
-    
-  // }).catch(err => {
-  //   console.log('blob error')
-  // });
-}
 createPdf(docRes : string, fileName : string) {
   const pdfBlock = document.getElementById("print-wrapper");
 

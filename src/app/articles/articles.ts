@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { NgbdModalFocus } from '../modal/modal-focus';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
@@ -27,7 +28,7 @@ export class Articles implements OnInit {
   openCatAccordion = '';
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS : NgbModal,private storageService:StorageService, private router:Router,private route:ActivatedRoute
-    , private navController : NavController)
+    , private navController : NavController, private toasterController : ToastController, private translateService : TranslateService)
   {
   }
 
@@ -203,6 +204,24 @@ export class Articles implements OnInit {
   }
   async deleteCategory(c : Category)
   {
+    let allCats : Category[] = await this.storageService.get('Categories');
+
+    //Vérifier si la catégorie a des sous catégories
+    let subCats : Category[];
+    if(c.categoryParent === undefined || c.categoryParent === null)
+    {
+      subCats = allCats.filter(a => a?.categoryParent?.categoryId === c.categoryId && c.catLevel < a.catLevel);
+    }else subCats = allCats.filter(a => a?.categoryParent?.categoryId === c.categoryParent.categoryId && c.catLevel < a.catLevel);
+    console.log(allCats,subCats);
+    if(subCats.length > 0 )
+    {
+      const toast = await this.toasterController.create({
+        message: this.translateService.instant('categoryHasSubCat'),
+        duration: 2000
+      });
+      toast.present();
+      return;
+    }
     let res : string =null;
     await this.modal.open('delCat',c.categoryName)
     .then(result => result.result
@@ -214,7 +233,24 @@ export class Articles implements OnInit {
 
     if(res==='DISMISS')
         return ;
+    let articles : Product[] = await this.storageService.get('Articles');
+    let deletedArticles : Product[];
+    if(c.categoryParent === undefined || c.categoryParent === null)
+      deletedArticles = articles.filter(a => a?.categoryParent?.categoryId === c.categoryId && c.catLevel === a.catLevel);
+    else deletedArticles = articles.filter(a => a?.categoryParent?.categoryId === c.categoryParent.categoryId && c.catLevel === a.catLevel);
+
+    //Articles sans catégories
+    deletedArticles = deletedArticles.filter(b => b?.categoryParent?.categoryId !== null && b?.categoryParent?.categoryId !== undefined);
+    //if(c.categoryParent != undefined && c.categoryParent != null)
+    //deletedArticles = articles.filter(a => a.categoryParent?.categoryId === c.categoryId && c.catLevel === a.catLevel);
+    //else deletedArticles = articles.filter(a => a.categoryParent?.categoryId === c.categoryParent?.categoryId && c.catLevel === a.catLevel);
+    deletedArticles.forEach(element => {
+      articles = articles.filter(a => a.productId !== element.productId);
+
+    });
     this.catList = this.catList.filter(a => a.categoryId !== c.categoryId);
+    this.storageService.set('Articles',articles);
+    this.artList = articles;
     this.storageService.set('Categories',this.catList);
   }
 }
