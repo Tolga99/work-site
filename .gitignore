@@ -37,3 +37,8 @@ npm-debug.log*
 
 # Ignore Gradle build output directory
 build
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

@@ -200,7 +200,6 @@
     "paymentAdded" : "Payment added for ",
     "fileGenerated" : " is generated",
     "saved" : "saved",
-    "categoryHasSubCat" : "Can't delete : This category has sub categories"
-
-
+    "categoryHasSubCat" : "Can't delete : This category has sub categories",
+    "type" : "Type"
 }

@@ -5,13 +5,14 @@ import { Profile } from './profile';
 
 import { ProfileRoutingModule } from './profile-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     SharedModule,
-    ProfileRoutingModule
+    ProfileRoutingModule,NgxPayPalModule
   ],
   declarations: [Profile]
 })

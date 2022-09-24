@@ -203,5 +203,6 @@
     "paymentAdded" : "Paiement ajouté pour ",
     "fileGenerated" : " a été généré",
     "saved" : "sauvegardé",
-    "categoryHasSubCat" : "Suppression impossible : Cette catégorie possède des sous-catégories"
+    "categoryHasSubCat" : "Suppression impossible : Cette catégorie possède des sous-catégories",
+    "type" : "Type"
     }

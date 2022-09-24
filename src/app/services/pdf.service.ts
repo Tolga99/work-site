@@ -84,11 +84,11 @@ export class PdfService {
         console.log(string.match(/\n/gi).length);
         y += string.match(/a/gi).length*5;
       }
-      y+=15;
+      y+=14;
     }
 
     (doc as any).autoTable(tableColumns, articleRows, { startY: 60 });
-    y+=5;
+    y+=8;
 
     let total=0;
     let totalTva = 0;

@@ -105,6 +105,7 @@
     "ng-bootstrap": "^1.6.3",
     "ngx-bootstrap": "^8.0.0",
     "ngx-doc-viewer": "^14.0.0",
+    "ngx-paypal": "^10.0.1",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",

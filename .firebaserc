@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "worksite17"
+  },
+  "targets": {
+    "worksite17": {
+      "hosting": {
+        "app": [
+          "worksite17"
+        ]
+      }
+    }
   }
 }

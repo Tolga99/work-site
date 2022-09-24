@@ -27,6 +27,7 @@ import { INestedOptionContainer, NestedOptionHost } from 'devextreme-angular';
 import { PdfService } from '../services/pdf.service';
 import { UUID } from 'angular2-uuid';
 import { NavController } from '@ionic/angular';
+import { Service } from '../services/service';
 
 @Component({
   selector: 'app-tb-home',
@@ -90,7 +91,8 @@ export class TabHome implements OnInit, INestedOptionContainer{
               private appRate : AppRate,
               private library : FaIconLibrary,private optionHost: NestedOptionHost,
               private translateService : TranslateService,
-              private pdfService : PdfService, private navController : NavController)
+              private pdfService : PdfService, private navController : NavController,
+              private dbService : Service)
               {
                 this.storageService.init();
                 // _translate.setDefaultLang('fr');
@@ -118,6 +120,7 @@ export class TabHome implements OnInit, INestedOptionContainer{
   }
 
   async ngOnInit() {
+    console.log(await this.dbService.getAllAccounts());
     const nowDate = new Date();
     this.dateToday = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
     await this.storageService.init();

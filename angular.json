@@ -163,8 +163,8 @@
           }
         },
         "ionic-cordova-build": {
-            "builder": "@ionic/cordova-builders:cordova-build",          
-            "options": {
+          "builder": "@ionic/cordova-builders:cordova-build",
+          "options": {
             "browserTarget": "app:build"
           },
           "configurations": {
@@ -174,8 +174,8 @@
           }
         },
         "ionic-cordova-serve": {
-            "builder": "@ionic/cordova-builders:cordova-serve",          
-            "options": {
+          "builder": "@ionic/cordova-builders:cordova-serve",
+          "options": {
             "cordovaBuildTarget": "app:ionic-cordova-build",
             "devServerTarget": "app:serve"
           },
@@ -184,6 +184,16 @@
               "cordovaBuildTarget": "app:ionic-cordova-build:production",
               "devServerTarget": "app:serve:production"
             }
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "app:build:production",
+            "firebaseProject": "worksite17",
+            "firebaseHostingSite": "worksite17"
           }
         }
       }

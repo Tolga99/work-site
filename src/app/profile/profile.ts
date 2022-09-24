@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -14,6 +14,7 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['profile.scss']
 })
 export class Profile implements OnInit{
+
   public myAccount: User;
   profileExist = 'NO';
   public bgImage = '/src/assets/worksiteBackground.png';
@@ -32,7 +33,6 @@ export class Profile implements OnInit{
     private router: Router, private methodsService : MethodsService, private navController : NavController) {
     console.log('Module profil');
   }
-
   async ngOnInit(): Promise<void>
   {
     console.log('nginit profil ',this.storageService.get('MyProfile'));

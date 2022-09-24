@@ -38,7 +38,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/file/ngx';
-
+import { NgxPayPalModule } from 'ngx-paypal';
 
 @NgModule({
     declarations: [AppComponent],
@@ -51,6 +51,7 @@ import { File } from '@ionic-native/file/ngx';
         IonicSelectableModule,
         FontAwesomeModule,
         NgbModule,
+        NgxPayPalModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
