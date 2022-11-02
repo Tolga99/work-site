@@ -120,6 +120,9 @@ export class TabHome implements OnInit, INestedOptionContainer{
   }
 
   async ngOnInit() {
+    var lang = window.navigator.language;
+    this.translateService.setDefaultLang('en');
+    this.translateService.use(lang);
     console.log(await this.dbService.getAllAccounts());
     const nowDate = new Date();
     this.dateToday = nowDate.getDate()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getFullYear();
