@@ -201,5 +201,9 @@
     "fileGenerated" : " is generated",
     "saved" : "saved",
     "categoryHasSubCat" : "Can't delete : This category has sub categories",
-    "type" : "Type"
+    "type" : "Type",
+    "fr" : "French",
+    "en" : "English",
+    "tr" : "Turkish",
+    "lang" : "Language"
 }

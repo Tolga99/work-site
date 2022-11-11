@@ -15,6 +15,15 @@
             {{'general' | translate}}
           </div>
           <ion-item class="form-group">
+            <ion-label position="stacked">{{'lang' | translate}}</ion-label>
+            <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="devise" 
+              (ionChange)="saveLang($event)">
+              <ion-select-option></ion-select-option>
+              <ion-select-option *ngFor="let c of langs" [value]="c">
+                {{c | translate }}  
+              </ion-select-option>
+            </ion-select>          </ion-item>
+          <ion-item class="form-group">
             <ion-label position="stacked">{{'devise' | translate}}</ion-label>
             <ion-select interface="alert" okText="Ok" cancelText="Annuler" formControlName="devise" 
               (ionChange)="selectDevise($event)">

@@ -9,8 +9,9 @@ import { StorageService } from './services/storage.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private translate : TranslateService) {
+  constructor(private translate : TranslateService,
+              private storageService : StorageService) {
 }
-  ngOnInit(): void {
+  async ngOnInit() {
   }
 }

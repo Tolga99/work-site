@@ -16,11 +16,15 @@ import { StorageService } from '../services/storage.service';
 })
 export class Settings implements OnInit{
   deviseList = ['€','$','£'];
+  langs : string[] = [];
   devise='';
   ext = '';
   extTypes = ['Numéro (Ex: 34)', 'Date (Ex: JJ/MM/AAAA)','Numéro-Date','Date-Numero'];
   formGeneral = new UntypedFormGroup({
     devise: new UntypedFormControl('')
+  });
+  formLang = new UntypedFormGroup({
+    lang: new UntypedFormControl('')
   });
   formInvoice = new UntypedFormGroup({
     factureName: new UntypedFormControl('',Validators.required),
@@ -30,6 +34,7 @@ export class Settings implements OnInit{
     positionAvant: new UntypedFormControl(''),
     positionApres: new UntypedFormControl(''),
   });
+  currentLang = 'en';
   public modal = new NgbdModalFocus(this.modalS);
   constructor(private modalS :NgbModal,private storageService: StorageService,private router: Router
     , private navController : NavController, private toastController : ToastController, private translateService : TranslateService) {
@@ -39,6 +44,15 @@ export class Settings implements OnInit{
   async ngOnInit(): Promise<void>
   {
     this.storageService.init();
+        //Init 
+        var langs = await this.storageService.get('languages');
+        if(langs == null || langs == undefined)
+        {
+          var newLangs = ['fr','en','tr'];
+          this.storageService.set('languages',newLangs);
+        }
+    this.currentLang = await this.storageService.get('currentLang'); 
+    this.langs = await this.storageService.get('languages');
     let invoiceSettings : InvoiceSettings = await this.storageService.get('MyInvoiceSettings');
     console.log(invoiceSettings);
 
@@ -147,6 +161,23 @@ export class Settings implements OnInit{
   selectDevise(event)
   {
     this.devise = (event.target as HTMLSelectElement).value;
+  }
+  async saveLang(event)
+  {
+    var newLang = (event.target as HTMLSelectElement).value;
+    console.log(newLang);
+    if(newLang !== null)
+    {
+      this.storageService.set('currentLang',newLang);
+      this.currentLang = newLang;
+      this.translateService.setDefaultLang(newLang);
+      this.translateService.use(newLang);
+      const toast = await this.toastController.create({
+        message: this.translateService.instant('lang') + ' ' + this.translateService.instant('saved'),
+        duration: 2000
+      });
+      toast.present();
+    }
   }
   async updateGeneralSettings()
   {
